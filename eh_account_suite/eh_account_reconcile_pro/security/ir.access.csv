@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_reconciliation_session_user,eh.reconciliation.session.user,eh.reconciliation.session,eh_account_base.group_eh_user,cru,
+rule_eh_reconciliation_session_company,eh.reconciliation.session: company isolation,eh.reconciliation.session,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_reconciliation_audit_user,eh.reconciliation.audit.user,eh.reconciliation.audit,eh_account_base.group_eh_user,r,
+access_eh_reconciliation_audit_auditor,eh.reconciliation.audit.auditor,eh.reconciliation.audit,eh_account_base.group_eh_auditor,r,
+rule_eh_reconciliation_audit_company,eh.reconciliation.audit: company isolation,eh.reconciliation.audit,,crud,"[('statement_line_id.company_id', 'in', company_ids)]"
+access_eh_reconciliation_rule_user,eh.reconciliation.rule.user,eh.reconciliation.rule,eh_account_base.group_eh_user,r,
+access_eh_reconciliation_rule_manager,eh.reconciliation.rule.manager,eh.reconciliation.rule,eh_account_base.group_eh_manager,crud,
+rule_eh_reconciliation_rule_company,eh.reconciliation.rule: company isolation,eh.reconciliation.rule,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_reconciliation_exception_wizard_user,eh.reconciliation.exception.wizard.user,eh.reconciliation.exception.wizard,eh_account_base.group_eh_user,crud,
+access_eh_reconciliation_undo_wizard_manager,eh.reconciliation.undo.wizard.manager,eh.reconciliation.undo.wizard,eh_account_base.group_eh_manager,crud,
+rule_eh_reconciliation_exception_wizard_owner,eh.reconciliation.exception.wizard: own records,eh.reconciliation.exception.wizard,,crud,"[('create_uid', '=', user.id)]"
+rule_eh_reconciliation_exception_wizard_company,eh.reconciliation.exception.wizard: company isolation,eh.reconciliation.exception.wizard,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,55 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_related_party_user,eh.related.party.user,eh.related.party,eh_account_base.group_eh_user,crud,
+access_eh_related_party_auditor,eh.related.party.auditor,eh.related.party,eh_account_base.group_eh_auditor,r,
+rule_eh_related_party_company,eh.related.party: company isolation,eh.related.party,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_related_party_tx_user,eh.related.party.transaction.user,eh.related.party.transaction,eh_account_base.group_eh_user,crud,
+access_eh_related_party_tx_auditor,eh.related.party.transaction.auditor,eh.related.party.transaction,eh_account_base.group_eh_auditor,r,
+rule_eh_related_party_tx_company,eh.related.party.transaction: company isolation,eh.related.party.transaction,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_segment_report_user,eh.segment.report.user,eh.segment.report,eh_account_base.group_eh_user,crud,
+access_eh_segment_report_auditor,eh.segment.report.auditor,eh.segment.report,eh_account_base.group_eh_auditor,r,
+rule_eh_segment_report_company,eh.segment.report: company isolation,eh.segment.report,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_segment_line_user,eh.segment.line.user,eh.segment.line,eh_account_base.group_eh_user,crud,
+access_eh_segment_line_auditor,eh.segment.line.auditor,eh.segment.line,eh_account_base.group_eh_auditor,r,
+rule_eh_segment_line_company,eh.segment.line: company isolation,eh.segment.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_risk_user,eh.fin.risk.user,eh.fin.risk,eh_account_base.group_eh_user,crud,
+access_eh_fin_risk_auditor,eh.fin.risk.auditor,eh.fin.risk,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_risk_company,eh.fin.risk: company isolation,eh.fin.risk,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_entity_interest_user,eh.entity.interest.user,eh.entity.interest,eh_account_base.group_eh_user,crud,
+access_eh_entity_interest_auditor,eh.entity.interest.auditor,eh.entity.interest,eh_account_base.group_eh_auditor,r,
+rule_eh_entity_interest_company,eh.entity.interest: company isolation,eh.entity.interest,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_maturity_run_user,eh.fin.maturity.run.user,eh.fin.maturity.run,eh_account_base.group_eh_user,crud,
+access_eh_fin_maturity_run_auditor,eh.fin.maturity.run.auditor,eh.fin.maturity.run,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_maturity_run_company,eh.fin.maturity.run: company isolation,eh.fin.maturity.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_maturity_line_user,eh.fin.maturity.line.user,eh.fin.maturity.line,eh_account_base.group_eh_user,crud,
+access_eh_fin_maturity_line_auditor,eh.fin.maturity.line.auditor,eh.fin.maturity.line,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_maturity_line_company,eh.fin.maturity.line: company isolation,eh.fin.maturity.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_maturity_instrument_user,eh.fin.maturity.instrument.user,eh.fin.maturity.instrument,eh_account_base.group_eh_user,crud,
+access_eh_fin_maturity_instrument_auditor,eh.fin.maturity.instrument.auditor,eh.fin.maturity.instrument,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_maturity_instrument_company,eh.fin.maturity.instrument: company isolation,eh.fin.maturity.instrument,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_credit_note_user,eh.fin.credit.note.user,eh.fin.credit.note,eh_account_base.group_eh_user,crud,
+access_eh_fin_credit_note_auditor,eh.fin.credit.note.auditor,eh.fin.credit.note,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_credit_note_company,eh.fin.credit.note: company isolation,eh.fin.credit.note,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_credit_stage_line_user,eh.fin.credit.stage.line.user,eh.fin.credit.stage.line,eh_account_base.group_eh_user,crud,
+access_eh_fin_credit_stage_line_auditor,eh.fin.credit.stage.line.auditor,eh.fin.credit.stage.line,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_credit_stage_line_company,eh.fin.credit.stage.line: company isolation,eh.fin.credit.stage.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_credit_recon_line_user,eh.fin.credit.recon.line.user,eh.fin.credit.recon.line,eh_account_base.group_eh_user,crud,
+access_eh_fin_credit_recon_line_auditor,eh.fin.credit.recon.line.auditor,eh.fin.credit.recon.line,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_credit_recon_line_company,eh.fin.credit.recon.line: company isolation,eh.fin.credit.recon.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_credit_matrix_line_user,eh.fin.credit.matrix.line.user,eh.fin.credit.matrix.line,eh_account_base.group_eh_user,crud,
+access_eh_fin_credit_matrix_line_auditor,eh.fin.credit.matrix.line.auditor,eh.fin.credit.matrix.line,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_credit_matrix_line_company,eh.fin.credit.matrix.line: company isolation,eh.fin.credit.matrix.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_sensitivity_user,eh.fin.sensitivity.user,eh.fin.sensitivity,eh_account_base.group_eh_user,crud,
+access_eh_fin_sensitivity_auditor,eh.fin.sensitivity.auditor,eh.fin.sensitivity,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_sensitivity_company,eh.fin.sensitivity: company isolation,eh.fin.sensitivity,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fin_sensitivity_line_user,eh.fin.sensitivity.line.user,eh.fin.sensitivity.line,eh_account_base.group_eh_user,crud,
+access_eh_fin_sensitivity_line_auditor,eh.fin.sensitivity.line.auditor,eh.fin.sensitivity.line,eh_account_base.group_eh_auditor,r,
+rule_eh_fin_sensitivity_line_company,eh.fin.sensitivity.line: company isolation,eh.fin.sensitivity.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_segment_major_customer_user,eh.segment.major.customer.user,eh.segment.major.customer,eh_account_base.group_eh_user,crud,
+access_eh_segment_major_customer_auditor,eh.segment.major.customer.auditor,eh.segment.major.customer,eh_account_base.group_eh_auditor,r,
+rule_eh_segment_major_customer_company,eh.segment.major.customer: company isolation,eh.segment.major.customer,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_related_party_comp_user,eh.related.party.compensation.user,eh.related.party.compensation,eh_account_base.group_eh_user,crud,
+access_eh_related_party_comp_auditor,eh.related.party.compensation.auditor,eh.related.party.compensation,eh_account_base.group_eh_auditor,r,
+rule_eh_related_party_comp_company,eh.related.party.compensation: company isolation,eh.related.party.compensation,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_entity_interest_restriction_user,eh.entity.interest.restriction.user,eh.entity.interest.restriction,eh_account_base.group_eh_user,crud,
+access_eh_entity_interest_restriction_auditor,eh.entity.interest.restriction.auditor,eh.entity.interest.restriction,eh_account_base.group_eh_auditor,r,
+rule_eh_entity_interest_restriction_company,eh.entity.interest.restriction: company isolation,eh.entity.interest.restriction,,crud,"[('company_id', 'in', company_ids)]"

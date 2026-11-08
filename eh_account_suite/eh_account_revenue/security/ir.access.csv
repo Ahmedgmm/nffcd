@@ -1,0 +1,19 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_revenue_contract_user,eh.revenue.contract.user,eh.revenue.contract,eh_account_base.group_eh_user,cru,
+access_eh_revenue_contract_manager,eh.revenue.contract.manager,eh.revenue.contract,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_contract_auditor,eh.revenue.contract.auditor,eh.revenue.contract,eh_account_base.group_eh_auditor,r,
+rule_eh_revenue_contract_company,eh.revenue.contract: company isolation,eh.revenue.contract,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_revenue_obligation_user,eh.revenue.obligation.user,eh.revenue.obligation,eh_account_base.group_eh_user,cru,
+access_eh_revenue_obligation_manager,eh.revenue.obligation.manager,eh.revenue.obligation,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_obligation_auditor,eh.revenue.obligation.auditor,eh.revenue.obligation,eh_account_base.group_eh_auditor,r,
+rule_eh_revenue_obligation_company,eh.revenue.obligation: company isolation,eh.revenue.obligation,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_revenue_modification_user,eh.revenue.modification.user,eh.revenue.modification,eh_account_base.group_eh_user,r,
+access_eh_revenue_modification_manager,eh.revenue.modification.manager,eh.revenue.modification,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_modification_auditor,eh.revenue.modification.auditor,eh.revenue.modification,eh_account_base.group_eh_auditor,r,
+rule_eh_revenue_modification_company,eh.revenue.modification: company isolation,eh.revenue.modification,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_revenue_modification_wizard_manager,eh.revenue.modification.wizard.manager,eh.revenue.modification.wizard,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_modification_wizard_line_manager,eh.revenue.modification.wizard.line.manager,eh.revenue.modification.wizard.line,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_constraint_review_user,eh.revenue.constraint.review.user,eh.revenue.constraint.review,eh_account_base.group_eh_user,cru,
+access_eh_revenue_constraint_review_manager,eh.revenue.constraint.review.manager,eh.revenue.constraint.review,eh_account_base.group_eh_manager,crud,
+access_eh_revenue_constraint_review_auditor,eh.revenue.constraint.review.auditor,eh.revenue.constraint.review,eh_account_base.group_eh_auditor,r,
+rule_eh_revenue_constraint_review_company,eh.revenue.constraint.review: company isolation,eh.revenue.constraint.review,,crud,"[('company_id', 'in', company_ids)]"

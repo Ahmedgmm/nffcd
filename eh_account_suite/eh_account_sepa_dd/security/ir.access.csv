@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_sepa_creditor_user,eh.sepa.creditor.user,eh.sepa.creditor,eh_account_base.group_eh_user,r,
+access_eh_sepa_creditor_manager,eh.sepa.creditor.manager,eh.sepa.creditor,eh_account_base.group_eh_manager,crud,
+rule_eh_sepa_creditor_company,eh.sepa.creditor: company isolation,eh.sepa.creditor,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sepa_mandate_user,eh.sepa.mandate.user,eh.sepa.mandate,eh_account_base.group_eh_user,cru,
+access_eh_sepa_mandate_manager,eh.sepa.mandate.manager,eh.sepa.mandate,eh_account_base.group_eh_manager,crud,
+access_eh_sepa_mandate_auditor,eh.sepa.mandate.auditor,eh.sepa.mandate,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_mandate_company,eh.sepa.mandate: company isolation,eh.sepa.mandate,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sepa_mandate_amendment_user,eh.sepa.mandate.amendment.user,eh.sepa.mandate.amendment,eh_account_base.group_eh_user,r,
+access_eh_sepa_mandate_amendment_auditor,eh.sepa.mandate.amendment.auditor,eh.sepa.mandate.amendment,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_mandate_amendment_company,eh.sepa.mandate.amendment: company isolation,eh.sepa.mandate.amendment,,crud,"[('mandate_id.company_id', 'in', company_ids)]"
+access_eh_sepa_dd_export_manager,eh.sepa.dd.export.manager,eh.sepa.dd.export,eh_account_base.group_eh_manager,ru,
+access_eh_sepa_dd_export_auditor,eh.sepa.dd.export.auditor,eh.sepa.dd.export,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_dd_export_company,eh.sepa.dd.export: company isolation,eh.sepa.dd.export,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sepa_dd_source_approval_manager,eh.sepa.dd.source.approval.manager,eh.sepa.dd.source.approval,eh_account_base.group_eh_manager,r,
+access_eh_sepa_dd_source_approval_auditor,eh.sepa.dd.source.approval.auditor,eh.sepa.dd.source.approval,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_dd_source_approval_company,eh.sepa.dd.source.approval: company isolation,eh.sepa.dd.source.approval,,crud,"[('company_id', 'in', company_ids)]"

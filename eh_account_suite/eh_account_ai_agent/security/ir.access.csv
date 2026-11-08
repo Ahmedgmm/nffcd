@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_anomaly_finding_user,eh.account.anomaly.finding user,eh.account.anomaly.finding,eh_account_base.group_eh_user,r,
+access_eh_anomaly_finding_manager,eh.account.anomaly.finding manager,eh.account.anomaly.finding,eh_account_base.group_eh_manager,ru,
+access_eh_anomaly_finding_scanner,eh.account.anomaly.finding scanner,eh.account.anomaly.finding,eh_account_ai_agent.group_eh_ai_scanner,r,
+access_eh_anomaly_finding_reviewer,eh.account.anomaly.finding reviewer,eh.account.anomaly.finding,eh_account_ai_agent.group_eh_ai_reviewer,ru,
+access_eh_anomaly_finding_auditor,eh.account.anomaly.finding auditor,eh.account.anomaly.finding,eh_account_base.group_eh_auditor,r,
+rule_eh_account_anomaly_finding_company,eh.account.anomaly.finding: company isolation,eh.account.anomaly.finding,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_anomaly_review_event_user,eh.account.anomaly.review.event user,eh.account.anomaly.review.event,eh_account_base.group_eh_user,r,
+access_eh_anomaly_review_event_scanner,eh.account.anomaly.review.event scanner,eh.account.anomaly.review.event,eh_account_ai_agent.group_eh_ai_scanner,r,
+access_eh_anomaly_review_event_reviewer,eh.account.anomaly.review.event reviewer,eh.account.anomaly.review.event,eh_account_ai_agent.group_eh_ai_reviewer,r,
+access_eh_anomaly_review_event_auditor,eh.account.anomaly.review.event auditor,eh.account.anomaly.review.event,eh_account_base.group_eh_auditor,r,
+rule_eh_account_anomaly_review_event_company,eh.account.anomaly.review.event: company isolation,eh.account.anomaly.review.event,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_anomaly_scan_cache_manager,eh.account.anomaly.scan.cache manager,eh.account.anomaly.scan.cache,eh_account_base.group_eh_manager,r,
+access_eh_anomaly_scan_cache_scanner,eh.account.anomaly.scan.cache scanner,eh.account.anomaly.scan.cache,eh_account_ai_agent.group_eh_ai_scanner,r,
+access_eh_anomaly_scan_cache_reviewer,eh.account.anomaly.scan.cache reviewer,eh.account.anomaly.scan.cache,eh_account_ai_agent.group_eh_ai_reviewer,r,
+access_eh_anomaly_scan_cache_auditor,eh.account.anomaly.scan.cache auditor,eh.account.anomaly.scan.cache,eh_account_base.group_eh_auditor,r,
+rule_eh_account_anomaly_scan_cache_company,eh.account.anomaly.scan.cache: company isolation,eh.account.anomaly.scan.cache,,crud,"[('company_id', 'in', company_ids)]"

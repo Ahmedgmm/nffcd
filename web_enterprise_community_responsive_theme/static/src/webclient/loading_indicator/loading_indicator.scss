@@ -1,0 +1,54 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Odoo 20 rebuilt web.LoadingIndicator. It is no longer a bare text tag
+// that a theme has to turn into a pill by hand - the template now ships
+//
+//     .o_loading_indicator_wrap.fixed-bottom
+//       > span.o_loading_indicator.d-inline-flex.rounded-pill.border
+//                                 .py-1.px-3.bg-view.small.shadow-lg
+//           > span.spinner-border.text-primary
+//             "Loading..."
+//
+// so the shape, the padding and a real spinner all come from core. The
+// only thing left for the theme to do is colour it, and that has to be
+// done with !important: every one of those utilities is generated
+// through o-print-color(), which emits `#{$rule}: var(--#{$rule})
+// !important`, and $enable-important-utilities is true. A plain
+// declaration cannot win against any of them.
+//
+// This file used to fight that markup and lost in the worst possible
+// way. background-color, padding, border-radius, font-size and
+// box-shadow were all silently dropped, so the pill stayed light - but
+// the two declarations with no utility to beat them DID apply:
+// `color: #fff`, which painted the "Loading..." text white on a white
+// pill and made it vanish, and an `&::before` spinner, which drew a
+// second spinning ring next to core's real one. The result read as an
+// empty pill with a stray arc in it.
+.o_loading_indicator_wrap .o_loading_indicator {
+    background-color: $o-brand-badirra !important;
+    // The border is set by the `border` SHORTHAND utility, so overriding
+    // border-color alone - even with !important - would still lose the
+    // colour to the shorthand's own var. Restating the shorthand is what
+    // actually sticks.
+    border: $border-width solid rgba(255, 255, 255, .18) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .2) !important;
+    color: #fff;
+    font-weight: 500;
+
+    // Core marks the spinner .text-primary. On this theme $primary is the
+    // brand navy, which is the pill's own background - the spinner would
+    // be invisible against it. text-emphasis-variant() emits the colour
+    // !important, so this must too.
+    .spinner-border {
+        color: #fff !important;
+    }
+}
+
+// The full-screen blocking overlay Odoo shows for longer-running actions.
+// Still .o_blockUI in 20 (core/ui/block_ui.xml), and still a plain
+// declaration, so no !important is needed here.
+.o_blockUI:not(.o_blockUI_invisible) {
+    background: rgba($o-brand-badirra, .55);
+}

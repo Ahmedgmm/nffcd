@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.om_hr_appraisal</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block name="employees_setting_container" position="after">
+                <block title="Appraisals" name="om_hr_appraisal_setting_container">
+                    <setting company_dependent="1" id="om_appraisal_probation_setting" string="Probation Reviews"
+                             help="A review for the manager before the end of the trial period of a contract">
+                        <field name="appraisal_probation"/>
+                        <div class="mt-2" invisible="not appraisal_probation">
+                            <field name="appraisal_probation_days" class="o_light_label oe_inline"/> days before it ends
+                        </div>
+                    </setting>
+                    <setting company_dependent="1" id="om_appraisal_auto_setting" string="Plan the Appraisals"
+                             help="Create the appraisals of the employees on their own">
+                        <field name="appraisal_auto"/>
+                        <div class="mt-2" invisible="not appraisal_auto">
+                            <div>First after <field name="appraisal_first_months" class="o_light_label oe_inline"/> months</div>
+                            <div>Then every <field name="appraisal_interval_months" class="o_light_label oe_inline"/> months</div>
+                            <div>Created <field name="appraisal_lead_days" class="o_light_label oe_inline"/> days ahead</div>
+                        </div>
+                    </setting>
+                    <setting id="om_appraisal_goal_alignment_setting"
+                             help="Goals of the company and of the departments, which the goals of the employees serve: their progress is the average of the goals serving them">
+                        <field name="group_goal_alignment"/>
+                    </setting>
+                    <setting id="om_appraisal_one_on_one_setting"
+                             help="Regular meetings of the managers with each employee: shared notes, private notes of the manager and actions as to-dos">
+                        <field name="group_one_on_one"/>
+                    </setting>
+                    <setting id="om_appraisal_calibration_setting"
+                             help="The potential of the employees next to their rating, the 9-box grid of a review cycle and the calibration sessions adjusting the ratings">
+                        <field name="group_calibration"/>
+                    </setting>
+                    <setting id="om_appraisal_survey_setting"
+                             help="Peers, direct reports and others answer a survey about the employee; the employee reads the combined answers without the names">
+                        <field name="module_om_hr_appraisal_survey"/>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+
+</odoo>

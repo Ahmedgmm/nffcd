@@ -1,0 +1,55 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Pivot tables are one of the few Community views that are genuinely hard
+// to use on a narrow screen: the table is wider than the viewport and,
+// without any styling, simply gets clipped. This makes it horizontally
+// scrollable with native touch scrolling, keeps the row-header column
+// readable while scrolling, and adds a subtle edge fade so it's obvious
+// there is more content off-screen.
+
+.o_pivot {
+    @media (max-width: 767.98px) {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+
+        // The pivot table lost its o_pivot_table class in Odoo 20 and now
+        // carries only Bootstrap's table utilities, so it is addressed by
+        // element. It is the one table .o_pivot renders.
+        table {
+            font-size: .8125rem;
+
+            // Keep the row-header (measure names / group labels) column
+            // visible while the rest of the table scrolls horizontally.
+            th:first-child,
+            td:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+                background-color: $o-view-background-color;
+                box-shadow: 2px 0 4px rgba(0, 0, 0, .06);
+            }
+
+            th, td {
+                white-space: nowrap;
+                padding: .375rem .5rem;
+            }
+        }
+
+        // Right-edge fade hinting that the table scrolls further.
+        &::after {
+            content: "";
+            position: sticky;
+            top: 0;
+            right: 0;
+            display: block;
+            width: 16px;
+            height: 100%;
+            margin-left: -16px;
+            pointer-events: none;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .9));
+        }
+    }
+}

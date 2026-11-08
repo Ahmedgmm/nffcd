@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_year_end_run_user,eh.year.end.run.user,eh.year.end.run,eh_account_base.group_eh_user,cru,
+access_eh_year_end_run_manager,eh.year.end.run.manager,eh.year.end.run,eh_account_base.group_eh_manager,crud,
+rule_eh_year_end_run_company,eh.year.end.run: company isolation,eh.year.end.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_year_end_line_user,eh.year.end.line.user,eh.year.end.line,eh_account_base.group_eh_user,crud,
+rule_eh_year_end_line_company,eh.year.end.line: company isolation,eh.year.end.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_aoci_reserve_map_user,eh.aoci.reserve.map.user,eh.aoci.reserve.map,eh_account_base.group_eh_user,r,
+access_eh_aoci_reserve_map_manager,eh.aoci.reserve.map.manager,eh.aoci.reserve.map,eh_account_base.group_eh_manager,crud,
+rule_eh_aoci_reserve_map_company,eh.aoci.reserve.map: company isolation,eh.aoci.reserve.map,,crud,"[('company_id', 'in', company_ids)]"

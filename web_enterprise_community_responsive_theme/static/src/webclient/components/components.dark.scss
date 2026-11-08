@@ -1,0 +1,213 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark-mode counterpart of components.scss.
+
+// ---- Dropdown menus -----------------------------------------------------
+.dropdown-menu {
+    border-color: $o-gray-200;
+    background-color: #171B24;
+
+    .dropdown-item {
+        color: $o-gray-900;
+
+        &:hover, &:focus {
+            background-color: $o-gray-200;
+            color: #fff;
+        }
+
+        &.active, &:active {
+            background-color: rgba($o-brand-badirra-accent, .18);
+            color: $o-brand-badirra-accent;
+        }
+    }
+
+    .dropdown-divider {
+        border-color: $o-gray-200;
+    }
+}
+
+// ---- Search autocomplete (search bar, Many2one fields, ...) -----------
+// web.AutoComplete's own dropdown is a "<ul class='o-autocomplete--
+// dropdown-menu'>" - a DIFFERENT class from plain ".dropdown-menu" above,
+// confirmed in web/static/src/core/autocomplete/autocomplete.xml - so
+// none of the theming above ever reached it. Its "<a>" options do carry
+// a real ".dropdown-item" class, so only the wrapper/background needed
+// its own rule here, not the item styling.
+.o-autocomplete--dropdown-menu {
+    background-color: #171B24;
+    border-color: $o-gray-200;
+
+    .dropdown-item {
+        color: $o-gray-900;
+
+        &:hover, &.ui-state-active {
+            background-color: $o-gray-200;
+            color: #fff;
+        }
+    }
+}
+
+// ---- Company switcher ---------------------------------------------------
+// Its row label carries Odoo's own ".text-700" utility class, which sets a
+// dark gray meant for a LIGHT dropdown background - and, being a utility
+// class, it's !important, so it wins over the plain ".dropdown-item"
+// color set above. Left alone, every unselected company shows up as
+// barely-legible dark-gray-on-near-black text.
+.o_switch_company_menu_items {
+    .o_switch_company_item {
+        .company_label {
+            color: $o-gray-900 !important;
+        }
+
+        // background-image (not background-color) on purpose: a plain
+        // "background-color: ... !important" here kept losing to
+        // whatever Bootstrap actually resolves ".alert-secondary" to
+        // (its bg comes from CSS custom properties consumed by rules we
+        // don't control the specificity of) - the row stayed light gray
+        // even with !important. background-image paints on TOP of
+        // background-color in CSS's own layering, so a solid-color
+        // gradient here masks it completely regardless of who "wins"
+        // background-color.
+        &.alert-secondary {
+            background-image: linear-gradient(rgba($o-brand-badirra-accent, .18), rgba($o-brand-badirra-accent, .18)) !important;
+
+            .company_label {
+                color: $o-brand-badirra-accent !important;
+            }
+        }
+
+        // The row that's actually persisted light gray across every
+        // screenshot so far is neither of the states above - it's
+        // specifically the company the user is CURRENTLY LOGGED INTO.
+        // web.SwitchCompanyItem gives that one a *different* inner div
+        // (not the outer .o_switch_company_item) the ".bg-primary-subtle"
+        // utility class - a completely different element than the one
+        // ".alert-secondary" above targets, which is why fixing
+        // .alert-secondary never touched it.
+        .bg-primary-subtle {
+            background-image: linear-gradient(rgba($o-brand-badirra-accent, .18), rgba($o-brand-badirra-accent, .18)) !important;
+
+            .company_label {
+                color: $o-brand-badirra-accent !important;
+            }
+        }
+
+        // Keyboard/mouse-hover highlight on a row (see
+        // switch_company_menu.scss's ".o_switch_company_item.focus"),
+        // a completely separate state from "this is your current
+        // company" (.alert-secondary above) - it reads
+        // background-color: var(--gray-200), a light Bootstrap gray
+        // never redefined for dark mode, hence the persistent
+        // light-gray patch under the hovered row.
+        &.focus, &.focus > * {
+            background-color: rgba(255, 255, 255, .08) !important;
+        }
+    }
+}
+
+// ---- Popovers -------------------------------------------------------------
+.popover {
+    border-color: $o-gray-200;
+
+    .popover-header {
+        background-color: $o-gray-200;
+        border-bottom-color: $o-gray-200;
+        color: $o-gray-900;
+    }
+}
+
+// ---- Notebook / tabs -------------------------------------------------------
+.o_notebook {
+    .nav-tabs {
+        border-bottom-color: $o-gray-200;
+
+        .nav-link {
+            color: $o-gray-700;
+
+            &:hover {
+                color: #fff;
+                border-bottom-color: $o-gray-300;
+            }
+
+            &.active {
+                color: $o-brand-badirra-accent;
+                border-bottom-color: $o-brand-badirra-accent;
+            }
+        }
+    }
+}
+
+// ---- Tags / colorlist chips -----------------------------------------------
+.o_tag,
+.o_field_tags .o_tag {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+}
+
+// See the light file for the Odoo 20 colour-list rebuild.
+.o_colorlist {
+    button.active::after {
+        color: $o-brand-badirra-accent;
+    }
+}
+
+// ---- Form button-box --------------------------------------------------
+.oe_button_box {
+    .oe_stat_button {
+        &:hover {
+            background-color: $o-gray-200;
+        }
+
+        .o_stat_value {
+            color: $o-brand-badirra-accent;
+        }
+
+        .o_stat_text {
+            color: $o-gray-700;
+        }
+    }
+}
+
+// ---- Search panel / facets --------------------------------------------
+.o_searchview {
+    // The typed query itself. $input-color (bootstrap_overridden.dark.scss)
+    // should already cover this, but the search box is the single most
+    // reported dark-mode legibility problem, so it is pinned explicitly
+    // rather than left to depend on Bootstrap's input cascade reaching it.
+    .o_searchview_input {
+        color: $o-gray-900;
+
+        &::placeholder {
+            color: $o-gray-600;
+        }
+    }
+
+    .o_searchview_facet {
+        border-color: $o-gray-200;
+
+        .o_searchview_facet_label {
+            background-color: $o-gray-200;
+            color: $o-gray-900;
+        }
+    }
+}
+
+.o_search_panel {
+    background-color: #171B24;
+    border-right-color: $o-gray-200;
+
+    .o_search_panel_category_value,
+    .o_search_panel_filter_value {
+        color: $o-gray-900;
+
+        &.active, &.o_selected {
+            background-color: rgba($o-brand-badirra-accent, .18);
+            color: $o-brand-badirra-accent;
+        }
+
+        &:hover {
+            background-color: $o-gray-200;
+        }
+    }
+}

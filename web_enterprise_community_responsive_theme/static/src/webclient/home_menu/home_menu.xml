@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Thin wrapper so the "menu" action (see home_menu_service.js) has a
+         template of its own to mount, exactly like a normal action
+         controller. -->
+    <t t-name="web_enterprise_community_responsive_theme.HomeMenuAction">
+        <BadirraHomeMenu/>
+    </t>
+
+    <t t-name="web_enterprise_community_responsive_theme.HomeMenu">
+        <div class="o_badirra_home_menu" role="main" aria-label="Applications">
+            <div class="o_badirra_home_menu_panel">
+                <div class="o_badirra_home_menu_search">
+                    <i class="oi" data-icon="search" role="img" aria-label="Search"/>
+                    <input type="text"
+                           t-ref="this.searchRef"
+                           t-model="this.query"
+                           placeholder="Search apps..."
+                           autocomplete="off"/>
+                </div>
+                <div class="o_badirra_home_menu_grid" t-ref="this.gridRef">
+                    <t t-foreach="this.apps" t-as="app" t-key="app.id">
+                        <div class="o_badirra_app_icon"
+                             t-att-data-app-key="this.appKey(app)"
+                             t-on-click="() => this.onAppClick(app)"
+                             tabindex="0"
+                             t-on-keydown="(ev) => ev.key === 'Enter' &amp;&amp; this.onAppClick(app)">
+                            <div class="o_badirra_app_icon_image"
+                                 t-attf-style="background-image: url({{app.webIconData or '/web/static/img/default_icon_app.png'}});"/>
+                            <span class="o_badirra_app_icon_label" t-esc="app.name"/>
+                        </div>
+                    </t>
+                    <div t-if="!this.apps.length" class="o_badirra_home_menu_empty">
+                        No application found.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

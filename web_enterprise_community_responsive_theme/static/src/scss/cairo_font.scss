@@ -1,0 +1,36 @@
+// Cairo by Google Fonts. Static TrueType files are used because Odoo's PDF
+// renderer supports them more reliably than variable WOFF2 fonts.
+@font-face {
+    font-family: "Cairo";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hOA-W1Q.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Cairo";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hAc5W1Q.ttf") format("truetype");
+}
+
+:root {
+    --bs-body-font-family: "Cairo", Arial, sans-serif;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+.o_web_client,
+.o_report_layout_standard,
+.o_report_layout_boxed,
+.o_report_layout_bold,
+.o_report_layout_striped,
+.o_report_layout_bubble,
+.o_report_layout_wave {
+    font-family: "Cairo", Arial, sans-serif !important;
+}

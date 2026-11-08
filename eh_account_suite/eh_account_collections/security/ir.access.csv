@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_collections_stage_user,eh.collections.stage.user,eh.collections.stage,eh_account_base.group_eh_user,r,
+access_eh_collections_stage_manager,eh.collections.stage.manager,eh.collections.stage,eh_account_base.group_eh_manager,crud,
+access_eh_collections_stage_auditor,eh.collections.stage.auditor,eh.collections.stage,eh_account_base.group_eh_auditor,r,
+access_eh_collections_case_user,eh.collections.case.user,eh.collections.case,eh_account_base.group_eh_user,cru,
+access_eh_collections_case_manager,eh.collections.case.manager,eh.collections.case,eh_account_base.group_eh_manager,crud,
+access_eh_collections_case_auditor,eh.collections.case.auditor,eh.collections.case,eh_account_base.group_eh_auditor,r,
+rule_eh_collections_case_company,eh.collections.case: company isolation,eh.collections.case,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_collections_action_user,eh.collections.action.user,eh.collections.action,eh_account_base.group_eh_user,cr,
+access_eh_collections_action_auditor,eh.collections.action.auditor,eh.collections.action,eh_account_base.group_eh_auditor,r,
+rule_eh_collections_action_company,eh.collections.action: company isolation,eh.collections.action,,crud,"[('case_id.company_id', 'in', company_ids)]"
+access_eh_collections_followup_level_user,eh.collections.followup.level.user,eh.collections.followup.level,eh_account_base.group_eh_user,r,
+access_eh_collections_followup_level_manager,eh.collections.followup.level.manager,eh.collections.followup.level,eh_account_base.group_eh_manager,crud,
+access_eh_collections_followup_level_auditor,eh.collections.followup.level.auditor,eh.collections.followup.level,eh_account_base.group_eh_auditor,r,
+rule_eh_collections_followup_level_company,eh.collections.followup.level: company isolation,eh.collections.followup.level,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_collections_late_fee_wizard_user,eh.collections.late_fee.wizard.user,eh.collections.late_fee.wizard,eh_account_base.group_eh_user,crud,
+access_eh_collections_reminder_wizard_user,eh.collections.reminder.wizard.user,eh.collections.reminder.wizard,eh_account_base.group_eh_user,crud,

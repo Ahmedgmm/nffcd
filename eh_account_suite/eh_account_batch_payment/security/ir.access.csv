@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_batch_payment_user,eh.batch.payment.user,eh.batch.payment,eh_account_base.group_eh_user,cru,
+access_eh_batch_payment_manager,eh.batch.payment.manager,eh.batch.payment,eh_account_base.group_eh_manager,crud,
+rule_eh_batch_payment_company,eh.batch.payment: company isolation,eh.batch.payment,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_batch_payment_build_wizard,eh.batch.payment.build.wizard,eh.batch.payment.build.wizard,eh_account_base.group_eh_user,crud,

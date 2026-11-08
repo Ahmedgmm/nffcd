@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_nrv_run_user,eh.nrv.run.user,eh.nrv.run,eh_account_base.group_eh_user,crud,
+access_eh_nrv_run_auditor,eh.nrv.run.auditor,eh.nrv.run,eh_account_base.group_eh_auditor,r,
+rule_eh_nrv_run_company,eh.nrv.run: company isolation,eh.nrv.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_nrv_line_user,eh.nrv.line.user,eh.nrv.line,eh_account_base.group_eh_user,crud,
+access_eh_nrv_line_auditor,eh.nrv.line.auditor,eh.nrv.line,eh_account_base.group_eh_auditor,r,
+rule_eh_nrv_line_company,eh.nrv.line: company isolation,eh.nrv.line,,crud,"[('company_id', 'in', company_ids)]"

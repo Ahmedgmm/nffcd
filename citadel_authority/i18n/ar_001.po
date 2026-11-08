@@ -1,0 +1,18 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# \t* citadel_authority
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar_001\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: citadel_authority
+msgid "Approve"
+msgstr "موافقة"
+
+#. module: citadel_authority
+msgid "Reject"
+msgstr "رفض"

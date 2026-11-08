@@ -1,0 +1,35 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Same selector depth as the light file on purpose. The dark bundle
+// INCLUDES the light one, so a bare `.o_loading_indicator` (0,1,0) would
+// lose to the light rule's `.o_loading_indicator_wrap .o_loading_indicator`
+// (0,2,0) however much later it came in the file order. Matching the
+// specificity is what lets source order decide.
+//
+// !important for the same reason as the light file: core sets these
+// through its bg-view / border / shadow-lg / text-primary utilities, all
+// of which are generated !important.
+//
+// The pill flips to the accent so it stays visible against the dark app
+// background (#12151C), which the navy would not - but that means the
+// INK has to flip too. White on this teal measures 2.11:1, well under
+// any WCAG threshold, and that is what the light file leaves behind.
+// The darkest tone in the dark palette gives 8.64:1 on the same teal,
+// and the pill itself sits at 8.64:1 against the page, so both the
+// wrapper and its text stay legible.
+.o_loading_indicator_wrap .o_loading_indicator {
+    background-color: $o-brand-badirra-accent !important;
+    border: $border-width solid rgba(0, 0, 0, .18) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .45) !important;
+    color: $o-gray-100;
+
+    .spinner-border {
+        color: $o-gray-100 !important;
+    }
+}
+
+.o_blockUI:not(.o_blockUI_invisible) {
+    background: rgba(#000, .65);
+}

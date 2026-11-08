@@ -1,0 +1,29 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_cost_card_user,eh.cost.card.user,eh.cost.card,eh_account_base.group_eh_user,cru,
+access_eh_cost_card_manager,eh.cost.card.manager,eh.cost.card,eh_account_base.group_eh_manager,crud,
+access_eh_cost_card_auditor,eh.cost.card.auditor,eh.cost.card,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_card_company,eh.cost.card: company isolation,eh.cost.card,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cost_card_line_user,eh.cost.card.line.user,eh.cost.card.line,eh_account_base.group_eh_user,crud,
+access_eh_cost_card_line_auditor,eh.cost.card.line.auditor,eh.cost.card.line,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_card_line_company,eh.cost.card.line: company isolation,eh.cost.card.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cost_actual_user,eh.cost.actual.user,eh.cost.actual,eh_account_base.group_eh_user,cru,
+access_eh_cost_actual_manager,eh.cost.actual.manager,eh.cost.actual,eh_account_base.group_eh_manager,crud,
+access_eh_cost_actual_auditor,eh.cost.actual.auditor,eh.cost.actual,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_actual_company,eh.cost.actual: company isolation,eh.cost.actual,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cost_actual_line_user,eh.cost.actual.line.user,eh.cost.actual.line,eh_account_base.group_eh_user,crud,
+access_eh_cost_actual_line_auditor,eh.cost.actual.line.auditor,eh.cost.actual.line,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_actual_line_company,eh.cost.actual.line: company isolation,eh.cost.actual.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cost_variance_run_user,eh.cost.variance.run.user,eh.cost.variance.run,eh_account_base.group_eh_user,cru,
+access_eh_cost_variance_run_manager,eh.cost.variance.run.manager,eh.cost.variance.run,eh_account_base.group_eh_manager,crud,
+access_eh_cost_variance_run_auditor,eh.cost.variance.run.auditor,eh.cost.variance.run,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_variance_run_company,eh.cost.variance.run: company isolation,eh.cost.variance.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cost_variance_line_user,eh.cost.variance.line.user,eh.cost.variance.line,eh_account_base.group_eh_user,crud,
+access_eh_cost_variance_line_auditor,eh.cost.variance.line.auditor,eh.cost.variance.line,eh_account_base.group_eh_auditor,r,
+rule_eh_cost_variance_line_company,eh.cost.variance.line: company isolation,eh.cost.variance.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_contribution_report_user,eh.contribution.report.user,eh.contribution.report,eh_account_base.group_eh_user,cru,
+access_eh_contribution_report_manager,eh.contribution.report.manager,eh.contribution.report,eh_account_base.group_eh_manager,crud,
+access_eh_contribution_report_auditor,eh.contribution.report.auditor,eh.contribution.report,eh_account_base.group_eh_auditor,r,
+rule_eh_contribution_report_company,eh.contribution.report: company isolation,eh.contribution.report,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_contribution_report_line_user,eh.contribution.report.line.user,eh.contribution.report.line,eh_account_base.group_eh_user,crud,
+access_eh_contribution_report_line_auditor,eh.contribution.report.line.auditor,eh.contribution.report.line,eh_account_base.group_eh_auditor,r,
+rule_eh_contribution_report_line_company,eh.contribution.report.line: company isolation,eh.contribution.report.line,,crud,"[('company_id', 'in', company_ids)]"

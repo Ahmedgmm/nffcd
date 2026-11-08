@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_eh_credit_limit_review_list" model="ir.ui.view">
+        <field name="name">eh.credit.limit.review.list</field>
+        <field name="model">eh.credit.limit.review</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-warning="state == 'pending'">
+                <field name="company_id"/>
+                <field name="partner_id"/>
+                <field name="source"/>
+                <field name="native_limit"/>
+                <field name="previous_eh_limit"/>
+                <field name="state"/>
+                <field name="resolved_limit" optional="show"/>
+                <field name="resolved_by_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_eh_credit_limit_review_form" model="ir.ui.view">
+        <field name="name">eh.credit.limit.review.form</field>
+        <field name="model">eh.credit.limit.review</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_keep_native" type="object" string="Keep Native Limit" class="btn-primary" invisible="state != 'pending'"/>
+                    <button name="action_use_previous_eh" type="object" string="Use Previous EH Limit" invisible="state != 'pending'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <p>A previous EH limit differs from the native limit. Posting is paused for the affected customer or company until a credit manager chooses the shared limit. Keeping native uses its current value; the original values below remain as upgrade evidence.</p>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="partner_id"/>
+                            <field name="source"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="native_limit"/>
+                            <field name="previous_eh_limit"/>
+                        </group>
+                        <group>
+                            <field name="resolution"/>
+                            <field name="resolved_limit"/>
+                            <field name="resolved_by_id"/>
+                            <field name="resolved_at"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

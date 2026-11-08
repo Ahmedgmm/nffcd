@@ -1,0 +1,54 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Flattens and modernizes Bootstrap's default component look so the
+// Community backend reads as a polished, Enterprise-grade product.
+//
+// EVERY variable here MUST be declared with '!default', for exactly the
+// same reason as scss/variables.scss: in dark mode
+// bootstrap_overridden.dark.scss is injected immediately *before* this
+// file (see the 'web.assets_web_dark' entry in __manifest__.py), so a
+// plain assignment here silently overwrites the dark value and the dark
+// override becomes dead code. This bit both this file and variables.scss
+// before it was spotted.
+
+$enable-shadows: true !default;
+
+// Flat, squared-off corners on structural components …
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$card-border-radius: .5rem !default;
+$nav-tabs-border-radius: 0 !default;
+$nav-pills-border-radius: .375rem !default;
+$accordion-border-radius: .5rem !default;
+$toast-border-radius: .5rem !default;
+$badge-border-radius: .375rem !default;
+$progress-border-radius: .375rem !default;
+$list-group-border-radius: .5rem !default;
+
+// … but with a soft elevation shadow instead of hard borders.
+$card-box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 1px 3px rgba(0, 0, 0, .08) !default;
+$dropdown-box-shadow: 0 4px 12px rgba(0, 0, 0, .12) !default;
+$btn-box-shadow: none !default;
+$btn-focus-box-shadow: 0 0 0 .2rem rgba($o-brand-badirra-accent, .25) !default;
+$btn-active-box-shadow: none !default;
+$btn-transition: color .1s ease-in-out, background-color .1s ease-in-out, border-color .1s ease-in-out !default;
+
+// Slightly larger, calmer heading scale.
+// NOTE: this file compiles BEFORE Bootstrap's own _variables.scss, so the
+// unprefixed $font-size-base does not exist yet here - only Odoo's own
+// $o-font-size-base (set in our variables.scss / Odoo's primary_variables.scss).
+$h1-font-size: $o-font-size-base * 2.2 !default;
+$h2-font-size: $o-font-size-base * 1.8 !default;
+$h3-font-size: $o-font-size-base * 1.5 !default;
+$h4-font-size: $o-font-size-base * 1.25 !default;
+$h5-font-size: $o-font-size-base * 1.1 !default;
+
+$input-focus-border-color: $o-brand-badirra-accent !default;
+$input-focus-box-shadow: 0 0 0 .2rem rgba($o-brand-badirra-accent, .15) !default;
+
+$list-group-active-bg: $o-brand-badirra-accent !default;
+$list-group-active-border-color: $o-brand-badirra-accent !default;
+
+$breadcrumb-active-color: $o-gray-900 !default;
+$breadcrumb-divider-color: $o-gray-500 !default;

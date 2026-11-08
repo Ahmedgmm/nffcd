@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_citadel_authority_policy_list" model="ir.ui.view">
+        <field name="name">citadel.authority.policy.list</field>
+        <field name="model">citadel.authority.policy</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="not active">
+                <field name="sequence" widget="handle"/>
+                <field name="reference" optional="show"/>
+                <field name="name"/>
+                <field name="document_type"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="min_amount"/>
+                <field name="max_amount"/>
+                <field name="apply_to_child_companies"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_citadel_authority_policy_search" model="ir.ui.view">
+        <field name="name">citadel.authority.policy.search</field>
+        <field name="model">citadel.authority.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="document_type"/>
+                <filter name="archived" string="مؤرشف" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_type" string="نوع المستند" context="{'group_by': 'document_type'}"/>
+                    <filter name="group_company" string="الشركة" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_citadel_authority_policy_form" model="ir.ui.view">
+        <field name="name">citadel.authority.policy.form</field>
+        <field name="model">citadel.authority.policy</field>
+        <field name="arch" type="xml">
+            <form string="سياسة الصلاحيات">
+                <sheet>
+                    <widget name="web_ribbon" title="مؤرشف" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="مثال: فاتورة مورد من 100,000 إلى 500,000"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="document_type" string="نوع المستند"/>
+                            <field name="reference" string="المرجع"/>
+                            <field name="sequence" string="التسلسل"/>
+                            <field name="active" invisible="True"/>
+                            <field name="res_model" invisible="True"/>
+                        </group>
+                        <group>
+                            <field name="company_id" string="الشركة" options="{'no_create': True}"/>
+                            <field name="apply_to_child_companies" string="تطبيق على الشركات التابعة"/>
+                            <field name="currency_id" invisible="True"/>
+                            <label for="min_amount" string="نطاق المبلغ"/>
+                            <div class="o_row">
+                                <field name="min_amount" string="الحد الأدنى"/> — <field name="max_amount" string="الحد الأقصى" placeholder="بلا حد"/>
+                            </div>
+                        </group>
+                    </group>
+                    <field name="domain" widget="domain" options="{'model': 'res_model', 'in_dialog': True}"/>
+                    <notebook>
+                        <page string="خطوات الاعتماد">
+                            <field name="step_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" string="التسلسل" widget="handle"/>
+                                    <field name="company_id" column_invisible="True"/>
+                                    <field name="action" string="الإجراء"/>
+                                    <field name="role_id" string="الدور" options="{'no_create': True}" domain="[('company_id', '=', parent.company_id)]"/>
+                                    <field name="approval_mode" string="أسلوب الاعتماد" invisible="action != 'approve'"/>
+                                    <field name="required_approvals" string="الاعتمادات المطلوبة" invisible="action != 'approve' or approval_mode != 'quorum'"/>
+                                    <field name="note" string="ملاحظة" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="الضوابط">
+                            <group>
+                                <group>
+                                    <field name="allow_self_approval"/>
+                                    <field name="allow_same_user_multiple_steps"/>
+                                    <field name="require_rejection_reason"/>
+                                </group>
+                                <group string="إعادة الاعتماد">
+                                    <field name="change_threshold_percent"/>
+                                    <field name="change_threshold_amount"/>
+                                </group>
+                                <group string="مهلة الاعتماد والتصعيد">
+                                    <field name="sla_hours"/>
+                                    <field name="escalation_role_id" domain="[('company_id', '=', company_id)]"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="ملاحظات"><field name="note" string="ملاحظات"/></page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_citadel_authority_policy" model="ir.actions.act_window">
+        <field name="name">مصفوفة الصلاحيات</field>
+        <field name="res_model">citadel.authority.policy</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_citadel_authority_policy_search"/>
+        <field name="context">{'search_default_group_type': 1}</field>
+    </record>
+</odoo>
+

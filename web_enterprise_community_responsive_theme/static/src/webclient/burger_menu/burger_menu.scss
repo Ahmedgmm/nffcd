@@ -1,0 +1,53 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Visual polish for Odoo's mobile burger-menu drawer (web.BurgerMenu).
+// CSS-only: it restyles core's own class names rather than reimplementing
+// the component.
+//
+// Rewritten for Odoo 20, which both renamed and shrank this drawer:
+//   o_burger_menu_topbar -> o_sidebar_topbar
+//   o_burger_menu_close  -> o_sidebar_close (joined by o_sidebar_share)
+//   o_burger_menu_user   -> gone; the user block is just o_user_menu_mobile
+// and, more importantly, the drawer NO LONGER LISTS APPS OR MENU SECTIONS.
+// o_burger_menu_apps, o_menu_sections_static and o_current_app have no
+// counterpart at all: the app list moved to the sidebar that the navbar's
+// o_menu_toggle opens, and the burger is now only the company switcher
+// plus the user menu. Those rules were removed rather than repointed -
+// styling for markup that does not exist is worse than no styling, because
+// it silently looks like coverage.
+.o_burger_menu {
+    background-color: $o-view-background-color;
+
+    .o_sidebar_topbar {
+        background-color: $o-brand-badirra;
+        // Set here, not on the buttons: core marks o_sidebar_close and
+        // o_sidebar_share `text-reset`, which is `color: inherit
+        // !important` - a colour declared on the buttons themselves would
+        // be discarded, while one declared on their parent is exactly what
+        // they inherit.
+        color: rgba(255, 255, 255, .9);
+    }
+
+    .o_burger_menu_content {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+
+        .o_user_menu_mobile {
+            border-bottom: 1px solid $o-gray-200;
+
+            // The entries are plain <a class="d-block text-body py-2">.
+            // Only the interaction tint is added; the padding utilities
+            // core puts on them are !important and are left alone.
+            > a {
+                transition: background-color .12s ease-in-out;
+
+                &:hover,
+                &:active {
+                    background-color: $o-gray-100;
+                }
+            }
+        }
+    }
+}

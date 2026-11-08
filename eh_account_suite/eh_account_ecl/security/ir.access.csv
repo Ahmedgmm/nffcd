@@ -1,0 +1,29 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_ecl_run_user,eh.ecl.run.user,eh.ecl.run,eh_account_base.group_eh_user,cru,
+access_eh_ecl_run_manager,eh.ecl.run.manager,eh.ecl.run,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_run_auditor,eh.ecl.run.auditor,eh.ecl.run,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_run_company,eh.ecl.run: company isolation,eh.ecl.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_bucket_user,eh.ecl.bucket.user,eh.ecl.bucket,eh_account_base.group_eh_user,cru,
+access_eh_ecl_bucket_manager,eh.ecl.bucket.manager,eh.ecl.bucket,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_bucket_auditor,eh.ecl.bucket.auditor,eh.ecl.bucket,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_bucket_company,eh.ecl.bucket: company isolation,eh.ecl.bucket,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_segment_user,eh.ecl.segment.user,eh.ecl.segment,eh_account_base.group_eh_user,r,
+access_eh_ecl_segment_manager,eh.ecl.segment.manager,eh.ecl.segment,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_segment_auditor,eh.ecl.segment.auditor,eh.ecl.segment,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_segment_company,eh.ecl.segment: company isolation,eh.ecl.segment,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_scenario_user,eh.ecl.scenario.user,eh.ecl.scenario,eh_account_base.group_eh_user,r,
+access_eh_ecl_scenario_manager,eh.ecl.scenario.manager,eh.ecl.scenario,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_scenario_auditor,eh.ecl.scenario.auditor,eh.ecl.scenario,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_scenario_company,eh.ecl.scenario: company isolation,eh.ecl.scenario,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_transfer_user,eh.ecl.transfer.user,eh.ecl.transfer,eh_account_base.group_eh_user,r,
+access_eh_ecl_transfer_manager,eh.ecl.transfer.manager,eh.ecl.transfer,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_transfer_auditor,eh.ecl.transfer.auditor,eh.ecl.transfer,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_transfer_company,eh.ecl.transfer: company isolation,eh.ecl.transfer,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_recon_user,eh.ecl.recon.user,eh.ecl.recon,eh_account_base.group_eh_user,r,
+access_eh_ecl_recon_manager,eh.ecl.recon.manager,eh.ecl.recon,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_recon_auditor,eh.ecl.recon.auditor,eh.ecl.recon,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_recon_company,eh.ecl.recon: company isolation,eh.ecl.recon,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ecl_writeoff_user,eh.ecl.writeoff.user,eh.ecl.writeoff,eh_account_base.group_eh_user,r,
+access_eh_ecl_writeoff_manager,eh.ecl.writeoff.manager,eh.ecl.writeoff,eh_account_base.group_eh_manager,crud,
+access_eh_ecl_writeoff_auditor,eh.ecl.writeoff.auditor,eh.ecl.writeoff,eh_account_base.group_eh_auditor,r,
+rule_eh_ecl_writeoff_company,eh.ecl.writeoff: company isolation,eh.ecl.writeoff,,crud,"[('company_id', 'in', company_ids)]"

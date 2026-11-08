@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_budget_user,eh.budget.budget.user,eh.budget.budget,eh_account_base.group_eh_user,cru,
+access_eh_budget_manager,eh.budget.budget.manager,eh.budget.budget,eh_account_base.group_eh_manager,crud,
+rule_eh_budget_budget_company,eh.budget.budget: company isolation,eh.budget.budget,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_budget_line_user,eh.budget.line.user,eh.budget.line,eh_account_base.group_eh_user,crud,
+rule_eh_budget_line_company,eh.budget.line: company isolation,eh.budget.line,,crud,"[('budget_id.company_id', 'in', company_ids)]"
+access_eh_budget_commitment_user,eh.budget.commitment user,eh.budget.commitment,eh_account_base.group_eh_user,cru,
+access_eh_budget_commitment_manager,eh.budget.commitment manager,eh.budget.commitment,eh_account_base.group_eh_manager,crud,
+rule_eh_budget_commitment_company,eh.budget.commitment: company isolation,eh.budget.commitment,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_budget_report_user,eh.budget.report.user,eh.budget.report,eh_account_base.group_eh_user,r,
+rule_eh_budget_report_company,eh.budget.report: company isolation,eh.budget.report,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_budget_split_wizard,eh.budget.split.wizard,eh.budget.split.wizard,eh_account_base.group_eh_user,crud,
+access_eh_budget_activity_user,eh.budget.activity.user,eh.budget.activity,eh_account_base.group_eh_user,crud,
+rule_eh_budget_activity_company,eh.budget.activity: company isolation,eh.budget.activity,,crud,"[('budget_id.company_id', 'in', company_ids)]"
+access_eh_budget_forecast_revision_user,eh.budget.forecast.revision.user,eh.budget.forecast.revision,eh_account_base.group_eh_user,cru,
+access_eh_budget_forecast_revision_manager,eh.budget.forecast.revision.manager,eh.budget.forecast.revision,eh_account_base.group_eh_manager,crud,
+rule_eh_budget_forecast_revision_company,eh.budget.forecast.revision: company isolation,eh.budget.forecast.revision,,crud,"[('budget_id.company_id', 'in', company_ids)]"
+access_eh_budget_forecast_revision_line_user,eh.budget.forecast.revision.line.user,eh.budget.forecast.revision.line,eh_account_base.group_eh_user,cru,
+access_eh_budget_forecast_revision_line_manager,eh.budget.forecast.revision.line.manager,eh.budget.forecast.revision.line,eh_account_base.group_eh_manager,crud,
+rule_eh_budget_forecast_revision_line_company,eh.budget.forecast.revision.line: company isolation,eh.budget.forecast.revision.line,,crud,"[('revision_id.budget_id.company_id', 'in', company_ids)]"

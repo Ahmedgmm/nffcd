@@ -1,0 +1,24 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_account_report_execution_user,eh.account.report.execution.user,eh.account.report.execution,eh_account_base.group_eh_user,r,
+access_eh_account_report_execution_auditor,eh.account.report.execution.auditor,eh.account.report.execution,eh_account_base.group_eh_auditor,r,
+rule_eh_account_report_execution_company,eh.account.report.execution: company isolation,eh.account.report.execution,,crud,"[('scope_accessible', '=', True)]"
+access_eh_account_dynamic_report_user,eh.account.dynamic.report.user,eh.account.dynamic.report,eh_account_base.group_eh_user,r,
+access_eh_account_dynamic_report_manager,eh.account.dynamic.report.manager,eh.account.dynamic.report,eh_account_base.group_eh_manager,crud,
+access_eh_account_dynamic_report_auditor,eh.account.dynamic.report.auditor,eh.account.dynamic.report,eh_account_base.group_eh_auditor,r,
+access_eh_account_report_wizard_user,eh.account.report.wizard.user,eh.account.report.wizard,eh_account_base.group_eh_user,crud,
+access_eh_account_report_wizard_auditor,eh.account.report.wizard.auditor,eh.account.report.wizard,eh_account_base.group_eh_auditor,cr,
+rule_eh_account_report_wizard_company,eh.account.report.wizard: company isolation,eh.account.report.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_account_report_saved_view_user,eh.account.report.saved_view.user,eh.account.report.saved_view,eh_account_base.group_eh_user,crud,
+access_eh_account_report_saved_view_auditor,eh.account.report.saved_view.auditor,eh.account.report.saved_view,eh_account_base.group_eh_auditor,r,
+rule_eh_account_report_saved_view_company,eh.account.report.saved_view: visible own or shared,eh.account.report.saved_view,,r,"['&', ('company_id', 'in', company_ids), '|', ('user_id', '=', user.id), ('shared', '=', True)]"
+rule_eh_account_report_saved_view_owner_mutation,eh.account.report.saved_view: owner mutation,eh.account.report.saved_view,,cud,"['&', ('company_id', 'in', company_ids), ('user_id', '=', user.id)]"
+access_eh_account_report_fold_state_user,eh.account.report.fold.state.user,eh.account.report.fold.state,eh_account_base.group_eh_user,crud,
+access_eh_account_report_fold_state_auditor,eh.account.report.fold.state.auditor,eh.account.report.fold.state,eh_account_base.group_eh_auditor,r,
+rule_eh_account_report_fold_state_owner,eh.account.report.fold.state: owner isolation,eh.account.report.fold.state,,crud,"[('user_id', '=', user.id)]"
+access_eh_account_report_annotation_user,eh.account.report.annotation.user,eh.account.report.annotation,eh_account_base.group_eh_user,cr,
+access_eh_account_report_annotation_manager,eh.account.report.annotation.manager,eh.account.report.annotation,eh_account_base.group_eh_manager,crud,
+access_eh_account_report_annotation_auditor,eh.account.report.annotation.auditor,eh.account.report.annotation,eh_account_base.group_eh_auditor,r,
+rule_eh_account_report_annotation_company,eh.account.report.annotation: company isolation,eh.account.report.annotation,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_account_legacy_seal_reversal_manager,eh.account.legacy.seal.reversal.manager,eh.account.legacy.seal.reversal,eh_account_base.group_eh_manager,crud,
+access_eh_account_report_company_version_manager,eh.account.report.company.version.manager,eh.account.report.company.version,eh_account_base.group_eh_manager,r,
+access_eh_account_report_global_version_manager,eh.account.report.global.version.manager,eh.account.report.global.version,eh_account_base.group_eh_manager,r,

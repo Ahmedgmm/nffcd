@@ -1,0 +1,19 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_soce_user,eh.soce.user,eh.soce,eh_account_base.group_eh_user,cru,
+access_eh_soce_manager,eh.soce.manager,eh.soce,eh_account_base.group_eh_manager,crud,
+access_eh_soce_auditor,eh.soce.auditor,eh.soce,eh_account_base.group_eh_auditor,r,
+rule_eh_soce_company,eh.soce: company isolation,eh.soce,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_soce_line_user,eh.soce.line.user,eh.soce.line,eh_account_base.group_eh_user,crud,
+access_eh_soce_line_auditor,eh.soce.line.auditor,eh.soce.line,eh_account_base.group_eh_auditor,r,
+rule_eh_soce_line_company,eh.soce.line: company isolation,eh.soce.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_soci_user,eh.soci.user,eh.soci,eh_account_base.group_eh_user,cru,
+access_eh_soci_manager,eh.soci.manager,eh.soci,eh_account_base.group_eh_manager,crud,
+access_eh_soci_auditor,eh.soci.auditor,eh.soci,eh_account_base.group_eh_auditor,r,
+rule_eh_soci_company,eh.soci: company isolation,eh.soci,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_soci_line_user,eh.soci.line.user,eh.soci.line,eh_account_base.group_eh_user,crud,
+access_eh_soci_line_auditor,eh.soci.line.auditor,eh.soci.line,eh_account_base.group_eh_auditor,r,
+rule_eh_soci_line_company,eh.soci.line: company isolation,eh.soci.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_statement_tieout_user,eh.statement.tieout.user,eh.statement.tieout,eh_account_base.group_eh_user,r,
+access_eh_statement_tieout_manager,eh.statement.tieout.manager,eh.statement.tieout,eh_account_base.group_eh_manager,crud,
+access_eh_statement_tieout_auditor,eh.statement.tieout.auditor,eh.statement.tieout,eh_account_base.group_eh_auditor,r,
+rule_eh_statement_tieout_company,eh.statement.tieout: company isolation,eh.statement.tieout,,crud,"[('company_id', 'in', company_ids)]"

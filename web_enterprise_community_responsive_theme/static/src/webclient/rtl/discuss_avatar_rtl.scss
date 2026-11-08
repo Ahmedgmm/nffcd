@@ -1,0 +1,54 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// RTL correction for the presence dot on avatars (mail.DiscussAvatar).
+//
+// This is a CORE Odoo 20 defect, not one this theme introduces - the theme
+// carries no rule for avatars or im-status at all, and core ships no RTL
+// handling for them either. It is compensated here because "RTL ready" is
+// one of this module's headline promises, and a status dot sitting on top
+// of the name is the first thing an Arabic user sees.
+//
+// Why it cannot fix itself: discuss_avatar.xml places the dot with SVG
+// TRANSFORM ATTRIBUTES inside a 32x32 viewBox -
+//     <g    transform="translate(21, 20) ...">   (the icon)
+//     <use  transform="translate(21, 20) ...">   (its mask)
+//     <rect transform="translate(19, 19) ...">   (the fallback hole)
+// Those are XML attributes, so rtlcss never sees them (it rewrites CSS, not
+// templates) and `direction: rtl` has no bearing on SVG geometry. The dot
+// stays pinned to the avatar's right edge, which in an RTL layout is where
+// the label begins.
+//
+// Why the root <svg> is mirrored rather than the dot repositioned: a CSS
+// `transform` REPLACES the presentation attribute, it does not compose with
+// it. Overriding the <g> would silently drop both the iconExtraTransform
+// prop that chat_bubble and notification_item pass and the different offset
+// used while typing. The root <svg> carries no transform of its own, so
+// mirroring it is purely additive - every attribute transform inside keeps
+// working, and the mask mirrors along with the icon it cuts out, so the two
+// stay registered.
+//
+// Why an rtlcss directive rather than an `.o_rtl` ancestor: core adds
+// o_rtl in start.js, and scoping on it makes this rule depend on that class
+// reaching every avatar in the page. The directive form has no such
+// dependency - it compiles to an inert `transform: none` in the LTR bundle
+// and to the mirror in the RTL one, so the two builds differ by
+// construction instead of by a runtime selector match. Verified against
+// rtlcss itself, which is also why the value is written `none`: rtlcss
+// substitutes the whole declaration value, and it leaves scaleX alone
+// otherwise (the same behaviour core's icons.scss relies on).
+svg.o-mail-DiscussAvatar {
+    transform-origin: center;
+    transform: none #{"/* rtl:scaleX(-1) */"};
+
+    // The one thing that must not read backwards. The avatar is a photo or
+    // a generated letter tile ("A" for a company), either of which is
+    // obviously wrong mirrored. The status glyph is deliberately NOT
+    // un-mirrored: it stays in the same frame as the mask hole behind it,
+    // and at this size the common case - a circle - is symmetric anyway.
+    > foreignObject img {
+        transform-origin: center;
+        transform: none #{"/* rtl:scaleX(-1) */"};
+    }
+}

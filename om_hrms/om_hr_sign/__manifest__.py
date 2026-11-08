@@ -1,0 +1,21 @@
+{
+    'name': 'HR Sign',
+    'version': '20.0.1.0.0',
+    'category': 'Human Resources',
+    'summary': 'Employees sign their documents, and read and agree to the company policies or sign them',
+    'author': 'Odoo Mates',
+    'maintainer': 'Odoo Mates',
+    'support': 'odoomates@gmail.com',
+    'license': 'LGPL-3',
+    'depends': ['om_sign', 'om_sign_print_template', 'om_hr_base'],
+    'data': [
+        'security/hr_sign_security.xml',
+        'security/ir.access.csv',
+        'data/hr_sign_data.xml',
+        'report/policy_report.xml',
+        'views/hr_policy_views.xml',
+    ],
+    'demo': ['demo/om_hr_sign_demo.xml'],
+    'images': ['static/description/banner.gif'],
+    'auto_install': True,
+}

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form_citadel_authority" model="ir.ui.view">
+        <field name="name">sale.order.form.citadel.authority</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_authority_state" invisible="True"/>
+                <field name="citadel_authority_can_approve" invisible="True"/>
+                <field name="citadel_authority_requires_approval" invisible="True"/>
+                <button name="action_citadel_request_approval" type="object" string="طلب اعتماد"
+                        class="oe_highlight" invisible="state not in ['draft', 'sent'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_approve" type="object" string="اعتماد"
+                        class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_reject" type="object" string="رفض"
+                        class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+            </xpath>
+            <xpath expr="//button[@id='action_confirm']" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][not(@id)]" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet/*[1]" position="before">
+                <group invisible="not citadel_authority_request_id" col="1">
+                    <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_form_citadel_authority" model="ir.ui.view">
+        <field name="name">purchase.order.form.citadel.authority</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_authority_state" invisible="True"/>
+                <field name="citadel_authority_can_approve" invisible="True"/>
+                <field name="citadel_authority_requires_approval" invisible="True"/>
+                <button name="action_citadel_request_approval" type="object" string="طلب اعتماد"
+                        class="oe_highlight" invisible="state not in ['draft', 'sent'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_approve" type="object" string="اعتماد"
+                        class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_reject" type="object" string="رفض"
+                        class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+            </xpath>
+            <xpath expr="//button[@id='bid_confirm']" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet/*[1]" position="before">
+                <group invisible="not citadel_authority_request_id" col="1">
+                    <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_move_form_citadel_authority" model="ir.ui.view">
+        <field name="name">account.move.form.citadel.authority</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_authority_state" invisible="True"/>
+                <field name="citadel_authority_can_approve" invisible="True"/>
+                <field name="citadel_authority_requires_approval" invisible="True"/>
+                <button name="action_citadel_request_approval" type="object" string="طلب اعتماد"
+                        class="oe_highlight" invisible="state != 'draft' or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_approve" type="object" string="اعتماد"
+                        class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_reject" type="object" string="رفض"
+                        class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+            </xpath>
+            <xpath expr="//header/button[@name='action_post'][1]" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//header/button[@name='action_post'][2]" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet/*[1]" position="before">
+                <group invisible="not citadel_authority_request_id" col="1">
+                    <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_form_citadel_authority" model="ir.ui.view">
+        <field name="name">account.payment.form.citadel.authority</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_authority_state" invisible="True"/>
+                <field name="citadel_authority_can_approve" invisible="True"/>
+                <field name="citadel_authority_requires_approval" invisible="True"/>
+                <button name="action_citadel_request_approval" type="object" string="طلب اعتماد"
+                        class="oe_highlight" invisible="state not in [False, 'draft'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_approve" type="object" string="اعتماد"
+                        class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_reject" type="object" string="رفض"
+                        class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+            </xpath>
+            <xpath expr="//button[@name='action_post']" position="attributes">
+                <attribute name="invisible" add="citadel_authority_requires_approval" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet/*[1]" position="before">
+                <group invisible="not citadel_authority_request_id" col="1">
+                    <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_list_citadel_authority" model="ir.ui.view">
+        <field name="name">sale.order.list.citadel.authority</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_authority_state" string="الاعتماد" widget="badge" optional="show"/>
+                <field name="citadel_authority_next_approval" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_sale_quotation_list_citadel_authority" model="ir.ui.view">
+        <field name="name">sale.quotation.list.citadel.authority</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_authority_state" string="الاعتماد" widget="badge" optional="show"/>
+                <field name="citadel_authority_next_approval" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_list_citadel_authority" model="ir.ui.view">
+        <field name="name">purchase.order.list.citadel.authority</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_authority_state" string="الاعتماد" widget="badge" optional="show"/>
+                <field name="citadel_authority_next_approval" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_move_list_citadel_authority" model="ir.ui.view">
+        <field name="name">account.move.list.citadel.authority</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_authority_state" string="الاعتماد" widget="badge" optional="show"/>
+                <field name="citadel_authority_next_approval" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_payment_list_citadel_authority" model="ir.ui.view">
+        <field name="name">account.payment.list.citadel.authority</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_authority_state" string="الاعتماد" widget="badge" optional="show"/>
+                <field name="citadel_authority_next_approval" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
+

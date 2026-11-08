@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Odoo Community Enterprise Theme - Badirra Responsive Backend Theme</title>
+<meta name="description" content="Odoo Community backend theme with an Enterprise-style full-screen app switcher, complete dark mode across every core widget, responsive navigation, compact list density, refined kanban and pivot views, and a branded login screen. 54 languages with full Arabic RTL support."/>
+<meta name="keywords" content="Odoo community theme, Odoo enterprise theme, Odoo backend theme, Odoo dark mode, Odoo app switcher, Odoo responsive theme, Odoo web theme, Odoo 18 theme, Odoo RTL theme, Odoo Arabic theme"/>
+</head>
+<body>
+<div class="container" style="max-width:1140px;font-family:Arial, sans-serif;">
+
+  <!-- HERO (no fill background - the sanitizer strips background-color,
+       so this relies only on color/font/margin/padding/border, which
+       are the properties actually allowed to survive) -->
+  <div style="border-bottom:4px solid #7C3AED;padding-bottom:22px;margin-bottom:28px;">
+    <h1 style="color:#2E1065;font-weight:bold;font-size:30px;margin-bottom:12px;">Odoo Community, With the Enterprise Experience It Never Shipped With</h1>
+    <p style="color:#4B5563;font-size:17px;margin-bottom:16px;">A complete backend theme for Odoo Community - a full-screen app switcher with drag-to-reorder, a navigation bar that gets out of your way, a genuinely complete dark mode that reaches every screen (not just the navbar), a compact list density, refined kanban and pivot views, and a branded login screen. Built from scratch against Odoo's own public <code>web</code> APIs, with no Enterprise dependency and no upsell dialog.</p>
+    <p style="color:#1E293B;font-size:14px;margin:4px 0;border-left:3px solid #12B886;padding-left:10px;">✔ Full-Screen App Switcher &nbsp;&nbsp; ✔ Drag-to-Reorder Apps &nbsp;&nbsp; ✔ Instant App Search</p>
+    <p style="color:#1E293B;font-size:14px;margin:4px 0;border-left:3px solid #12B886;padding-left:10px;">✔ Complete Dark Mode &nbsp;&nbsp; ✔ Compact List Density &nbsp;&nbsp; ✔ Mobile-Usable Pivot Table &nbsp;&nbsp; ✔ Branded Login Screen</p>
+    <p style="color:#1E293B;font-size:14px;margin:4px 0;border-left:3px solid #12B886;padding-left:10px;">✔ Full RTL &amp; Arabic Translation &nbsp;&nbsp; ✔ 54 Languages &nbsp;&nbsp; ✔ Zero Extra Dependencies &nbsp;&nbsp; ✔ Free</p>
+  </div>
+
+  <!-- VENDOR TRUST BAR -->
+  <table class="table" style="border:1px solid #E5E7EB;margin-bottom:32px;">
+    <tr>
+      <td style="border:0;vertical-align:middle;width:45%;padding:20px;">
+        <img src="badirra_logo.png" alt="Badirra" style="height:90px;max-width:100%;"/>
+      </td>
+      <td style="border:0;vertical-align:middle;text-align:right;padding:20px;">
+        <p style="margin:2px 0;font-size:13px;">
+          <strong style="color:#1E293B;">Supports:</strong>
+          <span style="color:#4C1D95;font-weight:bold;border:1px solid #4C1D95;padding:3px 10px;margin-left:6px;">Community</span>
+          <span style="color:#7C3AED;font-weight:bold;border:1px solid #7C3AED;padding:3px 10px;margin-left:4px;">Enterprise</span>
+        </p>
+        <p style="margin:8px 0 2px 0;font-size:13px;">
+          <strong style="color:#1E293B;">Availability:</strong>
+          <span style="color:#166534;font-weight:bold;border:1px solid #166534;padding:3px 10px;margin-left:6px;">✔ On Premise</span>
+          <span style="color:#166534;font-weight:bold;border:1px solid #166534;padding:3px 10px;margin-left:4px;">✔ Odoo.sh</span>
+        </p>
+      </td>
+    </tr>
+  </table>
+
+  <!-- WHAT IS IT -->
+  <h2 style="color:#2E1065;font-weight:bold;border-bottom:3px solid #F59F00;padding-bottom:8px;margin-top:40px;">What is the Web Enterprise Community Responsive Theme?</h2>
+  <p style="font-size:15.5px;color:#1E293B;">
+    <strong>Web Enterprise Community Responsive Theme</strong> replaces the standard Odoo Community backend interface
+    with the kind of experience Enterprise users take for granted: a full-screen app switcher instead of a cramped
+    dropdown, a navigation bar that disappears when you don't need it, and a dark mode that actually holds up across
+    every list, form, kanban, pivot and dialog you open. It is a pure interface layer - it adds no models, no menus and
+    no data of its own, touches none of your business logic, and can be uninstalled at any time leaving your database
+    exactly as it was.
+  </p>
+
+  <!-- WHY -->
+  <h3 style="color:#4C1D95;font-weight:bold;margin-top:30px;">Why teams install it</h3>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🏠️ A real app switcher</h4>
+          <p style="font-size:14px;color:#3F3F55;">A full-screen grid of your apps - six per row, searchable as you type, and reorderable by dragging so the apps you actually use sit where you expect them.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🌙 Dark mode that doesn't break</h4>
+          <p style="font-size:14px;color:#3F3F55;">The dark palette is injected ahead of Odoo's own variables rather than appended after them, so it reaches core screens and third-party addons alike - including ones that ship no dark-mode assets of their own.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">↔️ Navigation that steps aside</h4>
+          <p style="font-size:14px;color:#3F3F55;">On the home screen the bar leaves the layout entirely instead of reserving an empty strip. Inside an app, hovering the switcher turns it into a back control - because that is what pressing it does from there.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">📱 Genuinely responsive</h4>
+          <p style="font-size:14px;color:#3F3F55;">A polished mobile burger menu, an app grid that steps down to four and then three columns, and a pivot table you can actually read and scroll on a phone.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🌍 54 languages, RTL included</h4>
+          <p style="font-size:14px;color:#3F3F55;">Every string this theme adds is translated into all 54 languages Odoo itself ships translations for - Arabic, German, French, Spanish, Chinese, Japanese and more - with right-to-left layouts handled natively.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🍃️ Nothing else to install</h4>
+          <p style="font-size:14px;color:#3F3F55;">Depends on Odoo's <code>web</code> module and nothing more. No Enterprise code, no external Python packages, no background services - install it, restart, and it is live.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN ACTION -->
+  <h2 style="color:#2E1065;font-weight:bold;border-bottom:3px solid #F59F00;padding-bottom:8px;margin-top:40px;">The theme in action</h2>
+  <p style="font-size:15.5px;color:#1E293B;">
+    Below: the app switcher in light and dark mode, the navigation bar inside an app, list and kanban views, and the
+    branded login screen.
+  </p>
+  <p style="text-align:center;margin:20px 0;">
+    <img src="banner_screenshot.gif" alt="Odoo Community Enterprise theme in action" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;"/>
+  </p>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_home_light.png" alt="Odoo Community app switcher in light mode" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">The app switcher in light mode - six per row, searchable, drag to reorder.</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_home_dark.png" alt="Odoo Community app switcher in dark mode" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">The same screen in dark mode, down to the icon tiles and search field.</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_list_light.png" alt="Odoo list view in light mode" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">List views stay clean and readable, with an optional compact density.</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_list_dark.png" alt="Odoo list view in dark mode" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">The same list in dark mode - every column, badge and control follows.</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_dark_toggle.png" alt="Dark mode toggle in the Odoo user menu" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">One switch in the user menu - each user picks their own mode.</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <img src="screenshot_login.png" alt="Branded Odoo login screen" class="img-fluid" style="border:1px solid #E5E7EB;max-width:100%;height:auto;"/>
+      <p style="font-size:13px;color:#6B7280;margin-top:6px;">A branded sign-in screen that follows the light/dark preference.</p>
+    </div>
+  </div>
+
+  <!-- CAPABILITIES -->
+  <h2 style="color:#2E1065;font-weight:bold;border-bottom:3px solid #F59F00;padding-bottom:8px;margin-top:40px;">Key capabilities at a glance</h2>
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🔍 Instant app search</h4>
+          <p style="font-size:14px;color:#3F3F55;">Start typing to filter the app grid immediately - no dropdown to open, no page to load.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">↕️ Drag to reorder</h4>
+          <p style="font-size:14px;color:#3F3F55;">Arrange apps in the order that suits you. Newly installed apps join the end alphabetically rather than shuffling your layout.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">📋 Compact list density</h4>
+          <p style="font-size:14px;color:#3F3F55;">Toggle tighter rows to fit more records on screen. The choice is remembered per browser and never touches your data.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">📑️ Refined kanban</h4>
+          <p style="font-size:14px;color:#3F3F55;">Cards get real elevation, a clear hover state and calmer column headers, so a busy board stays readable.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">📊 Usable pivot on mobile</h4>
+          <p style="font-size:14px;color:#3F3F55;">Horizontal scrolling with a pinned row-header column and an edge fade, so a wide pivot no longer gets clipped off-screen.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🔐 Branded login</h4>
+          <p style="font-size:14px;color:#3F3F55;">A polished sign-in screen that follows the light/dark preference from the previous session.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">⏳ Branded loader</h4>
+          <p style="font-size:14px;color:#3F3F55;">Odoo's loading indicator restyled into a proper pill with a live spinner instead of a bare grey tag.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card h-100" style="border:1px solid #E4DEFB;">
+        <div class="card-body">
+          <h4 style="color:#4C1D95;font-size:16px;font-weight:bold;">🌗️ One-click dark mode</h4>
+          <p style="font-size:14px;color:#3F3F55;">A switch in the user menu, applied per user - each person on the database picks their own.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <h2 style="color:#2E1065;font-weight:bold;border-bottom:3px solid #F59F00;padding-bottom:8px;margin-top:40px;">Frequently asked questions</h2>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Do I need Odoo Enterprise for this?</strong><br/>
+  No - that is the point. It is built entirely against Odoo Community's own public <code>web</code> APIs and contains no Enterprise code. Its only dependency is the <code>web</code> module every Odoo installation already has.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Will it conflict with my other modules?</strong><br/>
+  It is an interface layer only - no models, no menus, no data, and no changes to business logic. It restyles and extends existing Odoo screens, so other modules keep working as they did.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Does dark mode cover third-party modules too?</strong><br/>
+  Largely, yes. The dark palette is injected <em>before</em> Odoo's own variables rather than appended after them, so everything compiled downstream - core screens and addons alike - picks it up, including addons that ship no dark-mode assets of their own.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Is dark mode set per user or for everyone?</strong><br/>
+  Per user. Each person toggles it from their own user menu; nobody's choice affects anyone else.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Does the app order I set apply to everyone?</strong><br/>
+  No - it is stored in your own browser, so each user arranges their apps independently. Nothing is written to the database.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Does it support Arabic and right-to-left layouts?</strong><br/>
+  Yes, natively. Odoo's own RTL processing applies to the theme's stylesheets, and every string it adds is translated into all 54 languages Odoo ships translations for.</p>
+
+  <p style="margin-top:18px;"><strong style="color:#2E1065;">Can I uninstall it cleanly?</strong><br/>
+  Yes. Because it adds no models or data, uninstalling returns the interface to standard Odoo and leaves your database untouched.</p>
+
+  <p style="margin-top:18px;margin-bottom:40px;"><strong style="color:#2E1065;">What Odoo version does it require?</strong><br/>
+  Odoo 20.0 Community.</p>
+
+  <!-- FOOTER -->
+  <div class="text-center" style="padding:20px 0;color:#6B7280;font-size:13px;border-top:1px solid #E5E7EB;">
+    <img src="badirra_logo.png" alt="Badirra" style="height:60px;margin-bottom:14px;max-width:100%;"/><br/>
+    Developed by Mahmoud Salheen for Badirra &nbsp;·&nbsp;
+    <a href="mailto:Mahmoudsalheen47@gmail.com">Mahmoudsalheen47@gmail.com</a>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Background/border/text colors are NOT set here - they come from
+// $o-navbar-background/$o-navbar-entry-color/$o-navbar-brand-color in
+// scss/variables.scss (light) and variables.dark.scss (dark), the same
+// variables core's own navbar.variables.scss exposes for exactly this.
+// FINAL decision: the bar switches with the mode like everything else - 
+// light bg/dark text in light mode, dark bg/light text in dark mode.
+
+.o_main_navbar {
+    // Drawn here because Odoo 20 removed $o-navbar-border-bottom and its
+    // navbar has no border of its own; the colour still comes from this
+    // theme's palette, light or dark, via the same grey step the other
+    // branches fed into that variable.
+    border-bottom: 1px solid $o-gray-200;
+
+    // Every button gets a broad accent-teal focus ring by default (see
+    // scss/bootstrap_overridden.scss's $btn-focus-box-shadow) - fine on
+    // light surfaces generally, but jarring against this bar's own
+    // background in dark mode. A translucent white ring instead.
+    .btn:focus,
+    .btn:focus-visible,
+    .dropdown-toggle:focus,
+    .dropdown-toggle:focus-visible {
+        box-shadow: 0 0 0 .15rem rgba(255, 255, 255, .35) !important;
+    }
+
+    // Bootstrap's outline-secondary "show" state (dropdown open) uses
+    // $o-component-active-bg = mix($o-action, $o-gray-100, 20%): our teal
+    // accent mixed into light gray, meant for light surfaces (a selected
+    // list row), not necessarily this bar.
+    .btn.show,
+    .btn-secondary.show,
+    .btn-outline-secondary.show,
+    .dropdown-toggle.show {
+        background-color: rgba(0, 0, 0, .06) !important;
+        border-color: transparent !important;
+    }
+
+    // NOTE: there was a blanket "safety net" here that forced every element
+    // under .o_user_menu/.o_menu_systray to a transparent background with
+    // !important. It was added while hunting a stray tinted patch behind the
+    // user-menu button, before the two targeted rules above/below were
+    // written, and it caused three separate regressions in a row:
+    //
+    //   - the Dark Mode switch lost its green fill and its knob (the knob is
+    //     drawn as a background-IMAGE, which the sweep also cleared),
+    //   - the systray notification badges lost their red, because narrowing
+    //     the sweep with :not() raised its specificity above the badge rule,
+    //   - and on 17 the user-menu dropdown itself rendered see-through,
+    //     since there the menu is drawn inside .o_user_menu rather than
+    //     portaled out of the navbar, putting the panel within reach.
+    //
+    // Each fix only revealed the next casualty, which is the signature of a
+    // rule that is simply too broad. The open/hover states it was meant to
+    // neutralise are already handled precisely by ".dropdown-toggle.show"
+    // above and the ".o_user_menu .dropdown-toggle" rule below, so it is
+    // removed rather than narrowed again.
+
+    .o_user_menu .dropdown-toggle:hover,
+    .o_user_menu .dropdown-toggle:focus,
+    .o_user_menu .dropdown-toggle.show {
+        background-color: rgba(0, 0, 0, .06) !important;
+    }
+
+    // Notification badges (messages, activities, ...) - both red with the
+    // count inside, not core's mixed default colors per systray item.
+    // ".badge" alone is covered by $o-navbar-badge-bg (scss/variables.scss)
+    // via core's own ".o_menu_systray .badge" rule; ".o-mail-ActivityMenu-
+    // counter" is added explicitly since it's a mail-module class that
+    // doesn't necessarily inherit that variable the same way.
+    .badge,
+    .o-mail-ActivityMenu-counter {
+        background-color: #E53935 !important;
+        color: #fff !important;
+    }
+
+    // App icon beside the app name. The icon itself is handed to CSS as
+    // the --o-badirra-app-icon custom property by navbar.js, which also
+    // adds the marker class - the ::before only renders when that class
+    // is present, so there is no empty placeholder box when an app has
+    // no icon of its own.
+    .o_menu_brand.o_badirra_has_app_icon::before {
+        content: "";
+        display: inline-block;
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-right: .5rem;
+        border-radius: 5px;
+        background-image: var(--o-badirra-app-icon);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .o_badirra_apps_toggle {
+        // position:relative so the waffle and the back arrow can be
+        // stacked on top of each other and cross-faded in place, rather
+        // than one shifting the other as it appears/disappears.
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        border: none;
+        background: transparent;
+        transition: background-color .12s ease-out;
+
+        // Match core's own navbar entries rather than filling the bar.
+        // Odoo 20 gave the navbar vertical padding ($o-navbar-padding-v
+        // went 0px -> 10px) and rounded its entries
+        // ($o-navbar-entry-border-radius went 0 -> $o-border-radius), and
+        // it sizes them as
+        //
+        //   height: var(--Navbar-entry-height,
+        //               calc(var(--o-navbar-height) - #{$o-navbar-padding-v} * 2))
+        //
+        // A height:100% button therefore stood 20px taller than everything
+        // beside it, so its hover state read as a big slab instead of the
+        // neat pill the other entries get. Same expressions as core, so it
+        // tracks any future change to those variables.
+        height: var(--Navbar-entry-height, calc(var(--o-navbar-height) - #{$o-navbar-padding-v} * 2));
+        border-radius: var(--NavBar-entry-borderRadius, #{$o-navbar-entry-border-radius});
+
+        // The same hover tint core uses for its own entries, rather than a
+        // hardcoded black veil that only suits a light bar.
+        &:hover {
+            background: var(--NavBar-entry-backgroundColor--hover, #{$o-navbar-entry-bg--hover});
+        }
+    }
+
+    // Back-arrow overlay: hidden unless we're inside an app AND hovering.
+    .o_badirra_back_arrow {
+        position: absolute;
+        // inset+flex centring rather than translate(-50%, -50%): rtlcss
+        // rewrites translate() values when it builds the RTL stylesheet,
+        // which would have flipped the -50% centring offset along with the
+        // slide offset and knocked the glyph off centre in Arabic. With
+        // the centring done by flexbox, the only thing left in transform
+        // is the part that genuinely is direction-dependent.
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        // Set explicitly rather than left to inherit: the button is a
+        // Bootstrap .btn, which brings its own colour, so inheriting here
+        // is not reliably the navbar's own entry colour.
+        color: $o-gray-700;
+        // --oi-font-size, not font-size: .oi reads `font-size:
+        // var(--oi-font-size, 1em)` from icons.scss, and setting the custom
+        // property here inherits down to the glyph without depending on
+        // which of the two rules the cascade happens to prefer.
+        --oi-font-size: 1rem;
+        line-height: 1;
+        pointer-events: none;
+        // No rtl: directive and no scaleX(-1) here any more. This span
+        // carries ONLY the slide, and rtlcss flips a plain translateX on
+        // its own - core relies on exactly that for every drawer and
+        // panel slide (burger_menu, popover, dialog all write a bare
+        // translateX(-100%)); the explicit directives in core are for
+        // asymmetric or skewed values, which this is not. Mirroring the
+        // GLYPH is core's job: icons.scss lists arrow_back in
+        // $ms-rtl-icons and applies scaleX(-1) to .o_rtl .oi[data-icon=
+        // "arrow_back"]. Keeping the two transforms on two elements is
+        // what makes that safe - on one element core's rule (0,3,0) and
+        // ours would be rival `transform` declarations and the loser's
+        // would vanish entirely, not merge.
+        transform: translateX(4px);
+        transition: opacity .16s ease-out, transform .16s ease-out;
+    }
+
+    .o_badirra_apps_toggle .o_badirra_waffle {
+        transition: opacity .16s ease-out, transform .22s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    // Only inside an app does the button mean "go back" - on the home menu
+    // itself it is already the current screen, so it keeps the waffle.
+    .o_badirra_apps_toggle.o_badirra_in_app:hover {
+        .o_badirra_waffle {
+            opacity: 0;
+            transform: scale(.7);
+        }
+
+        .o_badirra_back_arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .o_badirra_waffle {
+        display: grid;
+        grid-template-columns: repeat(3, 4px);
+        grid-template-rows: repeat(3, 4px);
+        gap: 2px;
+
+        span {
+            width: 4px;
+            height: 4px;
+            border-radius: 1px;
+            background-color: $o-gray-700;
+            transition: transform .22s cubic-bezier(.34, 1.56, .64, 1), background-color .12s ease-out;
+        }
+    }
+
+    // A light scale/settle animation on press/toggle - not a literal
+    // waffle-to-X morph, just enough motion to read as a deliberate,
+    // polished control (matching Enterprise app-switcher buttons) instead
+    // of a flat, static icon.
+    .o_badirra_apps_toggle:active .o_badirra_waffle span {
+        transform: scale(.8);
+    }
+
+    &.o_badirra_home_menu_active .o_badirra_waffle span {
+        transform: scale(1.15);
+    }
+
+    // While the Badirra home menu is open, the navbar doesn't just hide the
+    // app it left behind - it blends into the home menu entirely, exactly
+    // like Enterprise's own navbar does over its home menu, instead of
+    // staying a solid colored bar sitting on top of it (see navbar.js for
+    // the class toggle). No waffle/text recoloring needed here: the bar's
+    // own per-mode color (light-mode dark text, dark-mode light text)
+    // already matches its own mode's home menu background - nothing to
+    // invert.
+    &.o_badirra_home_menu_active {
+        background-color: transparent;
+
+        // Odoo 20 paints every navbar ENTRY with its own background:
+        //
+        //   .o_nav_entry, .dropdown-toggle:not(...) {
+        //       background: var(--NavBar-entry-backgroundColor,
+        //                       #{$o-navbar-background});
+        //
+        // On 18/19 entries were transparent, so making the bar transparent
+        // over the home menu was enough. Here the bar goes but the entries
+        // stay, leaving the systray icons and the user avatar sitting in
+        // white boxes floating over the home menu.
+        //
+        // Core has the same problem with its own home menu and solves it by
+        // excluding ".o_home_menu_background .o_menu_systray" from that
+        // rule - a class this theme does not use. Rather than restate the
+        // selector and fight it, this sets the custom property core already
+        // reads, which is the supported seam and cascades to every entry.
+        // The hover tint is deliberately left alone: feedback on hover is
+        // still wanted here.
+        --NavBar-entry-backgroundColor: transparent;
+        // Core Odoo also draws a $o-navbar-border-bottom hairline under
+        // .o_main_navbar; left alone it stays visible as a seam across the
+        // page even after the background itself goes transparent.
+        border-bottom-color: transparent;
+        box-shadow: none;
+        // A transparent bar that still RESERVES its normal height in the
+        // page's flow still reads as "there is a bar here, it's just
+        // invisible" rather than "there is no bar". Taking it out of flow
+        // entirely - floating over the home menu content instead of
+        // pushing it down - is what actually gets Enterprise's "no navbar
+        // at all" look. .o_web_client (an ancestor) is already
+        // position:relative, so this anchors to the page as expected.
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+
+        // !important because these elements carry Bootstrap's own
+        // "d-flex"/"d-contents" utility classes (see web.NavBar.xml),
+        // and those utilities are themselves !important - a plain
+        // "display: none" here would silently lose to them.
+        .o_menu_brand,
+        .o_navbar_breadcrumbs,
+        .o_menu_sections {
+            display: none !important;
+        }
+    }
+}

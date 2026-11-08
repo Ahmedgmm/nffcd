@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_peppol_inbound_user,eh.peppol.inbound user,eh.peppol.inbound,eh_account_base.group_eh_user,cru,
+rule_eh_peppol_inbound_company,eh.peppol.inbound: company isolation,eh.peppol.inbound,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_peppol_inbound_upload_user,eh.peppol.inbound.upload user,eh.peppol.inbound.upload,eh_account_base.group_eh_user,crud,
+rule_eh_peppol_inbound_upload_owner,eh.peppol.inbound.upload: own records,eh.peppol.inbound.upload,,crud,"[('create_uid', '=', user.id)]"
+rule_eh_peppol_inbound_upload_company,eh.peppol.inbound.upload: company isolation,eh.peppol.inbound.upload,,crud,"[('company_id', 'in', company_ids)]"

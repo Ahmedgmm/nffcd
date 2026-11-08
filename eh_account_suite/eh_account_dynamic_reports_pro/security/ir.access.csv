@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+rule_eh_report_schedule_owner,eh.report.schedule: ordinary users own rows,eh.report.schedule,eh_account_base.group_eh_user,cru,"[('create_uid', '=', user.id)]"
+rule_eh_report_schedule_owner_1,eh.report.schedule: ordinary users own rows,eh.report.schedule,eh_account_base.group_eh_manager,crud,"[('create_uid', '=', user.id)]"
+rule_eh_report_schedule_manager,eh.report.schedule: managers administer company rows,eh.report.schedule,eh_account_base.group_eh_manager,crud,"[('company_id', 'in', company_ids)]"
+rule_eh_report_schedule_company,eh.report.schedule: global company isolation,eh.report.schedule,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_report_forecast_user,eh.report.forecast.user,eh.report.forecast,eh_account_base.group_eh_user,cru,
+access_eh_report_forecast_manager,eh.report.forecast.manager,eh.report.forecast,eh_account_base.group_eh_manager,crud,
+rule_eh_report_forecast_company,eh.report.forecast: company isolation,eh.report.forecast,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_report_forecast_result_user,eh.report.forecast.result.user,eh.report.forecast.result,eh_account_base.group_eh_user,crd,
+rule_eh_report_forecast_result_owner,eh.report.forecast.result: owner isolation,eh.report.forecast.result,,crud,"[('create_uid', '=', user.id)]"
+access_eh_report_builder_user,eh.report.builder.user,eh.report.builder,eh_account_base.group_eh_user,r,
+access_eh_report_builder_manager,eh.report.builder.manager,eh.report.builder,eh_account_base.group_eh_manager,crud,
+rule_eh_report_builder_company,eh.report.builder: company isolation,eh.report.builder,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_report_builder_line_user,eh.report.builder.line.user,eh.report.builder.line,eh_account_base.group_eh_user,r,
+access_eh_report_builder_line_manager,eh.report.builder.line.manager,eh.report.builder.line,eh_account_base.group_eh_manager,crud,
+rule_eh_report_builder_line_company,eh.report.builder.line: company isolation,eh.report.builder.line,,crud,"[('builder_id.company_id', 'in', company_ids)]"
+rule_eh_dynamic_report_custom_company,eh.account.dynamic.report: global or own companies,eh.account.dynamic.report,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"

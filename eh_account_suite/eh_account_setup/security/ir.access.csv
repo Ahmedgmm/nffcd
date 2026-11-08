@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_setup_task_user,eh.account.setup.task user,eh.account.setup.task,eh_account_base.group_eh_user,r,
+access_eh_setup_task_manager,eh.account.setup.task manager,eh.account.setup.task,eh_account_base.group_eh_manager,crud,
+access_eh_setup_line_user,eh.account.setup.task.line user,eh.account.setup.task.line,eh_account_base.group_eh_user,ru,
+access_eh_setup_line_manager,eh.account.setup.task.line manager,eh.account.setup.task.line,eh_account_base.group_eh_manager,cru,
+rule_setup_task_line_company,eh.account.setup.task.line: company isolation,eh.account.setup.task.line,,crud,"[('company_id', 'in', company_ids)]"

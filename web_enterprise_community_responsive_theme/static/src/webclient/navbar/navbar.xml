@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Replaces the stock desktop apps-menu button (a small dropdown
+         listing app names as text) with a single waffle-grid button that
+         opens the full-screen Badirra home menu - the real Enterprise-style
+         app switcher, not a second icon bolted on next to the original one.
+         The mobile ("isSmall") sidebar branch of web.NavBar.AppsMenu is left
+         untouched: it already gets its own dark/light polish elsewhere. -->
+    <t t-name="web_enterprise_community_responsive_theme.NavBarAppsMenu"
+       t-inherit="web.NavBar.AppsMenu" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_navbar_apps_menu')]" position="replace">
+            <div t-if="!this.isScopedApp" class="o_navbar_apps_menu">
+                <button type="button"
+                        class="o_badirra_apps_toggle btn"
+                        t-att-class="{ o_badirra_in_app: !this.badirraHomeMenu.hasHomeMenu }"
+                        data-hotkey="h"
+                        title="Home Menu"
+                        aria-label="Home Menu"
+                        t-on-click="() => this.onBadirraAppsButtonClick()">
+                    <!-- Waffle grid by default. While inside an app (i.e.
+                         the home menu is NOT the current screen) hovering
+                         the button cross-fades it into a back arrow, since
+                         that is what clicking it does from there - the
+                         same affordance Enterprise/ica_web_responsive give
+                         their app-switcher button. The state comes from
+                         badirraHomeMenu (already proven to resolve
+                         correctly in this template, see NavBarRoot below),
+                         so no core component node has to be replaced.
+
+                         The arrow is an `oi` icon, NOT `fa fa-arrow-left`.
+                         Odoo 20 removed FontAwesome from every asset
+                         bundle - its manifest has no fontawesome entry at
+                         all and core carries zero `fa fa-*` usages - so an
+                         fa class renders nothing, which left this button
+                         showing only its hover box. In the replacement
+                         system one class, .oi, serves two fonts: the glyph
+                         is picked by the data-icon attribute as a font
+                         LIGATURE (icons.scss sets content: attr(data-icon)),
+                         defaulting to Material Symbols and switching to
+                         odoo_ui_icons only for an `oi_`-prefixed name.
+                         `arrow_back` is a Material Symbols name, which is
+                         deliberate: icons.scss lists it in $ms-rtl-icons
+                         and mirrors it automatically under .o_rtl, so we
+                         inherit correct RTL direction instead of hand-
+                         rolling it. That is also why the glyph sits in a
+                         wrapper span - the span owns the slide-in
+                         transform, the <i> owns core's mirror transform,
+                         and the two never overwrite each other. -->
+                    <span class="o_badirra_waffle">
+                        <span/><span/><span/>
+                        <span/><span/><span/>
+                        <span/><span/><span/>
+                    </span>
+                    <span class="o_badirra_back_arrow" aria-hidden="true">
+                        <i class="oi" data-icon="arrow_back"/>
+                    </span>
+                </button>
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Binds the "home menu is open" class directly in the template
+         (t-att-class), evaluated as part of NavBar's own render - the
+         reliable way to react to this.badirraHomeMenu.hasHomeMenu, instead of
+         imperatively toggling classList from an effect/ref after the fact. -->
+    <t t-name="web_enterprise_community_responsive_theme.NavBarRoot"
+       t-inherit="web.NavBar" t-inherit-mode="extension">
+        <xpath expr="//nav[hasclass('o_main_navbar')]" position="attributes">
+            <attribute name="t-att-class">{ o_badirra_home_menu_active: this.badirraHomeMenu.hasHomeMenu }</attribute>
+        </xpath>
+    </t>
+
+</templates>

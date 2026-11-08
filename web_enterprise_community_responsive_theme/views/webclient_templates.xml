@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- The dark flag, the body class and the card classes, set exactly
+         the way web_enterprise sets its own on the login page: by appending
+         t-set nodes after the last one already inside the frontend_layout
+         call (see web_enterprise/views/webclient_templates.xml).
+
+         The earlier version of this override put the theme's class on the
+         <div class="container py-5"> instead. That was wrong twice over.
+         It fought QWeb's attribute compilation - a static class= and a
+         t-attf-class on one node are two writes to the same key, so the
+         dynamic one silently wiped "container py-5" - and, more
+         importantly, the container is simply not where a login background
+         belongs. Enterprise puts it on <body>, which is why theirs covers
+         the viewport without the page needing min-height or flex centring,
+         and why the card keeps its normal place in the flow.
+
+         login_card_classes carries Enterprise's own value. bg-white is
+         dropped in dark mode rather than overridden in CSS: it is a
+         Bootstrap utility, so it lands with !important and would otherwise
+         have to be fought rather than simply not emitted. -->
+    <!-- Odoo 20 changed how a t-call passes values, and the 19 form of
+         this override does not just misbehave here - it fails outright.
+         Where 19 declared them as <t t-set> children of the t-call:
+
+             <t t-call="web.frontend_layout">
+                 <t t-set="body_classname" t-value="'bg-100'"/>
+
+         20 passes them as ATTRIBUTES on the t-call element itself:
+
+             <t t-call="web.frontend_layout"
+                 html_data="{'style': 'height: 100%;'}"
+                 body_classname.f="bg-100" ...>
+
+         so there are no <t> children left for
+         //t[@t-call='web.frontend_layout']/t[last()] to anchor on, and an
+         xpath that matches nothing aborts the whole module install.
+
+         The ".f" suffix is 20's own syntax: ir_qweb compiles
+         attributeName.f through _compile_format, i.e. a format string with
+         {{ }} interpolation, while the bare attribute name is compiled as
+         a Python expression. Both attributes below are set in the .f form
+         that core itself uses, so the conditional lives in {{ }}.
+
+         body_classname has to be an attribute rather than an inner t-set:
+         it is consumed by web.frontend_layout, the template being CALLED,
+         whose values are computed before this content renders. (login_card_
+         classes could go either way, since it is read inside this same
+         content - it is kept as an attribute for consistency.)
+
+         The login page has no session or user yet, so the only signal for
+         the preference is the cookie color_scheme_service.js wrote in a
+         previous session. request.cookies is correct on 20 - verified in
+         odoo/http/requestlib.py. -->
+    <template id="badirra_login_layout" inherit_id="web.login_layout">
+        <xpath expr="//t[@t-call='web.frontend_layout']" position="attributes">
+            <attribute name="body_classname.f">bg-100 o_badirra_login_background {{ 'o_badirra_dark' if request.cookies.get('color_scheme') == 'dark' else '' }}</attribute>
+            <attribute name="login_card_classes.f">rounded-0 shadow-sm {{ '' if request.cookies.get('color_scheme') == 'dark' else 'bg-white' }}</attribute>
+        </xpath>
+    </template>
+
+</odoo>

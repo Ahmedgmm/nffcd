@@ -1,0 +1,25 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_approval_policy_manager,eh.approval.policy.manager,eh.approval.policy,eh_account_base.group_eh_manager,crud,
+access_eh_approval_policy_auditor,eh.approval.policy.auditor,eh.approval.policy,eh_account_base.group_eh_auditor,r,
+access_eh_approval_policy_accounting,eh.approval.policy.accounting,eh.approval.policy,account.group_account_invoice,r,
+rule_eh_approval_policy_company,eh.approval.policy: company isolation,eh.approval.policy,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_approval_policy_rule_manager,eh.approval.policy.rule.manager,eh.approval.policy.rule,eh_account_base.group_eh_manager,crud,
+access_eh_approval_policy_rule_auditor,eh.approval.policy.rule.auditor,eh.approval.policy.rule,eh_account_base.group_eh_auditor,r,
+access_eh_approval_policy_rule_accounting,eh.approval.policy.rule.accounting,eh.approval.policy.rule,account.group_account_invoice,r,
+rule_eh_approval_policy_rule_company,eh.approval.policy.rule: company isolation,eh.approval.policy.rule,,crud,"[('policy_id.company_id', 'in', company_ids)]"
+access_eh_approval_policy_rule_step_manager,eh.approval.policy.rule.step.manager,eh.approval.policy.rule.step,eh_account_base.group_eh_manager,crud,
+access_eh_approval_policy_rule_step_auditor,eh.approval.policy.rule.step.auditor,eh.approval.policy.rule.step,eh_account_base.group_eh_auditor,r,
+access_eh_approval_policy_step_accounting,eh.approval.policy.rule.step.accounting,eh.approval.policy.rule.step,account.group_account_invoice,r,
+rule_eh_approval_policy_rule_step_company,eh.approval.policy.rule.step: company isolation,eh.approval.policy.rule.step,,crud,"[('rule_id.policy_id.company_id', 'in', company_ids)]"
+access_eh_approval_request_user,eh.approval.request.user,eh.approval.request,eh_account_base.group_eh_user,cru,
+access_eh_approval_request_manager,eh.approval.request.manager,eh.approval.request,eh_account_base.group_eh_manager,crud,
+access_eh_approval_request_auditor,eh.approval.request.auditor,eh.approval.request,eh_account_base.group_eh_auditor,r,
+access_eh_approval_request_accounting,eh.approval.request.accounting,eh.approval.request,account.group_account_invoice,ru,
+rule_eh_approval_request_company,eh.approval.request: company isolation,eh.approval.request,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_approval_log_auditor,eh.approval.log.auditor,eh.approval.log,eh_account_base.group_eh_auditor,r,
+access_eh_approval_log_accounting,eh.approval.log.accounting,eh.approval.log,account.group_account_invoice,r,
+rule_eh_approval_log_company,eh.approval.log: company isolation,eh.approval.log,,crud,"[('request_id.company_id', 'in', company_ids)]"
+access_eh_approval_vote_auditor,eh.approval.vote.auditor,eh.approval.vote,eh_account_base.group_eh_auditor,r,
+access_eh_approval_vote_accounting,eh.approval.vote.accounting,eh.approval.vote,account.group_account_invoice,r,
+rule_eh_approval_vote_company,eh.approval.vote: company isolation,eh.approval.vote,,crud,"[('request_id.company_id', 'in', company_ids)]"
+access_eh_approval_decision_wizard,eh.approval.decision.wizard,eh.approval.decision.wizard,base.group_user,crud,

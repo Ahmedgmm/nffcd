@@ -1,0 +1,59 @@
+$citadel-colors: (
+    teal: (#e1f5ee, #9fe1cb, #0f6e56, #085041),
+    purple: (#eeedfe, #cecbf6, #534ab7, #3c3489),
+    coral: (#faece7, #f5c4b3, #993c1d, #712b13),
+    amber: (#faeeda, #fac775, #854f0b, #633806),
+);
+
+.o_citadel_approval_timeline {
+    display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; direction: rtl;
+    .o_citadel_approval_step { display: flex; flex: 1 1 210px; align-items: flex-start; gap: 9px; min-width: 0; padding: 10px 12px; border: 1px solid #dedbd3; border-radius: 9px; background: #fafaf8; }
+    .o_citadel_approval_icon { display: inline-flex; flex: 0 0 25px; align-items: center; justify-content: center; width: 25px; height: 25px; border-radius: 50%; font-size: 12px; }
+    strong, span, small { display: block; } strong { font-size: 13px; color: #30302d; } span:not(.o_citadel_approval_icon) { margin-top: 2px; color: #6c6a65; font-size: 12px; line-height: 1.35; }
+    .o_citadel_approval_request { margin-bottom: 3px; color: #0f6e56; font-size: 11px; font-weight: 600; }
+    .is-approved { border-color: #9fe1cb; background: #f1faf6; .o_citadel_approval_icon { background: #0f6e56; color: #fff; } }
+    .is-current { border: 2px solid #0f6e56; background: #eaf7f1; box-shadow: 0 1px 3px rgba(15, 110, 86, .12); .o_citadel_approval_icon { background: #e1f5ee; color: #0f6e56; } }
+    .is-waiting { opacity: .76; .o_citadel_approval_icon { background: #eceae5; color: #77736b; } }
+}
+
+.o_citadel_dashboard {
+    min-height: 100%; padding: 20px; background: #fafaf8; color: #30302d;
+    .o_citadel_loading { padding: 48px; color: #5f5e5a; text-align: center; }
+    .o_citadel_titlebar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+    h1 { margin: 0; font-size: 22px; font-weight: 600; } .o_citadel_company { color: #6c6a65; font-size: 13px; margin-top: 3px; }
+    .o_citadel_waiting { white-space: nowrap; } .o_citadel_waiting span { margin-right: 5px; font-weight: 700; }
+    .o_citadel_cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .o_citadel_card { border: 1px solid transparent; border-radius: 12px; padding: 13px 15px; text-align: right; cursor: pointer; transition: border-color .15s, transform .15s; color: inherit;
+        &:hover { transform: translateY(-2px); } &.o_citadel_active { box-shadow: 0 0 0 2px rgba(15, 110, 86, .14); }
+    }
+    .o_citadel_card_head { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+    .o_citadel_card_stats { display: flex; gap: 5px; margin-top: 5px; font-size: 12px; }
+    .o_citadel_card_foot { min-height: 21px; margin-top: 8px; } .o_citadel_pill { display: inline-block; padding: 2px 8px; background: #fff; border-radius: 10px; font-size: 11px; }
+    .o_citadel_flow_panel { background: #fff; border: 1px solid #e8e6df; border-radius: 12px; padding: 16px; overflow: hidden; }
+    .o_citadel_flow_header { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;
+        h3 { margin: 0; font-size: 17px; font-weight: 600; } small { color: #6c6a65; font-size: 12px; }
+    }
+    .o_citadel_actions { display: flex; gap: 7px; align-items: center; margin-right: auto; } .o_citadel_actions select { width: 270px; }
+    // Explicit geometry: the first DOM node is at the right, then the flow progresses left.
+    .o_citadel_flow { direction: ltr; display: flex; flex-direction: row-reverse; justify-content: center; align-items: stretch; gap: 7px; overflow-x: auto; margin-top: 20px; padding: 20px 14px 16px; }
+    .o_citadel_arrow { position: relative; align-self: center; flex: 0 0 42px; height: 22px;
+        &::before { content: ""; position: absolute; top: 10px; right: 2px; left: 10px; height: 2px; background: #0f6e56; border-radius: 2px; }
+        &::after { content: ""; position: absolute; top: 6px; left: 1px; width: 9px; height: 9px; border-bottom: 2px solid #0f6e56; border-left: 2px solid #0f6e56; transform: rotate(45deg); }
+    }
+    .o_citadel_node { direction: rtl; text-align: right; flex: 1 1 160px; min-width: 150px; max-width: 280px; padding: 8px 10px; border: 1px solid; border-radius: 9px; overflow: hidden; }
+    .o_citadel_node_title { display: flex; align-items: center; gap: 7px; } .o_citadel_node_title b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+    .o_citadel_badge { display: inline-flex; align-items: center; justify-content: center; min-width: 23px; height: 23px; padding: 0 5px; border-radius: 50%; font-size: 10px; font-weight: 700; }
+    .o_citadel_node small, .o_citadel_holders { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; } .o_citadel_node small { margin-top: 4px; } .o_citadel_holders { margin-top: 2px; }
+    .o_citadel_endpoint { flex: 0 0 118px; min-width: 118px; background: #f1efe8; border-color: #d3d1c7; display: flex; flex-direction: column; justify-content: center; } .o_citadel_endpoint small { color: #5f5e5a; } .o_citadel_endpoint b { font-size: 12px; }
+    .o_citadel_flow_start { border-right: 3px solid #0f6e56; } .o_citadel_flow_end { border-left: 3px solid #198754; }
+    .o_citadel_inform { background: #fff8e6 !important; border-color: #fac775 !important; } .o_citadel_warning { box-shadow: inset 0 0 0 1px #ef9f27; }
+    .o_citadel_flow_meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 11px; color: #5f5e5a; font-size: 12px; } .o_citadel_empty { padding: 26px 4px; color: #5f5e5a; text-align: center; }
+    @each $name, $c in $citadel-colors {
+        .o_citadel_#{$name}.o_citadel_card { background: nth($c, 1); color: nth($c, 4); .fa, .o_citadel_card_stats, .o_citadel_pill { color: nth($c, 3); } &.o_citadel_active { border-color: nth($c, 3); } &:hover { border-color: nth($c, 2); } }
+        .o_citadel_#{$name}.o_citadel_flow_panel h3 { color: nth($c, 4); }
+        .o_citadel_#{$name} .o_citadel_node:not(.o_citadel_endpoint) { background: nth($c, 1); border-color: nth($c, 3); color: nth($c, 4); .o_citadel_badge { background: nth($c, 2); } .o_citadel_node small, .o_citadel_holders { color: nth($c, 3); } }
+    }
+    @media (max-width: 900px) { .o_citadel_cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 620px) { padding: 14px; .o_citadel_titlebar, .o_citadel_flow_header { align-items: stretch; flex-direction: column; } .o_citadel_actions { margin-right: 0; flex-wrap: wrap; } .o_citadel_actions select { width: 100%; } }
+}
+

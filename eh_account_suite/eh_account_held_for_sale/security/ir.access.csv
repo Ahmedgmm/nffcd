@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_held_for_sale_user,eh.held.for.sale.user,eh.held.for.sale,eh_account_base.group_eh_user,cru,
+access_eh_held_for_sale_manager,eh.held.for.sale.manager,eh.held.for.sale,eh_account_base.group_eh_manager,crud,
+access_eh_held_for_sale_auditor,eh.held.for.sale.auditor,eh.held.for.sale,eh_account_base.group_eh_auditor,r,
+rule_eh_held_for_sale_company,eh.held.for.sale: company isolation,eh.held.for.sale,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_disposal_group_user,eh.disposal.group.user,eh.disposal.group,eh_account_base.group_eh_user,cru,
+access_eh_disposal_group_manager,eh.disposal.group.manager,eh.disposal.group,eh_account_base.group_eh_manager,crud,
+access_eh_disposal_group_auditor,eh.disposal.group.auditor,eh.disposal.group,eh_account_base.group_eh_auditor,r,
+rule_eh_disposal_group_company,eh.disposal.group: company isolation,eh.disposal.group,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_disposal_group_line_user,eh.disposal.group.line.user,eh.disposal.group.line,eh_account_base.group_eh_user,crud,
+access_eh_disposal_group_line_auditor,eh.disposal.group.line.auditor,eh.disposal.group.line,eh_account_base.group_eh_auditor,r,
+rule_eh_disposal_group_line_company,eh.disposal.group.line: company isolation,eh.disposal.group.line,,crud,"[('group_id.company_id', 'in', company_ids)]"

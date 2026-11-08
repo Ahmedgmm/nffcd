@@ -1,0 +1,61 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark-mode ink for the Sales dashboard cards (sale/static/src/js/dashboard).
+//
+// Core's own dashboard.dark.scss adapts the four cards for dark mode by
+// overriding only their BACKGROUND custom properties, moving each pastel
+// from the 100 to the 200 level. It leaves the ink properties alone, and
+// that is where dark mode comes apart:
+//
+//   * The figure, .o_dashboard_card_data, keeps the 700 ink. Measured on
+//     the running server that is 4.26:1 for orange and 3.75:1 for cyan -
+//     both short of 4.5:1.
+//   * The LABEL ("To Confirm", "To Deliver", "To Invoice") is a bare
+//     <span> inside a card that also carries Bootstrap's `.btn` class, so
+//     it takes `--btn-color`, which core never sets per card. In a light
+//     page that resolves to dark body text and looks correct by accident.
+//     In a dark one it resolves to the light body text, putting near-white
+//     on a pale pastel: 1.26 for orange, 1.16 for cyan, 1.58 for red and
+//     1.64 for purple. Those were the worst readings in the whole page
+//     after the date button.
+//
+// Both are corrected through core's own extension points rather than by
+// out-specifying its rules - the same custom properties its dark file
+// already uses for the backgrounds. Moving the ink to the 800 level lifts
+// all four to 6.64-8.05:1, and pointing --btn-color at that same property
+// keeps the label and the figure identical instead of merely both legible.
+.o_dashboard_card {
+    --DashboardCard__purple-color: #{$purple-800};
+    --DashboardCard__cyan-color:   #{$cyan-800};
+    --DashboardCard__orange-color: #{$orange-800};
+    --DashboardCard__red-color:    #{$red-800};
+
+    // Hover and active are restated too: without them the button variables
+    // fall back to the default light ink the moment the pointer lands, and
+    // the card would flash unreadable exactly when it is being used.
+    &.o_dashboard_card_purple {
+        --btn-color:        var(--DashboardCard__purple-color);
+        --btn-hover-color:  var(--DashboardCard__purple-color--active, #{$purple-800});
+        --btn-active-color: var(--DashboardCard__purple-color--active, #{$purple-800});
+    }
+
+    &.o_dashboard_card_cyan {
+        --btn-color:        var(--DashboardCard__cyan-color);
+        --btn-hover-color:  var(--DashboardCard__cyan-color--active, #{$cyan-800});
+        --btn-active-color: var(--DashboardCard__cyan-color--active, #{$cyan-800});
+    }
+
+    &.o_dashboard_card_orange {
+        --btn-color:        var(--DashboardCard__orange-color);
+        --btn-hover-color:  var(--DashboardCard__orange-color--active, #{$orange-800});
+        --btn-active-color: var(--DashboardCard__orange-color--active, #{$orange-800});
+    }
+
+    &.o_dashboard_card_red {
+        --btn-color:        var(--DashboardCard__red-color);
+        --btn-hover-color:  var(--DashboardCard__red-color--active, #{$red-800});
+        --btn-active-color: var(--DashboardCard__red-color--active, #{$red-800});
+    }
+}

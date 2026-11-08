@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_citadel_authority_root" name="الصلاحيات"
+              action="action_citadel_authority_dashboard" sequence="75"
+              web_icon="citadel_authority,static/description/icon.png"
+              groups="citadel_authority.group_citadel_authority_user"/>
+    <menuitem id="menu_citadel_authority_overview" name="نظرة عامة"
+              parent="menu_citadel_authority_root" action="action_citadel_authority_dashboard" sequence="1"/>
+    <menuitem id="menu_citadel_authority_waiting" name="بانتظار اعتمادي"
+              parent="menu_citadel_authority_root" action="action_citadel_authority_waiting" sequence="10"/>
+    <menuitem id="menu_citadel_authority_requests" name="سجل الاعتمادات"
+              parent="menu_citadel_authority_root" action="action_citadel_authority_request" sequence="20"/>
+    <menuitem id="menu_citadel_authority_delegations" name="تفويضاتي"
+              parent="menu_citadel_authority_root" action="action_citadel_authority_delegation" sequence="30"/>
+    <menuitem id="menu_citadel_authority_configuration" name="الإعدادات"
+              parent="menu_citadel_authority_root" sequence="80"
+              groups="citadel_authority.group_citadel_authority_manager"/>
+    <menuitem id="menu_citadel_authority_policies" name="مصفوفة الصلاحيات"
+              parent="menu_citadel_authority_configuration" action="action_citadel_authority_policy" sequence="10"/>
+    <menuitem id="menu_citadel_authority_roles" name="الأدوار"
+              parent="menu_citadel_authority_configuration" action="action_citadel_authority_role" sequence="20"/>
+    <menuitem id="menu_citadel_authority_all_delegations" name="جميع التفويضات"
+              parent="menu_citadel_authority_configuration" action="action_citadel_authority_delegation_manage" sequence="30"/>
+</odoo>
+

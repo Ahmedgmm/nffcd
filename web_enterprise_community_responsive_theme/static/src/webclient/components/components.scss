@@ -1,0 +1,183 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Light-mode refinements for small, cross-view Bootstrap/Odoo widgets that
+// don't have a dedicated component of their own in this theme (dropdowns,
+// popovers, notebook tabs, tag chips, the form button-box and the search
+// panel/facets). Kept together so every one of them gets a dark-mode
+// companion in components.dark.scss.
+
+// ---- Dropdown menus -----------------------------------------------------
+.dropdown-menu {
+    padding: .375rem;
+    border: 1px solid $o-gray-200;
+
+    .dropdown-item {
+        border-radius: .375rem;
+        padding: .4rem .75rem;
+
+        &:hover, &:focus {
+            background-color: $o-gray-100;
+        }
+
+        &.active, &:active {
+            background-color: rgba($o-brand-badirra-accent, .12);
+            color: $o-brand-badirra;
+        }
+    }
+
+    .dropdown-divider {
+        border-color: $o-gray-200;
+    }
+}
+
+// ---- Popovers -------------------------------------------------------------
+.popover {
+    border: 1px solid $o-gray-200;
+
+    .popover-header {
+        background-color: $o-gray-100;
+        border-bottom-color: $o-gray-200;
+        font-weight: 600;
+    }
+}
+
+// ---- Notebook / tabs -------------------------------------------------------
+.o_notebook {
+    .nav-tabs {
+        border-bottom: 1px solid $o-gray-200;
+
+        .nav-link {
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: $o-gray-600;
+            padding: .625rem 1rem;
+            font-weight: 500;
+            transition: color .12s ease-in-out, border-color .12s ease-in-out;
+
+            &:hover {
+                color: $o-brand-badirra;
+                border-bottom-color: $o-gray-300;
+            }
+
+            &.active {
+                color: $o-brand-badirra;
+                border-bottom-color: $o-brand-badirra-accent;
+                background: transparent;
+            }
+        }
+    }
+}
+
+// ---- Tags / colorlist chips -----------------------------------------------
+.o_tag,
+.o_field_tags .o_tag {
+    border-radius: .875rem;
+    border: none;
+    font-weight: 500;
+}
+
+// Odoo 20 rebuilt the colour list. The entries are plain <button>s (the
+// o-colorlist mixin is invoked as o-colorlist("button", "&")), the
+// selected one is marked .active rather than o_colorlist_item_selected,
+// and the marker it draws is a Material Symbols "check" glyph tinted with
+// `color` - there is no border on it to recolour. Core already rounds the
+// swatches via --ColorListField-Entry-borderRadius, so the old
+// border-radius rule is dropped rather than restated.
+.o_colorlist {
+    button.active::after {
+        color: $o-brand-badirra;
+    }
+}
+
+// ---- Form button-box --------------------------------------------------
+.oe_button_box {
+    .oe_stat_button {
+        border-radius: .375rem;
+        transition: background-color .12s ease-in-out;
+
+        &:hover {
+            background-color: $o-gray-100;
+        }
+
+        .o_stat_value {
+            color: $o-brand-badirra;
+            font-weight: 600;
+        }
+
+        .o_stat_text {
+            color: $o-gray-600;
+        }
+    }
+}
+
+// ---- Search panel / facets --------------------------------------------
+.o_searchview {
+    // Matches the home menu's search field so the interaction feels like
+    // one control across the product: accent ring + magnifier animation on
+    // focus. :focus-within because focus lands on the inner input, while
+    // the ring belongs to this wrapper. Colours come from the accent
+    // variable, which each mode already redefines, so this single rule
+    // serves both light and dark without a .dark.scss counterpart.
+    transition: border-color .2s ease-out, box-shadow .22s ease-out;
+
+    &:focus-within {
+        border-color: $o-brand-badirra-accent;
+        box-shadow: 0 0 0 .2rem rgba($o-brand-badirra-accent, .16);
+
+        .o_searchview_icon {
+            color: $o-brand-badirra-accent;
+            transform: scale(1.15) rotate(-8deg);
+        }
+    }
+
+    .o_searchview_icon {
+        transition: color .2s ease-out, transform .22s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    // Facets animate in rather than snapping, so adding/removing a filter
+    // reads as a deliberate change instead of a jump.
+    .o_searchview_facet {
+        border-radius: .375rem;
+        border: 1px solid $o-gray-300;
+        overflow: hidden;
+        animation: o-badirra-facet-in .18s cubic-bezier(.34, 1.56, .64, 1);
+
+        .o_searchview_facet_label {
+            background-color: $o-gray-100;
+            color: $o-gray-700;
+        }
+    }
+}
+
+@keyframes o-badirra-facet-in {
+    from {
+        opacity: 0;
+        transform: scale(.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.o_search_panel {
+    background-color: $o-view-background-color;
+    border-right: 1px solid $o-gray-200;
+
+    .o_search_panel_category_value,
+    .o_search_panel_filter_value {
+        border-radius: .375rem;
+
+        &.active, &.o_selected {
+            background-color: rgba($o-brand-badirra-accent, .12);
+            color: $o-brand-badirra;
+            font-weight: 600;
+        }
+
+        &:hover {
+            background-color: $o-gray-100;
+        }
+    }
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_partner_form_eh_credit" model="ir.ui.view">
+        <field name="name">res.partner.form.eh_credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='credit_limit']" position="attributes">
+                <attribute name="groups">eh_account_base.group_eh_manager</attribute>
+            </xpath>
+            <xpath expr="//field[@name='use_partner_credit_limit']" position="attributes">
+                <attribute name="groups">eh_account_base.group_eh_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='accounting']" position="inside">
+                <group string="Credit policy">
+                    <group invisible="parent_id">
+                        <field name="eh_credit_limit"
+                               widget="monetary"
+                               options="{'currency_field': 'eh_credit_exposure_currency_id'}"
+                               groups="eh_account_base.group_eh_manager"/>
+                        <field name="eh_credit_limit_review_count" invisible="1" groups="eh_account_base.group_eh_manager"/>
+                        <button name="action_review_credit_limits" type="object" string="Review Credit Limit Conflict" class="btn-warning" invisible="not eh_credit_limit_review_count" groups="eh_account_base.group_eh_manager"/>
+                        <field name="eh_credit_policy_company_id"
+                               invisible="1"
+                               groups="eh_account_base.group_eh_manager"/>
+                        <field name="eh_credit_policy_id"
+                               options="{'no_create': True}"
+                               groups="eh_account_base.group_eh_manager"/>
+                        <field name="eh_credit_legacy_config_quarantine"
+                               readonly="1"
+                               invisible="not eh_credit_legacy_config_quarantine"
+                               groups="eh_account_base.group_eh_manager"/>
+                        <field name="eh_effective_credit_limit"
+                               widget="monetary" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="eh_credit_exposure"
+                               widget="monetary" readonly="1"/>
+                        <field name="eh_credit_status" widget="badge"
+                               decoration-success="eh_credit_status == 'ok'"
+                               decoration-warning="eh_credit_status == 'warn'"
+                               decoration-danger="eh_credit_status == 'over'"
+                               decoration-muted="eh_credit_status == 'disabled'"/>
+                    </group>
+                </group>
+                <p class="text-muted">
+                    Native Odoo warnings and EH posting controls use this same credit limit. All policies share the native company default; set specific terms on the commercial customer. A zero customer limit disables the amount check. Status flips to Warning above 80 percent of the limit and Over above 100 percent. Posting a customer invoice in Over state requires a manager override unless the policy is in warn-only mode.
+                </p>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        Load this base-partner extension after the accounting-page extension.
+        During upgrades Odoo validates all existing descendant views each time
+        a parent view changes. The accounting-page view must therefore already
+        contain the helper used by eh_credit_policy_id's company domain.
+
+        Status badge flips colour at 80%/100% thresholds so a buyer sees
+        credit risk at a glance.
+    -->
+    <record id="view_partner_form_eh_credit_button" model="ir.ui.view">
+        <field name="name">res.partner.form.eh_credit_button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_eh_credit_status"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="credit_card"
+                        title="Credit status and override history"
+                        groups="account.group_account_invoice"
+                        invisible="eh_credit_status == 'disabled'">
+                    <div class="o_stat_info">
+                        <field name="eh_credit_status"
+                               widget="badge"
+                               decoration-success="eh_credit_status == 'ok'"
+                               decoration-warning="eh_credit_status == 'warn'"
+                               decoration-danger="eh_credit_status == 'over'"/>
+                        <span class="o_stat_text">Credit</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

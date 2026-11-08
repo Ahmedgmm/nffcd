@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_citadel_authority_role_list" model="ir.ui.view">
+        <field name="name">citadel.authority.role.list</field>
+        <field name="model">citadel.authority.role</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="resolver"/>
+                <field name="user_ids" widget="many2many_tags_avatar" invisible="resolver != 'users'"/>
+                <field name="group_id" invisible="resolver != 'group'"/>
+                <field name="required_group_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_citadel_authority_role_form" model="ir.ui.view">
+        <field name="name">citadel.authority.role.form</field>
+        <field name="model">citadel.authority.role</field>
+        <field name="arch" type="xml">
+            <form string="دور الصلاحية">
+                <sheet>
+                    <widget name="web_ribbon" title="مؤرشف" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="resolver"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="True"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="required_group_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="user_ids" widget="many2many_tags_avatar" invisible="resolver != 'users'"/>
+                    <field name="group_id" options="{'no_create': True}" invisible="resolver != 'group'"/>
+                    <field name="description" string="الوصف" placeholder="المسؤوليات والملاحظات..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_citadel_authority_role" model="ir.actions.act_window">
+        <field name="name">أدوار الصلاحيات</field>
+        <field name="res_model">citadel.authority.role</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
+

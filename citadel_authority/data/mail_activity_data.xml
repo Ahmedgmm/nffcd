@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_activity_citadel_approval" model="mail.activity.type">
+        <field name="name">Citadel Approval</field>
+        <field name="summary">Approve document</field>
+        <field name="category">default</field>
+        <field name="res_model">citadel.authority.request</field>
+        <field name="icon">fa-shield</field>
+        <field name="delay_count">0</field>
+        <field name="delay_unit">days</field>
+    </record>
+    <record id="sequence_citadel_authority_request" model="ir.sequence">
+        <field name="name">Authority Request</field>
+        <field name="code">citadel.authority.request</field>
+        <field name="prefix">CA/%(year)s/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>
+

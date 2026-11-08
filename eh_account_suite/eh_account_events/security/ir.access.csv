@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_accounting_change_user,eh.accounting.change.user,eh.accounting.change,eh_account_base.group_eh_user,crud,
+access_eh_accounting_change_auditor,eh.accounting.change.auditor,eh.accounting.change,eh_account_base.group_eh_auditor,r,
+rule_eh_accounting_change_company,eh.accounting.change: company isolation,eh.accounting.change,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_accounting_change_line_user,eh.accounting.change.line.user,eh.accounting.change.line,eh_account_base.group_eh_user,crud,
+access_eh_accounting_change_line_auditor,eh.accounting.change.line.auditor,eh.accounting.change.line,eh_account_base.group_eh_auditor,r,
+rule_eh_accounting_change_line_company,eh.accounting.change.line: company isolation,eh.accounting.change.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_subsequent_event_user,eh.subsequent.event.user,eh.subsequent.event,eh_account_base.group_eh_user,crud,
+access_eh_subsequent_event_auditor,eh.subsequent.event.auditor,eh.subsequent.event,eh_account_base.group_eh_auditor,r,
+rule_eh_subsequent_event_company,eh.subsequent.event: company isolation,eh.subsequent.event,,crud,"[('company_id', 'in', company_ids)]"

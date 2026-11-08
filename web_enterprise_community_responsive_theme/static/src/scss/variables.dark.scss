@@ -1,0 +1,188 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark-mode palette. Injected immediately BEFORE variables.scss (see the
+// 'web.dark_mode_variables' bundle in __manifest__.py) so that - because
+// every value in both files is declared '!default', and SCSS '!default'
+// does nothing once a variable already has a value - these win and the
+// entire bundle, core Odoo stylesheets included, compiles against them.
+//
+// This file must therefore be SELF-CONTAINED: it loads first, so it can
+// only reference variables it has already defined itself, never anything
+// from variables.scss.
+
+// ---- Brand identity -------------------------------------------------------
+// Same navy, but a brighter accent/gold so they keep enough contrast
+// against dark surfaces.
+$o-brand-badirra:        #1B2E4B !default;
+$o-brand-badirra-accent: #22C7B8 !default;
+$o-brand-badirra-gold:   #E8B85C !default;
+
+// ---- White / black (MIRRORED) ---------------------------------------------
+// These must be mirrored for the same reason the gray scale is, and
+// missing them is why the search-panel collapse button stayed a white
+// box in dark mode: core builds the ".btn-light" variant from
+// $o-white (primary_variables.scss's $o-btns-bs-override "light" entry),
+// and core's own bootstrap_overridden.scss then does
+// "$white: $o-white !default" - so Bootstrap's entire $white, every
+// ".bg-white"/".text-white" utility and every "rgba($o-black, …)"
+// overlay tracks these two. ica_web_responsive mirrors them the same way.
+//
+// $o-white is given the view surface tone rather than pure black so that
+// anything asking for a "white" panel renders as our dark card colour
+// rather than a hole punched in the UI.
+$o-white: #171B24 !default;
+$o-black: #FFFFFF !default;
+
+// ---- Neutral scale (MIRRORED) ---------------------------------------------
+// Deliberately inverted relative to variables.scss: here 100 is the DARKEST
+// and 900 the LIGHTEST. Core Odoo stylesheets use the low end for surfaces
+// and the high end for text (e.g. "color: $o-gray-800" on body copy,
+// "background-color: $o-gray-100" on panels); mirroring the scale therefore
+// flips every one of those to the correct dark-mode rendering without
+// needing a hand-written override per component. Anything in this module's
+// own *.dark.scss files reads the scale with this same mirrored meaning.
+$o-gray-100: #12151C !default; // darkest - app background
+$o-gray-200: #1B1F29 !default;
+$o-gray-300: #262B38 !default;
+$o-gray-400: #3A4150 !default;
+$o-gray-500: #6B707F !default; // mid grey - same role in both modes
+$o-gray-600: #8C93A1 !default;
+$o-gray-700: #AEB4C0 !default;
+$o-gray-800: #D2D6DE !default;
+$o-gray-900: #ECEEF2 !default; // lightest - primary text
+
+// ---- Core action / brand hooks -----------------------------------------
+// GENERAL RULE (not a per-module patch): any brand hook that Odoo or an
+// addon may use as a FOREGROUND colour - text, icons, small accents - 
+// must be light enough to read on a dark surface. Left to fall through to
+// variables.scss these would all resolve to the brand navy (#1B2E4B),
+// which against the dark view background (#171B24) is essentially
+// invisible. This is the single systemic cause of "dark navy text on a
+// dark card" anywhere in the product, including in addons like `account`
+// that ship no dark-mode assets of their own (verified: account/sale/
+// stock have zero dark entries in their manifests - only `mail` does),
+// so fixing it here fixes them all at once rather than module by module.
+//
+// $o-brand-badirra itself deliberately stays the true navy above: it is
+// still the right colour for BACKGROUNDS and gradients (the home menu
+// wash, primary buttons), which is a different job from foreground text.
+$o-brand-badirra-fg: #5B84C4 !default; // navy, lightened for dark surfaces
+
+// Links, and everything Bootstrap derives from them - notably .btn-link,
+// which core wires to `--btn-color: var(--link-color)`.
+//
+// Core computes this as `darken($o-brand-primary, 5%)` in
+// primary_variables.scss. That is right for a light page and exactly
+// backwards for a dark one: it darkens a FOREGROUND colour against a
+// background that is already dark. Measured on the running server, the
+// result (#4876BD) reached only 3.78:1 on the view background and 2.93:1
+// on the navbar, against a 4.5:1 requirement - which is why "Add Line",
+// "Add Section", "Add Note" and every plain link read as dim.
+//
+// Lightening the same brand blue instead, by the same kind of small step,
+// keeps the hue and gives 6.94 / 7.35 / 6.63 / 5.38 on the view, app,
+// panel and navbar surfaces. 8% was the first value to pass at all (4.71
+// worst case) and was rejected for sitting on the threshold.
+$o-main-link-color: lighten($o-brand-badirra-fg, 12%) !default;
+
+$o-brand-odoo:       $o-brand-badirra-fg !default;
+$o-brand-primary:    $o-brand-badirra-fg !default;
+$o-enterprise-color: $o-brand-badirra-fg !default;
+
+$o-brand-secondary: $o-brand-badirra-accent !default;
+$o-action:          $o-brand-badirra-accent !default;
+$o-component-active-color: $o-brand-badirra-accent !default;
+$o-enterprise-action-color: $o-brand-badirra-accent !default;
+
+$o-webclient-background-color: $o-gray-100 !default;
+$o-view-background-color: #171B24 !default;
+
+// ---- Navbar ---------------------------------------------------------------
+// Dark charcoal bar with light text - the counterpart to variables.scss's
+// light bar. Written as a literal (not derived from the grays) so the bar
+// keeps its own deliberate tone rather than tracking the surface scale.
+$o-navbar-background: #2B2F3A !default;
+// $o-navbar-border-bottom is GONE in Odoo 20 - the variable no longer
+// exists and the navbar draws no bottom border of its own (verified against
+// navbar.variables.scss and navbar.scss). Setting it here would be inert,
+// so the hairline this theme wants is drawn directly in
+// webclient/navbar/navbar.scss instead.
+$o-navbar-entry-color: rgba(255, 255, 255, .85) !default;
+$o-navbar-entry-color--hover: #FFFFFF !default;
+$o-navbar-brand-color: rgba(255, 255, 255, .92) !default;
+
+// ---- Bootstrap theme colors --------------------------------------------
+$primary:   $o-brand-badirra-accent !default;
+$secondary: $o-gray-600 !default;
+$light:     $o-gray-200 !default;
+$dark:      $o-gray-900 !default;
+
+// ---- Buttons --------------------------------------------------------------
+// variables.scss builds these maps from $o-brand-badirra (the true navy).
+// A navy button on the dark view background (#171B24) is barely
+// distinguishable from the surface it sits on - the reason the "New" /
+// "Activate" buttons read as almost invisible in dark mode. Rebuild the
+// maps here against the lightened brand colour so primary buttons stay
+// clearly separated from the background, keeping the exact key set
+// variables.scss documents as mandatory (a missing state resolves to null
+// and crashes Bootstrap's button-variant() mixin at compile time).
+$o-btns-bs-override: (
+  "primary": (
+    background: $o-brand-badirra-fg,
+    border: $o-brand-badirra-fg,
+    color: #FFFFFF,
+
+    hover-background: lighten($o-brand-badirra-fg, 7%),
+    hover-border: lighten($o-brand-badirra-fg, 7%),
+    hover-color: #FFFFFF,
+
+    active-background: darken($o-brand-badirra-fg, 7%),
+    active-border: darken($o-brand-badirra-fg, 7%),
+    active-color: #FFFFFF,
+  ),
+) !default;
+$o-btns-bs-outline-override: (
+  "primary": (
+    background: transparent,
+    border: $o-brand-badirra-fg,
+    color: $o-brand-badirra-fg,
+
+    hover-background: $o-brand-badirra-fg,
+    hover-border: $o-brand-badirra-fg,
+    hover-color: #FFFFFF,
+
+    active-background: darken($o-brand-badirra-fg, 7%),
+    active-border: darken($o-brand-badirra-fg, 7%),
+    active-color: #FFFFFF,
+  ),
+) !default;
+
+// Tell the BROWSER the page is dark, so everything the UA paints itself -
+// unstyled controls, scrollbars, the inside of form widgets, date pickers -
+// is drawn from a dark palette instead of a light one.
+//
+// Setting it on `body` alone is not enough, and this was silently defeated
+// until now. webclient.scss applies `color-scheme: $o-webclient-color-scheme`
+// to `.o_web_client`, and core's default for that is the word `bright`.
+// `bright` is not a known scheme, but the `color-scheme` grammar accepts a
+// <custom-ident>, so the declaration is perfectly valid - it simply matches
+// nothing and the browser falls back to light. Being valid is the damaging
+// part: it applies to a descendant of body and therefore OVERRIDES the
+// dark value inherited from it, for the entire webclient.
+//
+// The symptom that exposed this: the Sales dashboard's date button is
+// markup with no `.btn` class at all -
+//     <button class="border-0 bg-transparent fw-normal">
+// so nothing gives it a colour and it fell back to the UA's `buttontext`,
+// which under a light scheme is pure black. Measured at 1.22:1 against the
+// dark view background - the worst contrast anywhere in the page.
+//
+// Setting the variable rather than fighting the rule: this file is injected
+// before core's primary_variables.scss, so this '!default' is the one that
+// takes, and core's own rule then emits `color-scheme: dark` itself.
+$o-webclient-color-scheme: dark !default;
+
+body {
+  color-scheme: dark;
+}

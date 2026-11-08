@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_recurring_template_user,eh.recurring.invoice.template.user,eh.recurring.invoice.template,eh_account_base.group_eh_user,cru,
+access_eh_recurring_template_manager,eh.recurring.invoice.template.manager,eh.recurring.invoice.template,eh_account_base.group_eh_manager,crud,
+rule_eh_recurring_invoice_template_company,eh.recurring.invoice.template: company isolation,eh.recurring.invoice.template,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_recurring_line_user,eh.recurring.invoice.line.user,eh.recurring.invoice.line,eh_account_base.group_eh_user,crud,
+rule_eh_recurring_invoice_line_company,eh.recurring.invoice.line: company isolation,eh.recurring.invoice.line,,crud,"[('template_id.company_id', 'in', company_ids)]"
+access_eh_recurring_proration_wizard_user,eh.recurring.invoice.proration.wizard.manager,eh.recurring.invoice.proration.wizard,eh_account_base.group_eh_manager,crud,
+access_eh_recurring_correction_wizard_manager,eh.recurring.invoice.correction.wizard.manager,eh.recurring.invoice.correction.wizard,eh_account_base.group_eh_manager,crud,

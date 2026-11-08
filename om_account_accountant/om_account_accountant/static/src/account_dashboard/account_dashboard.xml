@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Accounting > Dashboard KPI strip: an icon per figure. -->
+    <t t-inherit="account.AccountDashboardKpiCard" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('o_account_dashboard_kpi_name')]" position="before">
+            <i t-if="!this.props.card.is_invoice_layout_card"
+               class="oi o_nf_kpi_icon"
+               t-att-data-icon="{
+                   invoices: 'description',
+                   expenses: 'shopping_cart',
+                   cash: 'account_balance',
+                   receivable: 'arrow_downward',
+                   payable: 'arrow_upward',
+               }[this.props.card.id] or 'monitoring'"
+               aria-hidden="true"/>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,57 @@
+{
+    'name': 'Odoo 20 HR Payroll',
+    'version': '2.5.1',
+    'category': 'Generic Modules/Human Resources',
+    'summary': 'Payroll for Odoo 20 Community: salary structures and rules, payslips, payslip batches and reports',
+    'description': 'Payroll for Odoo 20 Community. Salary structures built from salary rules (fixed, percentage or '
+                   'Python), salary components, rule parameters and salary brackets; payslips computed from the '
+                   'worked days and the time off, alone or in batches; retro pay, year to date totals, refunds, '
+                   'payslips sent by email, a monthly batch created for you, a variance check before a batch is '
+                   'confirmed, annual statements, payslip reports and a payroll analysis. Employees read their own '
+                   'confirmed payslips in My HR. Part of Odoo Mates HR.',
+    'author': 'Odoo Mates, Odoo SA',
+    'maintainer': 'Odoo Mates',
+    'support': 'odoomates@gmail.com',
+    'license': 'LGPL-3',
+    'depends': [
+        'mail',
+        'hr_holidays',
+        'om_hr_base',
+    ],
+    'excludes': ['hr_payroll'],
+    'data': [
+        'security/hr_payroll_security.xml',
+        'security/ir.access.csv',
+        'data/hr_payroll_sequence.xml',
+        'data/hr_payroll_category.xml',
+        'data/hr_payroll_data.xml',
+        'data/hr_payroll_cron.xml',
+        'wizard/hr_payroll_payslips_by_employees_views.xml',
+        'wizard/hr_payslip_retro_views.xml',
+        'wizard/hr_payslip_run_variance_views.xml',
+        'views/hr_contract_views.xml',
+        'views/hr_salary_component_views.xml',
+        'views/hr_rule_parameter_views.xml',
+        'views/hr_salary_rule_views.xml',
+        'views/hr_payslip_views.xml',
+        'views/hr_payslip_self_views.xml',
+        'views/hr_payslip_analysis_views.xml',
+        'views/report_annual_statement_templates.xml',
+        'wizard/hr_payslip_annual_statement_views.xml',
+        'views/hr_employee_views.xml',
+        'views/hr_payroll_report.xml',
+        'wizard/hr_payroll_contribution_register_report_views.xml',
+        'views/res_config_settings_views.xml',
+        'views/report_contribution_register_templates.xml',
+        'views/report_payslip_templates.xml',
+        'views/report_payslip_details_templates.xml',
+        'data/mail_template.xml',
+    ],
+    'demo': [
+        'demo/hr_payroll_demo.xml',
+    ],
+    'images': ['static/description/banner.gif'],
+    'sequence': 1,
+    'live_test_url': 'https://www.youtube.com/watch?v=0kaHMTtn7oY',
+    'application': True,
+}

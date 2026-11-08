@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_eh_bsi_import_wizard"
+                  name="Import Bank Statement"
+                  parent="eh_account_base.menu_eh_bank_statements"
+                  action="action_eh_bsi_wizard"
+                  sequence="10"
+                  groups="eh_account_base.group_eh_user"/>
+
+        <menuitem id="menu_eh_bsi_log"
+                  name="Import History"
+                  parent="eh_account_base.menu_eh_bank_statements"
+                  action="action_eh_bsi_log"
+                  sequence="20"
+                  groups="eh_account_base.group_eh_user"/>
+
+        <menuitem id="menu_eh_bsi_duplicate_lines"
+                  name="Probable Bank Duplicates"
+                  parent="eh_account_base.menu_eh_bank_statements"
+                  action="action_eh_bsi_duplicate_lines"
+                  sequence="30"
+                  groups="eh_account_base.group_eh_user"/>
+
+        <menuitem id="menu_eh_bsi_profile"
+                  name="Statement Import Profiles"
+                  parent="eh_account_base.menu_eh_config_banking"
+                  action="action_eh_bsi_profile"
+                  sequence="10"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_bank_live_connector"
+                  name="Live Bank Connectors"
+                  parent="eh_account_base.menu_eh_config_banking"
+                  action="action_eh_bank_live_connector_profile"
+                  sequence="20"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_bank_sync_review" name="Bank Feed Changes"
+                  parent="eh_account_base.menu_eh_bank_statements"
+                  action="action_eh_bank_sync_review" sequence="35"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+    </data>
+</odoo>

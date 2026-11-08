@@ -1,0 +1,271 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eh_account_portal_extra
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 18:47+0000\n"
+"PO-Revision-Date: 2026-09-19 18:47+0000\n"
+"Last-Translator: ERP Heritage <info@erpheritage.com.au>\n"
+"Language-Team: Chinese (Simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid ""
+".\n"
+"                        Shorter periods protect your financial data from\n"
+"                        timeouts and produce a faster statement."
+msgstr "。较短的期间可避免您的财务数据因超时而受影响，并更快生成对账单。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    Download statement"
+msgstr ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    下载对账单"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            Account balance"
+msgstr ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            账户余额"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Activity during period"
+msgstr "期间内往来"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid ""
+"Another statement request is still running for your\n"
+"                        account. Wait a few seconds, then try again."
+msgstr "您的账户仍有另一个对账单请求正在运行。请稍等几秒后重试。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Choose another period"
+msgstr "选择其他期间"
+
+#. module: eh_account_portal_extra
+#: model:ir.model,name:eh_account_portal_extra.model_res_config_settings
+msgid "Config Settings"
+msgstr "配置设置"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,shortdesc:base.module_eh_account_portal_extra
+msgid "Customer Portal Extra"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,description:base.module_eh_account_portal_extra
+msgid ""
+"Customer Portal Extra turns the standard Odoo 20 Community customer portal into a self-service accounts receivable corner. It adds two things and does them carefully.\n"
+"\n"
+"First, an inline statement form. The logged-in customer chooses start/end dates and either an open-item or activity statement, then receives an ephemeral PDF rendered by the same audited handler as the back office. The controller pins the partner and active company server-side, applies the configured range limit, and never persists the reusable report payload. Because the handler rewinds partial reconciliations created after the chosen end date, a back-dated statement reflects what was actually outstanding then, not today's residual.\n"
+"\n"
+"Second, a live AR balance card on the portal home. It shows open customer-invoice count, the positive overdue invoice residual, the oldest overdue invoice due date, and a days-overdue counter in active-company currency. Credits, unapplied payments, refunds, other partners and sister-company ledgers cannot reduce or contaminate the amount.\n"
+"\n"
+"Access is strictly partner scoped. The authenticated statement route resolves the logged-in user's commercial partner and active company and accepts no override. Invalid dates, an excessive configured range, concurrent generation, missing report registration and render failures return private branded pages; render exceptions are logged with their traceback.\n"
+"\n"
+"The installed portal pages add no analytics tag, tracking pixel, external CDN or custom JavaScript. A documented Accounting setting controls the maximum inclusive statement period (1 to 3660 days). No new report definition is introduced; the module reuses the customer statement generator from eh_account_dynamic_reports."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Customer statement options"
+msgstr "客户对账单选项"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Customer-facing statement download controls."
+msgstr "面向客户的对账单下载控件。"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,summary:base.module_eh_account_portal_extra
+msgid ""
+"Customer-selected statement PDFs and a company-scoped overdue-invoice portal"
+" card."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "ERP Heritage Customer Portal"
+msgstr "ERP Heritage 客户门户"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "From"
+msgstr "来自"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__id
+msgid "ID"
+msgstr "识别号"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Invalid date range"
+msgstr "日期范围无效"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid "Maximum Portal Statement Days"
+msgstr "门户对账单最大天数"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Maximum Statement Period (days)"
+msgstr "对账单最长期间（天）"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,help:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid ""
+"Maximum inclusive date span a customer may request from the portal statement"
+" form. Choose 1 to 3660 days."
+msgstr "客户可在门户对账单表单中请求的最大日期跨度（含首尾）。请选择 1 到 3660 天。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid ""
+"Maximum inclusive period a customer may request. Valid range: 1 to 3660 "
+"days."
+msgstr "客户可请求的最长期间（含首尾）。有效范围：1 到 3660 天。"
+
+#. module: eh_account_portal_extra
+#. odoo-python
+#: code:addons/eh_account_portal_extra/models/res_config_settings.py:0
+msgid "Maximum portal statement days must be between 1 and %s."
+msgstr "门户对账单最大天数必须介于 1 和 %s 之间。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid ""
+"No financial document was downloaded. Please try\n"
+"                        again later or contact support if the issue persists."
+msgstr "未下载任何财务文件。请稍后重试，如问题仍然存在请联系支持。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Oldest overdue invoice:"
+msgstr "最早逾期发票："
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open invoices:"
+msgstr "未结发票:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open items as at end date"
+msgstr "截至结束日期的未清项"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Overdue:"
+msgstr "逾期："
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Reset to defaults"
+msgstr "重置为默认值"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Return to account balance"
+msgstr "返回账户余额"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Select a period of no more than"
+msgstr "请选择不超过以下天数的期间"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Statement period is too long"
+msgstr "对账单期间过长"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid "Statement report not configured"
+msgstr "对账单报表未配置"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Statement type"
+msgstr "对账单类型"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid ""
+"The customer statement report is not registered.\n"
+"                        This usually means eh_account_dynamic_reports is\n"
+"                        not installed; please contact support."
+msgstr ""
+"The customer statement report is not registered.\\n                        "
+"This usually means eh_account_dynamic_reports is\\n                        "
+"not installed; please contact support."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid ""
+"The dates you provided could not be parsed or\n"
+"                        the start date was later than the end date.\n"
+"                        Use the format YYYY-MM-DD."
+msgstr ""
+"The dates you provided could not be parsed or\\n                        the "
+"start date was later than the end date.\\n                        Use the "
+"format YYYY-MM-DD."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "To"
+msgstr "至"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "View invoices"
+msgstr "查看发票"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid "We could not prepare your statement"
+msgstr "无法为您准备对账单"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "You are up to date. Nothing to pay right now."
+msgstr "您已是最新状态。目前无需支付任何款项。"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Your statement is already being prepared"
+msgstr "您的对账单正在准备中"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "days"
+msgstr "天"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "days)"
+msgstr "天）"

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Shared, task-based navigation for Odoo 20 Community accounting.
+
+    Reuse the upstream Customers, Vendors, Accounting, Closing, Review,
+    Reporting and Configuration sections. Banking groups statement import,
+    reconciliation and payment files. Leaf actions retain their XML IDs and
+    security groups. Configuration categories are direct children of the
+    standard Configuration menu; read-only audit evidence lives in Review.
+
+    The original shared XML IDs remain extension points. Unused compatibility
+    folders have no action and disappear naturally when they have no children.
+    New folders have no groups or actions: their permitted leaves determine
+    visibility, including narrowly scoped reviewers and read-only auditors.
+-->
+<odoo>
+    <data>
+
+        <!-- Shared workflow sections; the operations XML ID now owns Banking. -->
+
+        <menuitem id="menu_eh_operations"
+                  name="Banking"
+                  parent="account.menu_finance"
+                  sequence="6"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+        <menuitem id="menu_eh_period_work"
+                  name="Planning and Costing"
+                  parent="account.menu_finance_entries"
+                  sequence="12"
+                  groups="eh_account_base.group_eh_user"/>
+
+        <!-- IFRS / IAS standard engines (ECL, fair value, deferred tax,
+             provisions, revenue, grants, borrowing costs, inventory NRV,
+             investment property, held for sale, business combinations,
+             share-based payment, employee benefits, EPS, events). Each
+             standard module anchors here instead of scattering across
+             Operations / Period Work; children are ordered by standard
+             reference (IAS then IFRS, ascending). -->
+        <menuitem id="menu_eh_ifrs"
+                  name="IFRS Standards"
+                  parent="account.menu_finance_entries"
+                  sequence="34"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+        <!-- Report customization, without a second branding-only folder. -->
+
+        <menuitem id="menu_eh_reports_advanced"
+                  name="Custom Reports"
+                  parent="account.menu_finance_reports"
+                  sequence="40"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+        <!-- Compatibility folder retained for downstream extensions. -->
+
+        <menuitem id="menu_eh_config_root"
+                  name="Heritage"
+                  parent="account.menu_finance_configuration"
+                  sequence="60"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_general"
+                  name="Accounting Policies"
+                  parent="account.menu_finance_configuration"
+                  sequence="50"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_reports"
+                  name="Report Definitions"
+                  parent="account.menu_finance_configuration"
+                  sequence="60"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_operations"
+                  name="Workflow and Controls"
+                  parent="account.menu_finance_configuration"
+                  sequence="70"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_assets"
+                  name="Assets and Leases"
+                  parent="account.menu_finance_configuration"
+                  sequence="80"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_banking"
+                  name="Banking"
+                  parent="account.menu_finance_configuration"
+                  sequence="90"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_payments"
+                  name="Payments and SEPA"
+                  parent="account.menu_finance_configuration"
+                  sequence="100"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_pdc"
+                  name="Cheques (PDC)"
+                  parent="account.menu_finance_configuration"
+                  sequence="105"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_localization"
+                  name="Localization"
+                  parent="account.menu_finance_configuration"
+                  sequence="110"
+                  groups="eh_account_base.group_eh_manager"/>
+
+        <menuitem id="menu_eh_config_audit"
+                  name="Audit Logs"
+                  parent="account.account_audit_menu"
+                  sequence="40"
+                  groups="eh_account_base.group_eh_manager,eh_account_base.group_eh_auditor"/>
+
+        <!-- Bank folders resolve to visible children for each user. -->
+        <menuitem id="menu_eh_bank_statements" name="Bank Statements"
+                  parent="menu_eh_operations" sequence="10"/>
+        <menuitem id="menu_eh_bank_payments" name="Payments"
+                  parent="menu_eh_operations" sequence="30"/>
+
+        <!-- Organize standard engines by the accountant's work. -->
+        <menuitem id="menu_eh_ifrs_financial" name="Financial Instruments"
+                  parent="menu_eh_ifrs" sequence="10"/>
+        <menuitem id="menu_eh_ifrs_revenue_tax" name="Revenue, Tax and Grants"
+                  parent="menu_eh_ifrs" sequence="20"/>
+        <menuitem id="menu_eh_ifrs_people" name="Employee Compensation"
+                  parent="menu_eh_ifrs" sequence="30"/>
+        <menuitem id="menu_eh_ifrs_assets" name="Asset Measurement"
+                  parent="menu_eh_ifrs" sequence="40"/>
+        <menuitem id="menu_eh_ifrs_equity" name="Group and Equity"
+                  parent="menu_eh_ifrs" sequence="50"/>
+        <menuitem id="menu_eh_ifrs_events" name="Provisions and Events"
+                  parent="menu_eh_ifrs" sequence="60"/>
+
+        <!-- Always-on entries owned by base. -->
+
+        <!-- Report execution audit log lives under Audit Logs. The
+             action is declared in views/report_execution_views.xml
+             alongside the form / list / search views. -->
+        <menuitem id="menu_eh_audit_report_execution"
+                  name="Report Execution Audit"
+                  parent="menu_eh_config_audit"
+                  action="action_eh_account_report_execution"
+                  sequence="10"
+                  groups="eh_account_base.group_eh_manager,eh_account_base.group_eh_auditor"/>
+
+        <!-- Registry of dynamic report definitions, under Report Definitions.
+             Action is declared in views/dynamic_report_views.xml (loaded
+             earlier); the parent container is defined above in this file. -->
+        <menuitem id="menu_eh_account_dynamic_report"
+                  name="Dynamic Reports Registry"
+                  parent="menu_eh_config_reports"
+                  action="action_eh_account_dynamic_report"
+                  sequence="10"
+                  groups="account.group_account_manager"/>
+
+    </data>
+</odoo>

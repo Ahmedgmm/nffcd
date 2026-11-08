@@ -1,0 +1,42 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_consol_entity_user,eh.consol.entity user,eh.consol.entity,eh_account_base.group_eh_user,r,
+access_eh_consol_entity_manager,eh.consol.entity manager,eh.consol.entity,eh_account_base.group_eh_manager,crud,
+access_eh_consol_entity_auditor,eh.consol.entity auditor,eh.consol.entity,eh_account_base.group_eh_auditor,r,
+eh_consol_entity_company_rule,Consolidation entity: allowed companies,eh.consol.entity,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_member_user,eh.consol.member user,eh.consol.member,eh_account_base.group_eh_user,r,
+access_eh_consol_member_manager,eh.consol.member manager,eh.consol.member,eh_account_base.group_eh_manager,crud,
+access_eh_consol_member_auditor,eh.consol.member auditor,eh.consol.member,eh_account_base.group_eh_auditor,r,
+eh_consol_member_company_rule,Consolidation member: allowed companies,eh.consol.member,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_run_user,eh.consol.run user,eh.consol.run,eh_account_base.group_eh_user,cru,
+access_eh_consol_run_manager,eh.consol.run manager,eh.consol.run,eh_account_base.group_eh_manager,crud,
+access_eh_consol_run_auditor,eh.consol.run auditor,eh.consol.run,eh_account_base.group_eh_auditor,r,
+eh_consol_run_company_rule,Consolidation run: allowed companies,eh.consol.run,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_run_line_user,eh.consol.run.line user,eh.consol.run.line,eh_account_base.group_eh_user,r,
+access_eh_consol_run_line_manager,eh.consol.run.line manager,eh.consol.run.line,eh_account_base.group_eh_manager,crud,
+access_eh_consol_run_line_auditor,eh.consol.run.line auditor,eh.consol.run.line,eh_account_base.group_eh_auditor,r,
+eh_consol_run_line_company_rule,Consolidation run line: allowed companies,eh.consol.run.line,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_elimination_user,eh.consol.elimination user,eh.consol.elimination,eh_account_base.group_eh_user,cru,
+access_eh_consol_elimination_manager,eh.consol.elimination manager,eh.consol.elimination,eh_account_base.group_eh_manager,crud,
+access_eh_consol_elimination_auditor,eh.consol.elimination auditor,eh.consol.elimination,eh_account_base.group_eh_auditor,r,
+eh_consol_elimination_company_rule,Consolidation elimination: allowed companies,eh.consol.elimination,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_elimination_line_user,eh.consol.elimination.line user,eh.consol.elimination.line,eh_account_base.group_eh_user,crud,
+access_eh_consol_elimination_line_auditor,eh.consol.elimination.line auditor,eh.consol.elimination.line,eh_account_base.group_eh_auditor,r,
+eh_consol_elimination_line_company_rule,Consolidation elimination line: allowed companies,eh.consol.elimination.line,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_unrealised_profit_user,eh.consol.unrealised.profit user,eh.consol.unrealised.profit,eh_account_base.group_eh_user,cru,
+access_eh_consol_unrealised_profit_manager,eh.consol.unrealised.profit manager,eh.consol.unrealised.profit,eh_account_base.group_eh_manager,crud,
+access_eh_consol_unrealised_profit_auditor,eh.consol.unrealised.profit auditor,eh.consol.unrealised.profit,eh_account_base.group_eh_auditor,r,
+eh_consol_unrealised_profit_company_rule,Consolidation unrealised profit: allowed companies,eh.consol.unrealised.profit,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_acquisition_component_user,eh.consol.acquisition.equity.component user,eh.consol.acquisition.equity.component,eh_account_base.group_eh_user,r,
+access_eh_consol_acquisition_component_manager,eh.consol.acquisition.equity.component manager,eh.consol.acquisition.equity.component,eh_account_base.group_eh_manager,crud,
+access_eh_consol_acquisition_component_auditor,eh.consol.acquisition.equity.component auditor,eh.consol.acquisition.equity.component,eh_account_base.group_eh_auditor,r,
+eh_consol_acquisition_component_company_rule,Acquisition component: allowed companies,eh.consol.acquisition.equity.component,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_equity_rollforward_user,eh.consol.equity.rollforward user,eh.consol.equity.rollforward,eh_account_base.group_eh_user,cru,
+access_eh_consol_equity_rollforward_manager,eh.consol.equity.rollforward manager,eh.consol.equity.rollforward,eh_account_base.group_eh_manager,crud,
+access_eh_consol_equity_rollforward_auditor,eh.consol.equity.rollforward auditor,eh.consol.equity.rollforward,eh_account_base.group_eh_auditor,r,
+eh_consol_equity_rollforward_company_rule,Equity rollforward: allowed companies,eh.consol.equity.rollforward,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_disposal_event_user,eh.consol.disposal.event user,eh.consol.disposal.event,eh_account_base.group_eh_user,r,
+access_eh_consol_disposal_event_auditor,eh.consol.disposal.event auditor,eh.consol.disposal.event,eh_account_base.group_eh_auditor,r,
+eh_consol_disposal_event_company_rule,Disposal event: allowed companies,eh.consol.disposal.event,,crud,"[('eh_company_scope_allowed', '=', True)]"
+access_eh_consol_trial_balance_user,eh.consol.trial.balance user,eh.consol.trial.balance,eh_account_base.group_eh_user,r,
+access_eh_consol_trial_balance_auditor,eh.consol.trial.balance auditor,eh.consol.trial.balance,eh_account_base.group_eh_auditor,r,
+eh_consol_trial_balance_company_rule,Consolidated trial balance: allowed companies,eh.consol.trial.balance,,crud,"[('eh_company_scope_allowed', '=', True)]"

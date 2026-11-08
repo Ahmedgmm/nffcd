@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_borrowing_cost_user,eh.borrowing.cost.user,eh.borrowing.cost,eh_account_base.group_eh_user,cru,
+access_eh_borrowing_cost_manager,eh.borrowing.cost.manager,eh.borrowing.cost,eh_account_base.group_eh_manager,crud,
+access_eh_borrowing_cost_auditor,eh.borrowing.cost.auditor,eh.borrowing.cost,eh_account_base.group_eh_auditor,r,
+rule_eh_borrowing_cost_company,eh.borrowing.cost: company isolation,eh.borrowing.cost,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_borrowing_cost_line_user,eh.borrowing.cost.line.user,eh.borrowing.cost.line,eh_account_base.group_eh_user,crud,
+access_eh_borrowing_cost_line_auditor,eh.borrowing.cost.line.auditor,eh.borrowing.cost.line,eh_account_base.group_eh_auditor,r,
+rule_eh_borrowing_cost_line_company,eh.borrowing.cost.line: company isolation,eh.borrowing.cost.line,,crud,"[('borrowing_cost_id.company_id', 'in', company_ids)]"
+access_eh_borrowing_cost_suspension_user,eh.borrowing.cost.suspension.user,eh.borrowing.cost.suspension,eh_account_base.group_eh_user,crud,
+access_eh_borrowing_cost_suspension_auditor,eh.borrowing.cost.suspension.auditor,eh.borrowing.cost.suspension,eh_account_base.group_eh_auditor,r,
+rule_eh_borrowing_cost_suspension_company,eh.borrowing.cost.suspension: company isolation,eh.borrowing.cost.suspension,,crud,"[('borrowing_cost_id.company_id', 'in', company_ids)]"

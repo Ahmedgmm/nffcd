@@ -1,0 +1,21 @@
+{
+    'name': 'HR Assets',
+    'version': '20.0.1.0.0',
+    'category': 'Human Resources',
+    'summary': 'Employee assets and equipment: handover with a signed form, return, loss, charges and history',
+    'author': 'Odoo Mates',
+    'maintainer': 'Odoo Mates',
+    'support': 'odoomates@gmail.com',
+    'license': 'LGPL-3',
+    'depends': ['hr_maintenance', 'om_hr_base', 'om_print_template'],
+    'data': [
+        'security/ir.access.csv',
+        'data/om_hr_asset_data.xml',
+        'views/maintenance_equipment_views.xml',
+        'views/om_hr_asset_assignment_views.xml',
+        'views/hr_employee_views.xml',
+        'views/menu.xml',
+    ],
+    'demo': ['demo/om_hr_asset_demo.xml'],
+    'images': ['static/description/banner.gif'],
+}

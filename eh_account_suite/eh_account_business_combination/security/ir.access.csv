@@ -1,0 +1,23 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_business_combination_user,eh.business.combination.user,eh.business.combination,eh_account_base.group_eh_user,cru,
+access_eh_business_combination_manager,eh.business.combination.manager,eh.business.combination,eh_account_base.group_eh_manager,crud,
+access_eh_business_combination_auditor,eh.business.combination.auditor,eh.business.combination,eh_account_base.group_eh_auditor,r,
+rule_eh_business_combination_company,eh.business.combination: company isolation,eh.business.combination,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_business_combination_asset_user,eh.business.combination.asset.user,eh.business.combination.asset,eh_account_base.group_eh_user,crud,
+access_eh_business_combination_asset_auditor,eh.business.combination.asset.auditor,eh.business.combination.asset,eh_account_base.group_eh_auditor,r,
+rule_eh_business_combination_asset_company,eh.business.combination.asset: company isolation,eh.business.combination.asset,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bizcombo_adjustment_user,eh.bizcombo.adjustment.user,eh.bizcombo.adjustment,eh_account_base.group_eh_user,cru,
+access_eh_bizcombo_adjustment_manager,eh.bizcombo.adjustment.manager,eh.bizcombo.adjustment,eh_account_base.group_eh_manager,crud,
+access_eh_bizcombo_adjustment_auditor,eh.bizcombo.adjustment.auditor,eh.bizcombo.adjustment,eh_account_base.group_eh_auditor,r,
+rule_eh_bizcombo_adjustment_company,eh.bizcombo.adjustment: company isolation,eh.bizcombo.adjustment,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bizcombo_adjustment_line_user,eh.bizcombo.adjustment.line.user,eh.bizcombo.adjustment.line,eh_account_base.group_eh_user,crud,
+access_eh_bizcombo_adjustment_line_auditor,eh.bizcombo.adjustment.line.auditor,eh.bizcombo.adjustment.line,eh_account_base.group_eh_auditor,r,
+rule_eh_bizcombo_adjustment_line_company,eh.bizcombo.adjustment.line: company isolation,eh.bizcombo.adjustment.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bizcombo_contingent_remeasure_user,eh.bizcombo.contingent.remeasure.user,eh.bizcombo.contingent.remeasure,eh_account_base.group_eh_user,cru,
+access_eh_bizcombo_contingent_remeasure_manager,eh.bizcombo.contingent.remeasure.manager,eh.bizcombo.contingent.remeasure,eh_account_base.group_eh_manager,crud,
+access_eh_bizcombo_contingent_remeasure_auditor,eh.bizcombo.contingent.remeasure.auditor,eh.bizcombo.contingent.remeasure,eh_account_base.group_eh_auditor,r,
+rule_eh_bizcombo_contingent_remeasure_company,eh.bizcombo.contingent.remeasure: company isolation,eh.bizcombo.contingent.remeasure,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_equity_investment_user,eh.equity.investment.user,eh.equity.investment,eh_account_base.group_eh_user,cru,
+access_eh_equity_investment_manager,eh.equity.investment.manager,eh.equity.investment,eh_account_base.group_eh_manager,crud,
+access_eh_equity_investment_auditor,eh.equity.investment.auditor,eh.equity.investment,eh_account_base.group_eh_auditor,r,
+rule_eh_equity_investment_company,eh.equity.investment: company isolation,eh.equity.investment,,crud,"[('company_id', 'in', company_ids)]"

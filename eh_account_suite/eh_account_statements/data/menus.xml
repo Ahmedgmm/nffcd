@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_eh_soce"
+                  name="Changes in Equity"
+                  parent="account.account_reports_legal_statements_menu"
+                  action="action_eh_soce"
+                  sequence="60"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+        <menuitem id="menu_eh_soci"
+                  name="Comprehensive Income"
+                  parent="account.account_reports_legal_statements_menu"
+                  action="action_eh_soci"
+                  sequence="50"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+        <menuitem id="menu_eh_statement_tieout"
+                  name="Statement Tie-Out"
+                  parent="account.account_reports_legal_statements_menu"
+                  action="action_eh_statement_tieout"
+                  sequence="70"
+                  groups="eh_account_base.group_eh_user,eh_account_base.group_eh_auditor"/>
+
+    </data>
+</odoo>

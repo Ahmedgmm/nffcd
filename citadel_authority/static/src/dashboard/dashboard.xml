@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="citadel_authority.Dashboard">
+        <div class="o_citadel_dashboard" dir="rtl">
+            <t t-if="this.state.loading"><div class="o_citadel_loading">جارٍ تحميل مصفوفة الصلاحيات…</div></t>
+            <t t-else="">
+                <div class="o_citadel_titlebar">
+                    <div><h1>مصفوفة الصلاحيات</h1><div class="o_citadel_company" t-esc="this.state.data.company"/></div>
+                    <button class="btn btn-primary o_citadel_waiting" t-on-click="() => this.openRequests(false, true)"><i class="fa fa-clock-o"/> بانتظار اعتمادي <span t-esc="this.state.data.totals.waiting"/></button>
+                </div>
+                <div class="o_citadel_cards">
+                    <t t-foreach="this.state.data.blocks" t-as="block" t-key="block.key">
+                        <button t-attf-class="o_citadel_card o_citadel_{{ block.color }} {{ block.key === this.state.blockKey ? 'o_citadel_active' : '' }}" t-on-click="() => this.selectBlock(block.key)">
+                            <div class="o_citadel_card_head"><i t-attf-class="fa {{ block.icon }}"/><span t-esc="block.label"/></div>
+                            <div class="o_citadel_card_stats"><span><t t-esc="block.policies"/> سياسة</span><span>· <t t-esc="block.pending"/> قيد الانتظار</span></div>
+                            <div class="o_citadel_card_foot"><span t-if="block.waiting" class="o_citadel_pill"><t t-esc="block.waiting"/> بانتظارك</span></div>
+                        </button>
+                    </t>
+                </div>
+                <t t-set="block" t-value="this.block"/>
+                <t t-set="flow" t-value="this.flow"/>
+                <section t-attf-class="o_citadel_flow_panel o_citadel_{{ block.color }}">
+                    <div class="o_citadel_flow_header">
+                        <div><h3 t-esc="block.label"/><small><t t-esc="block.policies"/> سياسة فعّالة</small></div>
+                        <div class="o_citadel_actions">
+                            <select t-if="block.flows.length" class="form-select" t-on-change="this.onFlowChange">
+                                <t t-foreach="block.flows" t-as="item" t-key="item.id"><option t-att-value="item_index" t-att-selected="item_index === this.state.flowIndex" t-esc="item.name"/></t>
+                            </select>
+                            <button class="btn btn-outline-secondary" t-on-click="() => this.openRequests(block.key)"><i class="fa fa-list"/> الطلبات</button>
+                            <button t-if="flow and this.state.data.is_manager" class="btn btn-primary" t-on-click="this.editFlow"><i class="fa fa-pencil"/> تعديل السياسة</button>
+                        </div>
+                    </div>
+                    <div t-if="!flow" class="o_citadel_empty">لا توجد سياسة صلاحيات فعّالة مضبوطة لهذا النوع من المستندات.</div>
+                    <t t-else="">
+                        <div class="o_citadel_flow_meta"><span><i class="fa fa-money"/> <t t-esc="flow.amount_band"/></span><span><i class="fa fa-filter"/> <t t-esc="flow.domain"/></span><span t-if="flow.controls"><i class="fa fa-shield"/> <t t-esc="flow.controls"/></span></div>
+                        <div class="o_citadel_flow" aria-label="مسار الاعتماد من اليمين إلى اليسار">
+                            <div class="o_citadel_node o_citadel_endpoint o_citadel_flow_start"><small><i class="fa fa-play-circle"/> البداية</small><b>إرسال المستند</b></div>
+                            <t t-foreach="flow.steps" t-as="step" t-key="step_index">
+                                <div class="o_citadel_arrow" aria-hidden="true"/>
+                                <div t-attf-class="o_citadel_node {{ step.is_inform ? 'o_citadel_inform' : '' }} {{ step.warning ? 'o_citadel_warning' : '' }}">
+                                    <div class="o_citadel_node_title"><span class="o_citadel_badge" t-esc="step.badge"/><b t-esc="step.role_name"/></div>
+                                    <small t-esc="step.subtitle"/><span class="o_citadel_holders" t-esc="step.holders"/>
+                                </div>
+                            </t>
+                            <div class="o_citadel_arrow" aria-hidden="true"/>
+                            <div class="o_citadel_node o_citadel_endpoint o_citadel_flow_end"><small><i class="fa fa-flag-checkered"/> النهاية</small><b class="text-success">تم الاعتماد</b></div>
+                        </div>
+                    </t>
+                </section>
+            </t>
+        </div>
+    </t>
+</templates>
+

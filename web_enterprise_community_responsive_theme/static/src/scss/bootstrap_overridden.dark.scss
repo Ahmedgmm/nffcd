@@ -1,0 +1,30 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+
+$card-box-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 1px 3px rgba(0, 0, 0, .5);
+$dropdown-box-shadow: 0 4px 16px rgba(0, 0, 0, .55);
+
+$table-color: $o-gray-900;
+$table-border-color: $o-gray-200;
+
+$card-bg: #171B24;
+$card-border-color: $o-gray-200;
+
+$tooltip-bg: #0C0E13;
+$popover-bg: #171B24;
+$popover-border-color: $o-gray-200;
+
+$alert-bg-scale: 30%;
+$alert-border-scale: 10%;
+$alert-color-scale: -60%;
+
+$link-hover-color: lighten($o-brand-badirra-accent, 10%);
+
+// Form inputs - including the control panel's search box. Neither core's
+// bootstrap_overridden.scss nor this theme's light one sets $input-color,
+// so it falls back to Bootstrap's own default rather than tracking the
+// dark palette, leaving typed text dark on the dark input background.
+// Set explicitly here. ($input-bg stays as core has it: $o-input-bg is
+// transparent, so inputs correctly pick up whatever surface they sit on.)
+$input-color: $o-gray-900;
+$input-placeholder-color: $o-gray-600;

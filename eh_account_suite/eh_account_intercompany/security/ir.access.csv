@@ -1,0 +1,28 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_intercompany_config_user,eh.intercompany.config.user,eh.intercompany.config,eh_account_base.group_eh_user,r,
+access_eh_intercompany_config_manager,eh.intercompany.config.manager,eh.intercompany.config,eh_account_base.group_eh_manager,crud,
+rule_eh_intercompany_config_company,eh.intercompany.config: company isolation,eh.intercompany.config,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ic_elimination_batch_user,eh.ic.elimination.batch.user,eh.ic.elimination.batch,eh_account_base.group_eh_user,r,
+access_eh_ic_elimination_batch_manager,eh.ic.elimination.batch.manager,eh.ic.elimination.batch,eh_account_base.group_eh_manager,crud,
+rule_eh_ic_elimination_batch_company,eh.ic.elimination.batch: company isolation,eh.ic.elimination.batch,,crud,"[
+                ('company_a_id', 'in', company_ids),
+                ('company_b_id', 'in', company_ids),
+                ('elimination_company_id', 'in', company_ids)]"
+access_eh_ic_elimination_batch_line_user,eh.ic.elimination.batch.line.user,eh.ic.elimination.batch.line,eh_account_base.group_eh_user,r,
+access_eh_ic_elimination_batch_line_manager,eh.ic.elimination.batch.line.manager,eh.ic.elimination.batch.line,eh_account_base.group_eh_manager,crud,
+rule_eh_ic_elimination_batch_line_company,eh.ic.elimination.batch.line: company isolation,eh.ic.elimination.batch.line,,crud,"[
+                ('batch_id.company_a_id', 'in', company_ids),
+                ('batch_id.company_b_id', 'in', company_ids),
+                ('batch_id.elimination_company_id', 'in', company_ids)]"
+access_eh_ic_elimination_mismatch_user,eh.ic.elimination.mismatch.user,eh.ic.elimination.mismatch,eh_account_base.group_eh_user,r,
+access_eh_ic_elimination_mismatch_manager,eh.ic.elimination.mismatch.manager,eh.ic.elimination.mismatch,eh_account_base.group_eh_manager,crud,
+rule_eh_ic_elimination_mismatch_company,eh.ic.elimination.mismatch: company isolation,eh.ic.elimination.mismatch,,crud,"[
+                ('batch_id.company_a_id', 'in', company_ids),
+                ('batch_id.company_b_id', 'in', company_ids),
+                ('batch_id.elimination_company_id', 'in', company_ids)]"
+access_eh_ic_unrealised_line_user,eh.ic.unrealised.line.user,eh.ic.unrealised.line,eh_account_base.group_eh_user,r,
+access_eh_ic_unrealised_line_manager,eh.ic.unrealised.line.manager,eh.ic.unrealised.line,eh_account_base.group_eh_manager,crud,
+rule_eh_ic_unrealised_line_company,eh.ic.unrealised.line: company isolation,eh.ic.unrealised.line,,crud,"[
+                ('batch_id.company_a_id', 'in', company_ids),
+                ('batch_id.company_b_id', 'in', company_ids),
+                ('batch_id.elimination_company_id', 'in', company_ids)]"

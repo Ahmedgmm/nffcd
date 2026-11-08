@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_investment_property_user,eh.investment.property.user,eh.investment.property,eh_account_base.group_eh_user,cru,
+access_eh_investment_property_manager,eh.investment.property.manager,eh.investment.property,eh_account_base.group_eh_manager,crud,
+access_eh_investment_property_auditor,eh.investment.property.auditor,eh.investment.property,eh_account_base.group_eh_auditor,r,
+rule_eh_investment_property_company,eh.investment.property: company isolation,eh.investment.property,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_investment_property_transfer_user,eh.investment.property.transfer.user,eh.investment.property.transfer,eh_account_base.group_eh_user,r,
+access_eh_investment_property_transfer_manager,eh.investment.property.transfer.manager,eh.investment.property.transfer,eh_account_base.group_eh_manager,cr,
+access_eh_investment_property_transfer_auditor,eh.investment.property.transfer.auditor,eh.investment.property.transfer,eh_account_base.group_eh_auditor,r,
+rule_eh_investment_property_transfer_company,eh.investment.property.transfer: company isolation,eh.investment.property.transfer,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_investment_property_depreciation_user,eh.investment.property.depreciation.user,eh.investment.property.depreciation,eh_account_base.group_eh_user,r,
+access_eh_investment_property_depreciation_auditor,eh.investment.property.depreciation.auditor,eh.investment.property.depreciation,eh_account_base.group_eh_auditor,r,
+rule_eh_investment_property_depreciation_company,eh.investment.property.depreciation: company isolation,eh.investment.property.depreciation,,crud,"[('company_id', 'in', company_ids)]"

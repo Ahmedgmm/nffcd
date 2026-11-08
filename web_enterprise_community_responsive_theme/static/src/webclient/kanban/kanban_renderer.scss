@@ -1,0 +1,61 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Kanban view polish: card elevation/hover, column header spacing and a
+// cleaner quick-create input - CSS-only, targets Odoo's stable public
+// kanban class names.
+
+.o_kanban_renderer {
+    .o_kanban_group {
+        .o_kanban_header {
+            padding: .875rem 1rem .5rem;
+
+            .o_kanban_header_title {
+                font-weight: 600;
+                color: $o-gray-800;
+            }
+
+            // Straight at the counter: Odoo 20 removed o_kanban_config,
+            // and kanban_header.xml now puts o_kanban_counter directly in
+            // the header.
+            .o_kanban_counter {
+                border-radius: .75rem;
+            }
+        }
+    }
+
+    .o_kanban_record {
+        border-radius: .5rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        transition: box-shadow .14s ease-out, transform .14s ease-out;
+
+        &:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .1);
+            transform: translateY(-1px);
+        }
+
+        // o_kanban_record_active no longer exists on Odoo 20 - kanban
+        // records carry no active/selected class - so :focus-within is now
+        // the whole of this state.
+        &:focus-within {
+            box-shadow: 0 0 0 2px rgba($o-brand-badirra-accent, .4);
+        }
+    }
+
+    .o_kanban_quick_create {
+        border-radius: .5rem;
+        border: 1px solid $o-gray-300;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, .1);
+
+        .o_input {
+            border-radius: .375rem;
+        }
+    }
+
+    .o_kanban_load_more {
+        .btn {
+            border-radius: .375rem;
+        }
+    }
+}

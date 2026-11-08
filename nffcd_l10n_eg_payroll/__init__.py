@@ -1,0 +1,1 @@
+"""NFFCD Egyptian payroll configuration."""

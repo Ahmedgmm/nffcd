@@ -1,0 +1,63 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_asset_category_user,eh.asset.category user,eh.asset.category,eh_account_base.group_eh_user,r,
+access_eh_asset_category_manager,eh.asset.category manager,eh.asset.category,eh_account_base.group_eh_manager,crud,
+access_eh_asset_category_auditor,eh.asset.category auditor,eh.asset.category,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_category_company,eh.asset.category: company isolation,eh.asset.category,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_user,eh.asset user,eh.asset,eh_account_base.group_eh_user,cru,
+access_eh_asset_manager,eh.asset manager,eh.asset,eh_account_base.group_eh_manager,crud,
+access_eh_asset_auditor,eh.asset auditor,eh.asset,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_company,eh.asset: company isolation,eh.asset,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_depreciation_line_user,eh.asset.depreciation.line user,eh.asset.depreciation.line,eh_account_base.group_eh_user,ru,
+access_eh_asset_depreciation_line_manager,eh.asset.depreciation.line manager,eh.asset.depreciation.line,eh_account_base.group_eh_manager,crud,
+access_eh_asset_depreciation_line_auditor,eh.asset.depreciation.line auditor,eh.asset.depreciation.line,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_depreciation_line_company,eh.asset.depreciation.line: company isolation,eh.asset.depreciation.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_lease_contract_user,eh.lease.contract user,eh.lease.contract,eh_account_base.group_eh_user,cru,
+access_eh_lease_contract_manager,eh.lease.contract manager,eh.lease.contract,eh_account_base.group_eh_manager,crud,
+access_eh_lease_contract_auditor,eh.lease.contract auditor,eh.lease.contract,eh_account_base.group_eh_auditor,r,
+rule_eh_lease_contract_company,eh.lease.contract: company isolation,eh.lease.contract,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_lease_schedule_line_user,eh.lease.schedule.line user,eh.lease.schedule.line,eh_account_base.group_eh_user,ru,
+access_eh_lease_schedule_line_manager,eh.lease.schedule.line manager,eh.lease.schedule.line,eh_account_base.group_eh_manager,crud,
+access_eh_lease_schedule_line_auditor,eh.lease.schedule.line auditor,eh.lease.schedule.line,eh_account_base.group_eh_auditor,r,
+rule_eh_lease_schedule_line_company,eh.lease.schedule.line: company isolation,eh.lease.schedule.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_dispose_wizard_user,eh.asset.dispose.wizard user,eh.asset.dispose.wizard,eh_account_base.group_eh_user,crud,
+access_eh_asset_revalue_wizard_user,eh.asset.revalue.wizard user,eh.asset.revalue.wizard,eh_account_base.group_eh_user,crud,
+access_eh_asset_lvp_transfer_wizard_manager,eh.asset.lvp.transfer.wizard manager,eh.asset.lvp.transfer.wizard,eh_account_base.group_eh_manager,crud,
+access_eh_lease_modify_wizard_user,eh.lease.modify.wizard user,eh.lease.modify.wizard,eh_account_base.group_eh_user,crud,
+access_eh_lease_terminate_wizard_user,eh.lease.terminate.wizard user,eh.lease.terminate.wizard,eh_account_base.group_eh_user,crud,
+access_eh_asset_book_user,eh.asset.book user,eh.asset.book,eh_account_base.group_eh_user,cru,
+access_eh_asset_book_manager,eh.asset.book manager,eh.asset.book,eh_account_base.group_eh_manager,crud,
+access_eh_asset_book_auditor,eh.asset.book auditor,eh.asset.book,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_book_company,eh.asset.book: company isolation,eh.asset.book,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_book_line_user,eh.asset.book.line user,eh.asset.book.line,eh_account_base.group_eh_user,cru,
+access_eh_asset_book_line_manager,eh.asset.book.line manager,eh.asset.book.line,eh_account_base.group_eh_manager,crud,
+access_eh_asset_book_line_auditor,eh.asset.book.line auditor,eh.asset.book.line,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_book_line_company,eh.asset.book.line: company isolation,eh.asset.book.line,,crud,"[('book_id.company_id', 'in', company_ids)]"
+access_eh_asset_impairment_user,eh.asset.impairment user,eh.asset.impairment,eh_account_base.group_eh_user,cru,
+access_eh_asset_impairment_manager,eh.asset.impairment manager,eh.asset.impairment,eh_account_base.group_eh_manager,crud,
+access_eh_asset_impairment_auditor,eh.asset.impairment auditor,eh.asset.impairment,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_impairment_company,eh.asset.impairment: company isolation,eh.asset.impairment,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_lvp_pool_user,eh.asset.lvp.pool user,eh.asset.lvp.pool,eh_account_base.group_eh_user,cru,
+access_eh_asset_lvp_pool_manager,eh.asset.lvp.pool manager,eh.asset.lvp.pool,eh_account_base.group_eh_manager,crud,
+access_eh_asset_lvp_pool_auditor,eh.asset.lvp.pool auditor,eh.asset.lvp.pool,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_lvp_pool_company,eh.asset.lvp.pool: company isolation,eh.asset.lvp.pool,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_lvp_pool_line_user,eh.asset.lvp.pool.line user,eh.asset.lvp.pool.line,eh_account_base.group_eh_user,cru,
+access_eh_asset_lvp_pool_line_manager,eh.asset.lvp.pool.line manager,eh.asset.lvp.pool.line,eh_account_base.group_eh_manager,crud,
+access_eh_asset_lvp_pool_line_auditor,eh.asset.lvp.pool.line auditor,eh.asset.lvp.pool.line,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_lvp_pool_line_company,eh.asset.lvp.pool.line: company isolation,eh.asset.lvp.pool.line,,crud,"[('pool_id.company_id', 'in', company_ids)]"
+access_eh_asset_cgu_user,eh.asset.cgu user,eh.asset.cgu,eh_account_base.group_eh_user,cru,
+access_eh_asset_cgu_manager,eh.asset.cgu manager,eh.asset.cgu,eh_account_base.group_eh_manager,crud,
+access_eh_asset_cgu_auditor,eh.asset.cgu auditor,eh.asset.cgu,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_cgu_company,eh.asset.cgu: company isolation,eh.asset.cgu,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_asset_cgu_cashflow_user,eh.asset.cgu.cashflow user,eh.asset.cgu.cashflow,eh_account_base.group_eh_user,cru,
+access_eh_asset_cgu_cashflow_manager,eh.asset.cgu.cashflow manager,eh.asset.cgu.cashflow,eh_account_base.group_eh_manager,crud,
+access_eh_asset_cgu_cashflow_auditor,eh.asset.cgu.cashflow auditor,eh.asset.cgu.cashflow,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_cgu_cashflow_company,eh.asset.cgu.cashflow: company isolation,eh.asset.cgu.cashflow,,crud,"[('cgu_id.company_id', 'in', company_ids)]"
+access_eh_asset_cgu_test_event_user,eh.asset.cgu.test.event user,eh.asset.cgu.test.event,eh_account_base.group_eh_user,r,
+access_eh_asset_cgu_test_event_auditor,eh.asset.cgu.test.event auditor,eh.asset.cgu.test.event,eh_account_base.group_eh_auditor,r,
+rule_eh_asset_cgu_test_event_company,eh.asset.cgu.test.event: company isolation,eh.asset.cgu.test.event,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_lease_option_user,eh.lease.option user,eh.lease.option,eh_account_base.group_eh_user,cru,
+access_eh_lease_option_manager,eh.lease.option manager,eh.lease.option,eh_account_base.group_eh_manager,crud,
+access_eh_lease_option_auditor,eh.lease.option auditor,eh.lease.option,eh_account_base.group_eh_auditor,r,
+rule_eh_lease_option_company,eh.lease.option: company isolation,eh.lease.option,,crud,"[('company_id', 'in', company_ids)]"
+rule_eh_asset_lvp_transfer_wizard_owner,eh.asset.lvp.transfer.wizard: own records,eh.asset.lvp.transfer.wizard,,crud,"[('create_uid', '=', user.id)]"
+rule_eh_asset_lvp_transfer_wizard_company,eh.asset.lvp.transfer.wizard: company isolation,eh.asset.lvp.transfer.wizard,,crud,"[('company_id', 'in', company_ids)]"

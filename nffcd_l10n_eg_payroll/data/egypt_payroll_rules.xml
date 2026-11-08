@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Shared configuration. Rates and thresholds are dated records, never constants in Python. -->
+  <data noupdate="1">
+    <record id="category_eg_info" model="hr.salary.rule.category">
+      <field name="name">Egypt Payroll Information</field><field name="code">EGINFO</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="component_insurance_wage" model="hr.salary.component">
+      <field name="name">Egypt Social Insurance Wage</field><field name="code">EG_INSURANCE_WAGE</field>
+      <field name="category_id" ref="category_eg_info"/><field name="company_id" eval="False"/>
+      <field name="note">Set per contract. Zero means the employee is outside this insurance calculation.</field>
+    </record>
+    <record id="param_ss_employee_rate" model="hr.rule.parameter"><field name="name">Egypt social insurance - employee rate</field><field name="code">EG_SS_EMPLOYEE_RATE</field><field name="company_id" eval="False"/></record>
+    <record id="param_ss_employer_rate" model="hr.rule.parameter"><field name="name">Egypt social insurance - employer rate</field><field name="code">EG_SS_EMPLOYER_RATE</field><field name="company_id" eval="False"/></record>
+    <record id="param_ss_min" model="hr.rule.parameter"><field name="name">Egypt social insurance - minimum wage</field><field name="code">EG_SS_MIN_WAGE</field><field name="company_id" eval="False"/></record>
+    <record id="param_ss_max" model="hr.rule.parameter"><field name="name">Egypt social insurance - maximum wage</field><field name="code">EG_SS_MAX_WAGE</field><field name="company_id" eval="False"/></record>
+    <record id="param_tax_exemption" model="hr.rule.parameter"><field name="name">Egypt income tax - personal exemption</field><field name="code">EG_TAX_PERSONAL_EXEMPTION</field><field name="company_id" eval="False"/></record>
+    <record id="param_hours_day" model="hr.rule.parameter"><field name="name">Egypt payroll - standard hours per day</field><field name="code">EG_STANDARD_HOURS_DAY</field><field name="company_id" eval="False"/></record>
+
+    <record id="ss_employee_rate_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_ss_employee_rate"/><field name="date_from">2026-01-01</field><field name="value_number">11</field></record>
+    <record id="ss_employer_rate_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_ss_employer_rate"/><field name="date_from">2026-01-01</field><field name="value_number">18.75</field></record>
+    <record id="ss_min_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_ss_min"/><field name="date_from">2026-01-01</field><field name="value_number">2700</field></record>
+    <record id="ss_max_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_ss_max"/><field name="date_from">2026-01-01</field><field name="value_number">16700</field></record>
+    <record id="tax_exemption_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_tax_exemption"/><field name="date_from">2026-01-01</field><field name="value_number">20000</field></record>
+    <record id="hours_day_2026" model="hr.rule.parameter.value"><field name="parameter_id" ref="param_hours_day"/><field name="date_from">2026-01-01</field><field name="value_number">8</field></record>
+
+    <record id="bracket_income_tax" model="hr.salary.bracket"><field name="name">Egypt income tax</field><field name="code">EG_INCOME_TAX</field><field name="computation">marginal</field><field name="company_id" eval="False"/></record>
+    <record id="tax_table_2026" model="hr.salary.bracket.version"><field name="bracket_id" ref="bracket_income_tax"/><field name="date_from">2026-01-01</field></record>
+    <record id="tax_0" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">0</field><field name="upper">40000</field><field name="rate">0</field></record>
+    <record id="tax_10" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">40000</field><field name="upper">55000</field><field name="rate">10</field></record>
+    <record id="tax_15" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">55000</field><field name="upper">70000</field><field name="rate">15</field></record>
+    <record id="tax_20" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">70000</field><field name="upper">200000</field><field name="rate">20</field></record>
+    <record id="tax_225" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">200000</field><field name="upper">400000</field><field name="rate">22.5</field></record>
+    <record id="tax_25" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">400000</field><field name="upper">1200000</field><field name="rate">25</field></record>
+    <record id="tax_275" model="hr.salary.bracket.line"><field name="version_id" ref="tax_table_2026"/><field name="lower">1200000</field><field name="rate">27.5</field></record>
+
+  </data>
+
+  <data noupdate="0">
+    <record id="rule_ss_base" model="hr.salary.rule">
+      <field name="name">Egypt insurable wage</field><field name="code">EGSSBASE</field><field name="sequence">110</field><field name="category_id" ref="category_eg_info"/><field name="appears_on_payslip" eval="False"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">wage = components.EG_INSURANCE_WAGE
+result = min(max(wage, parameters.EG_SS_MIN_WAGE), parameters.EG_SS_MAX_WAGE) if wage else 0.0</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_ss_employee" model="hr.salary.rule">
+      <field name="name">NOSI - employee contribution</field><field name="code">EGSSEMP</field><field name="sequence">120</field><field name="category_id" ref="om_hr_payroll.DED"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = -rules.EGSSBASE * parameters.EG_SS_EMPLOYEE_RATE / 100.0</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_ss_employer" model="hr.salary.rule">
+      <field name="name">NOSI - employer contribution</field><field name="code">EGSSCOMP</field><field name="sequence">125</field><field name="category_id" ref="om_hr_payroll.COMP"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = rules.EGSSBASE * parameters.EG_SS_EMPLOYER_RATE / 100.0</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_taxable_year" model="hr.salary.rule">
+      <field name="name">Egypt annual taxable income</field><field name="code">EGTAXBASE</field><field name="sequence">170</field><field name="category_id" ref="category_eg_info"/><field name="appears_on_payslip" eval="False"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">annual_income = categories.GROSS * 12.0
+annual_insurance = abs(rules.EGSSEMP) * 12.0
+result = max(0.0, annual_income - annual_insurance - parameters.EG_TAX_PERSONAL_EXEMPTION)</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_tax" model="hr.salary.rule">
+      <field name="name">Egypt income tax</field><field name="code">EGTAX</field><field name="sequence">180</field><field name="category_id" ref="om_hr_payroll.DED"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = -brackets.EG_INCOME_TAX.compute(rules.EGTAXBASE) / 12.0</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_overtime_day" model="hr.salary.rule">
+      <field name="name">Egypt overtime - daytime</field><field name="code">EGOTDAY</field><field name="sequence">150</field><field name="category_id" ref="om_hr_payroll.ALW"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = inputs.EG_OT_DAY.amount * 1.35 * (categories.BASIC + categories.ALW) / 30.0 / parameters.EG_STANDARD_HOURS_DAY</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_overtime_night" model="hr.salary.rule">
+      <field name="name">Egypt overtime - night</field><field name="code">EGOTNIGHT</field><field name="sequence">151</field><field name="category_id" ref="om_hr_payroll.ALW"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = inputs.EG_OT_NIGHT.amount * 1.70 * (categories.BASIC + categories.ALW) / 30.0 / parameters.EG_STANDARD_HOURS_DAY</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="rule_overtime_rest" model="hr.salary.rule">
+      <field name="name">Egypt overtime - rest day/public holiday</field><field name="code">EGOTREST</field><field name="sequence">152</field><field name="category_id" ref="om_hr_payroll.ALW"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = inputs.EG_OT_REST.amount * 2.0 * (categories.BASIC + categories.ALW) / 30.0 / parameters.EG_STANDARD_HOURS_DAY</field><field name="company_id" eval="False"/>
+    </record>
+    <!-- Override the inherited gross after overtime is computed; the base NET rule runs at sequence 200. -->
+    <record id="rule_eg_gross" model="hr.salary.rule">
+      <field name="name">Egypt taxable gross</field><field name="code">GROSS</field><field name="sequence">160</field><field name="category_id" ref="om_hr_payroll.GROSS"/>
+      <field name="amount_select">code</field><field name="amount_python_compute">result = categories.BASIC + categories.ALW</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="input_ot_day" model="hr.rule.input"><field name="name">Egypt overtime - daytime hours</field><field name="code">EG_OT_DAY</field><field name="input_id" ref="rule_overtime_day"/></record>
+    <record id="input_ot_night" model="hr.rule.input"><field name="name">Egypt overtime - night hours</field><field name="code">EG_OT_NIGHT</field><field name="input_id" ref="rule_overtime_night"/></record>
+    <record id="input_ot_rest" model="hr.rule.input"><field name="name">Egypt overtime - rest/public-holiday hours</field><field name="code">EG_OT_REST</field><field name="input_id" ref="rule_overtime_rest"/></record>
+    <record id="structure_egypt" model="hr.payroll.structure">
+      <field name="name">NFFCD Egypt Monthly Payroll</field><field name="code">NFFCD_EG_MONTHLY</field><field name="parent_id" ref="om_hr_payroll.structure_base"/><field name="company_id" eval="False"/>
+      <field name="rule_ids" eval="[(6, 0, [ref('rule_ss_base'), ref('rule_ss_employee'), ref('rule_ss_employer'), ref('rule_overtime_day'), ref('rule_overtime_night'), ref('rule_overtime_rest'), ref('rule_eg_gross'), ref('rule_taxable_year'), ref('rule_tax')])]"/>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,44 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark-mode counterpart of navbar.scss. Since the bar itself now switches
+// with the mode (see scss/variables.dark.scss for the actual
+// background/text colors), the light-mode-specific tweaks in navbar.scss
+// (dark waffle dots, black-tinted hover overlays) need their opposite
+// here - light waffle dots, white-tinted hover overlays - because the
+// bar's own background is now dark instead of light.
+
+.o_main_navbar {
+    .btn.show,
+    .btn-secondary.show,
+    .btn-outline-secondary.show,
+    .dropdown-toggle.show {
+        background-color: rgba(255, 255, 255, .1) !important;
+    }
+
+    .o_user_menu .dropdown-toggle:hover,
+    .o_user_menu .dropdown-toggle:focus,
+    .o_user_menu .dropdown-toggle.show {
+        background-color: rgba(255, 255, 255, .1) !important;
+    }
+
+    .o_badirra_apps_toggle:hover {
+        background-color: rgba(255, 255, 255, .08);
+    }
+
+    .o_badirra_waffle span {
+        background-color: rgba(255, 255, 255, .85);
+    }
+
+    // Same reason as the waffle dots: the bar is dark here, so the back
+    // arrow needs to be light rather than inheriting the light-mode tone.
+    .o_badirra_back_arrow {
+        color: rgba(255, 255, 255, .85);
+    }
+}
+
+// Dark counterpart of the hairline navbar.scss now draws itself, since
+// Odoo 20 dropped $o-navbar-border-bottom.
+.o_main_navbar {
+    border-bottom-color: #22252E;
+}

@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_benefit_plan_user,eh.benefit.plan.user,eh.benefit.plan,eh_account_base.group_eh_user,cru,
+access_eh_benefit_plan_manager,eh.benefit.plan.manager,eh.benefit.plan,eh_account_base.group_eh_manager,crud,
+access_eh_benefit_plan_auditor,eh.benefit.plan.auditor,eh.benefit.plan,eh_account_base.group_eh_auditor,r,
+rule_eh_benefit_plan_company,eh.benefit.plan: company isolation,eh.benefit.plan,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_benefit_valuation_user,eh.benefit.valuation.user,eh.benefit.valuation,eh_account_base.group_eh_user,cru,
+access_eh_benefit_valuation_manager,eh.benefit.valuation.manager,eh.benefit.valuation,eh_account_base.group_eh_manager,crud,
+access_eh_benefit_valuation_auditor,eh.benefit.valuation.auditor,eh.benefit.valuation,eh_account_base.group_eh_auditor,r,
+rule_eh_benefit_valuation_company,eh.benefit.valuation: company isolation,eh.benefit.valuation,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_benefit_dc_accrual_user,eh.benefit.dc.accrual.user,eh.benefit.dc.accrual,eh_account_base.group_eh_user,cru,
+access_eh_benefit_dc_accrual_manager,eh.benefit.dc.accrual.manager,eh.benefit.dc.accrual,eh_account_base.group_eh_manager,crud,
+access_eh_benefit_dc_accrual_auditor,eh.benefit.dc.accrual.auditor,eh.benefit.dc.accrual,eh_account_base.group_eh_auditor,r,
+rule_eh_benefit_dc_accrual_company,eh.benefit.dc.accrual: company isolation,eh.benefit.dc.accrual,,crud,"[('company_id', 'in', company_ids)]"

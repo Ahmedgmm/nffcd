@@ -1,0 +1,19 @@
+id,name,model_id,group_id/id,operation,domain
+access_citadel_role_user,citadel.authority.role.user,citadel.authority.role,citadel_authority.group_citadel_authority_user,r,
+access_citadel_role_manager,citadel.authority.role.manager,citadel.authority.role,citadel_authority.group_citadel_authority_manager,crud,
+rule_citadel_role_company,Authority roles by company,citadel.authority.role,,crud,"[('company_id', 'in', company_ids)]"
+access_citadel_policy_user,citadel.authority.policy.user,citadel.authority.policy,citadel_authority.group_citadel_authority_user,r,
+access_citadel_policy_manager,citadel.authority.policy.manager,citadel.authority.policy,citadel_authority.group_citadel_authority_manager,crud,
+rule_citadel_policy_company,Authority policies by company,citadel.authority.policy,,crud,"[('company_id', 'in', company_ids)]"
+access_citadel_policy_step_user,citadel.authority.policy.step.user,citadel.authority.policy.step,citadel_authority.group_citadel_authority_user,r,
+access_citadel_policy_step_manager,citadel.authority.policy.step.manager,citadel.authority.policy.step,citadel_authority.group_citadel_authority_manager,crud,
+access_citadel_request_user,citadel.authority.request.user,citadel.authority.request,citadel_authority.group_citadel_authority_user,r,
+rule_citadel_request_company,Authority requests by company,citadel.authority.request,,r,"[('company_id', 'in', company_ids)]"
+access_citadel_request_step_user,citadel.authority.request.step.user,citadel.authority.request.step,citadel_authority.group_citadel_authority_user,r,
+access_citadel_vote_user,citadel.authority.vote.user,citadel.authority.vote,citadel_authority.group_citadel_authority_user,r,
+access_citadel_log_user,citadel.authority.log.user,citadel.authority.log,citadel_authority.group_citadel_authority_user,r,
+access_citadel_delegation_user,citadel.authority.delegation.user,citadel.authority.delegation,citadel_authority.group_citadel_authority_user,crud,
+rule_citadel_delegation_own_read,Read own authority delegations,citadel.authority.delegation,citadel_authority.group_citadel_authority_user,r,"['|', ('delegator_id', '=', user.id), ('delegate_id', '=', user.id)]"
+rule_citadel_delegation_own_manage,Manage own authority delegations,citadel.authority.delegation,citadel_authority.group_citadel_authority_user,cud,"[('delegator_id', '=', user.id)]"
+rule_citadel_delegation_manager,Authority managers manage all delegations,citadel.authority.delegation,citadel_authority.group_citadel_authority_manager,crud,"[(1, '=', 1)]"
+access_citadel_reject_wizard,citadel.authority.reject.wizard,citadel.authority.reject.wizard,citadel_authority.group_citadel_authority_user,crud,

@@ -1,0 +1,122 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Login screen. Measured against a real Odoo Enterprise login rather than
+// designed from scratch, because the previous version of this file was
+// neither: it drew a saturated brand-coloured gradient with blurred glow
+// blobs on the page wrapper, forced the wrapper to min-height:100vh with
+// flex centring, and tried to widen the card to 420px. Reading Enterprise's
+// own login off the wire gives:
+//
+//   body      .o_home_menu_background
+//             background-color: rgb(231,233,237)   (= $o-gray-200)
+//             background-image: url(.../background-light.svg)
+//             background-size: cover; background-attachment: fixed
+//   wrapper   .container.py-5 - fully transparent, max-width 1140px,
+//             padding 48px 12px. Enterprise does not touch it at all.
+//   card      card border-0 mx-auto bg-100 rounded-0 shadow-sm bg-white
+//             width 300px (core's own inline max-width), border-radius 0,
+//             box-shadow 0 2px 4px rgba(0,0,0,.075), .card-body padding 16px
+//
+// So: square, small, flat card sitting near the top of a full-viewport
+// light-grey textured page. Two consequences for this file.
+//
+// First, the background belongs on <body>, which is why the view now sets
+// body_classname instead of adding a class to the wrapper - a background on
+// the wrapper can never cover the viewport without the 100vh/flex hacks that
+// were making the page feel wrong.
+//
+// Second, nothing here sets a width, a height or a padding. The 300px card
+// width comes from core's inline style="max-width: 300px", which no
+// stylesheet can beat anyway, and the flat/shadow-sm/square look now comes
+// from login_card_classes carrying Enterprise's own value. This file only
+// paints: the page background, the dark-mode surfaces, and the brand accent
+// on the primary button and links.
+
+.o_badirra_login_background {
+    // cover + fixed, exactly as Enterprise does it: the texture stays put
+    // while a long login form (database selector, OAuth buttons, ...)
+    // scrolls over it.
+    background-color: $o-gray-200;
+    background-image:
+        linear-gradient(155deg, rgba($o-brand-badirra, .07) 0%, rgba($o-brand-badirra, 0) 42%),
+        linear-gradient(330deg, rgba($o-brand-badirra-accent, .06) 0%, rgba($o-brand-badirra-accent, 0) 38%);
+    background-size: cover;
+    background-attachment: fixed;
+
+    // Kept deliberately faint. Enterprise's own overlay is a near-invisible
+    // diagonal texture, not a colour wash - a strong brand gradient here is
+    // what made the page read as "wrong colour" next to the real thing.
+
+    &.o_badirra_dark {
+        background-color: #12151C;
+        background-image:
+            linear-gradient(155deg, rgba($o-brand-badirra-accent, .10) 0%, rgba($o-brand-badirra-accent, 0) 45%),
+            linear-gradient(330deg, rgba($o-brand-badirra, .16) 0%, rgba($o-brand-badirra, 0) 40%);
+    }
+
+    // Dark surfaces. Nothing here touches geometry - only colour. In dark
+    // mode the view omits Bootstrap's bg-white utility from
+    // login_card_classes, so there is no !important to fight here.
+    &.o_badirra_dark {
+        color: $o-gray-300;
+
+        .card {
+            background-color: #171B24;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .45);
+        }
+
+        label,
+        .form-label {
+            color: $o-gray-300;
+        }
+
+        .form-control {
+            background-color: #0F1319;
+            border-color: $o-gray-800;
+            color: #fff;
+
+            &::placeholder {
+                color: $o-gray-500;
+            }
+
+            &:focus {
+                background-color: #0F1319;
+                color: #fff;
+            }
+        }
+
+        .text-muted,
+        small {
+            color: $o-gray-500 !important;
+        }
+    }
+
+    // Brand accent. The only place this theme deviates from Enterprise's
+    // login on purpose - colour only, no sizing.
+    .oe_login_buttons .btn-primary,
+    .btn-primary {
+        background-color: $o-brand-badirra-accent;
+        border-color: $o-brand-badirra-accent;
+
+        &:hover,
+        &:focus {
+            background-color: darken($o-brand-badirra-accent, 6%);
+            border-color: darken($o-brand-badirra-accent, 6%);
+        }
+    }
+
+    .form-control:focus {
+        border-color: $o-brand-badirra-accent;
+        box-shadow: 0 0 0 .2rem rgba($o-brand-badirra-accent, .18);
+    }
+
+    a {
+        color: $o-brand-badirra-accent;
+
+        &:hover {
+            color: darken($o-brand-badirra-accent, 8%);
+        }
+    }
+}

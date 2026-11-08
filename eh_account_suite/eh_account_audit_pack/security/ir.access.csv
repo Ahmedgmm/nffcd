@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_audit_pack_user,eh.audit.pack.user,eh.audit.pack,eh_account_base.group_eh_user,cru,
+access_eh_audit_pack_manager,eh.audit.pack.manager,eh.audit.pack,eh_account_base.group_eh_manager,crud,
+access_eh_audit_pack_auditor,eh.audit.pack.auditor,eh.audit.pack,eh_account_base.group_eh_auditor,r,
+rule_eh_audit_pack_company,eh.audit.pack: company isolation,eh.audit.pack,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_audit_check_user,eh.audit.check.user,eh.audit.check,eh_account_base.group_eh_user,r,
+access_eh_audit_check_auditor,eh.audit.check.auditor,eh.audit.check,eh_account_base.group_eh_auditor,r,
+rule_eh_audit_check_company,eh.audit.check: company isolation,eh.audit.check,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_audit_pack_amendment_wizard_manager,eh.audit.pack.amendment.wizard.manager,eh.audit.pack.amendment.wizard,eh_account_base.group_eh_manager,crud,

@@ -1,0 +1,295 @@
+// Accounting > Dashboard: visual polish for the journal kanban and the KPI
+// strip above it. CSS only on Odoo's public class names; no behaviour change.
+//
+// Light and dark: every colour comes from the theme's SCSS variables, and
+// web.assets_web_dark recompiles this file against the dark variables, so
+// one source serves both modes. $nf-dark only tunes shadows and tints.
+//
+// RTL: Odoo runs rtlcss over the bundle for right-to-left languages, so the
+// physical left/right values below are mirrored automatically.
+
+$nf-dark: variable-exists(o-webclient-color-scheme) and $o-webclient-color-scheme == dark;
+
+$nf-surface: $o-view-background-color;
+$nf-border: $o-gray-300;
+$nf-text: $o-gray-900;
+$nf-text-dim: $o-gray-600;
+$nf-radius: 12px;
+$nf-gap: 24px;
+$nf-pad: 24px;
+$nf-gap-sm: 16px;
+$nf-shadow: if($nf-dark, (0 1px 2px rgba(0, 0, 0, .35)), (0 1px 2px rgba(27, 46, 75, .04), 0 2px 8px rgba(27, 46, 75, .05)));
+$nf-shadow-hover: if($nf-dark, (0 8px 22px rgba(0, 0, 0, .5)), (0 4px 10px rgba(27, 46, 75, .06), 0 10px 24px rgba(27, 46, 75, .08)));
+$nf-tint: if($nf-dark, .18, .10);
+
+// KPI accents: invoices teal, expenses gold, cash navy, receivable green,
+// payable red.
+$nf-kpi-colors: (
+    "invoices": $o-brand-badirra-accent,
+    "expenses": $o-brand-badirra-gold,
+    "cash": $o-brand-primary,
+    "receivable": $success,
+    "payable": $danger,
+);
+
+// Journal-card accents, matched by the card's own content block.
+$nf-journal-colors: (
+    "sale": $o-brand-badirra-accent,
+    "purchase": $o-brand-badirra-gold,
+    "bank": $o-brand-primary,
+    "general": $o-gray-500,
+);
+
+// =============================== KPI strip ===============================
+.o_account_kanban {
+    .o_account_dashboard_kpis_wrapper {
+        margin: $nf-gap $nf-gap 0;
+    }
+
+    .o_account_dashboard_kpis {
+        gap: $nf-gap;
+        // the scroll container would clip the card shadows
+        padding: 2px 2px 6px;
+        margin: -2px -2px -6px;
+    }
+
+    .o_account_dashboard_kpi_card {
+        position: relative;
+        min-height: 88px;
+        padding: 14px 16px;
+        border: 1px solid $nf-border;
+        border-radius: $nf-radius;
+        background-color: $nf-surface;
+        box-shadow: $nf-shadow;
+        overflow: hidden;
+        transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
+
+        // status hairline along the top edge
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: $o-gray-400;
+        }
+
+        &:not(:disabled):hover {
+            border-color: $o-gray-400;
+            background-color: $nf-surface;
+            box-shadow: $nf-shadow-hover;
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid $o-action;
+            outline-offset: 2px;
+        }
+
+        // A card without a drill action is still real data: keep it fully
+        // readable, just not interactive.
+        &:disabled {
+            opacity: 1;
+            .o_account_dashboard_kpi_value { color: $nf-text-dim; }
+        }
+
+        @each $id, $color in $nf-kpi-colors {
+            &[data-kpi-id="#{$id}"] {
+                &::before { background-color: $color; }
+                .o_nf_kpi_icon {
+                    color: $color;
+                    background-color: rgba($color, $nf-tint);
+                }
+            }
+        }
+    }
+
+    .o_account_dashboard_kpi_header {
+        gap: 10px;
+        justify-content: flex-start;
+        font-size: 13px;
+        font-weight: 600;
+        color: $nf-text-dim;
+    }
+
+    .o_nf_kpi_icon {
+        flex: none;
+        display: inline-grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        font-size: 17px;
+        color: $nf-text-dim;
+        background-color: $o-gray-200;
+    }
+
+    .o_account_dashboard_kpi_value {
+        margin-top: 8px;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.3;
+        color: $nf-text;
+        font-variant-numeric: tabular-nums;
+        unicode-bidi: isolate;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .o_account_dashboard_kpi_invoice_layout_card {
+        border: 1px dashed rgba($o-brand-badirra-accent, .6);
+        background-color: rgba($o-brand-badirra-accent, $nf-tint * .6);
+        box-shadow: none;
+        &::before { display: none; }
+
+        .o_account_dashboard_kpi_header {
+            font-size: 14px;
+            color: $nf-text;
+        }
+        &:not(:disabled):hover {
+            border-color: $o-brand-badirra-accent;
+            background-color: rgba($o-brand-badirra-accent, $nf-tint);
+        }
+    }
+}
+
+// RTL amounts: "0.00 LE" must not reorder to "LE 0.00" inside an Arabic
+// layout, so let the amount pick its own direction. The physical `left`
+// is written for rtlcss, which turns it into `right` in the RTL bundle
+// (the only bundle where .o_rtl exists).
+.o_rtl .o_account_kanban {
+    .o_account_dashboard_kpi_value {
+        unicode-bidi: plaintext;
+        text-align: left;
+    }
+    .o_kanban_record .text-end,
+    .o_kanban_record .o_field_monetary {
+        unicode-bidi: plaintext;
+    }
+}
+
+// ============================= journal cards =============================
+.o_account_kanban .o_kanban_renderer {
+    // one rhythm: 16px between cards and 16px to the page edge
+    --KanbanRecord-margin-v: #{$nf-gap * .5};
+    --KanbanRecord-margin-h: #{$nf-gap * .5};
+    --Card-padding-v: #{$nf-pad};
+    --Card-padding-h: #{$nf-pad};
+    padding: $nf-gap * .5;
+
+    &.o_kanban_ungrouped {
+        --KanbanRecord-width: calc(50% - #{$nf-gap});
+    }
+
+    .o_kanban_record:not(.o_kanban_ghost) {
+        border: 1px solid $nf-border;
+        border-radius: $nf-radius;
+        background-color: $nf-surface;
+        box-shadow: $nf-shadow;
+        overflow: hidden;
+
+        &:hover {
+            box-shadow: $nf-shadow-hover;
+            transform: none;
+        }
+
+        // accent bar by journal type
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: transparent;
+            pointer-events: none;
+        }
+        &:has([name="dashboard_misc_buttons"])::after { background-color: map-get($nf-journal-colors, "general"); }
+        &:has([name="bank_cash_buttons"])::after { background-color: map-get($nf-journal-colors, "bank"); }
+        &:has(.o_widget_account_file_uploader)::after { background-color: map-get($nf-journal-colors, "purchase"); }
+        &:has([name="kanban_primary_left"] .btn-primary):not(:has(.o_widget_account_file_uploader)):not(:has([name="bank_cash_buttons"])):not(:has([name="dashboard_misc_buttons"]))::after {
+            background-color: map-get($nf-journal-colors, "sale");
+        }
+
+        // journal name
+        // Cairo ships 400 and 700 only, so 500 would fall back to regular
+        a.fs-4.fw-bold {
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            color: $nf-text;
+            &:hover { color: $o-action; }
+        }
+        .text-muted { font-size: 12.5px; }
+
+        .container-fluid > .row + .row { margin-top: 12px; }
+
+        // buttons: one height, softer corners
+        .btn {
+            min-height: 32px;
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .btn-secondary {
+            border: 1px solid $nf-border;
+        }
+
+        // the counters / amounts on the right
+        [name="kanban_primary_right"],
+        #dashboard_bank_cash_right,
+        #dashboard_general_right {
+            font-size: 13px;
+            > .row {
+                align-items: center;
+                min-height: 28px;
+                padding: 2px 0;
+                border-bottom: 1px dashed $nf-border;
+                &:last-child { border-bottom: none; }
+            }
+            .text-end,
+            .oe_kanban_action_text,
+            .o_field_monetary {
+                font-weight: 600;
+                font-variant-numeric: tabular-nums;
+                unicode-bidi: isolate;
+            }
+        }
+
+        // core pulls the chart out to the card edges; keep it inside the padding
+        .o_dashboard_graph {
+            margin: 12px 0 0;
+        }
+
+        .o_drop_area {
+            border-radius: $nf-radius - 2px;
+        }
+    }
+}
+
+// The upload zone inside Purchases: calmer dashed tile.
+.o_account_kanban .o_widget_account_file_uploader .btn,
+.o_account_kanban [name="kanban_primary_left"] .o_dropzone {
+    border-radius: 8px;
+}
+
+@include media-breakpoint-down(md) {
+    .o_account_kanban {
+        .o_account_dashboard_kpis_wrapper { margin: $nf-gap-sm $nf-gap-sm 0; }
+        .o_account_dashboard_kpis { gap: $nf-gap-sm; }
+        // Odoo stacks the cards edge to edge here (margin 0 0 -1px), so
+        // give them the same gutter as the KPI strip above.
+        .o_kanban_renderer {
+            --Card-padding-v: #{$nf-gap-sm};
+            --Card-padding-h: #{$nf-gap-sm};
+            padding: $nf-gap-sm $nf-gap-sm 0;
+
+            .o_kanban_record:not(.o_kanban_ghost) {
+                margin: 0 0 $nf-gap-sm !important;
+                flex-basis: 100%;
+                max-width: 100%;
+            }
+        }
+    }
+}

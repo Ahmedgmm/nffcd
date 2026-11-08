@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo resolves a manually started tour (the ?tour= link and the
+        Start button under Settings > Technical > Tours) from the database
+        only; the steps then come from the JS registry entry of the same
+        name. Without this record the walkthrough could only run in
+        automatic test mode.
+
+        custom keeps it out of the automatic onboarding sequence: that
+        sequence starts each tour on whatever screen the user is on, while
+        these steps assume the tour's own starting screen.
+    -->
+    <record id="eh_approval_setup_tour" model="web_tour.tour">
+        <field name="name">eh_approval_setup_tour</field>
+        <field name="url">/odoo/action-eh_account_approval.action_eh_approval_request</field>
+        <field name="sequence">2010</field>
+        <field name="custom" eval="True"/>
+    </record>
+</odoo>

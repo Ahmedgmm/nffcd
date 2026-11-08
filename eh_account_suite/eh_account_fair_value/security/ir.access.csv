@@ -1,0 +1,16 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_fair_value_item_user,eh.fair.value.item.user,eh.fair.value.item,eh_account_base.group_eh_user,cru,
+access_eh_fair_value_item_manager,eh.fair.value.item.manager,eh.fair.value.item,eh_account_base.group_eh_manager,crud,
+access_eh_fair_value_item_auditor,eh.fair.value.item.auditor,eh.fair.value.item,eh_account_base.group_eh_auditor,r,
+rule_eh_fair_value_item_company,eh.fair.value.item: company isolation,eh.fair.value.item,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fair_value_rollforward_user,eh.fair.value.rollforward.user,eh.fair.value.rollforward,eh_account_base.group_eh_user,cru,
+access_eh_fair_value_rollforward_manager,eh.fair.value.rollforward.manager,eh.fair.value.rollforward,eh_account_base.group_eh_manager,crud,
+access_eh_fair_value_rollforward_auditor,eh.fair.value.rollforward.auditor,eh.fair.value.rollforward,eh_account_base.group_eh_auditor,r,
+rule_eh_fair_value_rollforward_company,eh.fair.value.rollforward: company isolation,eh.fair.value.rollforward,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fair_value_sensitivity_user,eh.fair.value.sensitivity.user,eh.fair.value.sensitivity,eh_account_base.group_eh_user,cru,
+access_eh_fair_value_sensitivity_manager,eh.fair.value.sensitivity.manager,eh.fair.value.sensitivity,eh_account_base.group_eh_manager,crud,
+access_eh_fair_value_sensitivity_auditor,eh.fair.value.sensitivity.auditor,eh.fair.value.sensitivity,eh_account_base.group_eh_auditor,r,
+rule_eh_fair_value_sensitivity_company,eh.fair.value.sensitivity: company isolation,eh.fair.value.sensitivity,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fair_value_level_transfer_user,eh.fair.value.level.transfer.user,eh.fair.value.level.transfer,eh_account_base.group_eh_user,r,
+access_eh_fair_value_level_transfer_auditor,eh.fair.value.level.transfer.auditor,eh.fair.value.level.transfer,eh_account_base.group_eh_auditor,r,
+rule_eh_fair_value_level_transfer_company,eh.fair.value.level.transfer: company isolation,eh.fair.value.level.transfer,,crud,"[('company_id', 'in', company_ids)]"

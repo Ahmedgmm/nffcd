@@ -1,0 +1,61 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark-mode counterpart of home_menu.scss.
+
+.o_badirra_home_menu {
+    // Dark counterpart of the light backdrop: the same 118deg diagonal
+    // band geometry, in dark violet-greys instead of pale lavender, so the
+    // two modes read as one design. Written with the same longhand
+    // properties the light file uses (background-color/-image) rather than
+    // the `background` shorthand, which would silently reset the
+    // background-attachment and background-size it also sets.
+    background-color: #14161F;
+    background-image: linear-gradient(
+        118deg,
+        #1C1F2B 0%,
+        #191C26 20%,
+        #212433 38%,
+        #191C27 55%,
+        #232030 72%,
+        #161821 100%
+    );
+
+    .o_badirra_home_menu_search {
+        background-color: rgba(255, 255, 255, .06);
+        border-color: rgba(255, 255, 255, .12);
+        color: $o-gray-700;
+        box-shadow: none;
+
+        input {
+            color: #fff;
+
+            &::placeholder {
+                color: $o-gray-500;
+            }
+        }
+    }
+
+    .o_badirra_app_icon {
+        // The light-mode file tints the label navy ($o-brand-badirra) on
+        // hover, which is nearly unreadable against this dark background - 
+        // it needs its own hover color here, not just the base color reset.
+        &:hover, &:focus-visible {
+            background-color: rgba(255, 255, 255, .08);
+
+            .o_badirra_app_icon_label {
+                color: $o-brand-badirra-accent;
+            }
+        }
+
+        .o_badirra_app_icon_image {
+            background-color: #171B24;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .35);
+        }
+
+        .o_badirra_app_icon_label {
+            color: #fff;
+        }
+    }
+}

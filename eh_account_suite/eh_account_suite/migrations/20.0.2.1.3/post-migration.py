@@ -1,0 +1,16 @@
+"""Re-apply country-aware BAS onboarding after the 19.0 to 20.0 upgrade.
+
+The finalizer is idempotent: it seeds missing company lines, pre-skips the
+AU task outside Australia and never touches operator progress.
+"""
+
+from odoo import SUPERUSER_ID, api
+
+from odoo.addons.eh_account_suite.hooks import finalize_bas_onboarding
+
+
+def migrate(cr, version):
+    if not version:
+        return
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    finalize_bas_onboarding(env)

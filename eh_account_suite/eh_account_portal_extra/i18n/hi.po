@@ -1,0 +1,281 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eh_account_portal_extra
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 18:47+0000\n"
+"PO-Revision-Date: 2026-09-19 18:47+0000\n"
+"Last-Translator: ERP Heritage <info@erpheritage.com.au>\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid ""
+".\n"
+"                        Shorter periods protect your financial data from\n"
+"                        timeouts and produce a faster statement."
+msgstr ""
+"। छोटी अवधि आपके वित्तीय डेटा को टाइम आउट से बचाती है और स्टेटमेंट जल्दी "
+"तैयार करती है।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    Download statement"
+msgstr ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    विवरण डाउनलोड करें"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            Account balance"
+msgstr ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            खाता शेष"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Activity during period"
+msgstr "अवधि के दौरान गतिविधि"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid ""
+"Another statement request is still running for your\n"
+"                        account. Wait a few seconds, then try again."
+msgstr ""
+"आपके खाते के लिए स्टेटमेंट का एक और अनुरोध अभी चल रहा है। कुछ सेकंड रुकें, "
+"फिर से कोशिश करें।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Choose another period"
+msgstr "दूसरी अवधि चुनें"
+
+#. module: eh_account_portal_extra
+#: model:ir.model,name:eh_account_portal_extra.model_res_config_settings
+msgid "Config Settings"
+msgstr "कॉन्फ़िगरेशन सेटिंग"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,shortdesc:base.module_eh_account_portal_extra
+msgid "Customer Portal Extra"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,description:base.module_eh_account_portal_extra
+msgid ""
+"Customer Portal Extra turns the standard Odoo 20 Community customer portal into a self-service accounts receivable corner. It adds two things and does them carefully.\n"
+"\n"
+"First, an inline statement form. The logged-in customer chooses start/end dates and either an open-item or activity statement, then receives an ephemeral PDF rendered by the same audited handler as the back office. The controller pins the partner and active company server-side, applies the configured range limit, and never persists the reusable report payload. Because the handler rewinds partial reconciliations created after the chosen end date, a back-dated statement reflects what was actually outstanding then, not today's residual.\n"
+"\n"
+"Second, a live AR balance card on the portal home. It shows open customer-invoice count, the positive overdue invoice residual, the oldest overdue invoice due date, and a days-overdue counter in active-company currency. Credits, unapplied payments, refunds, other partners and sister-company ledgers cannot reduce or contaminate the amount.\n"
+"\n"
+"Access is strictly partner scoped. The authenticated statement route resolves the logged-in user's commercial partner and active company and accepts no override. Invalid dates, an excessive configured range, concurrent generation, missing report registration and render failures return private branded pages; render exceptions are logged with their traceback.\n"
+"\n"
+"The installed portal pages add no analytics tag, tracking pixel, external CDN or custom JavaScript. A documented Accounting setting controls the maximum inclusive statement period (1 to 3660 days). No new report definition is introduced; the module reuses the customer statement generator from eh_account_dynamic_reports."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Customer statement options"
+msgstr "ग्राहक स्टेटमेंट विकल्प"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Customer-facing statement download controls."
+msgstr "ग्राहकों के लिए स्टेटमेंट डाउनलोड नियंत्रण।"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,summary:base.module_eh_account_portal_extra
+msgid ""
+"Customer-selected statement PDFs and a company-scoped overdue-invoice portal"
+" card."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "डिस्प्ले का नाम"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "ERP Heritage Customer Portal"
+msgstr "ERP Heritage ग्राहक पोर्टल"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "From"
+msgstr "के द्वारा"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__id
+msgid "ID"
+msgstr "आईडी"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Invalid date range"
+msgstr "अमान्य दिनांक श्रेणी"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid "Maximum Portal Statement Days"
+msgstr "पोर्टल स्टेटमेंट के अधिकतम दिन"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Maximum Statement Period (days)"
+msgstr "अधिकतम स्टेटमेंट अवधि (दिन)"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,help:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid ""
+"Maximum inclusive date span a customer may request from the portal statement"
+" form. Choose 1 to 3660 days."
+msgstr ""
+"पोर्टल स्टेटमेंट फ़ॉर्म से कोई ग्राहक जितनी अधिकतम तारीख सीमा (दोनों तारीखें"
+" शामिल) माँग सकता है। 1 से 3660 दिन चुनें।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid ""
+"Maximum inclusive period a customer may request. Valid range: 1 to 3660 "
+"days."
+msgstr ""
+"कोई ग्राहक जितनी अधिकतम अवधि (दोनों तारीखें शामिल) माँग सकता है। मान्य सीमा:"
+" 1 से 3660 दिन।"
+
+#. module: eh_account_portal_extra
+#. odoo-python
+#: code:addons/eh_account_portal_extra/models/res_config_settings.py:0
+msgid "Maximum portal statement days must be between 1 and %s."
+msgstr "पोर्टल स्टेटमेंट के अधिकतम दिन 1 और %s के बीच होने चाहिए।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid ""
+"No financial document was downloaded. Please try\n"
+"                        again later or contact support if the issue persists."
+msgstr ""
+"कोई वित्तीय दस्तावेज़ डाउनलोड नहीं हुआ। कृपया बाद में फिर से कोशिश करें या "
+"समस्या बनी रहे तो सहायता से संपर्क करें।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Oldest overdue invoice:"
+msgstr "सबसे पुराना बकाया इनवॉइस:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open invoices:"
+msgstr "खुले इनवॉइस:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open items as at end date"
+msgstr "अंतिम तारीख तक खुले आइटम"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Overdue:"
+msgstr "अतिदेय:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Reset to defaults"
+msgstr "डिफ़ॉल्ट पर रीसेट करें"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Return to account balance"
+msgstr "खाते की शेष राशि पर वापस जाएँ"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Select a period of no more than"
+msgstr "इससे अधिक नहीं की अवधि चुनें"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Statement period is too long"
+msgstr "स्टेटमेंट अवधि बहुत लंबी है"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid "Statement report not configured"
+msgstr "स्टेटमेंट रिपोर्ट कॉन्फ़िगर नहीं की गई"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Statement type"
+msgstr "स्टेटमेंट प्रकार"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid ""
+"The customer statement report is not registered.\n"
+"                        This usually means eh_account_dynamic_reports is\n"
+"                        not installed; please contact support."
+msgstr ""
+"The customer statement report is not registered.\\n                        "
+"This usually means eh_account_dynamic_reports is\\n                        "
+"not installed; please contact support."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid ""
+"The dates you provided could not be parsed or\n"
+"                        the start date was later than the end date.\n"
+"                        Use the format YYYY-MM-DD."
+msgstr ""
+"The dates you provided could not be parsed or\\n                        the "
+"start date was later than the end date.\\n                        Use the "
+"format YYYY-MM-DD."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "To"
+msgstr "से"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "View invoices"
+msgstr "चालान देखें"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid "We could not prepare your statement"
+msgstr "हम आपका स्टेटमेंट तैयार नहीं कर सके"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "You are up to date. Nothing to pay right now."
+msgstr "आप अद्यतित हैं। अभी कुछ भी भुगतान करने के लिए नहीं है।"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Your statement is already being prepared"
+msgstr "आपका स्टेटमेंट पहले से तैयार हो रहा है"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "days"
+msgstr "दिन"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "days)"
+msgstr "दिन)"

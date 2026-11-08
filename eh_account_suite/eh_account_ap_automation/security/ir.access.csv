@@ -1,0 +1,22 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_ap_tolerance_profile_user,eh.ap.tolerance.profile user,eh.ap.tolerance.profile,eh_account_base.group_eh_user,r,
+access_eh_ap_tolerance_profile_manager,eh.ap.tolerance.profile manager,eh.ap.tolerance.profile,eh_account_base.group_eh_manager,crud,
+access_eh_ap_tolerance_profile_auditor,eh.ap.tolerance.profile auditor,eh.ap.tolerance.profile,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_tolerance_profile_company,eh.ap.tolerance.profile: company isolation,eh.ap.tolerance.profile,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ap_intake_user,eh.ap.intake user,eh.ap.intake,eh_account_base.group_eh_user,cru,
+access_eh_ap_intake_manager,eh.ap.intake manager,eh.ap.intake,eh_account_base.group_eh_manager,crud,
+access_eh_ap_intake_auditor,eh.ap.intake auditor,eh.ap.intake,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_intake_company,eh.ap.intake: company isolation,eh.ap.intake,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ap_intake_line_user,eh.ap.intake.line user,eh.ap.intake.line,eh_account_base.group_eh_user,cru,
+access_eh_ap_intake_line_manager,eh.ap.intake.line manager,eh.ap.intake.line,eh_account_base.group_eh_manager,crud,
+access_eh_ap_intake_line_auditor,eh.ap.intake.line auditor,eh.ap.intake.line,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_intake_line_company,eh.ap.intake.line: company isolation,eh.ap.intake.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ap_duplicate_override_log_user,eh.ap.duplicate.override.log user,eh.ap.duplicate.override.log,eh_account_base.group_eh_user,r,
+access_eh_ap_duplicate_override_log_auditor,eh.ap.duplicate.override.log auditor,eh.ap.duplicate.override.log,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_duplicate_override_log_company,eh.ap.duplicate.override.log: company isolation,eh.ap.duplicate.override.log,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ap_line_decision_user,eh.ap.intake.line.decision user,eh.ap.intake.line.decision,eh_account_base.group_eh_user,r,
+access_eh_ap_line_decision_auditor,eh.ap.intake.line.decision auditor,eh.ap.intake.line.decision,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_line_decision_company,eh.ap.intake.line.decision: company isolation,eh.ap.intake.line.decision,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_ap_payment_hold_log_user,eh.ap.payment.hold.log user,eh.ap.payment.hold.log,eh_account_base.group_eh_user,r,
+access_eh_ap_payment_hold_log_auditor,eh.ap.payment.hold.log auditor,eh.ap.payment.hold.log,eh_account_base.group_eh_auditor,r,
+rule_eh_ap_payment_hold_log_company,eh.ap.payment.hold.log: company isolation,eh.ap.payment.hold.log,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_eps_run_user,eh.eps.run.user,eh.eps.run,eh_account_base.group_eh_user,cru,
+access_eh_eps_run_manager,eh.eps.run.manager,eh.eps.run,eh_account_base.group_eh_manager,crud,
+access_eh_eps_run_auditor,eh.eps.run.auditor,eh.eps.run,eh_account_base.group_eh_auditor,r,
+rule_eh_eps_run_company,eh.eps.run: company isolation,eh.eps.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_eps_share_movement_user,eh.eps.share.movement.user,eh.eps.share.movement,eh_account_base.group_eh_user,crud,
+access_eh_eps_share_movement_auditor,eh.eps.share.movement.auditor,eh.eps.share.movement,eh_account_base.group_eh_auditor,r,
+rule_eh_eps_share_movement_company,eh.eps.share.movement: company isolation,eh.eps.share.movement,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_eps_potential_user,eh.eps.potential.user,eh.eps.potential,eh_account_base.group_eh_user,crud,
+access_eh_eps_potential_auditor,eh.eps.potential.auditor,eh.eps.potential,eh_account_base.group_eh_auditor,r,
+rule_eh_eps_potential_company,eh.eps.potential: company isolation,eh.eps.potential,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_eps_price_observation_user,eh.eps.price.observation.user,eh.eps.price.observation,eh_account_base.group_eh_user,crud,
+access_eh_eps_price_observation_auditor,eh.eps.price.observation.auditor,eh.eps.price.observation,eh_account_base.group_eh_auditor,r,
+rule_eh_eps_price_observation_company,eh.eps.price.observation: company isolation,eh.eps.price.observation,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_eps_restatement_event_user,eh.eps.restatement.event.user,eh.eps.restatement.event,eh_account_base.group_eh_user,crud,
+access_eh_eps_restatement_event_auditor,eh.eps.restatement.event.auditor,eh.eps.restatement.event,eh_account_base.group_eh_auditor,r,
+rule_eh_eps_restatement_event_company,eh.eps.restatement.event: company isolation,eh.eps.restatement.event,,crud,"[('company_id', 'in', company_ids)]"

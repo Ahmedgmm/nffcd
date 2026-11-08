@@ -1,0 +1,18 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_close_checklist_user,eh.close.checklist.user,eh.close.checklist,eh_account_base.group_eh_user,r,
+access_eh_close_checklist_manager,eh.close.checklist.manager,eh.close.checklist,eh_account_base.group_eh_manager,crud,
+rule_eh_close_checklist_company,eh.close.checklist: company isolation,eh.close.checklist,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_close_task_template_user,eh.close.task.template.user,eh.close.task.template,eh_account_base.group_eh_user,r,
+access_eh_close_task_template_manager,eh.close.task.template.manager,eh.close.task.template,eh_account_base.group_eh_manager,crud,
+rule_eh_close_task_template_company,eh.close.task.template: company isolation,eh.close.task.template,,crud,"['|', ('checklist_id.company_id', '=', False), ('checklist_id.company_id', 'in', company_ids)]"
+access_eh_close_run_user,eh.close.run.user,eh.close.run,eh_account_base.group_eh_user,cru,
+access_eh_close_run_manager,eh.close.run.manager,eh.close.run,eh_account_base.group_eh_manager,crud,
+rule_eh_close_run_company,eh.close.run: company isolation,eh.close.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_close_task_user,eh.close.task.user,eh.close.task,eh_account_base.group_eh_user,cru,
+access_eh_close_task_manager,eh.close.task.manager,eh.close.task,eh_account_base.group_eh_manager,crud,
+rule_eh_close_task_company,eh.close.task: company isolation,eh.close.task,,crud,"[('run_id.company_id', 'in', company_ids)]"
+access_eh_close_check_user,eh.close.check.user,eh.close.check,eh_account_base.group_eh_user,r,
+rule_eh_close_check_company,eh.close.check: company isolation,eh.close.check,,crud,"[('run_id.company_id', 'in', company_ids)]"
+access_eh_close_signoff_user,eh.close.signoff.user,eh.close.signoff,eh_account_base.group_eh_user,r,
+rule_eh_close_signoff_company,eh.close.signoff: company isolation,eh.close.signoff,,crud,"[('run_id.company_id', 'in', company_ids)]"
+access_eh_close_task_block_wizard_user,eh.close.task.block.wizard.user,eh.close.task.block.wizard,eh_account_base.group_eh_user,cru,

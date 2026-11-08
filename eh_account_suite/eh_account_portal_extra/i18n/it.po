@@ -1,0 +1,283 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eh_account_portal_extra
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 18:47+0000\n"
+"PO-Revision-Date: 2026-09-19 18:47+0000\n"
+"Last-Translator: ERP Heritage <info@erpheritage.com.au>\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid ""
+".\n"
+"                        Shorter periods protect your financial data from\n"
+"                        timeouts and produce a faster statement."
+msgstr ""
+". Periodi più brevi proteggono i tuoi dati finanziari dai timeout e "
+"producono l'estratto conto più rapidamente."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    Download statement"
+msgstr ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    Scarica estratto conto"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            Account balance"
+msgstr ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            Saldo del conto"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Activity during period"
+msgstr "Movimenti del periodo"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid ""
+"Another statement request is still running for your\n"
+"                        account. Wait a few seconds, then try again."
+msgstr ""
+"Per il tuo conto è ancora in corso un'altra richiesta di estratto conto. "
+"Attendi qualche secondo, poi riprova."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Choose another period"
+msgstr "Scegli un altro periodo"
+
+#. module: eh_account_portal_extra
+#: model:ir.model,name:eh_account_portal_extra.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,shortdesc:base.module_eh_account_portal_extra
+msgid "Customer Portal Extra"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,description:base.module_eh_account_portal_extra
+msgid ""
+"Customer Portal Extra turns the standard Odoo 20 Community customer portal into a self-service accounts receivable corner. It adds two things and does them carefully.\n"
+"\n"
+"First, an inline statement form. The logged-in customer chooses start/end dates and either an open-item or activity statement, then receives an ephemeral PDF rendered by the same audited handler as the back office. The controller pins the partner and active company server-side, applies the configured range limit, and never persists the reusable report payload. Because the handler rewinds partial reconciliations created after the chosen end date, a back-dated statement reflects what was actually outstanding then, not today's residual.\n"
+"\n"
+"Second, a live AR balance card on the portal home. It shows open customer-invoice count, the positive overdue invoice residual, the oldest overdue invoice due date, and a days-overdue counter in active-company currency. Credits, unapplied payments, refunds, other partners and sister-company ledgers cannot reduce or contaminate the amount.\n"
+"\n"
+"Access is strictly partner scoped. The authenticated statement route resolves the logged-in user's commercial partner and active company and accepts no override. Invalid dates, an excessive configured range, concurrent generation, missing report registration and render failures return private branded pages; render exceptions are logged with their traceback.\n"
+"\n"
+"The installed portal pages add no analytics tag, tracking pixel, external CDN or custom JavaScript. A documented Accounting setting controls the maximum inclusive statement period (1 to 3660 days). No new report definition is introduced; the module reuses the customer statement generator from eh_account_dynamic_reports."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Customer statement options"
+msgstr "Opzioni dell'estratto conto cliente"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Customer-facing statement download controls."
+msgstr "Controlli per il download dell'estratto conto lato cliente."
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,summary:base.module_eh_account_portal_extra
+msgid ""
+"Customer-selected statement PDFs and a company-scoped overdue-invoice portal"
+" card."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "ERP Heritage Customer Portal"
+msgstr "Portale clienti ERP Heritage"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "From"
+msgstr "Da"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Invalid date range"
+msgstr "Intervallo di date non valido"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid "Maximum Portal Statement Days"
+msgstr "Giorni massimi dell'estratto conto nel portale"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Maximum Statement Period (days)"
+msgstr "Periodo massimo dell'estratto conto (giorni)"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,help:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid ""
+"Maximum inclusive date span a customer may request from the portal statement"
+" form. Choose 1 to 3660 days."
+msgstr ""
+"Intervallo massimo di date, estremi inclusi, che un cliente può richiedere "
+"dal modulo dell'estratto conto nel portale. Scegli da 1 a 3660 giorni."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid ""
+"Maximum inclusive period a customer may request. Valid range: 1 to 3660 "
+"days."
+msgstr ""
+"Periodo massimo, estremi inclusi, che un cliente può richiedere. Intervallo "
+"valido: da 1 a 3660 giorni."
+
+#. module: eh_account_portal_extra
+#. odoo-python
+#: code:addons/eh_account_portal_extra/models/res_config_settings.py:0
+msgid "Maximum portal statement days must be between 1 and %s."
+msgstr ""
+"I giorni massimi dell'estratto conto nel portale devono essere compresi tra "
+"1 e %s."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid ""
+"No financial document was downloaded. Please try\n"
+"                        again later or contact support if the issue persists."
+msgstr ""
+"Non è stato scaricato alcun documento finanziario. Riprova più tardi o "
+"contatta l'assistenza se il problema persiste."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Oldest overdue invoice:"
+msgstr "Fattura scaduta più vecchia:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open invoices:"
+msgstr "Fatture aperte:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open items as at end date"
+msgstr "Partite aperte alla data di fine"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Overdue:"
+msgstr "In ritardo:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Reset to defaults"
+msgstr "Reimposta ai valori predefiniti"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Return to account balance"
+msgstr "Torna al saldo del conto"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Select a period of no more than"
+msgstr "Seleziona un periodo non superiore a"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Statement period is too long"
+msgstr "Il periodo dell'estratto conto è troppo lungo"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid "Statement report not configured"
+msgstr "Report estratto conto non configurato"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Statement type"
+msgstr "Tipo di estratto conto"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid ""
+"The customer statement report is not registered.\n"
+"                        This usually means eh_account_dynamic_reports is\n"
+"                        not installed; please contact support."
+msgstr ""
+"The customer statement report is not registered.\\n                        "
+"This usually means eh_account_dynamic_reports is\\n                        "
+"not installed; please contact support."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid ""
+"The dates you provided could not be parsed or\n"
+"                        the start date was later than the end date.\n"
+"                        Use the format YYYY-MM-DD."
+msgstr ""
+"The dates you provided could not be parsed or\\n                        the "
+"start date was later than the end date.\\n                        Use the "
+"format YYYY-MM-DD."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "To"
+msgstr "A"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "View invoices"
+msgstr "Visualizza fatture"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid "We could not prepare your statement"
+msgstr "Non è stato possibile preparare il tuo estratto conto"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "You are up to date. Nothing to pay right now."
+msgstr "Sei aggiornato. Al momento non c'è nulla da pagare."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Your statement is already being prepared"
+msgstr "Il tuo estratto conto è già in preparazione"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "days"
+msgstr "giorni"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "days)"
+msgstr "giorni)"

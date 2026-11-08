@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr.payroll</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="45"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Payroll"
+                     name="om_hr_payroll"
+                     groups="om_hr_payroll.group_hr_payroll_manager">
+                    <block title="Worked Days" name="om_payroll_worked_days">
+                        <setting id="om_payroll_worked_days_source" string="Worked Days From" company_dependent="1"
+                                 help="Work Entries follow the attendances of the contracts based on attendances; Working Schedule is the computation before version 2.2.0">
+                            <field name="om_payroll_worked_days_source" widget="radio"/>
+                        </setting>
+                        <setting id="om_payroll_month_days" string="Daily Wage" company_dependent="1"
+                                 help="The monthly wage divided by these days pays the unused time off, the overtime and the rules reading daily_wage or hourly_wage">
+                            <field name="om_payroll_month_days" class="o_light_label oe_inline"/> days per month
+                        </setting>
+                    </block>
+                    <block title="Payslips" name="om_payroll_payslips">
+                        <setting id="om_payroll_keep_lines_on_confirm" string="Confirm the Lines as They Are"
+                                 company_dependent="1"
+                                 help="Confirming a computed payslip keeps its lines, the ones edited by hand included, instead of computing it again. The other lines are not added up again: edit the net salary too.">
+                            <field name="om_payroll_keep_lines_on_confirm"/>
+                        </setting>
+                    </block>
+                    <block title="Payslip Batches" name="om_payroll_batches">
+                        <setting id="om_payroll_variance_threshold" string="Variance Check" company_dependent="1"
+                                 help="Mark as Done of a batch first lists the payslips whose gross or net pay changes by more than this from the last confirmed payslip of the employee, and the employees paid for the first time. 0 turns the check off.">
+                            <field name="om_payroll_variance_threshold" class="o_light_label oe_inline"/> %
+                        </setting>
+                        <setting id="om_payroll_monthly_batch" string="Monthly Batch" company_dependent="1"
+                                 help="Each month, from the day set, a batch of the month is created with the payslips of the employees under contract, in draft, to check and confirm">
+                            <field name="om_payroll_monthly_batch"/>
+                            <div class="content-group" invisible="not om_payroll_monthly_batch">
+                                <div class="mt8">
+                                    From day <field name="om_payroll_monthly_batch_day" class="o_light_label oe_inline"/> of the month
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Accounting">
+                        <setting id="payroll_entries"
+                                 string="Payroll Entries"
+                                 help="Post payroll slips in accounting"
+                                 documentation="https://apps.odoo.com/apps/modules/20.0/om_hr_payroll_account/">
+                            <field name="module_om_hr_payroll_account"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_hr_payroll_configuration" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module' : 'om_hr_payroll'}</field>
+    </record>
+
+    <menuitem id="menu_hr_payroll_global_settings"
+              name="Settings"
+              parent="menu_hr_payroll_configuration"
+              sequence="0"
+              action="action_hr_payroll_configuration"
+              groups="base.group_system"/>
+
+</odoo>

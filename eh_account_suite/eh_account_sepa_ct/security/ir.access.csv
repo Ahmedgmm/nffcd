@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_sepa_originator_user,eh.sepa.originator.user,eh.sepa.originator,eh_account_base.group_eh_user,r,
+access_eh_sepa_originator_manager,eh.sepa.originator.manager,eh.sepa.originator,eh_account_base.group_eh_manager,crud,
+rule_eh_sepa_originator_company,eh.sepa.originator: company isolation,eh.sepa.originator,,crud,"[('journal_id.company_id', 'in', company_ids)]"
+access_eh_sepa_export_manager,eh.sepa.export.manager,eh.sepa.export,eh_account_base.group_eh_manager,ru,
+access_eh_sepa_export_auditor,eh.sepa.export.auditor,eh.sepa.export,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_export_company,eh.sepa.export: company isolation,eh.sepa.export,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sepa_ct_source_approval_manager,eh.sepa.ct.source.approval.manager,eh.sepa.ct.source.approval,eh_account_base.group_eh_manager,r,
+access_eh_sepa_ct_source_approval_auditor,eh.sepa.ct.source.approval.auditor,eh.sepa.ct.source.approval,eh_account_base.group_eh_auditor,r,
+rule_eh_sepa_ct_source_approval_company,eh.sepa.ct.source.approval: company isolation,eh.sepa.ct.source.approval,,crud,"[('company_id', 'in', company_ids)]"

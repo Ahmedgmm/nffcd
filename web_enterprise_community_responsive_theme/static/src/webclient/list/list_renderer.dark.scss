@@ -1,0 +1,15 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+
+.o_badirra_list_renderer {
+    .o_list_table {
+        > thead > tr > th {
+            color: $o-gray-700;
+        }
+
+        > tbody > tr:hover {
+            background-color: $o-gray-200;
+        }
+    }
+}

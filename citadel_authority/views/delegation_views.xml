@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_citadel_authority_delegation_list" model="ir.ui.view">
+        <field name="name">citadel.authority.delegation.list</field>
+        <field name="model">citadel.authority.delegation</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="not active">
+                <field name="delegator_id"/>
+                <field name="delegate_id"/>
+                <field name="scope"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_citadel_authority_delegation_form" model="ir.ui.view">
+        <field name="name">citadel.authority.delegation.form</field>
+        <field name="model">citadel.authority.delegation</field>
+        <field name="arch" type="xml">
+            <form string="تفويض الصلاحيات">
+                <sheet>
+                    <widget name="web_ribbon" title="غير نشط" bg_color="text-bg-secondary" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="delegator_id" options="{'no_create': True}"/>
+                            <field name="delegate_id" options="{'no_create': True}"/>
+                            <field name="scope"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="note"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_citadel_authority_delegation" model="ir.actions.act_window">
+        <field name="name">تفويضاتي</field>
+        <field name="res_model">citadel.authority.delegation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('delegator_id', '=', uid), ('delegate_id', '=', uid)]</field>
+        <field name="context">{'default_delegator_id': uid}</field>
+    </record>
+    <record id="action_citadel_authority_delegation_manage" model="ir.actions.act_window">
+        <field name="name">جميع التفويضات</field>
+        <field name="res_model">citadel.authority.delegation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Attributes ONLY. Nothing is added to the renderer's DOM, so there
+         is nothing for another module's markup or xpath to collide with.
+
+         The node is targeted by its real ref, NOT by expr=".". Two things
+         about that on this version:
+
+           - expr="." selects the <t t-name> wrapper rather than the
+             content root, so a position="inside" there appends a SECOND
+             root-level child, which an OWL template may not have;
+           - and Odoo 20 renamed the ref and changed the syntax. Where 19
+             had t-ref="root", 20 has t-ref="this.rootRef" - the ref is now
+             a signal.ref() class field passed by reference rather than a
+             string name (see list_renderer.js in core). An xpath written
+             for 19 matches nothing here, which would fail the whole
+             template bundle rather than degrade quietly. -->
+    <t t-name="web_enterprise_community_responsive_theme.ListRenderer"
+       t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//div[@t-ref='this.rootRef']" position="attributes">
+            <attribute name="class" add="o_badirra_list_renderer" separator=" "/>
+            <attribute name="t-att-data-badirra-density">this.badirraState.dense ? 'compact' : 'comfortable'</attribute>
+        </xpath>
+    </t>
+
+</templates>

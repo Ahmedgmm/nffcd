@@ -1,0 +1,27 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Dark counterpart of burger_menu.scss; see that file for why the Odoo 20
+// selectors differ from earlier versions and why the app-list rules are
+// gone rather than repointed.
+.o_burger_menu {
+    background-color: $o-gray-100;
+
+    .o_sidebar_topbar {
+        background-color: $o-gray-200;
+    }
+
+    .o_burger_menu_content {
+        .o_user_menu_mobile {
+            border-bottom-color: $o-gray-200;
+
+            > a {
+                &:hover,
+                &:active {
+                    background-color: $o-gray-200;
+                }
+            }
+        }
+    }
+}

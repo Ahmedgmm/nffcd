@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_cheque_bounce_reason_user,eh.cheque.bounce.reason user,eh.cheque.bounce.reason,eh_account_base.group_eh_user,r,
+access_eh_cheque_bounce_reason_manager,eh.cheque.bounce.reason manager,eh.cheque.bounce.reason,eh_account_base.group_eh_manager,crud,
+access_eh_cheque_book_user,eh.cheque.book user,eh.cheque.book,eh_account_base.group_eh_user,ru,
+access_eh_cheque_book_manager,eh.cheque.book manager,eh.cheque.book,eh_account_base.group_eh_manager,crud,
+rule_eh_cheque_book_company,eh.cheque.book: company isolation,eh.cheque.book,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cheque_user,eh.cheque user,eh.cheque,eh_account_base.group_eh_user,cru,
+access_eh_cheque_manager,eh.cheque manager,eh.cheque,eh_account_base.group_eh_manager,crud,
+rule_eh_cheque_company,eh.cheque: company isolation,eh.cheque,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_cheque_bounce_wizard_user,eh.cheque.bounce.wizard user,eh.cheque.bounce.wizard,eh_account_base.group_eh_user,crud,
+access_eh_cheque_replace_wizard_user,eh.cheque.replace.wizard user,eh.cheque.replace.wizard,eh_account_base.group_eh_user,crud,

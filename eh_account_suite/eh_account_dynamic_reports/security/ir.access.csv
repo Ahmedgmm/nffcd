@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_noncash_transaction_user,eh.noncash.transaction.user,eh.noncash.transaction,eh_account_base.group_eh_user,cru,
+access_eh_noncash_transaction_manager,eh.noncash.transaction.manager,eh.noncash.transaction,eh_account_base.group_eh_manager,crud,
+access_eh_noncash_transaction_auditor,eh.noncash.transaction.auditor,eh.noncash.transaction,eh_account_base.group_eh_auditor,r,
+rule_eh_noncash_transaction_company,Non-Cash Transaction: company isolation,eh.noncash.transaction,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,37 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Desktop list-view polish: a denser "compact" row mode (Enterprise-style)
+// toggled from a small floating button, plus lighter general row styling.
+
+.o_badirra_list_renderer {
+    position: relative;
+
+    .o_list_table {
+        > thead > tr > th {
+            font-weight: 600;
+            color: $o-gray-700;
+        }
+
+        > tbody > tr:hover {
+            background-color: $o-gray-100;
+        }
+    }
+
+    // Compact density: tighter vertical rhythm on desktop, closer to
+    // Enterprise's default list row height.
+    &[data-badirra-density="compact"] .o_list_table {
+        font-size: .8125rem;
+
+        > thead > tr > th,
+        > tbody > tr > td {
+            padding-top: .25rem;
+            padding-bottom: .25rem;
+        }
+
+        .o_data_row .o_field_widget {
+            min-height: unset;
+        }
+    }
+}

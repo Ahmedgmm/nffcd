@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_bsi_profile_user,eh.account.bank.statement.import.profile.user,eh.account.bank.statement.import.profile,eh_account_base.group_eh_user,r,
+access_eh_bsi_profile_manager,eh.account.bank.statement.import.profile.manager,eh.account.bank.statement.import.profile,eh_account_base.group_eh_manager,crud,
+rule_eh_account_bank_statement_import_profile_company,eh.account.bank.statement.import.profile: company isolation,eh.account.bank.statement.import.profile,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bsi_log_user,eh.account.bank.statement.import.log.user,eh.account.bank.statement.import.log,eh_account_base.group_eh_user,r,
+rule_eh_account_bank_statement_import_log_company,eh.account.bank.statement.import.log: company isolation,eh.account.bank.statement.import.log,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bsi_wizard_user,eh.account.bank.statement.import.wizard.user,eh.account.bank.statement.import.wizard,eh_account_base.group_eh_user,crud,
+access_eh_bank_live_connector_user,eh.bank.live.connector.profile.user,eh.bank.live.connector.profile,eh_account_base.group_eh_user,r,
+access_eh_bank_live_connector_manager,eh.bank.live.connector.profile.manager,eh.bank.live.connector.profile,eh_account_base.group_eh_manager,crud,
+access_eh_bank_live_connector_auditor,eh.bank.live.connector.profile.auditor,eh.bank.live.connector.profile,eh_account_base.group_eh_auditor,r,
+rule_eh_bank_live_connector_profile_company,eh.bank.live.connector.profile: company isolation,eh.bank.live.connector.profile,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_bank_sync_review_user,eh.bank.sync.review.user,eh.bank.sync.review,eh_account_base.group_eh_user,r,
+access_eh_bank_sync_review_manager,eh.bank.sync.review.manager,eh.bank.sync.review,eh_account_base.group_eh_manager,ru,
+access_eh_bank_sync_review_auditor,eh.bank.sync.review.auditor,eh.bank.sync.review,eh_account_base.group_eh_auditor,r,
+rule_eh_bank_sync_review_company,eh.bank.sync.review: company isolation,eh.bank.sync.review,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,20 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+
+.o_pivot {
+    @media (max-width: 767.98px) {
+        // See the light file: no o_pivot_table class on Odoo 20.
+        table {
+            th:first-child,
+            td:first-child {
+                background-color: #171B24;
+                box-shadow: 2px 0 4px rgba(0, 0, 0, .35);
+            }
+        }
+
+        &::after {
+            background: linear-gradient(to right, rgba(18, 21, 28, 0), rgba(18, 21, 28, .92));
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Community ships the finance root menu as "Invoicing". Installing the
+         suite turns that app into a full accounting department, so the menu
+         is renamed in place: every submenu keeps its own xml id, and the
+         uninstall hook puts the Community name back. -->
+    <record id="account.menu_finance" model="ir.ui.menu">
+        <field name="name">Accounting</field>
+    </record>
+    <!-- With the Enterprise accountant module installed there is already an
+         app called Accounting, holding the core finance sections. The suite
+         then files its own sections there and keeps the Community name on
+         account.menu_finance, so no second Accounting app appears. On a
+         Community database this call changes nothing. -->
+    <function model="ir.ui.menu" name="_eh_sync_finance_app"/>
+</odoo>

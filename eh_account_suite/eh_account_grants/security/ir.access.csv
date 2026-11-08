@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_gov_grant_user,eh.gov.grant.user,eh.gov.grant,eh_account_base.group_eh_user,cru,
+access_eh_gov_grant_manager,eh.gov.grant.manager,eh.gov.grant,eh_account_base.group_eh_manager,crud,
+access_eh_gov_grant_auditor,eh.gov.grant.auditor,eh.gov.grant,eh_account_base.group_eh_auditor,r,
+access_eh_gov_grant_reviewer,eh.gov.grant.reviewer,eh.gov.grant,eh_account_grants.group_eh_grant_reviewer,r,
+rule_eh_gov_grant_company,eh.gov.grant: company isolation,eh.gov.grant,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_gov_grant_condition_user,eh.gov.grant.condition.user,eh.gov.grant.condition,eh_account_base.group_eh_user,cru,
+access_eh_gov_grant_condition_manager,eh.gov.grant.condition.manager,eh.gov.grant.condition,eh_account_base.group_eh_manager,crud,
+access_eh_gov_grant_condition_auditor,eh.gov.grant.condition.auditor,eh.gov.grant.condition,eh_account_base.group_eh_auditor,r,
+access_eh_gov_grant_condition_reviewer,eh.gov.grant.condition.reviewer,eh.gov.grant.condition,eh_account_grants.group_eh_grant_reviewer,ru,
+rule_eh_gov_grant_condition_company,eh.gov.grant.condition: company isolation,eh.gov.grant.condition,,crud,"[('company_id', 'in', company_ids)]"

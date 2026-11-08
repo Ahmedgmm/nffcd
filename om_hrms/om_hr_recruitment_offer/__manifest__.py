@@ -1,0 +1,20 @@
+{
+    'name': 'HR Job Offers',
+    'version': '20.0.1.0.1',
+    'category': 'Human Resources',
+    'summary': 'Job offers approved, signed by the company and the candidate, and turned into the contract',
+    'author': 'Odoo Mates',
+    'maintainer': 'Odoo Mates',
+    'support': 'odoomates@gmail.com',
+    'license': 'LGPL-3',
+    'depends': ['hr_recruitment', 'om_sign', 'om_sign_print_template', 'om_approval'],
+    'data': [
+        'security/offer_security.xml',
+        'security/ir.access.csv',
+        'data/offer_data.xml',
+        'views/offer_views.xml',
+    ],
+    'demo': ['demo/om_hr_recruitment_offer_demo.xml'],
+    'images': ['static/description/banner.gif'],
+    'auto_install': True,
+}

@@ -1,0 +1,271 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eh_account_portal_extra
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 18:47+0000\n"
+"PO-Revision-Date: 2026-09-19 18:47+0000\n"
+"Last-Translator: ERP Heritage <info@erpheritage.com.au>\n"
+"Language-Team: Korean\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid ""
+".\n"
+"                        Shorter periods protect your financial data from\n"
+"                        timeouts and produce a faster statement."
+msgstr ". 기간이 짧을수록 시간 초과로부터 재무 데이터를 보호하고 명세서를 더 빨리 생성합니다."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    Download statement"
+msgstr ""
+"<i class=\"oi me-1\" data-icon=\"picture_as_pdf\" aria-hidden=\"true\"/>\n"
+"                                    명세서 다운로드"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            Account balance"
+msgstr ""
+"<i class=\"oi me-2\" data-icon=\"balance\" aria-hidden=\"true\"/>\n"
+"                            계정 잔액"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Activity during period"
+msgstr "기간 중 거래 내역"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid ""
+"Another statement request is still running for your\n"
+"                        account. Wait a few seconds, then try again."
+msgstr "계정에 대한 다른 명세서 요청이 아직 진행 중입니다. 몇 초 후에 다시 시도하세요."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Choose another period"
+msgstr "다른 기간 선택"
+
+#. module: eh_account_portal_extra
+#: model:ir.model,name:eh_account_portal_extra.model_res_config_settings
+msgid "Config Settings"
+msgstr "환경 설정"
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,shortdesc:base.module_eh_account_portal_extra
+msgid "Customer Portal Extra"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,description:base.module_eh_account_portal_extra
+msgid ""
+"Customer Portal Extra turns the standard Odoo 20 Community customer portal into a self-service accounts receivable corner. It adds two things and does them carefully.\n"
+"\n"
+"First, an inline statement form. The logged-in customer chooses start/end dates and either an open-item or activity statement, then receives an ephemeral PDF rendered by the same audited handler as the back office. The controller pins the partner and active company server-side, applies the configured range limit, and never persists the reusable report payload. Because the handler rewinds partial reconciliations created after the chosen end date, a back-dated statement reflects what was actually outstanding then, not today's residual.\n"
+"\n"
+"Second, a live AR balance card on the portal home. It shows open customer-invoice count, the positive overdue invoice residual, the oldest overdue invoice due date, and a days-overdue counter in active-company currency. Credits, unapplied payments, refunds, other partners and sister-company ledgers cannot reduce or contaminate the amount.\n"
+"\n"
+"Access is strictly partner scoped. The authenticated statement route resolves the logged-in user's commercial partner and active company and accepts no override. Invalid dates, an excessive configured range, concurrent generation, missing report registration and render failures return private branded pages; render exceptions are logged with their traceback.\n"
+"\n"
+"The installed portal pages add no analytics tag, tracking pixel, external CDN or custom JavaScript. A documented Accounting setting controls the maximum inclusive statement period (1 to 3660 days). No new report definition is introduced; the module reuses the customer statement generator from eh_account_dynamic_reports."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Customer statement options"
+msgstr "고객 명세서 옵션"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Customer-facing statement download controls."
+msgstr "고객용 명세서 다운로드 컨트롤입니다."
+
+#. module: eh_account_portal_extra
+#: model:ir.module.module,summary:base.module_eh_account_portal_extra
+msgid ""
+"Customer-selected statement PDFs and a company-scoped overdue-invoice portal"
+" card."
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "표시명"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "ERP Heritage Customer Portal"
+msgstr "ERP Heritage 고객 포털"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "From"
+msgstr "시작"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Invalid date range"
+msgstr "날짜 범위가 잘못되었습니다"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,field_description:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid "Maximum Portal Statement Days"
+msgstr "포털 명세서 최대 일수"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid "Maximum Statement Period (days)"
+msgstr "최대 명세서 기간(일)"
+
+#. module: eh_account_portal_extra
+#: model:ir.model.fields,help:eh_account_portal_extra.field_res_config_settings__eh_portal_max_statement_days
+msgid ""
+"Maximum inclusive date span a customer may request from the portal statement"
+" form. Choose 1 to 3660 days."
+msgstr "고객이 포털 명세서 양식에서 요청할 수 있는 최대 날짜 범위(양 끝 포함)입니다. 1~3660일 중에서 선택하세요."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.res_config_settings_view_form_portal_extra
+msgid ""
+"Maximum inclusive period a customer may request. Valid range: 1 to 3660 "
+"days."
+msgstr "고객이 요청할 수 있는 최대 기간(양 끝 포함)입니다. 유효 범위: 1~3660일."
+
+#. module: eh_account_portal_extra
+#. odoo-python
+#: code:addons/eh_account_portal_extra/models/res_config_settings.py:0
+msgid "Maximum portal statement days must be between 1 and %s."
+msgstr "포털 명세서 최대 일수는 1에서 %s 사이여야 합니다."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid ""
+"No financial document was downloaded. Please try\n"
+"                        again later or contact support if the issue persists."
+msgstr "재무 문서가 다운로드되지 않았습니다. 나중에 다시 시도하거나 문제가 계속되면 지원팀에 문의하세요."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Oldest overdue invoice:"
+msgstr "가장 오래된 연체 청구서:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open invoices:"
+msgstr "미결 청구서:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Open items as at end date"
+msgstr "종료일 기준 미결 항목"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Overdue:"
+msgstr "기한 초과:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid "Reset to defaults"
+msgstr "기본값으로 재설정"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Return to account balance"
+msgstr "계정 잔액으로 돌아가기"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Select a period of no more than"
+msgstr "다음 기간 이하로 선택하세요:"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "Statement period is too long"
+msgstr "명세서 기간이 너무 깁니다"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid "Statement report not configured"
+msgstr "명세서 보고서가 구성되지 않음"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "Statement type"
+msgstr "명세서 유형"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_report_missing
+msgid ""
+"The customer statement report is not registered.\n"
+"                        This usually means eh_account_dynamic_reports is\n"
+"                        not installed; please contact support."
+msgstr ""
+"The customer statement report is not registered.\\n                        "
+"This usually means eh_account_dynamic_reports is\\n                        "
+"not installed; please contact support."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_invalid_dates
+msgid ""
+"The dates you provided could not be parsed or\n"
+"                        the start date was later than the end date.\n"
+"                        Use the format YYYY-MM-DD."
+msgstr ""
+"The dates you provided could not be parsed or\\n                        the "
+"start date was later than the end date.\\n                        Use the "
+"format YYYY-MM-DD."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "To"
+msgstr "종료 시간"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "View invoices"
+msgstr "송장 보기"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_render_failed
+msgid "We could not prepare your statement"
+msgstr "명세서를 준비할 수 없습니다"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "You are up to date. Nothing to pay right now."
+msgstr "최신 상태입니다. 지금 지불할 것이 없습니다."
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_statement_busy
+msgid "Your statement is already being prepared"
+msgstr "명세서가 이미 준비 중입니다"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_range_too_large
+msgid "days"
+msgstr "일"
+
+#. module: eh_account_portal_extra
+#: model_terms:ir.ui.view,arch_db:eh_account_portal_extra.portal_my_home_eh_card
+msgid "days)"
+msgstr "일)"

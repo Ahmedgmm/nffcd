@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_provision_user,eh.provision.user,eh.provision,eh_account_base.group_eh_user,cru,
+access_eh_provision_manager,eh.provision.manager,eh.provision,eh_account_base.group_eh_manager,crud,
+access_eh_provision_auditor,eh.provision.auditor,eh.provision,eh_account_base.group_eh_auditor,r,
+rule_eh_provision_company,eh.provision: company isolation,eh.provision,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_provision_restructuring_line_user,eh.provision.restructuring.line.user,eh.provision.restructuring.line,eh_account_base.group_eh_user,crud,
+access_eh_provision_restructuring_line_auditor,eh.provision.restructuring.line.auditor,eh.provision.restructuring.line,eh_account_base.group_eh_auditor,r,
+rule_eh_provision_restructuring_line_company,eh.provision.restructuring.line: company isolation,eh.provision.restructuring.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_provision_restructuring_remeasure_line_user,eh.provision.restructuring.remeasure.line.user,eh.provision.restructuring.remeasure.line,eh_account_base.group_eh_user,r,
+access_eh_provision_restructuring_remeasure_line_manager,eh.provision.restructuring.remeasure.line.manager,eh.provision.restructuring.remeasure.line,eh_account_base.group_eh_manager,crud,
+access_eh_provision_restructuring_remeasure_line_auditor,eh.provision.restructuring.remeasure.line.auditor,eh.provision.restructuring.remeasure.line,eh_account_base.group_eh_auditor,r,
+rule_eh_provision_restructuring_remeasure_line_company,eh.provision.restructuring.remeasure.line: company isolation,eh.provision.restructuring.remeasure.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_provision_disclosure_wizard_user,eh.provision.disclosure.wizard.user,eh.provision.disclosure.wizard,eh_account_base.group_eh_user,crud,
+access_eh_provision_disclosure_wizard_auditor,eh.provision.disclosure.wizard.auditor,eh.provision.disclosure.wizard,eh_account_base.group_eh_auditor,crud,
+access_eh_provision_disclosure_line_user,eh.provision.disclosure.line.user,eh.provision.disclosure.line,eh_account_base.group_eh_user,crud,
+access_eh_provision_disclosure_line_auditor,eh.provision.disclosure.line.auditor,eh.provision.disclosure.line,eh_account_base.group_eh_auditor,crud,
+rule_eh_provision_disclosure_wizard_owner,eh.provision.disclosure.wizard: own records,eh.provision.disclosure.wizard,,crud,"[('create_uid', '=', user.id)]"
+rule_eh_provision_disclosure_wizard_company,eh.provision.disclosure.wizard: company isolation,eh.provision.disclosure.wizard,,crud,"[('company_id', 'in', company_ids)]"
+rule_eh_provision_disclosure_line_owner,eh.provision.disclosure.line: own wizard,eh.provision.disclosure.line,,crud,"[('wizard_id.create_uid', '=', user.id)]"
+rule_eh_provision_disclosure_line_company,eh.provision.disclosure.line: company isolation,eh.provision.disclosure.line,,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,41 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// Author: Mahmoud Salheen
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Restores the LTR reading direction core intends for every `oi` icon.
+//
+// Another CORE Odoo 20 RTL defect, and a broad one. icons.scss deliberately
+// pins the icon base to `direction: ltr`:
+//
+//     @mixin material-icon-base {
+//         ...
+//         direction: ltr;
+//
+// because the glyph is a font LIGATURE - `content: attr(data-icon)` renders
+// the literal text "arrow_back", "circle", "search" - and that text has to
+// be laid out left-to-right to form the ligature and to sit where the icon
+// is expected. But the declaration carries no `/* rtl:ignore */`, so rtlcss
+// dutifully flips it when it builds the Arabic stylesheet. Read straight
+// out of the bundle this server is actually serving:
+//
+//     .oi{ ... direction: rtl; ... }
+//
+// The clearest casualty is any `oi` icon that is also a flex container,
+// which is most of them in this version - `d-flex` is on the icon itself in
+// core's own markup. A flex container's main-axis start follows `direction`,
+// so flipping it moves the glyph from the left edge of its box to the right
+// edge, while the box stays put. The avatar presence dot showed this
+// plainly: measured live, the dot's box sat correctly at 5.7-26 with the
+// avatar at 17.1-43.1, yet the glyph rendered at 5.9-17.9 - hard against
+// the far edge of its own box and almost entirely off the avatar. With the
+// direction restored the same arithmetic puts it at 14.2-26.2: 9.1px over
+// the avatar and 2.9px past it, the exact mirror of where it sits in LTR.
+//
+// Restated here rather than worked around at each call site, because the
+// cause is one declaration and every `oi` icon in an RTL layout inherits it.
+// `/* rtl:ignore */` is the whole point: it is what keeps rtlcss from
+// flipping this one back again, and is what core's own declaration is
+// missing.
+.oi {
+    direction: ltr #{"/* rtl:ignore */"};
+}

@@ -1,0 +1,25 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_fx_revaluation_run_user,eh.fx.revaluation.run user,eh.fx.revaluation.run,eh_account_base.group_eh_user,cru,
+access_eh_fx_revaluation_run_manager,eh.fx.revaluation.run manager,eh.fx.revaluation.run,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_revaluation_run_company,eh.fx.revaluation.run: company isolation,eh.fx.revaluation.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_revaluation_line_user,eh.fx.revaluation.line user,eh.fx.revaluation.line,eh_account_base.group_eh_user,r,
+access_eh_fx_revaluation_line_manager,eh.fx.revaluation.line manager,eh.fx.revaluation.line,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_revaluation_line_company,eh.fx.revaluation.line: company isolation,eh.fx.revaluation.line,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_rate_config_user,eh.fx.rate.config user,eh.fx.rate.config,eh_account_base.group_eh_user,r,
+access_eh_fx_rate_config_manager,eh.fx.rate.config manager,eh.fx.rate.config,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_rate_config_company,eh.fx.rate.config: company isolation,eh.fx.rate.config,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_rate_override_user,eh.fx.rate.override user,eh.fx.rate.override,eh_account_base.group_eh_user,r,
+access_eh_fx_rate_override_manager,eh.fx.rate.override manager,eh.fx.rate.override,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_rate_override_company,eh.fx.rate.override: company isolation,eh.fx.rate.override,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_hedge_user,eh.fx.hedge user,eh.fx.hedge,eh_account_base.group_eh_user,cru,
+access_eh_fx_hedge_manager,eh.fx.hedge manager,eh.fx.hedge,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_hedge_company,eh.fx.hedge: company isolation,eh.fx.hedge,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_hedge_test_user,eh.fx.hedge.test user,eh.fx.hedge.test,eh_account_base.group_eh_user,cru,
+access_eh_fx_hedge_test_manager,eh.fx.hedge.test manager,eh.fx.hedge.test,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_hedge_test_company,eh.fx.hedge.test: company isolation,eh.fx.hedge.test,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_hedge_movement_user,eh.fx.hedge.movement user,eh.fx.hedge.movement,eh_account_base.group_eh_user,cru,
+access_eh_fx_hedge_movement_manager,eh.fx.hedge.movement manager,eh.fx.hedge.movement,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_hedge_movement_company,eh.fx.hedge.movement: company isolation,eh.fx.hedge.movement,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_fx_cta_position_user,eh.fx.cta.position user,eh.fx.cta.position,eh_account_base.group_eh_user,cru,
+access_eh_fx_cta_position_manager,eh.fx.cta.position manager,eh.fx.cta.position,eh_account_base.group_eh_manager,crud,
+rule_eh_fx_cta_position_company,eh.fx.cta.position: company isolation,eh.fx.cta.position,,crud,"[('company_id', 'in', company_ids)]"

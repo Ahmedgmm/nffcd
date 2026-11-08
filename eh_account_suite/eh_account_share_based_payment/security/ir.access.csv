@@ -1,0 +1,28 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_sbp_plan_user,eh.sbp.plan.user,eh.sbp.plan,eh_account_base.group_eh_user,cru,
+access_eh_sbp_plan_manager,eh.sbp.plan.manager,eh.sbp.plan,eh_account_base.group_eh_manager,crud,
+access_eh_sbp_plan_auditor,eh.sbp.plan.auditor,eh.sbp.plan,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_plan_company,eh.sbp.plan: company isolation,eh.sbp.plan,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_plan_tranche_user,eh.sbp.plan.tranche.user,eh.sbp.plan.tranche,eh_account_base.group_eh_user,crud,
+access_eh_sbp_plan_tranche_auditor,eh.sbp.plan.tranche.auditor,eh.sbp.plan.tranche,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_plan_tranche_company,eh.sbp.plan.tranche: company isolation,eh.sbp.plan.tranche,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_grant_user,eh.sbp.grant.user,eh.sbp.grant,eh_account_base.group_eh_user,crud,
+access_eh_sbp_grant_auditor,eh.sbp.grant.auditor,eh.sbp.grant,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_grant_company,eh.sbp.grant: company isolation,eh.sbp.grant,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_modification_user,eh.sbp.modification.user,eh.sbp.modification,eh_account_base.group_eh_user,crud,
+access_eh_sbp_modification_auditor,eh.sbp.modification.auditor,eh.sbp.modification,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_modification_company,eh.sbp.modification: company isolation,eh.sbp.modification,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_modification_tranche_value_user,eh.sbp.modification.tranche.value.user,eh.sbp.modification.tranche.value,eh_account_base.group_eh_user,crud,
+access_eh_sbp_modification_tranche_value_auditor,eh.sbp.modification.tranche.value.auditor,eh.sbp.modification.tranche.value,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_modification_tranche_value_company,eh.sbp.modification.tranche.value: company isolation,eh.sbp.modification.tranche.value,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_period_run_user,eh.sbp.period.run.user,eh.sbp.period.run,eh_account_base.group_eh_user,cru,
+access_eh_sbp_period_run_manager,eh.sbp.period.run.manager,eh.sbp.period.run,eh_account_base.group_eh_manager,crud,
+access_eh_sbp_period_run_auditor,eh.sbp.period.run.auditor,eh.sbp.period.run,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_period_run_company,eh.sbp.period.run: company isolation,eh.sbp.period.run,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_period_run_tranche_value_user,eh.sbp.period.run.tranche.value.user,eh.sbp.period.run.tranche.value,eh_account_base.group_eh_user,cru,
+access_eh_sbp_period_run_tranche_value_manager,eh.sbp.period.run.tranche.value.manager,eh.sbp.period.run.tranche.value,eh_account_base.group_eh_manager,crud,
+access_eh_sbp_period_run_tranche_value_auditor,eh.sbp.period.run.tranche.value.auditor,eh.sbp.period.run.tranche.value,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_period_run_tranche_value_company,eh.sbp.period.run.tranche.value: company isolation,eh.sbp.period.run.tranche.value,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_sbp_valuation_user,eh.sbp.valuation.user,eh.sbp.valuation,eh_account_base.group_eh_user,crud,
+access_eh_sbp_valuation_auditor,eh.sbp.valuation.auditor,eh.sbp.valuation,eh_account_base.group_eh_auditor,r,
+rule_eh_sbp_valuation_company,eh.sbp.valuation: company isolation,eh.sbp.valuation,,crud,"[('company_id', 'in', company_ids)]"

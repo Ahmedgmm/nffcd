@@ -1,0 +1,221 @@
+// Copyright Badirra / Mahmoud Salheen - All rights reserved.
+// License OPL-1 (Odoo Proprietary License v1.0) - see the LICENSE file.
+//
+// Light-mode (default) styling. Mounted as a real action controller (see
+// home_menu_service.js), not an overlay on top of another view, so it only
+// needs to fill whatever space the action container gives it - no
+// position:fixed/backdrop/fade needed. See home_menu.dark.scss for the
+// dark-mode companion - this file must never hardcode a dark palette.
+
+.o_badirra_home_menu {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    // The Enterprise app-switcher backdrop: a pale lavender field crossed
+    // by soft diagonal bands running bottom-left to top-right. Rebuilt here
+    // as CSS gradients rather than shipping a copy of the reference
+    // module's SVG - same visual, one less asset and no extra request. The
+    // palette is taken from that artwork's own gradient stops (white →
+    // #FEFEFE → #EAE7F9 → #E5E2F6 → #F7F0FD → #ECE5F8), and the ~118deg
+    // angle matches the slope of its band geometry (a path spanning
+    // roughly 1150x1080, i.e. about 43° off horizontal).
+    //
+    // Previously this was a teal/navy brand wash, which is what made the
+    // screen read as "a themed Community" rather than Enterprise.
+    background-color: #E9E7F5;
+    background-image: linear-gradient(
+        118deg,
+        #FFFFFF 0%,
+        #FEFEFE 20%,
+        #EFECFA 38%,
+        #E5E2F6 55%,
+        #F4EEFC 72%,
+        #ECE5F8 100%
+    );
+    background-attachment: fixed;
+    background-size: cover;
+    padding-top: 6vh;
+
+    .o_badirra_home_menu_panel {
+        // calc() (not CSS min()) on purpose: some Sass versions try to
+        // evaluate a bare min(1100px, 92vw) themselves at compile time and
+        // throw "Incompatible units: 'vw' and 'px'" instead of leaving it as
+        // plain CSS. calc() is never evaluated by Sass, so this is safe on
+        // every Sass version - same fixed-cap-plus-fluid-gutter pattern the
+        // ica_web_responsive reference module uses for its home-menu panel.
+        //
+        // 850px is that module's own $o-home-menu-container-size. The
+        // previous 1280px is why the icons sat much further apart than the
+        // reference: same 6 columns, half again as much width to spread
+        // across.
+        width: calc(100% - 6vw);
+        max-width: 850px;
+        max-height: calc(100% - 4vh);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .o_badirra_home_menu_search {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        background-color: $o-view-background-color;
+        border: 1px solid $o-gray-300;
+        border-radius: .5rem;
+        padding: .5rem .875rem;
+        // Centred and capped rather than stretching the full panel width:
+        // a search field as wide as six app columns reads as a page-level
+        // banner instead of a compact control.
+        width: 100%;
+        max-width: 580px;
+        margin: 0 auto 2rem;
+        color: $o-gray-600;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+        transition: border-color .2s ease-out, box-shadow .22s ease-out, transform .22s ease-out;
+
+        // Focus treatment: the field lifts, gains an accent ring and the
+        // magnifier animates in. Targeted as `> .oi` because Odoo 20
+        // dropped FontAwesome from every asset bundle - there is no
+        // .fa-search class any more, the glyph is chosen by the
+        // data-icon attribute and .oi is the only class on it. It is
+        // the sole icon in this wrapper, so the bare class is enough. :focus-within (not :focus) because the
+        // focus actually lands on the inner <input>, while the ring and
+        // lift belong to this wrapper.
+        &:focus-within {
+            border-color: $o-brand-badirra-accent;
+            box-shadow: 0 0 0 .25rem rgba($o-brand-badirra-accent, .18),
+                        0 10px 24px rgba(0, 0, 0, .10);
+            transform: translateY(-2px);
+
+            > .oi {
+                color: $o-brand-badirra-accent;
+                transform: scale(1.15) rotate(-8deg);
+            }
+        }
+
+        > .oi {
+            transition: color .2s ease-out, transform .22s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        input {
+            flex: 1 1 auto;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: $o-gray-900;
+            font-size: 1rem;
+
+            &::placeholder {
+                color: $o-gray-500;
+            }
+        }
+    }
+
+    .o_badirra_home_menu_grid {
+        display: grid;
+        // Fixed column counts rather than auto-fill: the reference module
+        // (ica_web_responsive) lays the app grid out 6-per-row on desktop,
+        // stepping down to 4 and then 3 on narrower screens - its
+        // home_menu.js encodes exactly these breakpoints in maxIconNumber
+        // (>=768px -> 6, >=576px -> 4, else 3). auto-fill instead let the
+        // count drift with the viewport width, which is what made the rows
+        // not match.
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.75rem 1.25rem;
+        overflow-y: auto;
+        padding-bottom: 2rem;
+
+        @media (min-width: 576px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(6, 1fr);
+        }
+    }
+
+    .o_badirra_home_menu_empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: $o-gray-500;
+        padding: 2rem 0;
+    }
+
+    .o_badirra_app_icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .625rem;
+        padding: .75rem .5rem;
+        border-radius: .75rem;
+        cursor: pointer;
+        outline: none;
+        transition: background-color .12s ease-out;
+
+        &:hover, &:focus-visible {
+            background-color: rgba($o-brand-badirra, .06);
+
+            .o_badirra_app_icon_image {
+                transform: translateY(-4px) scale(1.06);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, .08), 0 14px 24px rgba(0, 0, 0, .16);
+            }
+
+            .o_badirra_app_icon_label {
+                color: $o-brand-badirra;
+            }
+        }
+
+        &:active .o_badirra_app_icon_image {
+            transform: translateY(-1px) scale(1.02);
+            transition-duration: .05s;
+        }
+
+        // Drag-to-reorder feedback (see home_menu.js's useSortable) - the
+        // tile lifts and tilts while dragged, "o_dragged" being the exact
+        // class useSortable itself applies (not one this module invents).
+        &.o_dragged {
+            cursor: grabbing;
+
+            .o_badirra_app_icon_image {
+                transform: translateY(-4px) rotate(6deg) scale(1.05);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, .22);
+                transition: none;
+            }
+        }
+
+        .o_badirra_app_icon_image {
+            // 70px square with the artwork inset by 10px, i.e. the exact
+            // geometry the reference module uses
+            // ($o-home-menu-app-icon-max-width: 70px, padding: 10px). It
+            // draws the icon as an <img> inside a padded box; this theme
+            // paints it as a background on the box itself, so the same
+            // inset is expressed as background-size: 50/70 ≈ 71%.
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background-color: $o-view-background-color;
+            background-size: 71%;
+            background-repeat: no-repeat;
+            background-position: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 6px 14px rgba(0, 0, 0, .09);
+            transition: transform .16s cubic-bezier(.34, 1.56, .64, 1), box-shadow .16s ease-out;
+        }
+
+        .o_badirra_app_icon_label {
+            // $o-gray-700 is the reference module's own
+            // $o-home-menu-caption-color.
+            color: $o-gray-700;
+            font-size: .8125rem;
+            font-weight: 500;
+            text-align: center;
+            max-width: 112px;
+            transition: color .12s ease-out;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

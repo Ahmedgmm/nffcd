@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <!--
+            Sample report execution rows that show what the audit log
+            looks like. In a live install these are produced as a side
+            effect of every report render; the demo entries seed the
+            audit list view so a freshly installed system has something
+            to look at on the Reports > Report Audit Log screen.
+
+            Execution rows are append-only and only the reporting engine
+            may create them, so the rows are seeded through the engine
+            lifecycle rather than as plain records. The result_payload is
+            intentionally empty on demo rows so the UI shows the row
+            without trying to deserialise a payload that does not exist.
+        -->
+        <function model="eh.account.report.execution" name="_eh_load_demo_executions"/>
+
+    </data>
+</odoo>
