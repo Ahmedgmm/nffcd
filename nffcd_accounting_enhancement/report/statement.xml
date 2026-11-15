@@ -1,0 +1,34 @@
+<odoo>
+    <record id="action_cash_statement_pdf" model="ir.actions.report">
+        <field name="name">Cash Classification Statement</field><field name="model">account.cash.statement</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">nffcd_accounting_enhancement.cash_statement_document</field>
+        
+    </record>
+    <template id="cash_statement_document">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout">
+            <t t-set="s" t-value="o._statement_values()"/>
+            <div class="page">
+                <h2>Cash Classification Statement</h2>
+                <p><strong t-field="o.fund_id.journal_id"/> / <strong t-field="o.fund_id.name"/></p>
+                <p><span t-field="o.date_from"/> — <span t-field="o.date_to"/> · <span t-field="o.currency_id"/></p>
+                <p>Opening balance: <span t-out="s['opening']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></p>
+                <table class="table table-sm"><thead><tr>
+                    <th>Date</th><th>Entry / Reference</th><th>Receipts</th><th>Spending</th><th>Net Transfers</th><th>Balance</th>
+                </tr></thead><tbody>
+                    <tr t-foreach="s['lines']" t-as="line">
+                        <td t-out="line['date']"/><td><span t-out="line['entry']"/><br/><span t-out="line['reference']"/></td>
+                        <td t-out="line['receipts']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        <td t-out="line['spending']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        <td t-out="line['transfers']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        <td t-out="line['balance']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    </tr>
+                </tbody><tfoot><tr><th colspan="2">Closing / Period Totals</th>
+                    <th t-out="s['receipts']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    <th t-out="s['spending']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    <th t-out="s['transfers']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    <th t-out="s['closing']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                </tr></tfoot></table>
+            </div>
+        </t></t></t>
+    </template>
+</odoo>

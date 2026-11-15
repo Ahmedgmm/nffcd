@@ -1,0 +1,928 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* nffcd_accounting_enhancement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-15 21:54+0000\n"
+"PO-Revision-Date: 2026-11-15 21:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
+msgid ""
+"\n"
+"        Select 'Sale' for customer invoices journals.\n"
+"        Select 'Purchase' for vendor bills journals.\n"
+"        Select 'Cash', 'Bank' or 'Credit Card' for journals that are used in customer or vendor payments.\n"
+"        Select 'General' for miscellaneous operations journals.\n"
+"        "
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.module.module,description:base.module_nffcd_accounting_enhancement
+msgid ""
+"# NFFCD Accounting Enhancement (Odoo 20)\n"
+"\n"
+"Open **Invoicing/Accounting → Cash Management**.\n"
+"\n"
+"- Every cash journal receives a protected `عام` classification. Create more from a payment dropdown, the journal's Cash Classifications tab, or Classifications & Balances.\n"
+"- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount / توزيع المبلغ** exposes allocation lines; positive allocations must equal the payment total.\n"
+"- Invoice/bill Register Payment supports classifications and splits too. Group invoices into one payment before splitting; independent batch payments need their own allocation.\n"
+"- Confirming a transfer posts linked outgoing/incoming payments and reconciles the company transfer account. Both cash sides can split independently. Cancel or reset either side to affect both. Linked allocations are immutable: cancel/delete the draft pair and recreate to change them.\n"
+"- Internal transfers support cash/bank journals within the same company and currency. Bank payments retain normal outstanding-account/reconciliation behavior; cash payments directly affect the safe account.\n"
+"- Fund balances and movement reports derive from posted cash-account journal items, not payment state. Drafts do not count. Opening entries and adjustments select a classification on the cash journal-item line. Legacy unclassified cash items appear under `عام` without rewriting historical entries.\n"
+"- Manual split journal items have `cash_allocation_ids` in company currency. Payment splits populate these automatically. Reversals preserve allocations and reverse their signed movement.\n"
+"- **Transfer Between Classifications** creates a draft entry within one safe. It changes classification balances without changing the safe total; normal journal-entry approval still applies.\n"
+"- Turn off **Allow Negative Balance** to enforce the posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.\n"
+"- Statements show opening balance, period receipts/spending/transfers, running balance and closing balance. Print PDF or use the movement list's standard export. Amounts are in company currency; filter/group by company when currencies differ.\n"
+"- Optional Authority integration checks both transfer payments before posting and includes allocations in approval fingerprints. This integration is implemented but has not been integration-tested with Authority installed in this local preview.\n"
+"\n"
+"## Local preview\n"
+"\n"
+"The local `20nffcd_demo` was found with base modules only and one company on 2026-11-15, unlike historical project notes. Its pre-install backup is `backups/20nffcd_demo_before_cash_funds_20261115.dump`.\n"
+"\n"
+"`nffcd_accounting_enhancement` and Accounting are now installed there. `scripts/prepare_cash_funds_preview.py` creates an isolated preview company, two safes, sample posted movements and one draft split receipt. It refuses other databases and duplicate seeding. Run with the project Odoo interpreter/config and feed the file to Odoo shell stdin (non-interactive Odoo shell does not execute `--shell-file`).\n"
+"\n"
+"Login: `demo.cash.funds`; password: `NffcdDemo@2026`. Sample balances: main safe EGP65,000; activities safe EGP10,000. Draft split receipt EGP5,000 is excluded.\n"
+"\n"
+"Only PyCharm's **Odoo 20 - nffcd** Python run configuration serves HTTP.\n"
+"\n"
+"## Validation\n"
+"\n"
+"Run with `/home/ahemd/WorkSpace/env/bin/python /home/ahemd/WorkSpace/odoo20/odoo-bin -c odoo.conf -d 20nffcd_demo -u nffcd_accounting_enhancement --test-enable --test-tags /nffcd_accounting_enhancement --no-http --stop-after-init`.\n"
+"\n"
+"Accounting tests cover receipt/spending splits, invalid totals and safe mismatches, paired transfers/cancellation/reset/repost, bank-to-cash, balance guards, posted locks, opening entries, reversals, statement rendering, reclassification, company isolation, invoice-payment splits and the payment-type form onchange.\n"
+"\n"
+"Browser smoke test: `tests_ui/cash_funds/cash_funds.spec.cjs`; screenshots: `tests_ui/cash_funds/artifacts/`. It reads seeded movements and opens an unsaved transfer form; it does not post transactions.\n"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "A confirmed internal transfer requires its matching opposite payment."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "A safe with posted movements must keep its account and company."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "A split cannot be moved to another payment."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.constraint,message:nffcd_accounting_enhancement.constraint_account_cash_payment_allocation_one_parent
+msgid "A split must belong to exactly one payment side."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__active
+msgid "Active"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__allow_negative
+msgid "Allow Negative Balance"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__amount
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__amount
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__amount
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__amount
+msgid "Amount"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "An archived classification cannot receive new movements."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search
+msgid "Archived"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+msgid "Balance"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "Both classifications must be active and belong to this safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_reclassification
+msgid "Cancel"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Cancel the payment before deleting it."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_fund
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_fund_id
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+msgid "Cash Classification"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_movements
+msgid "Cash Classification Movements"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.actions.report,name:nffcd_accounting_enhancement.action_cash_statement_pdf
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_statement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+msgid "Cash Classification Statement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_funds
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__cash_fund_ids
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_graph
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_pivot
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_journal_cash_funds
+msgid "Cash Classifications"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_move_allocation
+msgid "Cash Journal Item Classification Split"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_funds_root
+msgid "Cash Management"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_payment_allocation
+msgid "Cash Payment Classification Split"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_payments
+msgid "Cash Payments & Transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_is_transfer
+msgid "Cash Transfer"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__fund_id
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Classification"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_fund_balance
+msgid "Classification Balance"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_movements
+msgid "Classification Movements"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_allocation_ids
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_allocation_ids
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_allocation_ids
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Classification Split"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_statement
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_statement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
+msgid "Classification Statement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+msgid "Classification name"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid ""
+"Classification splits must equal the cash line amount in company currency."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Classification splits must equal the payment total."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_funds
+msgid "Classifications & Balances"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "Classifications belong to cash journals only."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
+msgid "Close"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+msgid "Closing / Period Totals"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__code
+msgid "Code"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__company_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__company_id
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Company"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_fund__company_id
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_statement__company_id
+msgid "Company related to this journal"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Configure a Manual incoming payment method on the destination journal."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Configure a cash account on the safe first."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Configure a reconcilable internal transfer account on the company."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "Configure the safe cash account first."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_reclassification
+msgid "Create Draft Transfer"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "Create a new classification to use a different safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__date
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Date"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_fund_id
+msgid "Destination Classification"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__destination_payment_id
+msgid "Destination Payment"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_journal_id
+msgid "Destination Safe / Bank"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_allocation_ids
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Destination Split"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid ""
+"Each safe must have its own cash account for reliable classification "
+"balances."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+msgid "Entry / Reference"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__source_fund_id
+msgid "From Classification"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__fund_id
+msgid "Fund"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "Group the payment first, or split each payment individually."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__id
+msgid "ID"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "Insufficient balance in %(safe)s / %(fund)s."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_is_internal_transfer
+#: model:ir.model.fields.selection,name:nffcd_accounting_enhancement.selection__account_payment__cash_operation__transfer
+msgid "Internal Transfer"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds_search
+msgid "Internal Transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Internal transfer paired with %s."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Internal transfers must stay within one company."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Internal transfers require cash or bank journals."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__is_general
+msgid "Is General"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__is_transfer
+msgid "Is Transfer"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_journal
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_move
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_id
+msgid "Journal Entry"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Linked Transfer"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_line_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__move_line_id
+msgid "Move Line"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
+msgid "Movements"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.module.module,shortdesc:base.module_nffcd_accounting_enhancement
+msgid "NFFCD Accounting Enhancement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__name
+msgid "Name"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__balance
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+msgid "Net Movement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__transfers
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__transfers
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+msgid "Net Transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "Only a safe cash-account line can have a classification."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Only draft payments can be split."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Only unpaired draft payments can change classifications."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+msgid "Open Entry"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+msgid "Opening balance:"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_payment_register
+msgid "Pay"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_payment
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__payment_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__payment_id
+msgid "Payment"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_operation
+msgid "Payment Type"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_payments
+msgid "Payments & Internal Transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+msgid "Posted Cash Balance (Company Currency)"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_fund_report
+msgid "Posted Cash Classification Movement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "Posted classification splits cannot be changed."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid ""
+"Posted classifications are locked. Reverse the entry or record a "
+"classification transfer."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid ""
+"Posted payment allocations are locked. Cancel and recreate a transfer to "
+"change its allocations."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
+msgid "Print PDF"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__reason
+msgid "Reason"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__receipts
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__receipts
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Receipts"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields.selection,name:nffcd_accounting_enhancement.selection__account_payment__cash_operation__inbound
+msgid "Receive"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__reference
+msgid "Reference"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_register_allocation
+msgid "Register Payment Classification Split"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__balance
+msgid "Remaining Balance"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__journal_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__journal_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__journal_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_journal_id
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Safe"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.module.module,summary:base.module_nffcd_accounting_enhancement
+msgid ""
+"Safe classifications, split allocations, fund statements and internal "
+"transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "Select a classification belonging to this safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Select a different destination safe or bank."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Select an active classification belonging to this safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields.selection,name:nffcd_accounting_enhancement.selection__account_payment__cash_operation__outbound
+msgid "Send"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__spending
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__spending
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Spending"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split
+msgid "Split Amount"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_split
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Split Amount / توزيع المبلغ"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split
+msgid "Split Destination Amount"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Split Destination Amount / توزيع المبلغ المستلم"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Start an internal transfer from the source safe or bank."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
+msgid "Statement"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "The General classification cannot be deleted."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "The General classification is managed automatically."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "The General classification must remain active."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "The payment amount must be positive."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_register_allocation__currency_id
+msgid "The payment's currency."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "The start date must be before the end date."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.constraint,message:nffcd_accounting_enhancement.constraint_account_cash_fund_name_unique
+msgid "This classification already exists in this safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid ""
+"This transfer already has a linked payment. Delete the draft transfer and "
+"create a corrected one."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__destination_fund_id
+msgid "To Classification"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
+msgid "Total"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_reclassification
+msgid "Transfer Between Cash Classifications"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_reclassification
+#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_reclassification
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_reclassification
+msgid "Transfer Between Classifications"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+msgid "Transfers"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
+msgid "Type"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "Use a positive amount and two different classifications."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/account.py:0
+msgid "Use active classifications from this safe and positive split amounts."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid "Use journals in the same currency for an internal transfer."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
+msgid ""
+"Use positive split amounts and active classifications belonging to this "
+"safe."
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
+msgid "View / Export Movements"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+msgid "fund_id"
+msgstr ""

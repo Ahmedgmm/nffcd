@@ -1,0 +1,18 @@
+id,name,model_id,group_id/id,operation,domain
+cash_fund_user,Cash classifications,account.cash.fund,account.group_account_invoice,cru,
+cash_fund_reader,Cash classifications read,account.cash.fund,account.group_account_readonly,r,
+cash_fund_manager,Cash classifications manage,account.cash.fund,account.group_account_manager,crud,
+cash_fund_company,Cash classifications by company,account.cash.fund,,crud,"[('company_id', 'in', company_ids)]"
+cash_move_alloc_user,Cash journal splits,account.cash.move.allocation,account.group_account_invoice,crud,
+cash_move_alloc_reader,Cash journal splits read,account.cash.move.allocation,account.group_account_readonly,r,
+cash_move_alloc_company,Cash journal splits by company,account.cash.move.allocation,,crud,"[('company_id', 'in', company_ids)]"
+cash_pay_alloc_user,Cash payment splits,account.cash.payment.allocation,account.group_account_invoice,crud,
+cash_pay_alloc_reader,Cash payment splits read,account.cash.payment.allocation,account.group_account_readonly,r,
+cash_pay_alloc_company,Cash payment splits by company,account.cash.payment.allocation,,crud,"[('company_id', 'in', company_ids)]"
+cash_report_user,Cash movements,account.cash.fund.report,account.group_account_invoice,r,
+cash_report_reader,Cash movements read,account.cash.fund.report,account.group_account_readonly,r,
+cash_report_company,Cash movements by company,account.cash.fund.report,,r,"[('company_id', 'in', company_ids)]"
+cash_reclassification_user,Cash classification transfer,account.cash.reclassification,account.group_account_user,crud,
+cash_statement_user,Cash statement,account.cash.statement,account.group_account_invoice,crud,
+cash_statement_reader,Cash statement read,account.cash.statement,account.group_account_readonly,crud,
+cash_register_allocation_user,Cash register splits,account.cash.register.allocation,account.group_account_invoice,crud,

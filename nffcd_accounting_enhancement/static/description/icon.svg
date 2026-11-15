@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64">
+  <!-- Flat geometric shapes and offset shading match Odoo's app icon family. -->
+  <path fill="#654C79" d="M10 6h40a6 6 0 0 1 6 6v40a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6V12a6 6 0 0 1 6-6Z"/>
+  <path fill="#8D6A99" d="M10 6h40a6 6 0 0 1 6 6v4C33 16 17 30 6 46L4 49V12a6 6 0 0 1 6-6Z"/>
+  <rect x="12" y="14" width="36" height="36" rx="4" fill="#F8F4FA"/>
+  <path fill="#E5DBEB" d="M44 14a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4v-3c8-15 19-24 32-29Z"/>
+  <rect x="10" y="22" width="5" height="7" rx="1.5" fill="#493456"/>
+  <rect x="10" y="37" width="5" height="7" rx="1.5" fill="#493456"/>
+  <circle cx="29" cy="32" r="10" fill="#654C79"/>
+  <circle cx="29" cy="32" r="5.5" fill="#B69AC2"/>
+  <path d="M29 24v16m-8-8h16" stroke="#F8F4FA" stroke-width="2.8" stroke-linecap="round"/>
+  <circle cx="29" cy="32" r="3" fill="#493456"/>
+  <rect x="40" y="24" width="3" height="14" rx="1.5" fill="#654C79"/>
+  <rect x="37" y="39" width="23" height="21" rx="4" fill="#017E84"/>
+  <path fill="#00A7A0" d="M41 39h15a4 4 0 0 1 4 4v1c-8 0-16 5-23 12V43a4 4 0 0 1 4-4Z"/>
+  <rect x="41" y="51" width="4" height="5" rx="1" fill="#FFF"/>
+  <rect x="47" y="47" width="4" height="9" rx="1" fill="#FFF"/>
+  <rect x="53" y="43" width="4" height="13" rx="1" fill="#FFF"/>
+</svg>

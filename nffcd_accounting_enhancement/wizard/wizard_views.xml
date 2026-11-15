@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_cash_reclassification" model="ir.ui.view">
+        <field name="name">account.cash.reclassification.form</field><field name="model">account.cash.reclassification</field>
+        <field name="arch" type="xml"><form string="Transfer Between Classifications">
+            <group><field name="company_id" groups="base.group_multi_company"/><field name="journal_id"/>
+                <field name="source_fund_id" domain="[('journal_id', '=', journal_id)]"/>
+                <field name="destination_fund_id" domain="[('journal_id', '=', journal_id), ('id', '!=', source_fund_id)]"/>
+                <field name="currency_id" invisible="1"/><field name="amount"/><field name="date"/><field name="reason"/>
+            </group>
+            <footer><button name="action_create" type="object" string="Create Draft Transfer" class="btn-primary"/>
+                <button special="cancel" string="Cancel" class="btn-secondary"/></footer>
+        </form></field>
+    </record>
+    <record id="action_cash_reclassification" model="ir.actions.act_window">
+        <field name="name">Transfer Between Classifications</field><field name="res_model">account.cash.reclassification</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_cash_reclassification" name="Transfer Between Classifications" parent="menu_cash_funds_root"
+              action="action_cash_reclassification" sequence="40" groups="account.group_account_user"/>
+    <record id="view_cash_statement" model="ir.ui.view">
+        <field name="name">account.cash.statement.form</field><field name="model">account.cash.statement</field>
+        <field name="arch" type="xml"><form string="Classification Statement">
+            <group><field name="fund_id"/><field name="date_from"/><field name="date_to"/></group>
+            <footer><button name="action_print" type="object" string="Print PDF" class="btn-primary"/>
+                <button name="action_movements" type="object" string="View / Export Movements" class="btn-secondary"/>
+                <button special="cancel" string="Close"/></footer>
+        </form></field>
+    </record>
+    <record id="action_cash_statement" model="ir.actions.act_window">
+        <field name="name">Classification Statement</field><field name="res_model">account.cash.statement</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <menuitem id="menu_cash_statement" name="Classification Statement" parent="menu_cash_funds_root" action="action_cash_statement" sequence="50"/>
+</odoo>
