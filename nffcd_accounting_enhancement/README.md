@@ -3,14 +3,14 @@
 Open **Invoicing/Accounting → Cash Management**.
 
 - Every cash journal receives a protected `عام` classification. Create more from a payment dropdown, the journal's Cash Classifications tab, or Classifications & Balances.
-- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount / توزيع المبلغ** exposes allocation lines; positive allocations must equal the payment total.
+- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount** exposes allocation lines; positive allocations must equal the payment total.
 - Invoice/bill Register Payment supports classifications and splits too. Group invoices into one payment before splitting; independent batch payments need their own allocation.
 - Confirming a transfer posts linked outgoing/incoming payments and reconciles the company transfer account. Both cash sides can split independently. Cancel or reset either side to affect both. Linked allocations are immutable: cancel/delete the draft pair and recreate to change them.
 - Internal transfers support cash/bank journals within the same company and currency. Bank payments retain normal outstanding-account/reconciliation behavior; cash payments directly affect the safe account.
 - Fund balances and movement reports derive from posted cash-account journal items, not payment state. Drafts do not count. Opening entries and adjustments select a classification on the cash journal-item line. Legacy unclassified cash items appear under `عام` without rewriting historical entries.
 - Manual split journal items have `cash_allocation_ids` in company currency. Payment splits populate these automatically. Reversals preserve allocations and reverse their signed movement.
 - **Transfer Between Classifications** creates a draft entry within one safe. It changes classification balances without changing the safe total; normal journal-entry approval still applies.
-- Turn off **Allow Negative Balance** to enforce the posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.
+- A classification can never go below zero: posting is refused when spending would exceed its posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.
 - Statements show opening balance, period receipts/spending/transfers, running balance and closing balance. Print PDF or use the movement list's standard export. Amounts are in company currency; filter/group by company when currencies differ.
 - Optional Authority integration checks both transfer payments before posting and includes allocations in approval fingerprints. This integration is implemented but has not been integration-tested with Authority installed in this local preview.
 

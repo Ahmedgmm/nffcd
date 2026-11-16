@@ -1,0 +1,790 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* gm_pdc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 01:30+0000\n"
+"PO-Revision-Date: 2026-11-16 01:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gm_pdc
+#: model:ir.module.module,description:base.module_gm_pdc
+msgid ""
+"# PDC Management — Odoo 20 Community\n"
+"\n"
+"Depends only on Community `account` (which supplies mail). Journal settings provide\n"
+"separate received/issued cheque accounts for registration, deposit, bounce and completion.\n"
+"Enable the accounting stages you need and configure their accounts; use reconcilable\n"
+"holding accounts. With every stage disabled, the module only tracks cheque status.\n"
+"\n"
+"Accounting users can register cheques from posted customer invoices/vendor bills or\n"
+"from Accounting → Journal Entries → PDC Payments. Company, partner, currency and\n"
+"invoice direction must match. Registration reconciles the payment against linked\n"
+"invoices; partial amounts remain partial. Fully settled invoices stay In Payment\n"
+"until completion. Deposit/bounce/completion move the balance between configured\n"
+"accounts; completion records the done date. Bounce tracks the balance in its configured\n"
+"account; cancel the cheque if the invoice must be reopened.\n"
+"\n"
+"Cancellation unreconciles entries and cancels the linked payment. Resetting a cancelled\n"
+"cheque preserves cancelled entries for audit and creates a new payment on registration.\n"
+"Completed cheques require an accountant's reversal; direct cancellation is blocked.\n"
+"Financial details are locked after registration. Records are isolated by allowed company.\n"
+"The shared cheque sequence works across companies.\n"
+"\n"
+"Automated regression tests live in `tests/test_pdc.py`. See\n"
+"`docs/testing/gm_pdc_odoo20.md` at the project root for validation and limitations.\n"
+"\n"
+"Existing Odoo 19 database records require a separate migration review (particularly\n"
+"company assignment and replacement of legacy access rules). This port was validated\n"
+"on isolated Odoo 20 databases, not by migrating an Odoo 19 database.\n"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "<span class=\"text-muted\">Post-dated Cheque</span>"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"A completed PDC cannot be cancelled. Reverse its accounting entries through "
+"accounting."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Accounting Follow-up"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_plans_ids
+msgid "Activity Plans"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__agent
+msgid "Agent"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Amount must be greater than zero."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__bank_name
+msgid "Bank"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__bounced
+msgid "Bounced"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Bounced Stage"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancel Cheque"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancel this cheque and reopen any linked invoice balance?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__cancelled
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancelled"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cheque Details"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__ref
+msgid "Cheque Reference"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cheque number"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Cleared"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__collect_date
+msgid "Collect Date"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__collect_user_id
+msgid "Collect User"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Collection Follow-up"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__company_id
+msgid "Company"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Configure the PDC account for this stage before continuing."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Confirm Clearance"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Confirm that the cheque has cleared?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_bounced_active
+msgid "Create Entry on Bounce?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_deposited_active
+msgid "Create Entry on Deposit?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_done_active
+msgid "Create Entry on Done?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_registered_active
+msgid "Create Entry on Register?"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__holding_account_id
+msgid "Current Holding Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Dates and Journal"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Deposit for Collection"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__deposited
+msgid "Deposited"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Deposited Stage"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_move__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__done
+msgid "Done"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__done_date
+msgid "Done Date"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Done Stage"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__due_date
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Due Date"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid ""
+"Enable the accounting stages you need and select separate accounts for "
+"received and issued cheques."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid ""
+"Enter the cheque details, select a payment journal, then register the "
+"cheque."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_move__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__id
+msgid "ID"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_error
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Invoices and Accounting"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Issued Cheques"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Issuing bank"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Journal '%s' needs a Payment Method configured."
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Journal '%s' needs a Registered PDC account configured."
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__move_ids
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Journal Entries"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__legal
+msgid "Legal"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Linked Documents"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__invoice_ids
+msgid "Linked Invoices"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"Linked invoices must match the PDC company, partner, currency and payment "
+"direction and be posted."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__memo
+msgid "Memo"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__move_count
+msgid "Move Count"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__name
+msgid "Name"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "New"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__payment_id
+msgid "Odoo Payment"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"Odoo did not create a journal entry for payment '%s'. Check the payment "
+"method outstanding account."
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Only draft PDCs without journal entries can be deleted."
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"PDC '%s' has no current holding account. Register it before moving to %s."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_pdc
+msgid "PDC Cheque Payment"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "PDC Configuration"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.module.module,shortdesc:base.module_gm_pdc
+msgid "PDC Management"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "PDC Payment"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.actions.act_window,name:gm_pdc.action_account_pdc
+#: model:ir.ui.menu,name:gm_pdc.menu_account_pdc_root
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_tree
+msgid "PDC Payments"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__partner_id
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Partner"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_bounced_account_id
+msgid "Payable Bounced Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_deposited_account_id
+msgid "Payable Deposited Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_done_account_id
+msgid "Payable Done (Bank) Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_registered_account_id
+msgid "Payable Registered Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_payment
+msgid "Payment"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__amount
+msgid "Payment Amount"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__date
+msgid "Payment Date"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__journal_id
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Payment Journal"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__payment_type
+msgid "Payment Type"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Pending Collection"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Purpose or invoice reference"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_bounced_account_id
+msgid "Receivable Bounced Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_deposited_account_id
+msgid "Receivable Deposited Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_done_account_id
+msgid "Receivable Done (Bank) Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_registered_account_id
+msgid "Receivable Registered Account"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__payment_type__inbound
+msgid "Receive Money"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Received Cheques"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Record this cheque as returned unpaid?"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Register Cheque"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_move_form_pdc_button
+msgid "Register PDC"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Register PDC requires an unpaid posted invoice or bill."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__registered
+msgid "Registered"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Registered Stage"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__pdc_id
+msgid "Related PDC"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Reset the PDC to draft before changing its financial details."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Return Unpaid"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__returned
+msgid "Returned"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Returned Unpaid"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Search Cheques"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__payment_type__outbound
+msgid "Send Money"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__state
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Status"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "This action is not allowed in the current PDC state."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid ""
+"This cheque was returned unpaid. Cancel it to reopen the linked invoice "
+"balance."
+msgstr ""
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_tree
+msgid "Total"
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__under_collection
+msgid "Under Collection"
+msgstr ""
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "id"
+msgstr ""

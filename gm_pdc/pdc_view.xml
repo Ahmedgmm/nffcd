@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="seq_account_pdc" model="ir.sequence">
+        <field name="name">PDC Payment</field>
+        <field name="code">account.pdc</field>
+        <field name="company_id" eval="False"/>
+        <field name="prefix">PDC/%(year)s/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="view_account_pdc_form" model="ir.ui.view">
+        <field name="name">account.pdc.form</field>
+        <field name="model">account.pdc</field>
+        <field name="arch" type="xml">
+            <form string="PDC Payment">
+                <header>
+                    <button name="action_register" string="Register Cheque" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_deposit" string="Deposit for Collection" type="object" class="oe_highlight" invisible="state != 'registered'"/>
+                    <button name="action_done" string="Confirm Clearance" type="object" class="oe_highlight" invisible="state != 'deposited'" confirm="Confirm that the cheque has cleared?"/>
+                    <button name="action_bounce" string="Return Unpaid" type="object" invisible="state not in ('deposited', 'under_collection')" confirm="Record this cheque as returned unpaid?"/>
+                    <button name="action_cancel" string="Cancel Cheque" type="object" invisible="state in ('cancelled', 'done')" confirm="Cancel this cheque and reopen any linked invoice balance?"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,registered,deposited,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_journal_items" type="object" class="oe_stat_button" icon="fa-book" invisible="not move_count">
+                            <field name="move_count" widget="statinfo" string="Journal Entries"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Cleared" bg_color="text-bg-success" invisible="state != 'done'"/>
+                    <widget name="web_ribbon" title="Returned Unpaid" bg_color="text-bg-danger" invisible="state != 'bounced'"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-secondary" invisible="state != 'cancelled'"/>
+                    <div class="oe_title">
+                        <span class="text-muted">Post-dated Cheque</span>
+                        <h1><field name="name"/></h1>
+                        <field name="payment_type" readonly="state != 'draft'" widget="radio" options="{'horizontal': true}"/>
+                    </div>
+                    <div class="alert alert-info mt-3" role="status" invisible="state != 'draft'">
+                        Enter the cheque details, select a payment journal, then register the cheque.
+                    </div>
+                    <div class="alert alert-warning mt-3" role="status" invisible="state != 'bounced'">
+                        This cheque was returned unpaid. Cancel it to reopen the linked invoice balance.
+                    </div>
+                    <group>
+                        <group string="Cheque Details">
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="ref" placeholder="Cheque number"/>
+                            <field name="bank_name" placeholder="Issuing bank"/>
+                            <field name="amount" readonly="state != 'draft'" class="fw-bold"/>
+                            <field name="currency_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Dates and Journal">
+                            <field name="company_id" readonly="state != 'draft'" groups="base.group_multi_company"/>
+                            <field name="journal_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="due_date"/>
+                            <field name="done_date" invisible="not done_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Invoices and Accounting" name="pdc_accounting">
+                            <group>
+                                <group string="Linked Documents">
+                                    <field name="invoice_ids" widget="many2many_tags" readonly="state != 'draft'"
+                                           options="{'no_create': True}" domain="[('company_id', '=', company_id), ('partner_id', 'child_of', partner_id), ('state', '=', 'posted'), ('move_type', '=', 'out_invoice' if payment_type == 'inbound' else 'in_invoice'), ('currency_id', '=', currency_id)]"/>
+                                    <field name="payment_id" invisible="not payment_id"/>
+                                </group>
+                                <group string="Accounting Follow-up">
+                                    <field name="holding_account_id"/>
+                                    <field name="memo" placeholder="Purpose or invoice reference"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Collection Follow-up" name="pdc_collection">
+                            <group>
+                                <group>
+                                    <field name="agent"/>
+                                    <field name="collect_user_id"/>
+                                </group>
+                                <group><field name="collect_date"/></group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_pdc_tree" model="ir.ui.view">
+        <field name="name">account.pdc.list</field>
+        <field name="model">account.pdc</field>
+        <field name="arch" type="xml">
+            <list string="PDC Payments" decoration-muted="state == 'cancelled'" decoration-danger="state == 'bounced'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="due_date"/>
+                <field name="ref" optional="show"/>
+                <field name="payment_type" optional="show"/>
+                <field name="partner_id"/>
+                <field name="journal_id"/>
+                <field name="amount" sum="Total"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_account_journal_form_pdc" model="ir.ui.view">
+        <field name="name">account.journal.form.pdc</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_settings']" position="after">
+                <page string="PDC Configuration" name="pdc_config" invisible="type not in ('bank', 'cash')">
+                    <div class="alert alert-info" role="status">Enable the accounting stages you need and select separate accounts for received and issued cheques.</div>
+                    <group>
+                        <group string="Registered Stage">
+                            <field name="pdc_registered_active"/>
+                            <field name="pdc_registered_account_id" required="pdc_registered_active"/>
+                            <field name="pdc_payable_registered_account_id" required="pdc_registered_active"/>
+                        </group>
+                        <group string="Deposited Stage">
+                            <field name="pdc_deposited_active"/>
+                            <field name="pdc_deposited_account_id" required="pdc_deposited_active"/>
+                            <field name="pdc_payable_deposited_account_id" required="pdc_deposited_active"/>
+                        </group>
+                        <group string="Bounced Stage">
+                            <field name="pdc_bounced_active"/>
+                            <field name="pdc_bounced_account_id" required="pdc_bounced_active"/>
+                            <field name="pdc_payable_bounced_account_id" required="pdc_bounced_active"/>
+                        </group>
+                        <group string="Done Stage">
+                            <field name="pdc_done_active"/>
+                            <field name="pdc_done_account_id" required="pdc_done_active"/>
+                            <field name="pdc_payable_done_account_id" required="pdc_done_active"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_form_pdc_button" model="ir.ui.view">
+        <field name="name">account.move.form.pdc.button</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_register_pdc" string="Register PDC" type="object" class="oe_highlight"
+                        invisible="move_type not in ('out_invoice', 'in_invoice') or state != 'posted' or payment_state in ('paid', 'in_payment')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_pdc_search" model="ir.ui.view">
+        <field name="name">account.pdc.search</field>
+        <field name="model">account.pdc</field>
+        <field name="arch" type="xml">
+            <search string="Search Cheques">
+                <field name="name"/><field name="ref"/><field name="partner_id"/><field name="journal_id"/>
+                <filter name="received" string="Received Cheques" domain="[('payment_type', '=', 'inbound')]"/>
+                <filter name="issued" string="Issued Cheques" domain="[('payment_type', '=', 'outbound')]"/>
+                <separator/>
+                <filter name="pending" string="Pending Collection" domain="[('state', 'in', ['registered', 'deposited', 'under_collection'])]"/>
+                <filter name="bounced" string="Returned Unpaid" domain="[('state', '=', 'bounced')]"/>
+                <filter name="cleared" string="Cleared" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+                <filter name="by_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                <filter name="by_journal" string="Payment Journal" context="{'group_by': 'journal_id'}"/>
+                <filter name="by_due_date" string="Due Date" context="{'group_by': 'due_date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_account_pdc" model="ir.actions.act_window">
+        <field name="name">PDC Payments</field>
+        <field name="res_model">account.pdc</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_account_pdc_search"/>
+    </record>
+
+    <menuitem id="menu_account_pdc_root" name="PDC Payments" parent="account.menu_finance_entries" action="action_account_pdc" sequence="10"/>
+
+</odoo>

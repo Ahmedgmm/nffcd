@@ -1,6 +1,6 @@
 {
     'name': 'NFFCD Accounting Enhancement',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.1.0',
     'summary': 'Safe classifications, split allocations, fund statements and internal transfers',
     'category': 'Accounting/Accounting',
     'author': 'NFFCD',
@@ -15,6 +15,11 @@
         'wizard/wizard_views.xml',
         'report/statement.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'nffcd_accounting_enhancement/static/src/scss/payment_form.scss',
+        ],
+    },
     'post_init_hook': 'post_init_hook',
     'installable': True,
 }

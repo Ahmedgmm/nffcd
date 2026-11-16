@@ -8,8 +8,8 @@ class AccountPayment(models.Model):
     cash_is_internal_transfer = fields.Boolean(string='Internal Transfer', copy=False)
     cash_operation = fields.Selection([
         ('inbound', 'Receive'), ('outbound', 'Send'), ('transfer', 'Internal Transfer')],
-        string='Payment Type', compute='_compute_cash_operation', inverse='_inverse_cash_operation')
-    cash_journal_type = fields.Selection(related='journal_id.type')
+        string='Payment Operation', compute='_compute_cash_operation', inverse='_inverse_cash_operation')
+    cash_journal_type = fields.Selection(related='journal_id.type', string='Safe Journal Type')
     cash_fund_id = fields.Many2one('account.cash.fund', string='Cash Classification',
         compute='_compute_cash_fund', store=True, readonly=False, check_company=True,
         ondelete='restrict', tracking=True)
@@ -18,7 +18,8 @@ class AccountPayment(models.Model):
                                          string='Classification Split', copy=True)
     cash_destination_journal_id = fields.Many2one('account.journal', string='Destination Safe / Bank',
         check_company=True, ondelete='restrict', tracking=True)
-    cash_destination_type = fields.Selection(related='cash_destination_journal_id.type')
+    cash_destination_type = fields.Selection(related='cash_destination_journal_id.type',
+                                             string='Destination Journal Type')
     cash_destination_fund_id = fields.Many2one('account.cash.fund', string='Destination Classification',
         compute='_compute_destination_fund', store=True, readonly=False,
         check_company=True, ondelete='restrict', tracking=True)
@@ -27,6 +28,22 @@ class AccountPayment(models.Model):
         'destination_payment_id', string='Destination Split', copy=True)
     cash_fund_balance = fields.Monetary(related='cash_fund_id.balance', currency_field='company_currency_id',
                                        string='Classification Balance')
+    cash_split_remaining = fields.Monetary(compute='_compute_cash_split_remaining', string='Remaining to Allocate')
+    cash_split_balanced = fields.Boolean(compute='_compute_cash_split_remaining')
+    cash_destination_split_remaining = fields.Monetary(compute='_compute_cash_split_remaining',
+                                                       string='Destination Remaining to Allocate')
+    cash_destination_split_balanced = fields.Boolean(compute='_compute_cash_split_remaining')
+
+    @api.depends('amount', 'currency_id', 'cash_allocation_ids.amount', 'cash_destination_allocation_ids.amount')
+    def _compute_cash_split_remaining(self):
+        for payment in self:
+            currency = payment.currency_id or payment.company_currency_id
+            remaining = currency.round(payment.amount - sum(payment.cash_allocation_ids.mapped('amount')))
+            dest_remaining = currency.round(payment.amount - sum(payment.cash_destination_allocation_ids.mapped('amount')))
+            payment.cash_split_remaining = remaining
+            payment.cash_split_balanced = currency.is_zero(remaining)
+            payment.cash_destination_split_remaining = dest_remaining
+            payment.cash_destination_split_balanced = currency.is_zero(dest_remaining)
 
     @api.depends('payment_type', 'cash_is_internal_transfer')
     def _compute_cash_operation(self):
@@ -68,6 +85,19 @@ class AccountPayment(models.Model):
     def _onchange_cash_journal(self):
         self.cash_split = False
         self.cash_allocation_ids = [Command.clear()]
+
+    @api.onchange('cash_split')
+    def _onchange_cash_split(self):
+        # Seed the split with the current classification so the user only
+        # has to adjust amounts rather than start from an empty table.
+        if self.cash_split and not self.cash_allocation_ids and self.cash_fund_id:
+            self.cash_allocation_ids = [Command.create({'fund_id': self.cash_fund_id.id, 'amount': self.amount})]
+
+    @api.onchange('cash_destination_split')
+    def _onchange_cash_destination_split(self):
+        if self.cash_destination_split and not self.cash_destination_allocation_ids and self.cash_destination_fund_id:
+            self.cash_destination_allocation_ids = [Command.create({
+                'fund_id': self.cash_destination_fund_id.id, 'amount': self.amount})]
 
     @api.onchange('cash_destination_journal_id')
     def _onchange_cash_destination(self):
@@ -248,25 +278,37 @@ class AccountPayment(models.Model):
             if not pair or pair.payment_type == payment.payment_type or pair.company_id != payment.company_id:
                 raise ValidationError(_('A confirmed internal transfer requires its matching opposite payment.'))
 
+    def _cash_controlled(self):
+        """Payments this module governs: cash-journal payments and transfers.
+
+        Bank, customer and vendor payments keep Odoo's standard behaviour."""
+        return self.filtered(lambda p: p.journal_id.type == 'cash' or p.cash_is_internal_transfer)
+
     def _cash_linked_payments(self):
-        return self | self.paired_internal_transfer_payment_id
+        transfers = self.filtered('cash_is_internal_transfer')
+        return self | transfers.paired_internal_transfer_payment_id
+
+    def _cash_unreconcile_transfers(self):
+        transfers = self.filtered('cash_is_internal_transfer')
+        transfers.move_id.line_ids.filtered(
+            lambda l: l.account_id == l.company_id.transfer_account_id).remove_move_reconcile()
 
     def action_cancel(self):
         payments = self._cash_linked_payments()
-        lines = payments.move_id.line_ids.filtered(lambda l: l.account_id == l.company_id.transfer_account_id)
-        lines.remove_move_reconcile()
+        payments._cash_unreconcile_transfers()
         return super(AccountPayment, payments).action_cancel()
 
     def action_draft(self):
         payments = self._cash_linked_payments()
-        payments.move_id.line_ids.filtered(
-            lambda l: l.account_id == l.company_id.transfer_account_id).remove_move_reconcile()
+        payments._cash_unreconcile_transfers()
         return super(AccountPayment, payments).action_draft()
 
     def action_reject(self):
-        if self.filtered('cash_is_internal_transfer'):
-            return self.action_cancel()
-        return super().action_reject()
+        transfers = self.filtered('cash_is_internal_transfer')
+        if transfers:
+            transfers.action_cancel()
+        others = self - transfers
+        return super(AccountPayment, others).action_reject() if others else True
 
     def action_open_cash_pair(self):
         self.ensure_one()
@@ -278,16 +320,17 @@ class AccountPayment(models.Model):
                    'cash_destination_split', 'cash_destination_allocation_ids', 'cash_is_internal_transfer',
                    'cash_destination_journal_id', 'cash_operation', 'amount', 'currency_id', 'journal_id',
                    'date', 'payment_type', 'partner_id', 'destination_account_id', 'company_id'}
-        if guarded & vals.keys():
-            if self.filtered(lambda p: p.state not in ('draft', 'canceled')):
+        controlled = self._cash_controlled()
+        if guarded & vals.keys() and controlled:
+            if controlled.filtered(lambda p: p.state not in ('draft', 'canceled')):
                 raise UserError(_('Posted payment allocations are locked. Cancel and recreate a transfer to change its allocations.'))
-            if self.filtered('paired_internal_transfer_payment_id'):
+            if controlled.filtered(lambda p: p.cash_is_internal_transfer and p.paired_internal_transfer_payment_id):
                 raise UserError(_('This transfer already has a linked payment. Delete the draft transfer and create a corrected one.'))
         return super().write(vals)
 
     def unlink(self):
         payments = self._cash_linked_payments()
-        if any(p.state not in ('draft', 'canceled') for p in payments):
+        if any(p.state not in ('draft', 'canceled') for p in payments._cash_controlled()):
             raise UserError(_('Cancel the payment before deleting it.'))
         return super(AccountPayment, payments).unlink()
 

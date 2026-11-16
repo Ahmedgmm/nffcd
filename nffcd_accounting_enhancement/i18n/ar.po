@@ -17,9 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
-#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
-#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_destination_type model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment__cash_journal_type model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
 msgid ""
 "\n"
 "        Select 'Sale' for customer invoices journals.\n"
@@ -41,14 +39,14 @@ msgid ""
 "Open **Invoicing/Accounting → Cash Management**.\n"
 "\n"
 "- Every cash journal receives a protected `عام` classification. Create more from a payment dropdown, the journal's Cash Classifications tab, or Classifications & Balances.\n"
-"- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount / توزيع المبلغ** exposes allocation lines; positive allocations must equal the payment total.\n"
+"- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount** exposes allocation lines; positive allocations must equal the payment total.\n"
 "- Invoice/bill Register Payment supports classifications and splits too. Group invoices into one payment before splitting; independent batch payments need their own allocation.\n"
 "- Confirming a transfer posts linked outgoing/incoming payments and reconciles the company transfer account. Both cash sides can split independently. Cancel or reset either side to affect both. Linked allocations are immutable: cancel/delete the draft pair and recreate to change them.\n"
 "- Internal transfers support cash/bank journals within the same company and currency. Bank payments retain normal outstanding-account/reconciliation behavior; cash payments directly affect the safe account.\n"
 "- Fund balances and movement reports derive from posted cash-account journal items, not payment state. Drafts do not count. Opening entries and adjustments select a classification on the cash journal-item line. Legacy unclassified cash items appear under `عام` without rewriting historical entries.\n"
 "- Manual split journal items have `cash_allocation_ids` in company currency. Payment splits populate these automatically. Reversals preserve allocations and reverse their signed movement.\n"
 "- **Transfer Between Classifications** creates a draft entry within one safe. It changes classification balances without changing the safe total; normal journal-entry approval still applies.\n"
-"- Turn off **Allow Negative Balance** to enforce the posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.\n"
+"- A classification can never go below zero: posting is refused when spending would exceed its posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.\n"
 "- Statements show opening balance, period receipts/spending/transfers, running balance and closing balance. Print PDF or use the movement list's standard export. Amounts are in company currency; filter/group by company when currencies differ.\n"
 "- Optional Authority integration checks both transfer payments before posting and includes allocations in approval fingerprints. This integration is implemented but has not been integration-tested with Authority installed in this local preview.\n"
 "\n"
@@ -82,7 +80,7 @@ msgstr ""
 "- تستند الأرصدة والتقارير إلى بنود الحساب النقدي في القيود المرحلة، ولا تحتسب المسودات. حدد التصنيف في بند الخزينة عند تسجيل الأرصدة الافتتاحية والتسويات. تظهر البنود القديمة غير المصنفة تحت «عام» دون تعديل القيود التاريخية.\n"
 "- يستخدم التوزيع اليدوي لبنود اليومية الحقل `cash_allocation_ids` بعملة الشركة. تملؤه توزيعات الدفعات تلقائيًا. تحتفظ القيود العكسية بالتوزيع وتعكس اتجاه الحركة.\n"
 "- تُنشئ شاشة **تحويل بين التصنيفات** قيدًا مسودة داخل الخزينة نفسها. تتغير أرصدة التصنيفات دون تغيير إجمالي رصيد الخزينة، وتظل موافقات القيود المعتادة سارية.\n"
-"- أوقف **السماح برصيد سالب** لمنع تجاوز الرصيد المرحل المتبقي. تُقفل سجلات الخزائن وتُحدّث إصدارات صفوفها أثناء الترحيل لمنع تجاوز الرصيد عند الصرف المتزامن. لا يتضمن الإصدار حجز أرصدة المسودات أو التحقق من الرصيد اليومي التاريخي.\n"
+"- لا يمكن أن يصبح رصيد أي تصنيف سالبًا: يُرفض الترحيل إذا تجاوز الصرف الرصيد المرحل المتبقي. تُقفل سجلات الخزائن وتُحدّث إصدارات صفوفها أثناء الترحيل لمنع تجاوز الرصيد عند الصرف المتزامن. لا يتضمن الإصدار حجز أرصدة المسودات أو التحقق من الرصيد اليومي التاريخي.\n"
 "- توضح كشوف الحركة الرصيد الافتتاحي والمقبوضات والمدفوعات وصافي التحويلات والرصيد المتحرك والرصيد الختامي. اطبع PDF أو صدّر قائمة الحركات. تظهر المبالغ بعملة الشركة؛ استخدم التصفية أو التجميع حسب الشركة عند اختلاف العملات.\n"
 "- يتحقق التكامل الاختياري مع إضافة الصلاحيات من موافقات طرفي التحويل قبل الترحيل ويضم التوزيعات إلى بصمة الموافقة. لم يُختبر هذا التكامل مع تثبيت إضافة الصلاحيات في بيئة العرض المحلية.\n"
 "\n"
@@ -133,15 +131,7 @@ msgid "Active"
 msgstr "نشط"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__allow_negative
-msgid "Allow Negative Balance"
-msgstr "السماح برصيد سالب"
-
-#. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__amount
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__amount
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__amount
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__amount
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__amount model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__amount model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__amount model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__amount
 msgid "Amount"
 msgstr "المبلغ"
 
@@ -179,11 +169,7 @@ msgid "Cancel the payment before deleting it."
 msgstr "ألغِ الدفعة قبل حذفها."
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_fund
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_fund_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_fund_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_fund_id
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_fund model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_fund_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_fund_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_fund_id model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
 msgid "Cash Classification"
 msgstr "تصنيف أموال الخزينة"
 
@@ -193,18 +179,12 @@ msgid "Cash Classification Movements"
 msgstr "حركات تصنيفات الخزينة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.actions.report,name:nffcd_accounting_enhancement.action_cash_statement_pdf
-#: model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_statement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
+#: model:ir.actions.report,name:nffcd_accounting_enhancement.action_cash_statement_pdf model:ir.model,name:nffcd_accounting_enhancement.model_account_cash_statement model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
 msgid "Cash Classification Statement"
 msgstr "كشف حركة تصنيف الخزينة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_funds
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__cash_fund_ids
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_graph
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_pivot
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_journal_cash_funds
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_funds model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__cash_fund_ids model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_graph model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_pivot model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_journal_cash_funds
 msgid "Cash Classifications"
 msgstr "تصنيفات أموال الخزينة"
 
@@ -234,9 +214,7 @@ msgid "Cash Transfer"
 msgstr "تحويل نقدي"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__fund_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__fund_id
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__fund_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__fund_id model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Classification"
 msgstr "التصنيف"
 
@@ -247,26 +225,18 @@ msgstr "رصيد التصنيف"
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
-#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
-#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
-#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_movements
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0 code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0 model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_movements
 msgid "Classification Movements"
 msgstr "حركات التصنيف"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_allocation_ids
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_allocation_ids
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_allocation_ids
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_allocation_ids model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_allocation_ids model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_allocation_ids model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 msgid "Classification Split"
 msgstr "توزيع المبلغ على التصنيفات"
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
-#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
-#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_statement
-#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_statement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0 model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_statement model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_statement model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
 msgid "Classification Statement"
 msgstr "كشف حركة التصنيف"
 
@@ -278,8 +248,7 @@ msgstr "اسم التصنيف"
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/account.py:0
-msgid ""
-"Classification splits must equal the cash line amount in company currency."
+msgid "Classification splits must equal the cash line amount in company currency."
 msgstr "يجب أن يساوي مجموع التوزيع مبلغ بند الخزينة بعملة الشركة."
 
 #. module: nffcd_accounting_enhancement
@@ -315,21 +284,12 @@ msgid "Code"
 msgstr "الرمز"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__company_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__company_id
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__company_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__company_id model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Company"
 msgstr "الشركة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_fund__company_id
-#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_statement__company_id
+#: model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_fund__company_id model:ir.model.fields,help:nffcd_accounting_enhancement.field_account_cash_statement__company_id
 msgid "Company related to this journal"
 msgstr "الشركة التابعة لها هذه اليومية"
 
@@ -369,41 +329,22 @@ msgid "Create a new classification to use a different safe."
 msgstr "أنشئ تصنيفًا جديدًا لاستخدام خزينة أخرى."
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_uid
 msgid "Created by"
 msgstr "أنشئ بواسطة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__create_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__create_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__create_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__create_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__create_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__create_date
 msgid "Created on"
 msgstr "تاريخ الإنشاء"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__currency_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__currency_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__currency_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__currency_id
 msgid "Currency"
 msgstr "العملة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__date
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__date model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Date"
 msgstr "التاريخ"
 
@@ -433,33 +374,19 @@ msgid "Destination Safe / Bank"
 msgstr "الخزينة / البنك المستلم"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_allocation_ids
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_allocation_ids model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 msgid "Destination Split"
 msgstr "توزيع المبلغ المستلم"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__display_name
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__display_name model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__display_name
 msgid "Display Name"
 msgstr "اسم العرض"
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/fund.py:0
-msgid ""
-"Each safe must have its own cash account for reliable classification "
-"balances."
+msgid "Each safe must have its own cash account for reliable classification balances."
 msgstr "يجب تخصيص حساب نقدي مستقل لكل خزينة لضمان دقة أرصدة التصنيفات."
 
 #. module: nffcd_accounting_enhancement
@@ -473,9 +400,7 @@ msgid "From Classification"
 msgstr "من التصنيف"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__fund_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__fund_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__fund_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__fund_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__fund_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__fund_id
 msgid "Fund"
 msgstr "التصنيف"
 
@@ -486,18 +411,7 @@ msgid "Group the payment first, or split each payment individually."
 msgstr "جمّع الدفعات أولًا، أو وزّع مبلغ كل دفعة على حدة."
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_journal__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__id
 msgid "ID"
 msgstr "المعرّف"
 
@@ -509,9 +423,7 @@ msgstr "الرصيد غير كافٍ في %(safe)s / %(fund)s."
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
-#: code:addons/nffcd_accounting_enhancement/models/payment.py:0
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_is_internal_transfer
-#: model:ir.model.fields.selection,name:nffcd_accounting_enhancement.selection__account_payment__cash_operation__transfer
+#: code:addons/nffcd_accounting_enhancement/models/payment.py:0 model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_is_internal_transfer model:ir.model.fields.selection,name:nffcd_accounting_enhancement.selection__account_payment__cash_operation__transfer
 msgid "Internal Transfer"
 msgstr "تحويل داخلي"
 
@@ -549,14 +461,12 @@ msgid "Is Transfer"
 msgstr "تحويل"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model,name:nffcd_accounting_enhancement.model_account_journal
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__journal_id
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_journal model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__journal_id
 msgid "Journal"
 msgstr "دفتر اليومية"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model,name:nffcd_accounting_enhancement.model_account_move
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_id
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_move model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_id
 msgid "Journal Entry"
 msgstr "القيد المحاسبي"
 
@@ -566,22 +476,12 @@ msgid "Journal Item"
 msgstr "بند اليومية"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_uid
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_uid
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_uid model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_uid
 msgid "Last Updated by"
 msgstr "آخر تحديث بواسطة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_date
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_date
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__write_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__write_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__write_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__write_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_register_allocation__write_date model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_statement__write_date
 msgid "Last Updated on"
 msgstr "تاريخ آخر تحديث"
 
@@ -591,14 +491,12 @@ msgid "Linked Transfer"
 msgstr "التحويل المرتبط"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_line_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__move_line_id
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__move_line_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_move_allocation__move_line_id
 msgid "Move Line"
 msgstr "بند القيد"
 
 #. module: nffcd_accounting_enhancement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
 msgid "Movements"
 msgstr "الحركات"
 
@@ -613,16 +511,12 @@ msgid "Name"
 msgstr "الاسم"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__balance
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__balance model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
 msgid "Net Movement"
 msgstr "صافي الحركة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__transfers
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__transfers
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__transfers model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__transfers model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
 msgid "Net Transfers"
 msgstr "صافي التحويلات"
 
@@ -665,15 +559,13 @@ msgid "Pay"
 msgstr "دفع"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model,name:nffcd_accounting_enhancement.model_account_payment
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__payment_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__payment_id
+#: model:ir.model,name:nffcd_accounting_enhancement.model_account_payment model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__payment_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__payment_id
 msgid "Payment"
 msgstr "الدفعة"
 
 #. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_operation
-msgid "Payment Type"
+msgid "Payment Operation"
 msgstr "نوع الدفعة"
 
 #. module: nffcd_accounting_enhancement
@@ -700,19 +592,14 @@ msgstr "لا يمكن تعديل توزيعات التصنيفات المرحل�
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/account.py:0
-msgid ""
-"Posted classifications are locked. Reverse the entry or record a "
-"classification transfer."
+msgid "Posted classifications are locked. Reverse the entry or record a classification transfer."
 msgstr "التصنيفات المرحلة مقفلة. اعكس القيد أو سجل تحويلًا بين التصنيفات."
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/payment.py:0
-msgid ""
-"Posted payment allocations are locked. Cancel and recreate a transfer to "
-"change its allocations."
-msgstr ""
-"توزيعات الدفعات المرحلة مقفلة. ألغِ التحويل وأنشئه مجددًا لتعديل توزيعاته."
+msgid "Posted payment allocations are locked. Cancel and recreate a transfer to change its allocations."
+msgstr "توزيعات الدفعات المرحلة مقفلة. ألغِ التحويل وأنشئه مجددًا لتعديل توزيعاته."
 
 #. module: nffcd_accounting_enhancement
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_statement
@@ -725,11 +612,7 @@ msgid "Reason"
 msgstr "السبب"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__receipts
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__receipts
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__receipts model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__receipts model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Receipts"
 msgstr "المقبوضات"
 
@@ -754,20 +637,13 @@ msgid "Remaining Balance"
 msgstr "الرصيد المتبقي"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__journal_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__journal_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__journal_id
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_journal_id
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__journal_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__journal_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__journal_id model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_move_line__cash_journal_id model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_search model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Safe"
 msgstr "الخزينة"
 
 #. module: nffcd_accounting_enhancement
 #: model:ir.module.module,summary:base.module_nffcd_accounting_enhancement
-msgid ""
-"Safe classifications, split allocations, fund statements and internal "
-"transfers"
+msgid "Safe classifications, split allocations, fund statements and internal transfers"
 msgstr "تصنيفات الخزائن وتوزيع المبالغ وكشوف الحركة والتحويلات الداخلية"
 
 #. module: nffcd_accounting_enhancement
@@ -799,33 +675,18 @@ msgid "Sequence"
 msgstr "الترتيب"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__spending
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__spending
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__spending model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund_report__spending model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.cash_statement_document model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_list model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Spending"
 msgstr "المدفوعات"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_split model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 msgid "Split Amount"
 msgstr "توزيع المبلغ"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_split
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
-msgid "Split Amount / توزيع المبلغ"
-msgstr "توزيع المبلغ"
-
-#. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 msgid "Split Destination Amount"
-msgstr "توزيع المبلغ المستلم"
-
-#. module: nffcd_accounting_enhancement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
-msgid "Split Destination Amount / توزيع المبلغ المستلم"
 msgstr "توزيع المبلغ المستلم"
 
 #. module: nffcd_accounting_enhancement
@@ -835,8 +696,7 @@ msgid "Start an internal transfer from the source safe or bank."
 msgstr "ابدأ التحويل الداخلي من الخزينة أو البنك المرسل."
 
 #. module: nffcd_accounting_enhancement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_form model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
 msgid "Statement"
 msgstr "كشف الحركة"
 
@@ -883,12 +743,8 @@ msgstr "هذا التصنيف موجود بالفعل في هذه الخزينة
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/payment.py:0
-msgid ""
-"This transfer already has a linked payment. Delete the draft transfer and "
-"create a corrected one."
-msgstr ""
-"لهذا التحويل دفعة مرتبطة بالفعل. احذف التحويل المسودة وأنشئ تحويلًا "
-"بالبيانات الصحيحة."
+msgid "This transfer already has a linked payment. Delete the draft transfer and create a corrected one."
+msgstr "لهذا التحويل دفعة مرتبطة بالفعل. احذف التحويل المسودة وأنشئ تحويلًا بالبيانات الصحيحة."
 
 #. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_reclassification__destination_fund_id
@@ -896,8 +752,7 @@ msgid "To Classification"
 msgstr "إلى التصنيف"
 
 #. module: nffcd_accounting_enhancement
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
 msgid "Total"
 msgstr "الإجمالي"
 
@@ -907,9 +762,7 @@ msgid "Transfer Between Cash Classifications"
 msgstr "تحويل بين تصنيفات الخزينة"
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_reclassification
-#: model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_reclassification
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_reclassification
+#: model:ir.actions.act_window,name:nffcd_accounting_enhancement.action_cash_reclassification model:ir.ui.menu,name:nffcd_accounting_enhancement.menu_cash_reclassification model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_reclassification
 msgid "Transfer Between Classifications"
 msgstr "تحويل بين التصنيفات"
 
@@ -917,13 +770,6 @@ msgstr "تحويل بين التصنيفات"
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Transfers"
 msgstr "التحويلات"
-
-#. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
-msgid "Type"
-msgstr "النوع"
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
@@ -946,9 +792,7 @@ msgstr "استخدم دفاتر يومية بالعملة نفسها للتحو�
 #. module: nffcd_accounting_enhancement
 #. odoo-python
 #: code:addons/nffcd_accounting_enhancement/models/payment.py:0
-msgid ""
-"Use positive split amounts and active classifications belonging to this "
-"safe."
+msgid "Use positive split amounts and active classifications belonging to this safe."
 msgstr "استخدم مبالغ توزيع أكبر من صفر وتصنيفات نشطة تابعة لهذه الخزينة."
 
 #. module: nffcd_accounting_enhancement
@@ -963,7 +807,58 @@ msgstr "معالج"
 
 #. module: nffcd_accounting_enhancement
 #. odoo-python
-#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
-#: code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0 code:addons/nffcd_accounting_enhancement/wizard/cash_wizard.py:0
 msgid "fund_id"
 msgstr "التصنيف"
+
+#. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid "These safes share one cash account; give each its own account first: %s"
+msgstr "هذه الخزائن تشترك في حساب نقدي واحد؛ خصص لكل خزينة حسابًا مستقلًا أولًا: %s"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_journal_type model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
+msgid "Safe Journal Type"
+msgstr "نوع يومية الخزينة"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
+msgid "Destination Journal Type"
+msgstr "نوع يومية الوجهة"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
+msgid "Split across classifications"
+msgstr "موزّع على عدة تصنيفات"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Fully allocated"
+msgstr "تم توزيع المبلغ بالكامل"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Remaining to allocate:"
+msgstr "المتبقي للتوزيع:"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split_remaining
+msgid "Remaining to Allocate"
+msgstr "المتبقي للتوزيع"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split_remaining
+msgid "Destination Remaining to Allocate"
+msgstr "المتبقي للتوزيع (الوجهة)"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split_balanced
+msgid "Cash Split Balanced"
+msgstr "التوزيع مكتمل"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split_balanced
+msgid "Cash Destination Split Balanced"
+msgstr "توزيع الوجهة مكتمل"

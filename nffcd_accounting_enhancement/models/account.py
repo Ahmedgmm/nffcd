@@ -16,16 +16,13 @@ class AccountMoveLine(models.Model):
                                          string='Classification Split', copy=True)
     cash_is_transfer = fields.Boolean(string='Cash Transfer', copy=True)
 
-    @api.depends('account_id', 'company_id', 'journal_id')
+    @api.depends('account_id', 'company_id')
     def _compute_cash_journal(self):
+        # One query per batch, not per line: installs and upgrades compute
+        # this over every journal item in the database.
+        safes = self.env['account.journal']._cash_safe_map(self.account_id.ids)
         for line in self:
-            journal = line.journal_id
-            if journal.type == 'cash' and journal.default_account_id == line.account_id:
-                line.cash_journal_id = journal
-            else:
-                line.cash_journal_id = self.env['account.journal'].with_context(active_test=False).search([
-                    ('type', '=', 'cash'), ('default_account_id', '=', line.account_id.id),
-                    ('company_id', '=', line.company_id.id)], limit=1) if line.account_id else False
+            line.cash_journal_id = safes.get((line.account_id.id, line.company_id.id), False)
 
     @api.depends('cash_journal_id')
     def _compute_cash_fund(self):
@@ -120,9 +117,9 @@ class AccountMove(models.Model):
         # Check after posting, inside the same transaction, to cover batches,
         # backdated entries and reversal entries with the exact posted amounts.
         funds = cash_lines.cash_fund_id | cash_lines.cash_allocation_ids.fund_id
-        guarded = funds.filtered(lambda f: not f.allow_negative)
-        guarded.invalidate_recordset(['balance'])
-        for fund in guarded:
+        # A safe classification can never go below zero.
+        funds.invalidate_recordset(['balance'])
+        for fund in funds:
             if fund.currency_id.compare_amounts(fund.balance, 0) < 0:
                 raise ValidationError(_('Insufficient balance in %(safe)s / %(fund)s.',
                                         safe=fund.journal_id.name, fund=fund.name))

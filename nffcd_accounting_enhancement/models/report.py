@@ -42,8 +42,7 @@ class CashFundReport(models.Model):
                 FROM account_move_line l
                 JOIN account_move m ON m.id = l.move_id AND m.state = 'posted'
                 JOIN res_company c ON c.id = l.company_id
-                JOIN account_journal j ON j.type = 'cash' AND j.default_account_id = l.account_id
-                                          AND j.company_id = l.company_id
+                JOIN account_journal j ON j.id = l.cash_journal_id
                 LEFT JOIN account_cash_fund g ON g.journal_id = j.id AND g.is_general
                 LEFT JOIN account_cash_move_allocation a ON a.move_line_id = l.id
             ) x

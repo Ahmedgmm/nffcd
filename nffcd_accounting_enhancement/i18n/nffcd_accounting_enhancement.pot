@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0-20261017\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-15 21:54+0000\n"
-"PO-Revision-Date: 2026-11-15 21:54+0000\n"
+"POT-Creation-Date: 2026-11-15 23:24+0000\n"
+"PO-Revision-Date: 2026-11-15 23:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,14 +36,14 @@ msgid ""
 "Open **Invoicing/Accounting → Cash Management**.\n"
 "\n"
 "- Every cash journal receives a protected `عام` classification. Create more from a payment dropdown, the journal's Cash Classifications tab, or Classifications & Balances.\n"
-"- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount / توزيع المبلغ** exposes allocation lines; positive allocations must equal the payment total.\n"
+"- Select Receive, Send, or Internal Transfer. Cash sides choose their own safe's classifications. **Split Amount** exposes allocation lines; positive allocations must equal the payment total.\n"
 "- Invoice/bill Register Payment supports classifications and splits too. Group invoices into one payment before splitting; independent batch payments need their own allocation.\n"
 "- Confirming a transfer posts linked outgoing/incoming payments and reconciles the company transfer account. Both cash sides can split independently. Cancel or reset either side to affect both. Linked allocations are immutable: cancel/delete the draft pair and recreate to change them.\n"
 "- Internal transfers support cash/bank journals within the same company and currency. Bank payments retain normal outstanding-account/reconciliation behavior; cash payments directly affect the safe account.\n"
 "- Fund balances and movement reports derive from posted cash-account journal items, not payment state. Drafts do not count. Opening entries and adjustments select a classification on the cash journal-item line. Legacy unclassified cash items appear under `عام` without rewriting historical entries.\n"
 "- Manual split journal items have `cash_allocation_ids` in company currency. Payment splits populate these automatically. Reversals preserve allocations and reverse their signed movement.\n"
 "- **Transfer Between Classifications** creates a draft entry within one safe. It changes classification balances without changing the safe total; normal journal-entry approval still applies.\n"
-"- Turn off **Allow Negative Balance** to enforce the posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.\n"
+"- A classification can never go below zero: posting is refused when spending would exceed its posted remaining balance. Safes are locked and row versions bumped during posting to serialize concurrent spending under Odoo's repeatable-read isolation. No draft reservation or historical daily-balance enforcement is included.\n"
 "- Statements show opening balance, period receipts/spending/transfers, running balance and closing balance. Print PDF or use the movement list's standard export. Amounts are in company currency; filter/group by company when currencies differ.\n"
 "- Optional Authority integration checks both transfer payments before posting and includes allocations in approval fingerprints. This integration is implemented but has not been integration-tested with Authority installed in this local preview.\n"
 "\n"
@@ -92,11 +92,6 @@ msgstr ""
 #. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__active
 msgid "Active"
-msgstr ""
-
-#. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_fund__allow_negative
-msgid "Allow Negative Balance"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
@@ -385,6 +380,11 @@ msgid "Destination Classification"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
+msgid "Destination Journal Type"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_cash_payment_allocation__destination_payment_id
 msgid "Destination Payment"
 msgstr ""
@@ -635,7 +635,7 @@ msgstr ""
 
 #. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_operation
-msgid "Payment Type"
+msgid "Payment Operation"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
@@ -725,6 +725,12 @@ msgid "Safe"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
+msgid "Safe Journal Type"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
 #: model:ir.module.module,summary:base.module_nffcd_accounting_enhancement
 msgid ""
 "Safe classifications, split allocations, fund statements and internal "
@@ -770,23 +776,15 @@ msgstr ""
 
 #. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_split
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 msgid "Split Amount"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_split
-#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
-msgid "Split Amount / توزيع المبلغ"
-msgstr ""
-
-#. module: nffcd_accounting_enhancement
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split
-msgid "Split Destination Amount"
-msgstr ""
-
-#. module: nffcd_accounting_enhancement
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
-msgid "Split Destination Amount / توزيع المبلغ المستلم"
+msgid "Split Destination Amount"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
@@ -837,6 +835,13 @@ msgid "The start date must be before the end date."
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
+#. odoo-python
+#: code:addons/nffcd_accounting_enhancement/models/fund.py:0
+msgid ""
+"These safes share one cash account; give each its own account first: %s"
+msgstr ""
+
+#. module: nffcd_accounting_enhancement
 #: model:ir.model.constraint,message:nffcd_accounting_enhancement.constraint_account_cash_fund_name_unique
 msgid "This classification already exists in this safe."
 msgstr ""
@@ -855,6 +860,8 @@ msgid "To Classification"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_fund_list
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_journal_cash_funds
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
 msgid "Total"
@@ -875,13 +882,6 @@ msgstr ""
 #. module: nffcd_accounting_enhancement
 #: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_cash_movement_search
 msgid "Transfers"
-msgstr ""
-
-#. module: nffcd_accounting_enhancement
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_type
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_journal_type
-#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment_register__cash_journal_type
-msgid "Type"
 msgstr ""
 
 #. module: nffcd_accounting_enhancement

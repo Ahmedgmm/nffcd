@@ -5,10 +5,10 @@ from odoo.exceptions import ValidationError
 class PaymentRegister(models.TransientModel):
     _inherit = 'account.payment.register'
 
-    cash_journal_type = fields.Selection(related='journal_id.type')
+    cash_journal_type = fields.Selection(related='journal_id.type', string='Safe Journal Type')
     cash_fund_id = fields.Many2one('account.cash.fund', string='Cash Classification',
         compute='_compute_cash_fund', readonly=False, store=True, check_company=True)
-    cash_split = fields.Boolean(string='Split Amount / توزيع المبلغ')
+    cash_split = fields.Boolean(string='Split Amount')
     cash_allocation_ids = fields.One2many('account.cash.register.allocation', 'wizard_id',
                                          string='Classification Split')
 

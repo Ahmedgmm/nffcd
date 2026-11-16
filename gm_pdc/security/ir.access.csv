@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_pdc,account.pdc.access,account.pdc,account.group_account_user,crud,
+pdc_company_rule,PDC allowed companies,account.pdc,,crud,"[('company_id', 'in', company_ids)]"

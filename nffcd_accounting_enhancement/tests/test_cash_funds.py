@@ -111,7 +111,6 @@ class TestCashFunds(TransactionCase):
             ('paired_internal_transfer_payment_id', '=', transfer.id)]), 1)
 
     def test_balance_guard_and_posted_immutability(self):
-        self.fund.allow_negative = False
         self.payment(50).action_post()
         payment = self.payment(51, 'outbound')
         with self.assertRaises(ValidationError), self.cr.savepoint():
@@ -157,6 +156,7 @@ class TestCashFunds(TransactionCase):
         self.assertEqual(self.fund2.receipts, 0)
 
     def test_transfer_type_from_payment_form(self):
+        self.payment(10, cash_fund_id=self.safe.cash_fund_ids.filtered('is_general').id).action_post()
         with Form(self.env['account.payment'].with_context(default_journal_id=self.safe.id)) as form:
             form.cash_operation = 'transfer'
             form.amount = 10
@@ -208,14 +208,17 @@ class TestCashFunds(TransactionCase):
             'invoice_date': fields.Date.today(), 'invoice_line_ids': [Command.create({
                 'name': 'Test service', 'account_id': self.offset.id, 'price_unit': 100})]})
         bill.action_post()
+        self.payment(60).action_post()
+        self.payment(40, cash_fund_id=self.fund2.id).action_post()
         wizard = self.env['account.payment.register'].with_context(
             active_model='account.move', active_ids=bill.ids).create({
                 'journal_id': self.safe.id, 'cash_split': True,
                 'cash_allocation_ids': [Command.create({'fund_id': self.fund.id, 'amount': 60}),
                                         Command.create({'fund_id': self.fund2.id, 'amount': 40})]})
         payments = wizard._create_payments()
-        self.assertEqual(self.balance(self.fund), -60)
-        self.assertEqual(self.balance(self.fund2), -40)
+        self.assertEqual(self.balance(self.fund), 0)
+        self.assertEqual(self.balance(self.fund2), 0)
+        self.assertEqual(self.fund.spending, 60)
         self.assertTrue(payments.cash_split)
 
     def test_inbound_unpaired_transfer_cannot_create_money(self):
@@ -225,3 +228,45 @@ class TestCashFunds(TransactionCase):
             payment.action_post()
         with self.assertRaises(ValidationError), self.cr.savepoint():
             payment.write({'state': 'paid'})
+
+    def test_negative_balance_always_blocked(self):
+        self.assertNotIn('allow_negative', self.env['account.cash.fund']._fields)
+        payment = self.payment(1, 'outbound')
+        with self.assertRaises(ValidationError), self.cr.savepoint():
+            payment.action_post()
+        self.assertEqual(self.balance(self.fund), 0)
+
+    def test_bank_payments_are_not_governed(self):
+        bank = self.env['account.journal'].create({'name': 'Test Bank 2', 'type': 'bank',
+            'code': 'BK2', 'company_id': self.company.id})
+        payment = self.env['account.payment'].create({'journal_id': bank.id, 'amount': 30,
+            'company_id': self.company.id, 'payment_type': 'inbound', 'partner_type': 'customer'})
+        self.assertFalse(payment._cash_controlled())
+        self.assertEqual(payment._cash_linked_payments(), payment)
+        self.assertFalse(payment.cash_fund_id)
+
+    def test_new_safe_relinks_existing_cash_items(self):
+        account = self.env['account.account'].create({'name': 'Petty Cash', 'code': '1050',
+            'account_type': 'asset_cash', 'company_ids': [Command.set(self.company.ids)]})
+        entry = self.env['account.move'].create({'journal_id': self.misc.id, 'line_ids': [
+            Command.create({'account_id': account.id, 'debit': 40}),
+            Command.create({'account_id': self.offset.id, 'credit': 40})]})
+        entry.action_post()
+        cash_line = entry.line_ids.filtered(lambda l: l.account_id == account)
+        self.assertFalse(cash_line.cash_journal_id)
+        petty = self.env['account.journal'].create({'name': 'Petty Safe', 'code': 'PTY', 'type': 'cash',
+            'company_id': self.company.id, 'default_account_id': account.id})
+        general = petty.cash_fund_ids.filtered('is_general')
+        self.assertEqual(cash_line.cash_journal_id, petty)
+        self.assertEqual(cash_line.cash_fund_id, general)
+        self.assertEqual(self.balance(general), 40)
+
+    def test_safe_group_totals(self):
+        self.payment(70).action_post()
+        self.payment(30, cash_fund_id=self.fund2.id).action_post()
+        self.payment(20, 'outbound').action_post()
+        rows = self.env['account.cash.fund']._read_group(
+            [('journal_id', '=', self.safe.id)], ['journal_id'],
+            ['balance:sum', 'receipts:sum', 'spending:sum'])
+        self.assertEqual(rows, [(self.safe, 80, 100, 20)])
+        self.assertTrue(self.env['account.cash.fund'].fields_get(['balance'])['balance'].get('aggregator'))

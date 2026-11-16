@@ -1,0 +1,46 @@
+// Inline rows on the payment form / register dialog.
+// Odoo's .o_row forces many2one widgets to 100% width in edit mode, which
+// pushes siblings (split icon, currency) outside the column. These rows
+// let the main field take the remaining space and keep extras compact.
+.o_form_view .o_nffcd_row.o_nffcd_row {
+    display: flex !important;
+    align-items: center;
+    gap: .5rem;
+    width: 100% !important;
+    min-width: 0;
+    margin: 0 !important;
+
+    > .o_field_widget,
+    > div {
+        flex: 1 1 0 !important;
+        min-width: 0;
+        width: auto !important;
+        margin: 0 !important;
+    }
+
+    .o_many2one,
+    .o_field_many2one {
+        width: 100% !important;
+        min-width: 0;
+    }
+
+    > span,
+    > .o_field_boolean_icon {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        margin: 0 !important;
+    }
+
+    > .o_field_boolean_icon .btn {
+        width: 2rem;
+        height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    // Amount + currency: currency stays narrow, amount gets the rest.
+    > .o_field_widget[name="currency_id"] {
+        flex: 0 0 7rem !important;
+    }
+}

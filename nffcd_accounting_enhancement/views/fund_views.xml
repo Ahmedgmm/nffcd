@@ -1,111 +1,174 @@
 <odoo>
     <record id="view_cash_fund_list" model="ir.ui.view">
-        <field name="name">account.cash.fund.list</field><field name="model">account.cash.fund</field>
+        <field name="name">account.cash.fund.list</field>
+        <field name="model">account.cash.fund</field>
         <field name="arch" type="xml">
             <list decoration-muted="not active" default_order="journal_id, sequence, name">
-                <field name="sequence" widget="handle"/><field name="name"/><field name="journal_id"/>
-                <field name="receipts"/><field name="spending"/><field name="transfers"/>
-                <field name="balance" decoration-danger="balance &lt; 0"/>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <field name="receipts" sum="Total"/>
+                <field name="spending" sum="Total"/>
+                <field name="transfers" sum="Total"/>
+                <field name="balance" sum="Total" decoration-bf="1" decoration-danger="balance &lt; 0"/>
                 <field name="currency_id" column_invisible="True"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="active" column_invisible="True"/>
-                <button name="action_movements" type="object" icon="fa-list" title="Movements"/>
-                <button name="action_statement" type="object" icon="fa-print" title="Statement"/>
+                <button name="action_movements" type="object" icon="format_list_bulleted" title="Movements"/>
+                <button name="action_statement" type="object" icon="print" title="Statement"/>
             </list>
         </field>
     </record>
+
     <record id="view_cash_fund_form" model="ir.ui.view">
-        <field name="name">account.cash.fund.form</field><field name="model">account.cash.fund</field>
+        <field name="name">account.cash.fund.form</field>
+        <field name="model">account.cash.fund</field>
         <field name="arch" type="xml">
             <form string="Cash Classification">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_movements" type="object" class="oe_stat_button" icon="fa-list" string="Movements"/>
-                        <button name="action_statement" type="object" class="oe_stat_button" icon="fa-print" string="Statement"/>
+                        <button name="action_movements" type="object" class="oe_stat_button"
+                                icon="format_list_bulleted" string="Movements"/>
+                        <button name="action_statement" type="object" class="oe_stat_button"
+                                icon="print" string="Statement"/>
                     </div>
                     <widget name="web_ribbon" text="Archived" bg_color="text-bg-danger" invisible="active"/>
-                    <div class="oe_title"><h1><field name="name" placeholder="Classification name"/></h1></div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Classification name"/></h1>
+                    </div>
                     <group>
-                        <group><field name="journal_id" readonly="id"/><field name="code"/>
-                            <field name="allow_negative" groups="account.group_account_manager"/>
+                        <group>
+                            <field name="journal_id" readonly="id"/>
+                            <field name="code"/>
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="active" invisible="1"/><field name="is_general" invisible="1"/>
-                            <field name="currency_id" invisible="1"/></group>
+                            <field name="active" invisible="1"/>
+                            <field name="is_general" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
                         <group string="Posted Cash Balance (Company Currency)">
-                            <field name="receipts"/><field name="spending"/><field name="transfers"/><field name="balance"/>
+                            <field name="receipts"/>
+                            <field name="spending"/>
+                            <field name="transfers"/>
+                            <field name="balance"/>
                         </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record id="view_cash_fund_search" model="ir.ui.view">
-        <field name="name">account.cash.fund.search</field><field name="model">account.cash.fund</field>
-        <field name="arch" type="xml"><search><field name="name"/><field name="journal_id"/>
-            <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
-            <filter name="group_safe" string="Safe" context="{'group_by': 'journal_id'}"/>
-            <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
-        </search></field>
+        <field name="name">account.cash.fund.search</field>
+        <field name="model">account.cash.fund</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <filter name="group_safe" string="Safe" context="{'group_by': 'journal_id'}"/>
+                <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+            </search>
+        </field>
     </record>
+
     <record id="action_cash_funds" model="ir.actions.act_window">
-        <field name="name">Cash Classifications</field><field name="res_model">account.cash.fund</field>
+        <field name="name">Cash Classifications</field>
+        <field name="res_model">account.cash.fund</field>
         <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_safe': 1}</field>
     </record>
+
     <record id="view_cash_movement_list" model="ir.ui.view">
-        <field name="name">account.cash.fund.report.list</field><field name="model">account.cash.fund.report</field>
+        <field name="name">account.cash.fund.report.list</field>
+        <field name="model">account.cash.fund.report</field>
         <field name="arch" type="xml">
             <list create="0" edit="0" delete="0">
-                <field name="date"/><field name="journal_id"/><field name="fund_id"/><field name="move_id"/>
-                <field name="payment_id" optional="hide"/><field name="partner_id"/><field name="reference"/>
-                <field name="receipts" sum="Receipts"/><field name="spending" sum="Spending"/>
-                <field name="transfers" sum="Net Transfers"/><field name="balance" sum="Net Movement"/>
-                <field name="is_transfer" optional="hide"/><field name="currency_id" column_invisible="True"/>
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="fund_id"/>
+                <field name="move_id"/>
+                <field name="payment_id" optional="hide"/>
+                <field name="partner_id"/>
+                <field name="reference"/>
+                <field name="receipts" sum="Receipts"/>
+                <field name="spending" sum="Spending"/>
+                <field name="transfers" sum="Net Transfers"/>
+                <field name="balance" sum="Net Movement"/>
+                <field name="is_transfer" optional="hide"/>
+                <field name="currency_id" column_invisible="True"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-                <button name="action_open_entry" type="object" icon="fa-external-link" title="Open Entry"/>
+                <button name="action_open_entry" type="object" icon="open_in_new" title="Open Entry"/>
             </list>
         </field>
     </record>
+
     <record id="view_cash_movement_search" model="ir.ui.view">
-        <field name="name">account.cash.fund.report.search</field><field name="model">account.cash.fund.report</field>
-        <field name="arch" type="xml"><search>
-            <field name="fund_id"/><field name="journal_id"/><field name="partner_id"/><field name="reference"/>
-            <filter name="date" string="Date" date="date"/>
-            <filter name="receipts" string="Receipts" domain="[('receipts', '&gt;', 0)]"/>
-            <filter name="spending" string="Spending" domain="[('spending', '&gt;', 0)]"/>
-            <filter name="transfers" string="Transfers" domain="[('is_transfer', '=', True)]"/>
-            <filter name="group_fund" string="Classification" context="{'group_by': 'fund_id'}"/>
-            <filter name="group_safe" string="Safe" context="{'group_by': 'journal_id'}"/>
-            <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
-        </search></field>
+        <field name="name">account.cash.fund.report.search</field>
+        <field name="model">account.cash.fund.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="fund_id"/>
+                <field name="journal_id"/>
+                <field name="partner_id"/>
+                <field name="reference"/>
+                <filter name="date" string="Date" date="date"/>
+                <filter name="receipts" string="Receipts" domain="[('receipts', '&gt;', 0)]"/>
+                <filter name="spending" string="Spending" domain="[('spending', '&gt;', 0)]"/>
+                <filter name="transfers" string="Transfers" domain="[('is_transfer', '=', True)]"/>
+                <filter name="group_fund" string="Classification" context="{'group_by': 'fund_id'}"/>
+                <filter name="group_safe" string="Safe" context="{'group_by': 'journal_id'}"/>
+                <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+            </search>
+        </field>
     </record>
+
     <record id="view_cash_movement_pivot" model="ir.ui.view">
-        <field name="name">account.cash.fund.report.pivot</field><field name="model">account.cash.fund.report</field>
-        <field name="arch" type="xml"><pivot string="Cash Classifications" disable_linking="1">
-            <field name="journal_id" type="row"/><field name="fund_id" type="row"/>
-            <field name="date" type="col" interval="month"/>
-            <field name="receipts" type="measure"/><field name="spending" type="measure"/>
-            <field name="transfers" type="measure"/><field name="balance" type="measure"/>
-        </pivot></field>
+        <field name="name">account.cash.fund.report.pivot</field>
+        <field name="model">account.cash.fund.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Cash Classifications" disable_linking="1">
+                <field name="journal_id" type="row"/>
+                <field name="fund_id" type="row"/>
+                <field name="date" type="col" interval="month"/>
+                <field name="receipts" type="measure"/>
+                <field name="spending" type="measure"/>
+                <field name="transfers" type="measure"/>
+                <field name="balance" type="measure"/>
+            </pivot>
+        </field>
     </record>
+
     <record id="view_cash_movement_graph" model="ir.ui.view">
-        <field name="name">account.cash.fund.report.graph</field><field name="model">account.cash.fund.report</field>
-        <field name="arch" type="xml"><graph string="Cash Classifications" type="bar">
-            <field name="fund_id"/><field name="balance" type="measure"/>
-        </graph></field>
+        <field name="name">account.cash.fund.report.graph</field>
+        <field name="model">account.cash.fund.report</field>
+        <field name="arch" type="xml">
+            <graph string="Cash Classifications" type="bar">
+                <field name="fund_id"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
     </record>
+
     <record id="action_cash_movements" model="ir.actions.act_window">
-        <field name="name">Cash Classification Movements</field><field name="res_model">account.cash.fund.report</field>
+        <field name="name">Cash Classification Movements</field>
+        <field name="res_model">account.cash.fund.report</field>
         <field name="view_mode">list,pivot,graph</field>
     </record>
+
     <record id="action_cash_payments" model="ir.actions.act_window">
-        <field name="name">Cash Payments &amp; Transfers</field><field name="res_model">account.payment</field>
+        <field name="name">Cash Payments &amp; Transfers</field>
+        <field name="res_model">account.payment</field>
         <field name="view_mode">list,form</field>
         <field name="domain">['|', ('journal_id.type', '=', 'cash'), ('cash_is_internal_transfer', '=', True)]</field>
         <field name="context">{'default_payment_type': 'inbound'}</field>
     </record>
+
     <menuitem id="menu_cash_funds_root" name="Cash Management" parent="account.menu_finance" sequence="5"
               groups="account.group_account_invoice,account.group_account_readonly"/>
-    <menuitem id="menu_cash_payments" name="Payments &amp; Internal Transfers" parent="menu_cash_funds_root" action="action_cash_payments" sequence="10"/>
-    <menuitem id="menu_cash_funds" name="Classifications &amp; Balances" parent="menu_cash_funds_root" action="action_cash_funds" sequence="20"/>
-    <menuitem id="menu_cash_movements" name="Classification Movements" parent="menu_cash_funds_root" action="action_cash_movements" sequence="30"/>
+    <menuitem id="menu_cash_payments" name="Payments &amp; Internal Transfers" parent="menu_cash_funds_root"
+              action="action_cash_payments" sequence="10"/>
+    <menuitem id="menu_cash_funds" name="Classifications &amp; Balances" parent="menu_cash_funds_root"
+              action="action_cash_funds" sequence="20"/>
+    <menuitem id="menu_cash_movements" name="Classification Movements" parent="menu_cash_funds_root"
+              action="action_cash_movements" sequence="30"/>
 </odoo>

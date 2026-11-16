@@ -1,0 +1,791 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* gm_pdc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 01:30+0000\n"
+"PO-Revision-Date: 2026-11-16 01:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: gm_pdc
+#: model:ir.module.module,description:base.module_gm_pdc
+msgid ""
+"# PDC Management — Odoo 20 Community\n"
+"\n"
+"Depends only on Community `account` (which supplies mail). Journal settings provide\n"
+"separate received/issued cheque accounts for registration, deposit, bounce and completion.\n"
+"Enable the accounting stages you need and configure their accounts; use reconcilable\n"
+"holding accounts. With every stage disabled, the module only tracks cheque status.\n"
+"\n"
+"Accounting users can register cheques from posted customer invoices/vendor bills or\n"
+"from Accounting → Journal Entries → PDC Payments. Company, partner, currency and\n"
+"invoice direction must match. Registration reconciles the payment against linked\n"
+"invoices; partial amounts remain partial. Fully settled invoices stay In Payment\n"
+"until completion. Deposit/bounce/completion move the balance between configured\n"
+"accounts; completion records the done date. Bounce tracks the balance in its configured\n"
+"account; cancel the cheque if the invoice must be reopened.\n"
+"\n"
+"Cancellation unreconciles entries and cancels the linked payment. Resetting a cancelled\n"
+"cheque preserves cancelled entries for audit and creates a new payment on registration.\n"
+"Completed cheques require an accountant's reversal; direct cancellation is blocked.\n"
+"Financial details are locked after registration. Records are isolated by allowed company.\n"
+"The shared cheque sequence works across companies.\n"
+"\n"
+"Automated regression tests live in `tests/test_pdc.py`. See\n"
+"`docs/testing/gm_pdc_odoo20.md` at the project root for validation and limitations.\n"
+"\n"
+"Existing Odoo 19 database records require a separate migration review (particularly\n"
+"company assignment and replacement of legacy access rules). This port was validated\n"
+"on isolated Odoo 20 databases, not by migrating an Odoo 19 database.\n"
+msgstr "إدارة الشيكات الآجلة لأودو 20 المجتمعي.\n\nتتيح تسجيل الشيكات الواردة والصادرة وإيداعها للتحصيل وتسجيل ارتجاعها وتأكيد صرفها، مع حسابات مستقلة لكل مرحلة.\nتتم تسوية الفواتير المرتبطة عند التسجيل وتظل قيد الدفع حتى الصرف. يؤدي إلغاء الشيك إلى إلغاء التسوية وإعادة فتح رصيد الفواتير.\nتُحفظ القيود الملغاة للمراجعة عند إعادة الشيك للمسودة. لا يُلغى الشيك المصروف مباشرة؛ يلزم عكس قيوده محاسبيًا. تُعزل السجلات بحسب الشركات المسموح بها.\n\nراجع README.md ودليل الاختبارات في docs/testing/gm_pdc_odoo20.md. يتطلب ترحيل بيانات أودو 19 مراجعة مستقلة."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "<span class=\"text-muted\">Post-dated Cheque</span>"
+msgstr "<span class=\"text-muted\">شيك آجل</span>"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"A completed PDC cannot be cancelled. Reverse its accounting entries through "
+"accounting."
+msgstr "لا يمكن إلغاء شيك تم صرفه. يجب عكس قيوده من خلال المحاسبة."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Accounting Follow-up"
+msgstr "المتابعة المحاسبية"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_ids
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "تمييز استثناء النشاط"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_plans_ids
+msgid "Activity Plans"
+msgstr "خطط الأنشطة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "أيقونة نوع النشاط"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__agent
+msgid "Agent"
+msgstr "مندوب التحصيل"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Amount must be greater than zero."
+msgstr "يجب أن يكون المبلغ أكبر من صفر."
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__bank_name
+msgid "Bank"
+msgstr "البنك"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__bounced
+msgid "Bounced"
+msgstr "مرتجع دون صرف"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Bounced Stage"
+msgstr "مرحلة ارتجاع الشيك"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancel Cheque"
+msgstr "إلغاء الشيك"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancel this cheque and reopen any linked invoice balance?"
+msgstr "هل تريد إلغاء الشيك وإعادة فتح رصيد الفواتير المرتبطة؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__cancelled
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cancelled"
+msgstr "ملغى"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cheque Details"
+msgstr "بيانات الشيك"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__ref
+msgid "Cheque Reference"
+msgstr "رقم الشيك"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Cheque number"
+msgstr "أدخل رقم الشيك"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Cleared"
+msgstr "تم الصرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__collect_date
+msgid "Collect Date"
+msgstr "تاريخ التحصيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__collect_user_id
+msgid "Collect User"
+msgstr "مسؤول التحصيل"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Collection Follow-up"
+msgstr "متابعة التحصيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Configure the PDC account for this stage before continuing."
+msgstr "يجب إعداد حساب الشيكات لهذه المرحلة قبل المتابعة."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Confirm Clearance"
+msgstr "تأكيد الصرف"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Confirm that the cheque has cleared?"
+msgstr "هل تؤكد إتمام صرف الشيك؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_bounced_active
+msgid "Create Entry on Bounce?"
+msgstr "إنشاء قيد عند الارتجاع؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_deposited_active
+msgid "Create Entry on Deposit?"
+msgstr "إنشاء قيد عند الإيداع؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_done_active
+msgid "Create Entry on Done?"
+msgstr "إنشاء قيد عند الصرف؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_registered_active
+msgid "Create Entry on Register?"
+msgstr "إنشاء قيد عند التسجيل؟"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__create_date
+msgid "Created on"
+msgstr "تاريخ الإنشاء"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__holding_account_id
+msgid "Current Holding Account"
+msgstr "حساب الشيك الحالي"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Dates and Journal"
+msgstr "التواريخ ودفتر اليومية"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Deposit for Collection"
+msgstr "إيداع للتحصيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__deposited
+msgid "Deposited"
+msgstr "مودع للتحصيل"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Deposited Stage"
+msgstr "مرحلة الإيداع للتحصيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_move__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__display_name
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__done
+msgid "Done"
+msgstr "تم الصرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__done_date
+msgid "Done Date"
+msgstr "تاريخ الصرف"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Done Stage"
+msgstr "مرحلة الصرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__due_date
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid ""
+"Enable the accounting stages you need and select separate accounts for "
+"received and issued cheques."
+msgstr "فعّل المراحل المحاسبية المطلوبة وحدد حسابات مستقلة للشيكات الواردة والصادرة."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid ""
+"Enter the cheque details, select a payment journal, then register the "
+"cheque."
+msgstr "أدخل بيانات الشيك وحدد دفتر يومية الدفع، ثم سجّل الشيك."
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (جهات الاتصال)"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__has_message
+msgid "Has Message"
+msgstr "توجد رسالة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_move__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__id
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_exception_icon
+msgid "Icon"
+msgstr "الأيقونة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "أيقونة تشير إلى وجود استثناء في النشاط."
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "عند التحديد، توجد رسائل جديدة تتطلب انتباهك."
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_error
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "عند التحديد، تعذر تسليم بعض الرسائل."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Invoices and Accounting"
+msgstr "الفواتير والمحاسبة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Issued Cheques"
+msgstr "الشيكات الصادرة"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Issuing bank"
+msgstr "اسم البنك المسحوب عليه"
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_journal
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Journal '%s' needs a Payment Method configured."
+msgstr "يجب إعداد طريقة دفع لدفتر اليومية «%s»."
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Journal '%s' needs a Registered PDC account configured."
+msgstr "يجب إعداد حساب تسجيل الشيكات لدفتر اليومية «%s»."
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__move_ids
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Journal Entries"
+msgstr "القيود المحاسبية"
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_move
+msgid "Journal Entry"
+msgstr "قيد محاسبي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__write_date
+msgid "Last Updated on"
+msgstr "تاريخ آخر تحديث"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__legal
+msgid "Legal"
+msgstr "إجراءات قانونية"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Linked Documents"
+msgstr "المستندات المرتبطة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__invoice_ids
+msgid "Linked Invoices"
+msgstr "الفواتير المرتبطة"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"Linked invoices must match the PDC company, partner, currency and payment "
+"direction and be posted."
+msgstr "يجب أن تكون الفواتير المرتبطة مرحّلة وأن تتطابق مع شركة الشيك والطرف والعملة واتجاه الدفع."
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr "أيقونة من رموز Material مثل قائمة المهام"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__memo
+msgid "Memo"
+msgstr "البيان"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسالة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__move_count
+msgid "Move Count"
+msgstr "عدد القيود"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "الموعد النهائي لنشاطي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__name
+msgid "Name"
+msgstr "الرقم"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "New"
+msgstr "جديد"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراءً"
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي تعذر تسليمها"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__payment_id
+msgid "Odoo Payment"
+msgstr "الدفعة المرتبطة"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"Odoo did not create a journal entry for payment '%s'. Check the payment "
+"method outstanding account."
+msgstr "لم ينشئ أودو قيدًا محاسبيًا للدفعة «%s». تحقق من الحساب المعلّق لطريقة الدفع."
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Only draft PDCs without journal entries can be deleted."
+msgstr "يمكن حذف الشيكات في حالة المسودة فقط، بشرط عدم وجود قيود محاسبية مرتبطة بها."
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid ""
+"PDC '%s' has no current holding account. Register it before moving to %s."
+msgstr "لم يُحدد حساب حالي للشيك «%s». سجّل الشيك قبل الانتقال إلى مرحلة %s."
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_pdc
+msgid "PDC Cheque Payment"
+msgstr "دفعة بشيك آجل"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "PDC Configuration"
+msgstr "إعدادات الشيكات الآجلة"
+
+#. module: gm_pdc
+#: model:ir.module.module,shortdesc:base.module_gm_pdc
+msgid "PDC Management"
+msgstr "إدارة الشيكات الآجلة"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "PDC Payment"
+msgstr "شيك آجل"
+
+#. module: gm_pdc
+#: model:ir.actions.act_window,name:gm_pdc.action_account_pdc
+#: model:ir.ui.menu,name:gm_pdc.menu_account_pdc_root
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_tree
+msgid "PDC Payments"
+msgstr "الشيكات الآجلة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__partner_id
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Partner"
+msgstr "الطرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_bounced_account_id
+msgid "Payable Bounced Account"
+msgstr "حساب الشيكات الصادرة المرتجعة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_deposited_account_id
+msgid "Payable Deposited Account"
+msgstr "حساب الشيكات الصادرة المقدمة للصرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_done_account_id
+msgid "Payable Done (Bank) Account"
+msgstr "حساب بنك صرف الشيكات الصادرة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_payable_registered_account_id
+msgid "Payable Registered Account"
+msgstr "حساب تسجيل الشيكات الصادرة"
+
+#. module: gm_pdc
+#: model:ir.model,name:gm_pdc.model_account_payment
+msgid "Payment"
+msgstr "دفعة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__amount
+msgid "Payment Amount"
+msgstr "قيمة الشيك"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__date
+msgid "Payment Date"
+msgstr "تاريخ التسجيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__journal_id
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Payment Journal"
+msgstr "دفتر يومية الدفع"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__payment_type
+msgid "Payment Type"
+msgstr "اتجاه الشيك"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Pending Collection"
+msgstr "قيد التحصيل"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Purpose or invoice reference"
+msgstr "الغرض أو مرجع الفاتورة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_bounced_account_id
+msgid "Receivable Bounced Account"
+msgstr "حساب الشيكات الواردة المرتجعة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_deposited_account_id
+msgid "Receivable Deposited Account"
+msgstr "حساب الشيكات الواردة تحت التحصيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_done_account_id
+msgid "Receivable Done (Bank) Account"
+msgstr "حساب بنك تحصيل الشيكات الواردة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_journal__pdc_registered_account_id
+msgid "Receivable Registered Account"
+msgstr "حساب تسجيل الشيكات الواردة"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__payment_type__inbound
+msgid "Receive Money"
+msgstr "شيك وارد"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Received Cheques"
+msgstr "الشيكات الواردة"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Record this cheque as returned unpaid?"
+msgstr "هل تريد تسجيل الشيك كمرتجع دون صرف؟"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Register Cheque"
+msgstr "تسجيل الشيك"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_move_form_pdc_button
+msgid "Register PDC"
+msgstr "تسجيل شيك آجل"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Register PDC requires an unpaid posted invoice or bill."
+msgstr "يتطلب تسجيل شيك آجل فاتورة عميل أو مورد مرحّلة وبها رصيد مستحق."
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__registered
+msgid "Registered"
+msgstr "مسجل"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_journal_form_pdc
+msgid "Registered Stage"
+msgstr "مرحلة التسجيل"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_payment__pdc_id
+msgid "Related PDC"
+msgstr "الشيك الآجل المرتبط"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "Reset the PDC to draft before changing its financial details."
+msgstr "أعد الشيك إلى المسودة قبل تعديل بياناته المالية."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Reset to Draft"
+msgstr "إعادة إلى المسودة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid "Return Unpaid"
+msgstr "ارتجاع دون صرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__returned
+msgid "Returned"
+msgstr "معاد"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Returned Unpaid"
+msgstr "مرتجع دون صرف"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسالة النصية"
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Search Cheques"
+msgstr "البحث في الشيكات"
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__payment_type__outbound
+msgid "Send Money"
+msgstr "شيك صادر"
+
+#. module: gm_pdc
+#: model:ir.model.fields,field_description:gm_pdc.field_account_pdc__state
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "الحالة بحسب الأنشطة\nمتأخر: انقضى تاريخ الاستحقاق\nاليوم: موعد النشاط اليوم\nمخطط: أنشطة مستقبلية."
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "This action is not allowed in the current PDC state."
+msgstr "هذا الإجراء غير مسموح به في حالة الشيك الحالية."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_form
+msgid ""
+"This cheque was returned unpaid. Cancel it to reopen the linked invoice "
+"balance."
+msgstr "ارتجع هذا الشيك دون صرف. ألغِه لإعادة فتح رصيد الفاتورة المرتبطة."
+
+#. module: gm_pdc
+#: model_terms:ir.ui.view,arch_db:gm_pdc.view_account_pdc_tree
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: gm_pdc
+#: model:ir.model.fields,help:gm_pdc.field_account_pdc__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع استثناء النشاط في السجل."
+
+#. module: gm_pdc
+#: model:ir.model.fields.selection,name:gm_pdc.selection__account_pdc__state__under_collection
+msgid "Under Collection"
+msgstr "تحت التحصيل"
+
+#. module: gm_pdc
+#. odoo-python
+#: code:addons/gm_pdc/pdc.py:0
+msgid "id"
+msgstr "المعرّف"
