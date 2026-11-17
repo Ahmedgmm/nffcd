@@ -1,0 +1,149 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* nffcd_product_profit_margin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-17 12:22+0000\n"
+"PO-Revision-Date: 2026-11-17 12:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: nffcd_product_profit_margin
+#: model_terms:ir.ui.view,arch_db:nffcd_product_profit_margin.product_category_form_view_profit_margin
+#: model_terms:ir.ui.view,arch_db:nffcd_product_profit_margin.product_template_form_view_profit_margin
+msgid "<span>%</span>"
+msgstr "<span>%</span>"
+
+#. module: nffcd_product_profit_margin
+#: model_terms:ir.ui.view,arch_db:nffcd_product_profit_margin.product_category_form_view_profit_margin
+msgid ""
+"<span>%</span>\n"
+"                        <span invisible=\"not nffcd_margin_source\">-</span>"
+msgstr "<span>%</span>\n                        <span invisible=\"not nffcd_margin_source\">-</span>"
+
+#. module: nffcd_product_profit_margin
+#: model_terms:ir.ui.view,arch_db:nffcd_product_profit_margin.product_template_form_view_profit_margin
+msgid ""
+"<span>%</span>\n"
+"                    <span>-</span>"
+msgstr "<span>%</span>\n                    <span>-</span>"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__nffcd_effective_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__nffcd_effective_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__nffcd_effective_margin
+msgid "Applied Margin (%)"
+msgstr "هامش الربح المطبق (%)"
+
+#. module: nffcd_product_profit_margin
+#. odoo-python
+#: code:addons/nffcd_product_profit_margin/models/product.py:0
+msgid "Category: %s"
+msgstr "الفئة: %s"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__display_name
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__display_name
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__id
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__id
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__id
+msgid "ID"
+msgstr "المعرف"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__nffcd_margin_source
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__nffcd_margin_source
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__nffcd_margin_source
+msgid "Margin Taken From"
+msgstr "مصدر الهامش"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.module.module,shortdesc:base.module_nffcd_product_profit_margin
+msgid "NFFCD Product Profit Margin"
+msgstr "هامش ربح المنتجات"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__nffcd_has_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__nffcd_has_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__nffcd_has_margin
+msgid "Nffcd Has Margin"
+msgstr "له هامش ربح"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__nffcd_use_own_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__nffcd_use_own_margin
+msgid "Own Profit Margin"
+msgstr "هامش ربح خاص بالمنتج"
+
+#. module: nffcd_product_profit_margin
+#. odoo-python
+#: code:addons/nffcd_product_profit_margin/models/product.py:0
+#: model:ir.model,name:nffcd_product_profit_margin.model_product_template
+msgid "Product"
+msgstr "المنتج"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model,name:nffcd_product_profit_margin.model_product_category
+msgid "Product Category"
+msgstr "فئة المنتج"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model,name:nffcd_product_profit_margin.model_product_product
+msgid "Product Variant"
+msgstr "متغير المنتج"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,help:nffcd_product_profit_margin.field_product_category__nffcd_use_margin
+msgid ""
+"Products of this category and of its sub-categories (that have no margin of "
+"their own) get Sales Price = Cost x (1 + margin %)."
+msgstr "منتجات هذه الفئة وفئاتها الفرعية (التي ليس لها هامش خاص) يكون سعر بيعها = التكلفة × (1 + نسبة الهامش)."
+
+#. module: nffcd_product_profit_margin
+#: model_terms:ir.ui.view,arch_db:nffcd_product_profit_margin.product_category_form_view_profit_margin
+msgid "Profit Margin"
+msgstr "هامش الربح"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__nffcd_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_product__nffcd_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_template__nffcd_profit_margin
+msgid "Profit Margin (%)"
+msgstr "هامش الربح (%)"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.module.module,summary:base.module_nffcd_product_profit_margin
+msgid ""
+"Sales price = cost + fixed profit margin %, from the product, its category "
+"or a parent category"
+msgstr "سعر البيع = التكلفة + نسبة هامش ربح ثابتة من المنتج أو فئته أو الفئة الأم"
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,field_description:nffcd_product_profit_margin.field_product_category__nffcd_use_margin
+msgid "Set Profit Margin"
+msgstr "تحديد هامش ربح"
+
+#. module: nffcd_product_profit_margin
+#. odoo-python
+#: code:addons/nffcd_product_profit_margin/models/product.py:0
+msgid "The profit margin cannot be negative."
+msgstr "لا يمكن أن يكون هامش الربح سالباً."
+
+#. module: nffcd_product_profit_margin
+#: model:ir.model.fields,help:nffcd_product_profit_margin.field_product_product__nffcd_use_own_margin
+#: model:ir.model.fields,help:nffcd_product_profit_margin.field_product_template__nffcd_use_own_margin
+msgid "Use the margin below for this product instead of the category margin."
+msgstr "استخدام الهامش أدناه لهذا المنتج بدلاً من هامش الفئة."

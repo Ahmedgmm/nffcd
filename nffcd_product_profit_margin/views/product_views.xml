@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_profit_margin" model="ir.ui.view">
+        <field name="name">product.template.form.nffcd.profit.margin</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='list_price_per_uom_id']" position="before">
+                <field name="nffcd_has_margin" invisible="1"/>
+            </xpath>
+            <xpath expr="//div[@name='list_price_per_uom_id']/field[@name='list_price']" position="attributes">
+                <attribute name="readonly">nffcd_has_margin and product_variant_count &lt;= 1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='list_price_per_uom_id']" position="after">
+                <field name="nffcd_use_own_margin"/>
+                <label for="nffcd_profit_margin" invisible="not nffcd_use_own_margin"/>
+                <div class="d-flex align-items-baseline gap-2" invisible="not nffcd_use_own_margin">
+                    <field name="nffcd_profit_margin" class="oe_inline"/>
+                    <span>%</span>
+                </div>
+                <label for="nffcd_effective_margin" invisible="not nffcd_has_margin"/>
+                <div class="d-flex align-items-baseline gap-2 text-muted" invisible="not nffcd_has_margin">
+                    <field name="nffcd_effective_margin" class="oe_inline"/>
+                    <span>%</span>
+                    <span>-</span>
+                    <field name="nffcd_margin_source" class="oe_inline"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_category_form_view_profit_margin" model="ir.ui.view">
+        <field name="name">product.category.form.nffcd.profit.margin</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="after">
+                <group name="nffcd_profit_margin" string="Profit Margin">
+                    <field name="nffcd_use_margin"/>
+                    <label for="nffcd_profit_margin" invisible="not nffcd_use_margin"/>
+                    <div class="d-flex align-items-baseline gap-2" invisible="not nffcd_use_margin">
+                        <field name="nffcd_profit_margin" class="oe_inline"/>
+                        <span>%</span>
+                    </div>
+                    <label for="nffcd_effective_margin"/>
+                    <div class="d-flex align-items-baseline gap-2">
+                        <field name="nffcd_effective_margin" class="oe_inline"/>
+                        <span>%</span>
+                        <span invisible="not nffcd_margin_source">-</span>
+                        <field name="nffcd_margin_source" class="oe_inline"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
