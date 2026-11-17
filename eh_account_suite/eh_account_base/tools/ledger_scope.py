@@ -26,7 +26,11 @@ def resolve_ledger_scope(env, options):
     companies = _ids(env, options.get('company_ids') or env.companies.ids)
     if not companies or set(companies) - set(env.companies.ids):
         raise AccessError(env._("Ledger companies must be in your allowed company scope."))
-    domain = [('company_id', 'in', companies)]
+    # Branch entries may use a parent company's journal (Odoo's journal
+    # check_company rule is parent_of). Journal scope therefore includes
+    # ancestor journals; every consumer still filters lines/records by
+    # their own company, so parent-company entries never leak in.
+    domain = [('company_id', 'parent_of', companies)]
     Journal = env['account.journal'].with_context(active_test=False)
     if scope == 'statutory':
         domain.append(('journal_group_id', '=', False))

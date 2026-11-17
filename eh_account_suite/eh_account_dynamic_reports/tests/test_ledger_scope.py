@@ -183,3 +183,51 @@ class TestReportLedgerScope(EhAccountIntegrationTestCase):
                     self.assertEqual(payload['totals']['opening_cash_balance'], 0)
                     self.assertEqual(payload['totals']['closing_cash_balance'], expected)
                     self.assertEqual(payload['totals']['net_change_in_cash'], expected)
+
+    def test_branch_entry_in_parent_journal_is_reported_for_branch_only(self):
+        """A branch may post in its parent's journal (Odoo parent_of rule).
+
+        Branch reports must include that entry; parent-only reports must not.
+        """
+        if 'root_id' not in self.env['res.company']._fields:
+            self.skipTest('native accounting branches start in Odoo 17')
+        branch = self._create_accounting_branch({
+            'name': 'Ledger scope branch', 'parent_id': self.company.id,
+        })
+        allowed = [self.company.id, branch.id]
+        env = self.env(context=dict(self.env.context, allowed_company_ids=allowed))
+        move = env['account.move'].with_company(branch).create({
+            'move_type': 'entry', 'company_id': branch.id,
+            'journal_id': self.journal_misc.id, 'date': '2026-06-16',
+            'line_ids': [
+                (0, 0, {'account_id': self.account_cash.id, 'debit': 7.0}),
+                (0, 0, {'account_id': self.account_revenue.id, 'credit': 7.0}),
+            ],
+        })
+        move.action_post()
+        self.assertEqual(move.company_id, branch)
+        self.assertEqual(self.journal_misc.company_id, self.company)
+
+        self.assertIn(self.journal_misc.id, resolve_ledger_scope(
+            env, dict(self.options, company_ids=branch.ids))['_eh_ledger_journal_ids'])
+
+        tb = self.report.with_env(env)
+        self.assertEqual(self._revenue(tb.render(
+            dict(self.options, company_ids=branch.ids), use_cache=False)), 7)
+        # Parent-only scope is unchanged: own 100, not the branch's 7.
+        self.assertEqual(self._revenue(tb.render(
+            dict(self.options, company_ids=self.company.ids), use_cache=False)), 100)
+
+        gl = env['eh.account.dynamic.report.handler.general_ledger']
+        result = gl.compute(dict(
+            self.options, company_ids=branch.ids, show_zero=False))
+        aml_ids = {
+            (line.get('meta') or {}).get('aml_id') or line.get('id')
+            for line in result['lines']
+            if (line.get('meta') or {}).get('kind') == 'aml'
+        }
+        revenue_line = move.line_ids.filtered(
+            lambda l: l.account_id == self.account_revenue)
+        self.assertTrue(
+            revenue_line.id in aml_ids or f'aml-{revenue_line.id}' in aml_ids,
+            aml_ids)

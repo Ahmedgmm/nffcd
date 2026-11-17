@@ -145,7 +145,7 @@ class EhAccountDynamicReport(models.Model):
         self._eh_check_access('read')
         companies = self._eh_clamp_company_ids(company_ids or self.env.companies.ids)
         journals = self.env['account.journal'].with_context(active_test=False).search([
-            ('company_id', 'in', companies), ('journal_group_id', '!=', False),
+            ('company_id', 'parent_of', companies), ('journal_group_id', '!=', False),
         ])
         return [{'id': group.id, 'name': group.name}
                 for group in journals.journal_group_id.sorted('name')]

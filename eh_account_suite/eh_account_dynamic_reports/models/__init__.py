@@ -17,3 +17,4 @@ from . import noncash_transaction
 from . import report_dynamic_pdf
 from . import dynamic_report_viewer
 from . import sectioned_cash_basis
+from . import ir_ui_menu
