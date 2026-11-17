@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* nffcd_mrp_percentage_cost
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-17 10:25+0000\n"
+"PO-Revision-Date: 2026-11-17 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: nffcd_mrp_percentage_cost
+#: model_terms:ir.ui.view,arch_db:nffcd_mrp_percentage_cost.product_template_form_view_bom_percentage_cost
+msgid "<span>%</span>"
+msgstr "<span>%</span>"
+
+#. module: nffcd_mrp_percentage_cost
+#. odoo-python
+#: code:addons/nffcd_mrp_percentage_cost/models/product.py:0
+msgid "A BoM percentage cost item must be a Service product: %s"
+msgstr "بند التكلفة بالنسبة المئوية في قائمة المواد يجب أن يكون منتج خدمة: %s"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_report_mrp_report_bom_structure
+msgid "BOM Overview Report"
+msgstr "تقرير نظرة عامة على قائمة المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_mrp_bom
+msgid "Bill of Material"
+msgstr "قائمة المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_mrp_bom_line
+msgid "Bill of Material Line"
+msgstr "بند قائمة المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_product__nffcd_is_bom_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_template__nffcd_is_bom_percentage_cost
+msgid "BoM Percentage Cost"
+msgstr "تكلفة بنسبة من قائمة المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_line_cost
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_cost_percentage
+msgid "Cost %"
+msgstr "نسبة التكلفة %"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_product__nffcd_bom_cost_percentage
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_template__nffcd_bom_cost_percentage
+msgid "Cost Percentage (%)"
+msgstr "نسبة التكلفة (%)"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_material_cost
+msgid ""
+"Cost of the components that are not percentage cost items, for the BoM "
+"quantity."
+msgstr "تكلفة المكونات (غير بنود النسبة المئوية) لكمية قائمة المواد."
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_product_product__nffcd_bom_cost_percentage
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_product_template__nffcd_bom_cost_percentage
+msgid ""
+"Default percentage of the BoM material cost (e.g. 6 = 6%). It can be changed"
+" per BoM line."
+msgstr "النسبة الافتراضية من تكلفة خامات قائمة المواد (مثلاً 6 = 6%). يمكن تعديلها في كل بند من قائمة المواد."
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom_line__display_name
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_production__display_name
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_product__display_name
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_template__display_name
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_report_mrp_report_bom_structure__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__id
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom_line__id
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_production__id
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_product__id
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_product_template__id
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_report_mrp_report_bom_structure__id
+msgid "ID"
+msgstr "المعرف"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_line_cost
+msgid ""
+"Line cost for the BoM quantity. Percentage items = Cost % x material cost x "
+"quantity."
+msgstr "تكلفة البند لكمية قائمة المواد. بنود النسبة = نسبة التكلفة × تكلفة الخامات × الكمية."
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "أمر التصنيع"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_material_cost
+msgid "Material Cost"
+msgstr "تكلفة الخامات"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_total_cost
+msgid ""
+"Material cost + percentage costs, for the BoM quantity (operations and extra"
+" cost excluded)."
+msgstr "تكلفة الخامات + التكاليف بالنسبة المئوية لكمية قائمة المواد (بدون العمليات والتكلفة الإضافية)."
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.module.module,shortdesc:base.module_nffcd_mrp_percentage_cost
+msgid "NFFCD BoM Percentage Cost Items"
+msgstr "بنود التكلفة بالنسبة المئوية في قوائم المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_has_percentage_lines
+msgid "Nffcd Has Percentage Lines"
+msgstr "يحتوي على بنود نسبة مئوية"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_is_percentage_line
+msgid "Percentage Cost Item"
+msgstr "بند تكلفة بالنسبة المئوية"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_percentage_cost
+msgid "Percentage Costs"
+msgstr "التكاليف بالنسبة المئوية"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_cost_percentage
+msgid ""
+"Percentage of the material cost of this BoM. Defaults from the product."
+msgstr "النسبة من تكلفة خامات قائمة المواد هذه. القيمة الافتراضية من المنتج."
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_product_template
+msgid "Product"
+msgstr "المنتج"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model,name:nffcd_mrp_percentage_cost.model_product_product
+msgid "Product Variant"
+msgstr "متغير المنتج"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.module.module,summary:base.module_nffcd_mrp_percentage_cost
+msgid ""
+"Service items (e.g. overhead, labour) whose BoM cost is a % of the material "
+"cost"
+msgstr "بنود خدمية (مثل الضميمية والمصنعيات) تُحسب تكلفتها في قائمة المواد كنسبة من تكلفة الخامات"
+
+#. module: nffcd_mrp_percentage_cost
+#. odoo-python
+#: code:addons/nffcd_mrp_percentage_cost/models/product.py:0
+msgid "The cost percentage cannot be negative: %s"
+msgstr "لا يمكن أن تكون نسبة التكلفة سالبة: %s"
+
+#. module: nffcd_mrp_percentage_cost
+#: model_terms:ir.ui.view,arch_db:nffcd_mrp_percentage_cost.mrp_bom_form_view_percentage_cost
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,field_description:nffcd_mrp_percentage_cost.field_mrp_bom__nffcd_total_cost
+msgid "Total BoM Cost"
+msgstr "إجمالي تكلفة قائمة المواد"
+
+#. module: nffcd_mrp_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_mrp_bom_line__nffcd_is_percentage_line
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_product_product__nffcd_is_bom_percentage_cost
+#: model:ir.model.fields,help:nffcd_mrp_percentage_cost.field_product_template__nffcd_is_bom_percentage_cost
+msgid ""
+"When this service is added to a Bill of Materials, its cost is a percentage "
+"of the material cost of the other components instead of its own cost price."
+msgstr "عند إضافة هذه الخدمة إلى قائمة مواد تُحسب تكلفتها كنسبة من تكلفة خامات المكونات الأخرى بدلاً من سعر تكلفتها."

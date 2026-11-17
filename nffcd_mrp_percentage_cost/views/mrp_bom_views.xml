@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_bom_form_view_percentage_cost" model="ir.ui.view">
+        <field name="name">mrp.bom.form.nffcd.percentage.cost</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_qty']" position="after">
+                <field name="nffcd_is_percentage_line" column_invisible="True"/>
+                <field name="nffcd_cost_percentage" optional="show"
+                       invisible="not nffcd_is_percentage_line" readonly="not nffcd_is_percentage_line"/>
+                <field name="nffcd_line_cost" optional="show" sum="Total"/>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']" position="after">
+                <group class="oe_subtotal_footer" invisible="not nffcd_has_percentage_lines">
+                    <field name="nffcd_has_percentage_lines" invisible="1"/>
+                    <field name="nffcd_material_cost"/>
+                    <field name="nffcd_percentage_cost"/>
+                    <field name="nffcd_total_cost" class="oe_subtotal_footer_separator"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
