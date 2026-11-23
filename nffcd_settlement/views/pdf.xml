@@ -1,0 +1,11 @@
+<odoo>
+<template id="pdf_labels" inherit_id="eh_account_dynamic_reports.report_dynamic_pdf_template">
+<xpath expr="//t[@t-out=&quot;line.get('name')&quot;]" position="replace">
+<t t-if="r.get('doc').code == 'settlement_trial_balance' and (env.lang or '').startswith('ar')">
+<span dir="ltr" style="display:block;text-align:right" t-if="line.get('settlement_code')" t-out="line.get('settlement_code')"/>
+<span dir="rtl" style="display:block;text-align:right" t-out="line.get('settlement_label', line.get('name'))"/>
+</t>
+<t t-else="" t-out="line.get('name')"/>
+</xpath>
+</template>
+</odoo>

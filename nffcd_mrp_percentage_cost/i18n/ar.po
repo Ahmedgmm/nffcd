@@ -190,3 +190,16 @@ msgid ""
 "When this service is added to a Bill of Materials, its cost is a percentage "
 "of the material cost of the other components instead of its own cost price."
 msgstr "عند إضافة هذه الخدمة إلى قائمة مواد تُحسب تكلفتها كنسبة من تكلفة خامات المكونات الأخرى بدلاً من سعر تكلفتها."
+
+#. module: nffcd_mrp_percentage_cost
+#: model_terms:ir.ui.view,arch_db:nffcd_mrp_percentage_cost.mo_overview_percentage_costs
+#. odoo-javascript
+#: code:addons/nffcd_mrp_percentage_cost/static/src/xml/mrp_mo_overview.xml:0
+msgid "Additional Costs"
+msgstr "تكاليف إضافية"
+
+#. module: nffcd_mrp_percentage_cost
+#. odoo-python
+#: code:addons/nffcd_mrp_percentage_cost/report/mrp_report_mo_overview.py:0
+msgid "%(name)s (%(percentage)s%% × %(base)s)"
+msgstr "%(name)s (%(percentage)s%% × %(base)s)"

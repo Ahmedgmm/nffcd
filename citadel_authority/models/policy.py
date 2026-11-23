@@ -167,7 +167,7 @@ class CitadelAuthorityPolicyStep(models.Model):
         [("approve", "اعتماد"), ("inform", "للعلم")], string="الإجراء", required=True, default="approve",
     )
     approval_mode = fields.Selection(
-        [("any", "أي شخص"), ("all", "الجميع"), ("quorum", "النصاب")], string="أسلوب الاعتماد",
+        [("any", "أي شخص"), ("all", "الجميع"), ("quorum", "عدد محدد من الموافقات")], string="أسلوب الاعتماد",
         required=True,
         default="any",
     )

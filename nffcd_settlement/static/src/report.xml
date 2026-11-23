@@ -1,0 +1,17 @@
+<templates xml:space="preserve">
+<t t-name="nffcd_settlement.Report" t-inherit="eh_account_dynamic_reports.DynamicReportViewer" t-inherit-mode="extension">
+<xpath expr="//div[hasclass('eh_dr')]" position="attributes"><attribute name="t-att-data-settlement-report">this.reportCode === 'settlement_trial_balance' ? 'true' : undefined</attribute></xpath>
+<xpath expr="//div[hasclass('eh_dr_subtitle')]" position="inside">
+<span class="badge text-bg-warning" t-if="this.reportCode === 'settlement_trial_balance' and this.state.payload.meta.posted_only === false">Includes draft entries</span>
+</xpath>
+<xpath expr="//table[hasclass('eh_dr_table')]" position="inside">
+<tfoot t-if="this.reportCode === 'settlement_trial_balance' and this.state.payload">
+<tr class="eh_dr_total"><td>Total</td><td t-foreach="this.valueColumnDefs()" t-as="col" t-key="col.expression_label" class="eh_dr_amount_cell eh_dr_value_cell">
+<span role="button" tabindex="0" class="eh_dr_value_text eh_dr_value_text--drillable"
+ t-on-click="() => this.onAmountCellClick({id: 'settlement-total', columns: this.valueColumnDefs().map(c => ({value: this.state.payload.totals[c.expression_label]}))}, col, col_index)">
+<t t-out="this.formatLineValue({columns: this.valueColumnDefs().map(c => ({value: this.state.payload.totals[c.expression_label]}))}, col_index)"/>
+</span></td></tr>
+</tfoot>
+</xpath>
+</t>
+</templates>

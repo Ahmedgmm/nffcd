@@ -1,0 +1,238 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar_001\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+#: model:ir.model.fields.selection,name:nffcd_settlement.selection__account_journal__type__settlement
+msgid "Settlement Journals"
+msgstr "يوميات التسويات"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+#: model:ir.actions.act_window,name:nffcd_settlement.settlement_entries
+#: model:ir.ui.menu,name:nffcd_settlement.menu_settlement_entries
+msgid "Settlement Entries"
+msgstr "قيود التسويات"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+#: model:ir.actions.client,name:nffcd_settlement.report_action
+#: model:ir.ui.menu,name:nffcd_settlement.report_menu
+#: model:eh.account.dynamic.report,name:nffcd_settlement.report_settlement_trial_balance
+msgid "Trial Balance with Settlements"
+msgstr "ميزان المراجعة بالتسويات"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Opening Balance"
+msgstr "أرصدة أول المدة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Current-period Financial Movements"
+msgstr "الحركة المالية خلال الفترة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Current-period Settlements"
+msgstr "التسويات خلال الفترة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Ending Balance"
+msgstr "أرصدة آخر المدة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Debit"
+msgstr "مدين"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Credit"
+msgstr "دائن"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Account"
+msgstr "الحساب"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+#: model:ir.model.fields,field_description:nffcd_settlement.field_account_move__settlement_opening
+msgid "Designated Opening Entry"
+msgstr "قيد افتتاحي محدد"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+#: model:ir.actions.act_window,name:nffcd_settlement.legacy_action
+#: model:ir.ui.menu,name:nffcd_settlement.legacy_menu
+msgid "Reviewed Reporting Classifications"
+msgstr "تصنيفات التقارير المعتمدة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Financial Activity"
+msgstr "حركة مالية"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Contributing Journal Items"
+msgstr "بنود اليومية المكونة للقيمة"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid ""
+"Create a new journal instead of changing the purpose of a used journal."
+msgstr "أنشئ يومية جديدة بدلاً من تغيير غرض يومية مستخدمة."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Settlement journals accept settlement entries only."
+msgstr "يوميات التسويات تقبل قيود التسويات فقط."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "A meaningful settlement explanation is required in Reference."
+msgstr "يجب إدخال شرح واضح للتسوية في المرجع."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Opening entries require a miscellaneous journal."
+msgstr "تتطلب القيود الافتتاحية يومية متنوعة."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Use a reviewed legacy classification for posted entries."
+msgstr "استخدم تصنيفاً تاريخياً معتمداً للقيود المرحلة."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Only accounting managers can designate opening entries."
+msgstr "تحديد القيود الافتتاحية متاح لمديري المحاسبة فقط."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Create a Settlement Journal for this company first."
+msgstr "أنشئ يومية تسويات لهذه الشركة أولاً."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid ""
+"Used Settlement Journals require a reviewed rollback plan before "
+"uninstalling."
+msgstr "تتطلب يوميات التسويات المستخدمة خطة تراجع معتمدة قبل إزالة الإضافة."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Provide the reviewed source and classification reason."
+msgstr "حدد المصدر الذي تمت مراجعته وسبب التصنيف."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Settlement Journals determine their own reporting purpose."
+msgstr "يتحدد الغرض المحاسبي ليوميات التسويات من نوع اليومية."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid ""
+"Revise the classification with evidence instead of deleting its audit trail."
+msgstr "عدّل التصنيف مع توثيق السبب بدلاً من حذف سجل المراجعة."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid ""
+"Comparison, cash basis and analytic allocation options are unavailable for "
+"this report."
+msgstr "المقارنات والأساس النقدي والتوزيعات التحليلية غير متاحة لهذا التقرير."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "An entry can have only one reviewed classification."
+msgstr "لكل قيد تصنيف معتمد واحد فقط."
+
+#. module: nffcd_settlement
+#. odoo-javascript
+#. odoo-python
+#: code:addons/nffcd_settlement/static/src/report.xml:0
+#: code:addons/nffcd_settlement/models/pdf.py:0
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/trial_balance.py:0
+msgid "Start date must be on or before end date."
+msgstr "يجب ألا يكون تاريخ البداية بعد تاريخ النهاية."
+
+#. module: nffcd_settlement
+#. odoo-python
+#: code:addons/nffcd_settlement/models/classification.py:0
+msgid "Settlement journal and entry must belong to the same company."
+msgstr "يجب أن تنتمي يومية التسويات والقيد إلى الشركة نفسها."
+
+#. module: nffcd_settlement
+#. odoo-javascript
+#: code:addons/nffcd_settlement/static/src/report.xml:0
+msgid "Includes draft entries"
+msgstr "يشمل القيود المسودة"

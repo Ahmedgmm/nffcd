@@ -108,7 +108,7 @@ class CitadelAuthorityPolicyStep(models.Model):
         mode = {
             "any": _("أي شخص"),
             "all": _("الجميع"),
-            "quorum": _("النصاب"),
+            "quorum": _("عدد محدد من الموافقات"),
         }[self.approval_mode]
         subtitle = mode if self.action == "approve" else _("للعلم")
         if self.approval_mode == "quorum" and self.action == "approve":

@@ -402,7 +402,7 @@ class CitadelAuthorityRequestStep(models.Model):
     sequence = fields.Integer(string="التسلسل", required=True)
     role_id = fields.Many2one("citadel.authority.role", string="الدور", required=True, ondelete="restrict")
     approval_mode = fields.Selection(
-        [("any", "أي شخص"), ("all", "الجميع"), ("quorum", "النصاب")], string="أسلوب الاعتماد", required=True,
+        [("any", "أي شخص"), ("all", "الجميع"), ("quorum", "عدد محدد من الموافقات")], string="أسلوب الاعتماد", required=True,
     )
     required_approvals = fields.Integer(string="الاعتمادات المطلوبة", required=True, default=1)
     eligible_user_ids = fields.Many2many(

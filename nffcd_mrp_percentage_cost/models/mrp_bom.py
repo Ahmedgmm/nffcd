@@ -66,6 +66,13 @@ class MrpBom(models.Model):
         lines = self.bom_line_ids.filtered(lambda l: l.nffcd_is_percentage_line and not l._skip_bom_line(product))
         return sum(l.nffcd_cost_percentage * l.product_qty for l in lines) / 100.0
 
+    def _nffcd_percentage_cost_lines(self, product, material_cost):
+        """Unrounded per-service amounts, shared by valuation and MO reporting."""
+        self.ensure_one()
+        return [(line, material_cost * line.nffcd_cost_percentage * line.product_qty / 100.0)
+                for line in self.bom_line_ids
+                if line.nffcd_is_percentage_line and not line._skip_bom_line(product)]
+
 
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'

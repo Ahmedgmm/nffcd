@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+purpose_reader,Classification reader,nffcd.legacy.purpose,account.group_account_user,r,
+purpose_manager,Classification manager,nffcd.legacy.purpose,account.group_account_manager,cru,
+purpose_company_rule,Classification companies,nffcd.legacy.purpose,,cru,"[('company_id', 'in', company_ids)]"

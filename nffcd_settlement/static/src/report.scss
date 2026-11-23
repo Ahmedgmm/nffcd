@@ -1,0 +1,8 @@
+[data-settlement-report='true'] .eh_dr_table tfoot {
+    font-weight: 700;
+    border-top: 2px solid var(--border-color, #8aa89b);
+}
+html[dir='rtl'] [data-settlement-report='true'] .eh_dr_table th {
+    letter-spacing: normal;
+    font-family: var(--font-family-sans-serif, sans-serif);
+}

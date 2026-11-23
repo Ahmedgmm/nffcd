@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="mo_overview_percentage_costs" inherit_id="mrp.mo_overview_components">
+        <xpath expr="//t[@t-foreach='components']/t[@t-call='mrp.mo_overview_line']" position="before">
+            <tr t-if="component.get('nffcd_section_start')" class="fw-bold o_nffcd_percentage_cost_section">
+                <td colspan="99">Additional Costs</td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>

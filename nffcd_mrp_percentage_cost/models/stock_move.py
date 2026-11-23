@@ -32,7 +32,9 @@ class StockMove(models.Model):
             output_quantity = self._get_valued_qty()
         if not output_quantity:
             return res
-        res['value'] += rate * raw_value * cost_share * quantity / output_quantity
+        overhead = sum(amount for _line, amount in production.bom_id._nffcd_percentage_cost_lines(
+            production.product_id, raw_value))
+        res['value'] += overhead * cost_share * quantity / output_quantity
         res['description'] = self.env._(
             '%(value)s for %(quantity)s %(unit)s from %(production)s',
             value=self.company_currency_id.format(res['value']), quantity=quantity,
