@@ -11,3 +11,4 @@ from . import dashboard
 
 from . import purchase_committee
 from . import stock_picking
+from . import res_company

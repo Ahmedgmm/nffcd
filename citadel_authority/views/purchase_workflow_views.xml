@@ -11,6 +11,8 @@
                 <button name="action_open_pricing_committee" type="object" string="لجنة تسعير"
                         class="btn-secondary" icon="fa-users"
                         invisible="citadel_cost_type != 'unknown' or state not in ['draft', 'sent']"/>
+                <button name="action_citadel_print_purchase_request" type="object" string="طلب شراء"
+                        class="btn-secondary" icon="fa-print"/>
                 <button name="action_open_receipt_committee" type="object" string="لجنة الفحص والاستلام"
                         class="btn-secondary" icon="fa-truck"
                         invisible="not citadel_needs_receipt_committee or state not in ['draft', 'sent']"/>
@@ -21,8 +23,25 @@
                     <field name="citadel_pricing_committee_count" widget="statinfo" string="لجان التسعير"/>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='currency_id'][@groups='base.group_multi_currency']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='receipt_reminder_email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='reminder']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//sheet//field[@name='partner_ref']" position="after">
                 <field name="citadel_cost_type" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_requester_employee_id" options="{'no_create': True}" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_request_department_id" options="{'no_create': True}" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_purchase_method" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_purchase_purpose" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_estimated_amount" readonly="state not in ['draft', 'sent']"/>
                 <field name="citadel_receipt_committee_employee_ids" widget="many2many_tags" readonly="1"
                        invisible="not citadel_receipt_committee_employee_ids"/>
                 <field name="citadel_receipt_manager_id" invisible="not citadel_receipt_committee_employee_ids"/>
@@ -155,6 +174,35 @@
                 <field name="citadel_committee_employee_ids" widget="many2many_tags" readonly="1"
                        invisible="not citadel_committee_employee_ids"/>
                 <field name="citadel_receipt_manager_id" invisible="not citadel_committee_employee_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_company_form_citadel_letterhead" model="ir.ui.view">
+        <field name="name">res.company.form.citadel.letterhead</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="ترويسة المستندات" name="citadel_letterhead">
+                    <group>
+                        <group string="عربي">
+                            <field name="citadel_ministry_name"/>
+                            <field name="citadel_letterhead_address"/>
+                            <field name="citadel_purchase_addressee"/>
+                        </group>
+                        <group string="English">
+                            <field name="citadel_ministry_name_en"/>
+                            <field name="citadel_name_en"/>
+                            <field name="citadel_letterhead_address_en"/>
+                        </group>
+                        <group>
+                            <field name="citadel_letterhead_phone"/>
+                            <field name="citadel_letterhead_fax"/>
+                        </group>
+                    </group>
+                    <div class="text-muted">تستخدم الجهات التابعة بيانات الجهة الأم عند ترك الحقول فارغة.</div>
+                </page>
             </xpath>
         </field>
     </record>

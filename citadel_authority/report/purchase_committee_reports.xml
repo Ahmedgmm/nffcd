@@ -4,11 +4,11 @@
         <field name="name">A4 - Committee Minutes</field>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">38</field>
-        <field name="margin_bottom">22</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">12</field>
         <field name="margin_left">12</field>
         <field name="margin_right">12</field>
-        <field name="header_spacing">32</field>
+        <field name="header_spacing">0</field>
         <field name="dpi">96</field>
     </record>
 
@@ -33,6 +33,18 @@
             .o_citadel_minutes .o_approve td { width: 50%; text-align: center; padding-top: 6px; }
             .o_citadel_minutes .o_note { font-size: 11px; color: #555; }
             .o_citadel_minutes strong, .o_citadel_minutes b { unicode-bidi: embed; }
+            .o_citadel_minutes table.o_head { width: 100%; border-bottom: 2px solid #333; margin-bottom: 8px; font-size: 12px; line-height: 1.6; }
+            .o_citadel_minutes table.o_head td { vertical-align: middle; padding: 0 4px; }
+            .o_citadel_minutes table.o_head td.en { direction: ltr; text-align: left; font-family: 'DejaVu Serif', serif; font-weight: bold; }
+            .o_citadel_minutes table.o_head td.ar { font-weight: bold; }
+            .o_citadel_minutes table.o_head img { max-height: 90px; max-width: 120px; }
+            .o_citadel_minutes table.o_info { width: 100%; margin: 4px 0 8px; font-size: 13px; }
+            .o_citadel_minutes table.o_info td { padding: 2px 4px; border-bottom: 1px dotted #999; }
+            .o_citadel_minutes td.lbl { white-space: nowrap; width: 1%; color: #333; }
+            .o_citadel_minutes table.o_box { border: 1px solid #333; font-size: 11px; }
+            .o_citadel_minutes table.o_box td { padding: 2px 6px; }
+            .o_citadel_minutes table.o_cols { width: 100%; margin-top: 6px; }
+            .o_citadel_minutes table.o_cols > tbody > tr > td { width: 50%; vertical-align: top; padding: 0 4px; }
         </style>
     </template>
 
@@ -60,28 +72,83 @@
         </table>
     </template>
 
+
+    <!-- Letterhead printed inside the page (works with any wkhtmltopdf build) -->
+    <template id="committee_letterhead">
+        <t t-set="lh" t-value="company._citadel_letterhead()"/>
+        <table class="o_head">
+            <tr>
+                <td class="ar" style="width: 38%;">
+                    <table class="o_text" style="margin: 0;">
+                        <tr t-if="lh['ministry']"><td t-out="rtl(lh['ministry'])"/></tr>
+                        <tr><td t-out="rtl(lh['root'])"/></tr>
+                        <tr t-if="lh['unit']"><td t-out="rtl(lh['unit'])"/></tr>
+                        <tr t-if="lh['address']"><td t-out="rtl(lh['address'])"/></tr>
+                        <tr t-if="lh['phone']"><td>تليفون <t t-out="rtl(lh['phone'])"/></td></tr>
+                        <tr t-if="lh['fax']"><td>فاكس <t t-out="rtl(lh['fax'])"/></td></tr>
+                    </table>
+                </td>
+                <td style="width: 24%; text-align: center;">
+                    <img t-if="lh['logo']" t-att-src="image_data_uri(lh['logo'])" alt="Logo"/>
+                </td>
+                <td class="en" style="width: 38%;">
+                    <div t-if="lh['ministry_en']" t-out="lh['ministry_en']"/>
+                    <div t-if="lh['root_en']" t-out="lh['root_en']"/>
+                    <div t-if="lh['unit_en']" t-out="lh['unit_en']"/>
+                    <div t-if="lh['address_en']" t-out="lh['address_en']"/>
+                    <div t-if="lh['phone'] or lh['fax']">
+                        <t t-if="lh['phone']">Tel: <t t-out="lh['phone']"/></t>
+                        <t t-if="lh['fax']"> Fax: <t t-out="lh['fax']"/></t>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+    <!-- Purchase request data (order) shown on every committee document -->
+    <template id="purchase_request_info">
+        <t t-set="info" t-value="order._citadel_report_info()"/>
+        <table class="o_info">
+            <tr>
+                <td class="lbl">القسم الطالب للشراء</td><td><strong t-out="rtl(info['department'] or '..............................')"/></td>
+                <td class="lbl">تاريخ الطلب</td><td><strong t-out="rtl(info['date'])"/></td>
+            </tr>
+            <tr>
+                <td class="lbl">اسم طالب الشراء</td><td><strong t-out="rtl(info['requester'] or '..............................')"/></td>
+                <td class="lbl">القيمة التقديرية</td><td><strong t-if="info['estimated']"><span dir="ltr" style="unicode-bidi: embed;" t-out="info['estimated']" t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/></strong>
+                    <t t-else="">..............................</t></td>
+            </tr>
+            <tr>
+                <td class="lbl">الغرض من الشراء</td><td><strong t-out="rtl(info['purpose'] or '..............................')"/></td>
+                <td class="lbl">طريقة الشراء</td><td><strong t-out="rtl(info['method'] or '..............................')"/></td>
+            </tr>
+        </table>
+    </template>
+
     <!-- 1) Pricing committee minutes -->
     <template id="report_pricing_committee_document">
         <t t-set="company" t-value="doc.company_id"/>
         <t t-set="order" t-value="doc.order_id"/>
-        <t t-call="web.external_layout">
+        <t t-call="web.basic_layout">
             <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
             <t t-set="day_date" t-value="doc._citadel_day_and_date()"/>
             <t t-set="members" t-value="doc._citadel_ordered_members()"/>
             <div class="page o_citadel_minutes">
                 <t t-call="citadel_authority.committee_report_style"/>
+                <t t-call="citadel_authority.committee_letterhead"/>
                 <h2>محضر لجنة تسعير</h2>
                 <div class="o_sub">تقدير القيمة السوقية للأصناف المطلوب شراؤها</div>
                 <table class="o_ref">
                     <tr>
-                        <td>رقم المحضر: <strong t-out="rtl(doc.name)"/></td>
-                        <td style="text-align: left;">أمر الشراء: <strong t-out="rtl(order.name)"/></td>
+                        <td class="lbl">رقم المحضر</td><td><strong t-out="rtl(doc.name)"/></td>
+                        <td class="lbl">أمر الشراء</td><td><strong t-out="rtl(order.name)"/></td>
                     </tr>
                     <tr>
-                        <td>الجهة: <strong t-out="rtl(company.name)"/></td>
-                        <td style="text-align: left;">التاريخ: <strong t-out="day_date[1]"/></td>
+                        <td class="lbl">الجهة</td><td><strong t-out="rtl(company.name)"/></td>
+                        <td class="lbl">التاريخ</td><td><strong t-out="day_date[1]"/></td>
                     </tr>
                 </table>
+                <t t-call="citadel_authority.purchase_request_info"/>
 
                 <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0]"/> الموافق <t t-out="rtl(day_date[1])"/></td></tr><tr><td>وبناءً على التكليف الصادر من إدارة <t t-out="rtl(company.name)"/></td></tr><tr><td>اجتمعت اللجنة المشكلة من السادة</td></tr></table>
                 <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member, 'رئيساً' if member_first else 'عضواً'))"/></tr></table>
@@ -116,7 +183,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="o_text"><tr><td>فقط وقدره: ............................................................ لا غير</td></tr></table>
+                <table class="o_text"><tr><td class="lbl">فقط وقدره</td><td>............................................................ لا غير</td></tr></table>
 
                 <table class="o_text"><tr><td>وتقر اللجنة بأن الأسعار المدونة أعلاه أسعار عادلة تتناسب مع أسعار السوق في تاريخه</td></tr><tr><td>وأنه لا توجد لأي من أعضائها مصلحة مباشرة أو غير مباشرة مع أي من الموردين</td></tr><tr><td>وعلى ذلك تحرر هذا المحضر من نسخة واحدة</td></tr><tr><td>ووقّع عليه السادة أعضاء اللجنة</td></tr></table>
 
@@ -159,25 +226,27 @@
     <!-- 2) Receipt inspection minutes -->
     <template id="report_receipt_committee_document">
         <t t-set="company" t-value="doc.company_id"/>
-        <t t-call="web.external_layout">
+        <t t-call="web.basic_layout">
             <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
             <t t-set="order" t-value="doc.sudo().move_ids.purchase_line_id.order_id[:1]"/>
             <t t-set="day_date" t-value="doc._citadel_receipt_day_and_date()"/>
             <t t-set="members" t-value="doc.citadel_committee_employee_ids.sorted('name')"/>
             <div class="page o_citadel_minutes">
                 <t t-call="citadel_authority.committee_report_style"/>
+                <t t-call="citadel_authority.committee_letterhead"/>
                 <h2>محضر فحص واستلام</h2>
                 <div class="o_sub">فحص الأصناف الموردة ومطابقتها للمواصفات والكميات</div>
                 <table class="o_ref">
                     <tr>
-                        <td>إذن الاستلام: <strong t-out="rtl(doc.name)"/></td>
-                        <td style="text-align: left;">أمر الشراء: <strong t-out="rtl(order.name or doc.origin or '-')"/></td>
+                        <td class="lbl">إذن الاستلام</td><td><strong t-out="rtl(doc.name)"/></td>
+                        <td class="lbl">أمر الشراء</td><td><strong t-out="rtl(order.name or doc.origin or '-')"/></td>
                     </tr>
                     <tr>
-                        <td>المورد: <strong t-out="rtl(doc.partner_id.name or '-')"/></td>
-                        <td style="text-align: left;">المخزن: <strong t-out="rtl(doc.picking_type_id.warehouse_id.name or '-')"/></td>
+                        <td class="lbl">المورد</td><td><strong t-out="rtl(doc.partner_id.name or '-')"/></td>
+                        <td class="lbl">المخزن</td><td><strong t-out="rtl(doc.picking_type_id.warehouse_id.name or '-')"/></td>
                     </tr>
                 </table>
+                <t t-if="order" t-call="citadel_authority.purchase_request_info"/>
                 <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0] or '............'"/> الموافق <t t-out="rtl(day_date[1] or '..../..../........')"/></td></tr><tr><td>اجتمعت لجنة الفحص والاستلام المشكلة من السادة</td></tr></table>
                 <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member))"/></tr></table>
                 <table class="o_text"><tr><td>وذلك بمقر مخزن <t t-out="rtl(doc.picking_type_id.warehouse_id.name or '')"/></td></tr><tr><td>لفحص ومعاينة الأصناف الموردة من <t t-out="rtl(doc.partner_id.name or '')"/></td></tr><tr><td>بموجب أمر الشراء المشار إليه</td></tr><tr><td>وقد أسفر الفحص عما يلي</td></tr></table>
@@ -218,7 +287,7 @@
                     </tr>
                 </table>
                 <t t-if="doc.citadel_authority_request_id">
-                    <table class="o_text o_note"><tr><td>الاعتماد الإلكتروني: <t t-out="rtl(doc.citadel_authority_request_id.name)"/> — <t t-out="rtl(doc.citadel_authority_approved_by or 'لم يكتمل بعد')"/></td></tr></table>
+                    <table class="o_text o_note"><tr><td class="lbl">الاعتماد الإلكتروني</td><td><t t-out="rtl(doc.citadel_authority_request_id.name)"/> — <t t-out="rtl(doc.citadel_authority_approved_by or 'لم يكتمل بعد')"/></td></tr></table>
                 </t>
             </div>
         </t>
@@ -240,6 +309,165 @@
         <field name="print_report_name">'محضر فحص واستلام - %s' % object.name</field>
         <field name="paperformat_id" ref="paperformat_citadel_committee"/>
         <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+    <!-- 3) Purchase request (طلب شراء) - official foundation form -->
+    <template id="report_purchase_request_document">
+        <t t-set="company" t-value="doc.company_id"/>
+        <t t-set="order" t-value="doc"/>
+        <t t-call="web.basic_layout">
+            <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
+            <t t-set="info" t-value="doc._citadel_report_info()"/>
+            <t t-set="lh" t-value="company._citadel_letterhead()"/>
+            <t t-set="committees" t-value="doc._citadel_report_committees()"/>
+            <t t-set="lines" t-value="doc._citadel_request_lines()"/>
+            <div class="page o_citadel_minutes">
+                <t t-call="citadel_authority.committee_report_style"/>
+                <t t-call="citadel_authority.committee_letterhead"/>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 60%;">
+                            <h2 style="text-align: right; margin-right: 35%;">طلب شراء</h2>
+                        </td>
+                        <td style="text-align: left;">
+                            <table class="o_box" style="margin-right: auto;">
+                                <tr><td class="lbl">رقم الوارد</td><td>....................</td></tr>
+                                <tr><td class="lbl">التاريخ</td><td>..../..../........</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="o_text"><tr><td style="text-align: center; font-weight: bold;">للعرض على <t t-out="rtl(lh['addressee'])"/></td></tr></table>
+                <table class="o_info">
+                    <tr>
+                        <td class="lbl">القسم الطالب للشراء</td><td><strong t-out="rtl(info['department'] or '..............................')"/></td>
+                        <td class="lbl">التاريخ</td><td><strong t-out="rtl(info['date'])"/></td>
+                    </tr>
+                    <tr>
+                        <td class="lbl">اسم طالب الشراء</td><td><strong t-out="rtl(info['requester'] or '..............................')"/></td>
+                        <td class="lbl">القيمة التقديرية</td><td><strong t-if="info['estimated']"><span dir="ltr" style="unicode-bidi: embed;" t-out="info['estimated']" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></strong>
+                            <t t-else="">..............................</t></td>
+                    </tr>
+                    <tr>
+                        <td class="lbl">الغرض من الشراء</td><td colspan="3"><strong t-out="rtl(info['purpose'] or '..................................................................')"/></td>
+                    </tr>
+                    <tr>
+                        <td class="lbl">رقم أمر الشراء بالنظام</td><td colspan="3"><strong t-out="rtl(doc.name)"/></td>
+                    </tr>
+                </table>
+                <table class="o_grid" style="margin-top: 2px;">
+                    <tr>
+                        <td style="width: 16%; font-weight: bold;">طريقة الشراء</td>
+                        <t t-foreach="doc._fields['citadel_purchase_method'].selection" t-as="method">
+                            <td class="c" style="width: 21%;">
+                                <span t-out="'( ✓ )' if doc.citadel_purchase_method == method[0] else '(     )'"/>
+                                <t t-out="method[1]"/>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+                <table class="o_grid">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">م</th>
+                            <th style="width: 37%;">الأصناف المطلوبة</th>
+                            <th style="width: 9%;">الوحدة</th>
+                            <th style="width: 9%;">الكمية</th>
+                            <th style="width: 12%;">رصيد المخزن</th>
+                            <th style="width: 28%;">المواصفات / الملاحظات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="lines" t-as="line">
+                            <td class="c" t-out="line_index + 1"/>
+                            <td t-out="rtl(line.product_id.display_name)"/>
+                            <td class="c" t-out="rtl(line.uom_id.name)"/>
+                            <td class="c" t-out="line.product_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                            <td class="c" t-out="rtl(doc._citadel_stock_balance(line))"/>
+                            <td t-out="rtl(doc._citadel_line_notes(line))"/>
+                        </tr>
+                        <tr>
+                            <td class="c" t-out="len(lines) + 1"/>
+                            <td colspan="5" style="text-align: center; font-weight: bold;">انتهت الأصناف - لا يضاف بعد هذا السطر</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="o_grid o_sign">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">المخازن</th>
+                            <th style="width: 25%;">الشطب</th>
+                            <th style="width: 25%;">القسم الطالب للشراء</th>
+                            <th style="width: 25%;">المشتروات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td/><td/>
+                            <td class="c" t-out="rtl(info['department'])"/>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td/><td/>
+                            <td class="c" t-out="rtl(info['requester'])"/>
+                            <td/>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="o_text"><tr><td style="font-weight: bold;">عرض على <t t-out="rtl(lh['addressee'])"/></td></tr><tr><td>تشكل لجنة من السادة الآتي أسماؤهم وهم</td></tr></table>
+                <table class="o_cols">
+                    <tr>
+                        <td>
+                            <table class="o_text"><tr><td colspan="2" style="font-weight: bold;">لجنة إحضار عروض الأسعار</td></tr>
+                                <tr t-foreach="range(max(3, len(committees[0])))" t-as="index">
+                                    <td style="width: 24px;" t-out="'%s.' % (index + 1)"/><td t-out="rtl(committees[0][index].name) if index &lt; len(committees[0]) else '........................................'"/>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="o_text"><tr><td colspan="2" style="font-weight: bold;">لجنة البت والترسية</td></tr>
+                                <tr t-foreach="range(max(3, len(committees[1])))" t-as="index">
+                                    <td style="width: 24px;" t-out="'%s.' % (index + 1)"/><td t-out="rtl(committees[1][index].name) if index &lt; len(committees[1]) else '........................................'"/>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="o_text"><tr><td>وذلك لإنهاء إجراءات الشراء</td></tr></table>
+                <table class="o_approve">
+                    <tr>
+                        <td>مدير المخازن</td>
+                        <td>يعتمد،،<br/>المدير التنفيذي</td>
+                    </tr>
+                    <tr>
+                        <td>..............................</td>
+                        <td>..............................</td>
+                    </tr>
+                </table>
+                <t t-if="doc.citadel_authority_request_id">
+                    <table class="o_text o_note"><tr><td class="lbl">الاعتماد الإلكتروني</td><td><t t-out="rtl(doc.citadel_authority_request_id.name)"/> - <t t-out="rtl(doc.citadel_authority_approved_by or 'لم يكتمل بعد')"/></td></tr></table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_purchase_request">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="citadel_authority.report_purchase_request_document" t-lang="doc._citadel_report_lang()"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_purchase_request" model="ir.actions.report">
+        <field name="name">طلب شراء</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">citadel_authority.report_purchase_request</field>
+        <field name="print_report_name">'طلب شراء - %s' % object.name</field>
+        <field name="paperformat_id" ref="paperformat_citadel_committee"/>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
         <field name="binding_type">report</field>
     </record>
 </odoo>

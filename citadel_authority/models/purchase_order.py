@@ -16,6 +16,30 @@ class PurchaseOrder(models.Model):
         [("known", "تكلفة معروفة"), ("unknown", "تكلفة غير معروفة (لجنة تسعير)")],
         string="نوع التكلفة", required=True, default="known", tracking=True, copy=True,
     )
+    citadel_requester_employee_id = fields.Many2one(
+        "hr.employee", string="طالب الشراء", tracking=True, check_company=True,
+        default=lambda self: self.env.user.employee_ids.filtered(lambda employee: employee.company_id == self.env.company)[:1],
+        domain="[('company_id', '=', company_id)]",
+    )
+    citadel_request_department_id = fields.Many2one(
+        "hr.department", string="القسم الطالب للشراء", tracking=True, check_company=True,
+        compute="_compute_citadel_request_department", store=True, readonly=False, precompute=True,
+        help="يُملأ تلقائياً من قسم طالب الشراء، ويمكن تعديله. يُطبع في خانة «القسم الطالب للشراء».",
+    )
+    citadel_purchase_purpose = fields.Char(string="الغرض من الشراء", tracking=True)
+    citadel_purchase_method = fields.Selection(
+        [
+            ("public_tender", "مناقصة عامة"),
+            ("limited_tender", "مناقصة محدودة"),
+            ("practice", "ممارسة"),
+            ("direct", "الأمر المباشر"),
+        ],
+        string="طريقة الشراء", tracking=True,
+    )
+    citadel_estimated_amount = fields.Monetary(
+        string="القيمة التقديرية", currency_field="currency_id", tracking=True,
+        help="تظهر في طلب الشراء. إن تُركت صفراً تُستخدم قيمة الأمر قبل الضرائب عند توفرها.",
+    )
     citadel_pricing_committee_ids = fields.One2many(
         "citadel.purchase.pricing.committee", "order_id", string="لجان التسعير", copy=False,
     )
@@ -28,6 +52,13 @@ class PurchaseOrder(models.Model):
         "res.users", string="مسؤول المخزن", compute="_compute_citadel_receipt_manager",
     )
     citadel_needs_receipt_committee = fields.Boolean(compute="_compute_citadel_needs_receipt_committee")
+
+    @api.depends("citadel_requester_employee_id")
+    def _compute_citadel_request_department(self):
+        for order in self:
+            department = order.citadel_requester_employee_id.sudo().department_id
+            if department:
+                order.citadel_request_department_id = department
 
     @api.depends("citadel_pricing_committee_ids")
     def _compute_citadel_pricing_committee_count(self):
@@ -177,6 +208,69 @@ class PurchaseOrder(models.Model):
 
     def _citadel_report_lang(self):
         return "ar_001" if self.env["res.lang"]._lang_get("ar_001") else self.env.lang
+
+    # ------------------------------------------------------------------
+    # Purchase request (طلب شراء) printout
+    # ------------------------------------------------------------------
+    def _citadel_request_lines(self):
+        self.ensure_one()
+        return self.order_line.filtered(lambda line: not line.display_type and line.product_id)
+
+    def _citadel_stock_balance(self, line):
+        """Text for the 'رصيد المخزن' column: on-hand quantity in the receiving warehouse."""
+        product = line.product_id
+        if product.type != "consu" or not getattr(product, "is_storable", True):
+            return "-"
+        warehouse = self.sudo().picking_type_id.warehouse_id
+        quantity = product.sudo().with_context(warehouse_id=warehouse.id).qty_available if warehouse else 0.0
+        if line.uom_id and product.uom_id and line.uom_id != product.uom_id:
+            quantity = product.uom_id._compute_quantity(quantity, line.uom_id)
+        return "لا يوجد" if not quantity else "%g" % round(quantity, 2)
+
+    def _citadel_line_notes(self, line):
+        name = (line.name or "").strip()
+        product_name = line.product_id.display_name or ""
+        return "" if not name or name == product_name or name in product_name else name
+
+    def _citadel_estimated_value(self):
+        self.ensure_one()
+        return self.citadel_estimated_amount or self.amount_untaxed
+
+    def _citadel_request_date(self):
+        self.ensure_one()
+        value = self.create_date or self.date_order
+        return fields.Date.context_today(self, value).strftime("%d/%m/%Y") if value else ""
+
+    def _citadel_report_info(self):
+        """Purchase-request header shared by the request and committee minutes."""
+        self.ensure_one()
+        requester = self._citadel_authority_requester()
+        employee = self.citadel_requester_employee_id.sudo() or requester.sudo().employee_ids.filtered(
+            lambda item: item.company_id == self.company_id
+        )[:1]
+        department = self.citadel_request_department_id or employee.department_id
+        return {
+            "department": department.name or "",
+            "requester": employee.name or requester.name or "",
+            "purpose": self.citadel_purchase_purpose or "",
+            "method": dict(self._fields["citadel_purchase_method"].selection).get(self.citadel_purchase_method, ""),
+            "estimated": self._citadel_estimated_value(),
+            "date": self._citadel_request_date(),
+        }
+
+    def _citadel_report_committees(self):
+        """Members for the 'تشكيل اللجان' section: pricing committee and alternatives committee."""
+        self.ensure_one()
+        pricing = self.citadel_pricing_committee_ids.sorted("id", reverse=True)[:1]
+        pricing_members = pricing._citadel_ordered_members() if pricing else self.env["hr.employee"]
+        evaluation_members = self.env["hr.employee"]
+        if "alternative_comparison_ids" in self._fields:
+            comparison = (self.alternative_comparison_ids | self.alternative_source_comparison_id)[:1]
+            evaluation_members = comparison.sudo().citadel_committee_employee_ids.sorted("name")
+        return pricing_members, evaluation_members
+
+    def action_citadel_print_purchase_request(self):
+        return self.env.ref("citadel_authority.action_report_purchase_request").report_action(self)
     _citadel_amount_fields = {"order_line", "currency_id"}
 
     def _citadel_authority_document_type(self):

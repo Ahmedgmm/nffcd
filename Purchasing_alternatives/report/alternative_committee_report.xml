@@ -3,7 +3,7 @@
     <template id="report_alternative_committee_document">
         <t t-set="company" t-value="doc.company_id"/>
         <t t-set="order" t-value="doc.order_id"/>
-        <t t-call="web.external_layout">
+        <t t-call="web.basic_layout">
             <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
             <t t-set="day_date" t-value="doc._citadel_report_day_and_date()"/>
             <t t-set="members" t-value="doc.citadel_committee_employee_ids.sorted('name')"/>
@@ -12,18 +12,20 @@
             <t t-set="order_lines" t-value="order.order_line.filtered(lambda line: not line.display_type and line.product_id)"/>
             <div class="page o_citadel_minutes">
                 <t t-call="citadel_authority.committee_report_style"/>
+                <t t-call="citadel_authority.committee_letterhead"/>
                 <h2>محضر لجنة البت والمفاضلة بين العروض</h2>
                 <div class="o_sub">فحص العروض المقدمة واختيار أفضلها سعراً ومطابقةً</div>
                 <table class="o_ref">
                     <tr>
-                        <td>المرجع: <strong t-out="rtl(doc.citadel_authority_request_id.name or doc.name)"/></td>
-                        <td style="text-align: left;">طلب الشراء: <strong t-out="rtl(order.name)"/></td>
+                        <td class="lbl">المرجع</td><td><strong t-out="rtl(doc.citadel_authority_request_id.name or doc.name)"/></td>
+                        <td class="lbl">طلب الشراء</td><td><strong t-out="rtl(order.name)"/></td>
                     </tr>
                     <tr>
-                        <td>الجهة: <strong t-out="rtl(company.name)"/></td>
-                        <td style="text-align: left;">التاريخ: <strong t-out="day_date[1]"/></td>
+                        <td class="lbl">الجهة</td><td><strong t-out="rtl(company.name)"/></td>
+                        <td class="lbl">التاريخ</td><td><strong t-out="day_date[1]"/></td>
                     </tr>
                 </table>
+                <t t-call="citadel_authority.purchase_request_info"/>
                 <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0]"/> الموافق <t t-out="rtl(day_date[1])"/></td></tr><tr><td>اجتمعت لجنة البت والمفاضلة المشكلة من السادة</td></tr></table>
                 <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member))"/></tr></table>
                 <table class="o_text"><tr><td>وذلك لفحص العروض المقدمة من عدد <t t-out="rtl(len(vendors))"/> من الموردين عن الأصناف المطلوبة</td></tr><tr><td>بطلب الشراء رقم <t t-out="rtl(order.name)"/></td></tr><tr><td>وقد جاءت العروض على النحو التالي</td></tr><tr><td>علماً بأن الأسعار المبينة بعملة <t t-out="rtl(doc.currency_id.name)"/> وقبل الضرائب</td></tr></table>

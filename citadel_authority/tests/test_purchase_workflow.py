@@ -185,3 +185,25 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         self.assertFalse(picking.citadel_authority_requires_approval)
         picking.button_validate()
         self.assertEqual(picking.state, "done")
+
+    def test_purchase_request_printout(self):
+        department = self.env["hr.department"].create({"name": "إدارة المخازن", "company_id": self.company.id})
+        requester = self.employees[0]
+        requester.department_id = department
+        order = self._order()
+        order.citadel_requester_employee_id = requester
+        self.assertEqual(order.citadel_request_department_id, department)
+        order.write({
+            "citadel_purchase_purpose": "توفير آلات حاسبة",
+            "citadel_purchase_method": "practice",
+            "citadel_estimated_amount": 168000,
+        })
+        self.company.write({"citadel_letterhead_phone": "3364739", "citadel_letterhead_fax": "3373118"})
+        html, _type = self.env["ir.actions.report"]._render_qweb_html(
+            "citadel_authority.action_report_purchase_request", order.ids,
+        )
+        html = html.decode()
+        for text in ("طلب شراء", "إدارة المخازن", requester.name, "القسم الطالب للشراء", "توفير آلات حاسبة", "( ✓ )", "ممارسة",
+                     "رصيد المخزن", "لا يوجد", "لجنة إحضار عروض الأسعار", "لجنة البت والترسية",
+                     "3364739", "3373118"):
+            self.assertIn(text, html)
