@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_purchase_alternative_comparison_user,Purchase comparisons,purchase.alternative.comparison,purchase.group_purchase_user,cru,
+access_purchase_alternative_vendor_user,Purchase comparison vendors,purchase.alternative.vendor,purchase.group_purchase_user,crud,
+access_purchase_alternative_line_user,Purchase comparison offers,purchase.alternative.line,purchase.group_purchase_user,crud,
+comparison_company_rule,Comparison allowed companies,purchase.alternative.comparison,,crud,"[('company_id', 'in', company_ids)]"
+vendor_company_rule,Vendor allowed companies,purchase.alternative.vendor,,crud,"[('company_id', 'in', company_ids)]"
+line_company_rule,Offer allowed companies,purchase.alternative.line,,crud,"[('company_id', 'in', company_ids)]"
+access_purchase_alternative_committee_wizard,Alternatives committee wizard,purchase.alternative.committee.wizard,purchase.group_purchase_user,crud,
+access_purchase_alternative_comparison_authority,Comparisons for committee members,purchase.alternative.comparison,citadel_authority.group_citadel_authority_user,r,
+access_purchase_alternative_vendor_authority,Comparison vendors for committee members,purchase.alternative.vendor,citadel_authority.group_citadel_authority_user,r,
+access_purchase_alternative_line_authority,Comparison offers for committee members,purchase.alternative.line,citadel_authority.group_citadel_authority_user,r,

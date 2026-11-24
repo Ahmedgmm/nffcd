@@ -9,3 +9,5 @@ from . import account_move
 from . import account_payment
 from . import dashboard
 
+from . import purchase_committee
+from . import stock_picking

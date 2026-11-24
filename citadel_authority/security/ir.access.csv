@@ -17,3 +17,10 @@ rule_citadel_delegation_own_read,Read own authority delegations,citadel.authorit
 rule_citadel_delegation_own_manage,Manage own authority delegations,citadel.authority.delegation,citadel_authority.group_citadel_authority_user,cud,"[('delegator_id', '=', user.id)]"
 rule_citadel_delegation_manager,Authority managers manage all delegations,citadel.authority.delegation,citadel_authority.group_citadel_authority_manager,crud,"[(1, '=', 1)]"
 access_citadel_reject_wizard,citadel.authority.reject.wizard,citadel.authority.reject.wizard,citadel_authority.group_citadel_authority_user,crud,
+access_citadel_pricing_committee_purchase,citadel.purchase.pricing.committee.purchase,citadel.purchase.pricing.committee,purchase.group_purchase_user,crud,
+access_citadel_pricing_committee_user,citadel.purchase.pricing.committee.user,citadel.purchase.pricing.committee,citadel_authority.group_citadel_authority_user,r,
+rule_citadel_pricing_committee_company,Pricing committees by company,citadel.purchase.pricing.committee,,crud,"[('company_id', 'in', company_ids)]"
+access_citadel_receipt_committee_wizard,citadel.purchase.receipt.committee.wizard,citadel.purchase.receipt.committee.wizard,purchase.group_purchase_user,crud,
+access_hr_employee_citadel_purchase,hr.employee committee selection (purchase),hr.employee,purchase.group_purchase_user,r,
+access_hr_employee_citadel_stock,hr.employee committee display (stock),hr.employee,stock.group_stock_user,r,
+access_hr_employee_citadel_authority,hr.employee committee display (authority),hr.employee,citadel_authority.group_citadel_authority_user,r,

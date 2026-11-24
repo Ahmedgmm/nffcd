@@ -11,6 +11,8 @@ class TestCitadelAuthorityWorkflow(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
+        # Keep these generic tests independent of warehouse receipt committees.
+        cls.env["stock.warehouse"].search([]).citadel_receipt_manager_id = False
         user_group = cls.env.ref("citadel_authority.group_citadel_authority_user")
         purchase_group = cls.env.ref("purchase.group_purchase_user")
         groups = [user_group.id, purchase_group.id, cls.env.ref("base.group_user").id]

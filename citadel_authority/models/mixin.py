@@ -1,6 +1,9 @@
 import hashlib
 import json
+import re
 from datetime import timedelta
+
+from markupsafe import Markup
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -39,14 +42,19 @@ class CitadelAuthorityMixin(models.AbstractModel):
     def _compute_citadel_authority_requires_approval(self):
         """True while a policy applies and no valid approval covers the document."""
         for record in self:
-            policy = record.id and record._citadel_authority_matching_policy()[0]
+            try:
+                policy = record.id and record._citadel_authority_matching_policy(create=False)[0]
+            except UserError:
+                record.citadel_authority_requires_approval = True
+                continue
             request = record.sudo().citadel_authority_request_id
-            approved = bool(policy) and (
+            committee = bool(record.id) and record._citadel_authority_committee_required()
+            approved = (bool(policy) or committee) and (
                 request.state == "approved"
-                and request.policy_id == policy
+                and (request.policy_id == policy or (committee and not policy))
                 and request.fingerprint == record._citadel_authority_fingerprint()
             )
-            record.citadel_authority_requires_approval = bool(policy) and not approved
+            record.citadel_authority_requires_approval = (bool(policy) or committee) and not approved
 
     def _citadel_authority_document_type(self):
         raise NotImplementedError
@@ -101,12 +109,89 @@ class CitadelAuthorityMixin(models.AbstractModel):
             )
             self.invalidate_recordset()
 
-    def _citadel_authority_matching_policy(self):
+    @api.model
+    def _citadel_rtl(self, value):
+        """Anchor digit runs inside right-to-left report cells.
+
+        wkhtmltopdf misplaces Arabic cell text that contains numbers (for
+        example "مكتب 160 سم") unless each number is isolated left-to-right.
+        """
+        if not value:
+            return ""
+        parts = re.split(r"([0-9A-Za-z][0-9A-Za-z.,/:\-]*)", str(value))
+        return Markup("").join(
+            Markup('<span dir="ltr" style="unicode-bidi: embed;">%s</span>') % part if index % 2 else part
+            for index, part in enumerate(parts) if part
+        )
+
+    @api.model
+    def _citadel_member_line(self, member, role=None):
+        """One plain text run per committee member (safe for right-to-left PDFs)."""
+        job = member.job_title or member.job_id.name
+        text = member.name + (" - %s" % job if job else "")
+        return text + (" (%s)" % role if role else "")
+
+    def _citadel_authority_committee_users(self):
+        """Users chosen on this document for roles resolved as ``document``."""
+        return self.env["res.users"]
+
+    def _citadel_authority_committee_required(self):
+        """True when this document carries a committee that must approve it."""
+        return False
+
+    def _citadel_authority_matching_policy(self, create=True):
         self.ensure_one()
         document_type = self._citadel_authority_document_type()
-        return self.env["citadel.authority.policy"]._citadel_find(
-            document_type, self, self._citadel_authority_amount()
-        )
+        policy_model = self.env["citadel.authority.policy"]
+        policy, amount = policy_model._citadel_find(document_type, self, self._citadel_authority_amount())
+        if not self._citadel_authority_committee_required():
+            return policy, amount
+        if policy and not policy._citadel_has_committee_step():
+            raise UserError(_(
+                "Policy %(policy)s governs %(document)s, which has an approval committee, but it has no "
+                "step for the document committee role with approval mode 'all'.",
+                policy=policy.display_name, document=self.display_name,
+            ))
+        if not policy and create:
+            policy = policy_model._citadel_committee_default(document_type, self.company_id)
+            amount = self._citadel_authority_convert_amount(abs(self._citadel_authority_amount()), policy.currency_id)
+        return policy, amount
+
+    @api.model
+    def _citadel_check_committee_employees(self, employees, company, excluded_users=None, minimum=3, need_users=True):
+        """Validate committee employees and return their users."""
+        if len(employees) < minimum:
+            raise UserError(_("Select at least %s committee members.", minimum))
+        wrong_company = employees.filtered(lambda employee: employee.company_id != company)
+        if wrong_company:
+            raise UserError(_(
+                "Committee members must work in %(company)s: %(names)s",
+                company=company.display_name, names=", ".join(wrong_company.mapped("name")),
+            ))
+        if not need_users:
+            return self.env["res.users"]
+        users = employees.sudo().user_id
+        missing = employees.filtered(lambda employee: not employee.sudo().user_id)
+        if missing:
+            raise UserError(_(
+                "These committee members have no user account, so they cannot approve: %s",
+                ", ".join(missing.mapped("name")),
+            ))
+        if len(users) != len(employees):
+            raise UserError(_("Two committee members are linked to the same user."))
+        no_access = users.filtered(lambda user: not user.active or user.share or company not in user.company_ids)
+        if no_access:
+            raise UserError(_(
+                "These users cannot access %(company)s: %(names)s",
+                company=company.display_name, names=", ".join(no_access.mapped("name")),
+            ))
+        conflict = users & (excluded_users or self.env["res.users"])
+        if conflict:
+            raise UserError(_(
+                "%s cannot be a committee member of this document (requester or warehouse manager).",
+                ", ".join(conflict.mapped("name")),
+            ))
+        return users
 
     def _citadel_authority_start(self, require_policy=True):
         self.ensure_one()

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_alternative_comparison_form" model="ir.ui.view">
+        <field name="name">purchase.alternative.comparison.form</field>
+        <field name="model">purchase.alternative.comparison</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Alternative Comparison">
+                <header>
+                    <field name="citadel_authority_state" invisible="True"/>
+                    <field name="citadel_authority_can_approve" invisible="True"/>
+                    <field name="is_editable" invisible="True"/>
+                    <button name="action_citadel_approve" type="object" string="اعتماد قرار اللجنة"
+                            class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                    <button name="action_citadel_reject" type="object" string="رفض"
+                            class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                    <button name="action_reset_committee_decision" type="object" string="سحب القرار للتعديل"
+                            invisible="state != 'draft' or citadel_authority_state not in ['pending', 'approved']"
+                            confirm="سيُلغى طلب اعتماد اللجنة الحالي. متابعة؟"/>
+                    <button name="action_print_committee_minutes" type="object" string="طباعة محضر اللجنة" icon="fa-print"
+                            invisible="not citadel_committee_employee_ids"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,applied,locked"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group invisible="not citadel_authority_request_id" col="1">
+                        <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="citadel_committee_employee_ids" widget="many2many_tags"
+                                   options="{'no_create': True}" readonly="not is_editable"/>
+                            <field name="decision_type"/>
+                            <field name="decision_vendor_id" invisible="decision_type != 'main'"/>
+                            <field name="decision_amount" widget="monetary"/>
+                            <field name="citadel_authority_request_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vendors" name="vendors">
+                            <field name="vendor_ids" readonly="not is_editable">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_planned"/>
+                                    <field name="amount_total" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="is_original"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Offer Lines" name="lines">
+                            <field name="line_ids" readonly="not is_editable">
+                                <list editable="bottom">
+                                    <field name="vendor_id"/>
+                                    <field name="product_id"/>
+                                    <field name="requested_qty"/>
+                                    <field name="offered_qty"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_purchase_alternative_comparison_list" model="ir.ui.view">
+        <field name="name">purchase.alternative.comparison.list</field>
+        <field name="model">purchase.alternative.comparison</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="order_id"/>
+                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="citadel_authority_state" string="اعتماد اللجنة" widget="badge" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_purchase_alternative_committee_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.alternative.committee.wizard.form</field>
+        <field name="model">purchase.alternative.committee.wizard</field>
+        <field name="arch" type="xml">
+            <form string="لجنة البت والمفاضلة">
+                <p class="text-muted">
+                    اختر ثلاثة موظفين على الأقل من نفس الجهة لديهم حسابات مستخدمين. يعتمد جميع الأعضاء قرار المفاضلة بالتوازي،
+                    ولا يطبق القرار على أمر الشراء ولا يمكن تأكيده قبل اكتمال اعتمادهم جميعاً.
+                </p>
+                <field name="order_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"
+                       placeholder="أعضاء اللجنة"/>
+                <footer>
+                    <button name="action_create" type="object" string="إنشاء المقارنة" class="btn-primary"/>
+                    <button string="إلغاء" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_alternative_comparisons" model="ir.actions.act_window">
+        <field name="name">Purchase Alternatives</field>
+        <field name="res_model">purchase.alternative.comparison</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

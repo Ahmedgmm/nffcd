@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_alternative_committee_document">
+        <t t-set="company" t-value="doc.company_id"/>
+        <t t-set="order" t-value="doc.order_id"/>
+        <t t-call="web.external_layout">
+            <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
+            <t t-set="day_date" t-value="doc._citadel_report_day_and_date()"/>
+            <t t-set="members" t-value="doc.citadel_committee_employee_ids.sorted('name')"/>
+            <t t-set="vendors" t-value="doc.vendor_ids.sorted('sequence')"/>
+            <t t-set="votes" t-value="doc._citadel_report_votes()"/>
+            <t t-set="order_lines" t-value="order.order_line.filtered(lambda line: not line.display_type and line.product_id)"/>
+            <div class="page o_citadel_minutes">
+                <t t-call="citadel_authority.committee_report_style"/>
+                <h2>محضر لجنة البت والمفاضلة بين العروض</h2>
+                <div class="o_sub">فحص العروض المقدمة واختيار أفضلها سعراً ومطابقةً</div>
+                <table class="o_ref">
+                    <tr>
+                        <td>المرجع: <strong t-out="rtl(doc.citadel_authority_request_id.name or doc.name)"/></td>
+                        <td style="text-align: left;">طلب الشراء: <strong t-out="rtl(order.name)"/></td>
+                    </tr>
+                    <tr>
+                        <td>الجهة: <strong t-out="rtl(company.name)"/></td>
+                        <td style="text-align: left;">التاريخ: <strong t-out="day_date[1]"/></td>
+                    </tr>
+                </table>
+                <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0]"/> الموافق <t t-out="rtl(day_date[1])"/></td></tr><tr><td>اجتمعت لجنة البت والمفاضلة المشكلة من السادة</td></tr></table>
+                <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member))"/></tr></table>
+                <table class="o_text"><tr><td>وذلك لفحص العروض المقدمة من عدد <t t-out="rtl(len(vendors))"/> من الموردين عن الأصناف المطلوبة</td></tr><tr><td>بطلب الشراء رقم <t t-out="rtl(order.name)"/></td></tr><tr><td>وقد جاءت العروض على النحو التالي</td></tr><tr><td>علماً بأن الأسعار المبينة بعملة <t t-out="rtl(doc.currency_id.name)"/> وقبل الضرائب</td></tr></table>
+                <table class="o_grid">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 4%;">م</th>
+                            <th rowspan="2">الصنف</th>
+                            <th rowspan="2" style="width: 8%;">المطلوب</th>
+                            <th t-foreach="vendors" t-as="vendor" colspan="2"
+                                t-out="rtl(vendor.partner_id.name or 'مورد غير محدد')"/>
+                        </tr>
+                        <tr>
+                            <t t-foreach="vendors" t-as="vendor">
+                                <th>الكمية</th>
+                                <th>سعر الوحدة</th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="order_lines" t-as="order_line">
+                            <td class="c" t-out="order_line_index + 1"/>
+                            <td t-out="rtl(order_line.product_id.display_name)"/>
+                            <td class="c" t-out="order_line.product_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                            <t t-foreach="vendors" t-as="vendor">
+                                <t t-set="offer" t-value="vendor.line_ids.filtered(lambda line: line.purchase_order_line_id == order_line)[:1]"/>
+                                <td class="c" t-out="offer.offered_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <td class="c" t-out="offer.price_unit" t-options="{'widget': 'float', 'precision': 2}"/>
+                            </t>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-weight: bold;">إجمالي العرض</td>
+                            <td t-foreach="vendors" t-as="vendor" colspan="2" class="c" style="font-weight: bold;"
+                                t-out="vendor.amount_total" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="o_text"><tr><td><strong>قرار اللجنة</strong></td></tr></table>
+                <t t-if="doc.decision_type == 'main'">
+                    <table class="o_text"><tr><td>بعد الدراسة والمفاضلة قررت اللجنة الترسية على المورد</td></tr><tr><td><t t-out="rtl(doc.decision_vendor_id.partner_id.name)"/></td></tr><tr><td>بإجمالي قدره <span dir="ltr" style="unicode-bidi: embed;"><t t-out="doc.decision_amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></span></td></tr><tr><td>قبل الضرائب</td></tr><tr><td>وفقاً للكميات والأسعار الواردة بعرضه أعلاه</td></tr></table>
+                </t>
+                <t t-elif="doc.decision_type == 'split'">
+                    <table class="o_text"><tr><td>بعد الدراسة والمفاضلة قررت اللجنة توزيع الكميات على الموردين كما يلي</td></tr></table>
+                    <table class="o_grid">
+                        <thead>
+                            <tr><th>المورد</th><th>الصنف</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc._citadel_decision_lines().sorted(lambda line: (line.vendor_id.sequence, line.id))" t-as="line">
+                                <td t-out="rtl(line.vendor_id.partner_id.name)"/>
+                                <td t-out="rtl(line.product_id.display_name)"/>
+                                <td class="c" t-out="line.offered_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <td class="c" t-out="line.price_unit" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <td class="c" t-out="line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="font-weight: bold;">الإجمالي</td>
+                                <td class="c" style="font-weight: bold;" t-out="doc.decision_amount" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+                <t t-else="">
+                    <table class="o_text"><tr><td>.....................................................................</td></tr></table>
+                    <table class="o_text"><tr><td>.....................................................................</td></tr></table>
+                </t>
+                <table class="o_text"><tr><td>وتقر اللجنة بأن القرار المتخذ يحقق صالح الجهة من حيث السعر والمواصفات</td></tr><tr><td>وأنه لا توجد لأي من أعضائها مصلحة مع أي من الموردين</td></tr><tr><td>وعلى ذلك تحرر هذا المحضر ووقّع عليه السادة الأعضاء</td></tr></table>
+                <table class="o_grid o_sign">
+                    <thead>
+                        <tr>
+                            <th style="width: 6%;">م</th>
+                            <th style="width: 30%;">الاسم</th>
+                            <th style="width: 22%;">الوظيفة</th>
+                            <th style="width: 20%;">الاعتماد الإلكتروني</th>
+                            <th style="width: 22%;">التوقيع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="members" t-as="member">
+                            <td class="c" t-out="member_index + 1"/>
+                            <td t-out="rtl(member.name)"/>
+                            <td t-out="rtl(member.job_title or member.job_id.name or '')"/>
+                            <td class="c">
+                                <t t-set="voted" t-value="votes.get(member.sudo().user_id.id)"/>
+                                <t t-if="voted" t-out="voted" t-options="{'widget': 'datetime'}"/>
+                                <t t-else="">—</t>
+                            </td>
+                            <td/>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="o_approve">
+                    <tr><td>يعتمد،،<br/>مدير الجهة</td><td>مدير المشتريات</td></tr>
+                    <tr><td>..............................</td><td>..............................</td></tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_alternative_committee">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="Purchasing_alternatives.report_alternative_committee_document" t-lang="doc._citadel_report_lang()"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_alternative_committee" model="ir.actions.report">
+        <field name="name">محضر لجنة البت والمفاضلة</field>
+        <field name="model">purchase.alternative.comparison</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">Purchasing_alternatives.report_alternative_committee</field>
+        <field name="print_report_name">'محضر لجنة البت - %s' % object.order_id.name</field>
+        <field name="paperformat_id" ref="citadel_authority.paperformat_citadel_committee"/>
+        <field name="binding_model_id" ref="model_purchase_alternative_comparison"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -12,6 +12,8 @@ DOCUMENT_TYPES = [
     ("customer_credit_note", "إشعار دائن / استرداد"),
     ("journal_entry", "قيد يومية"),
     ("payment", "دفعة"),
+    ("stock_receipt", "استلام مخزني"),
+    ("purchase_alternative", "مقارنة عروض بديلة"),
 ]
 
 DOCUMENT_MODELS = {
@@ -23,7 +25,11 @@ DOCUMENT_MODELS = {
     "customer_credit_note": "account.move",
     "journal_entry": "account.move",
     "payment": "account.payment",
+    "stock_receipt": "stock.picking",
+    "purchase_alternative": "purchase.alternative.comparison",
 }
+
+COMMITTEE_DOCUMENT_TYPES = {"stock_receipt", "purchase_alternative"}
 
 
 class CitadelAuthorityPolicy(models.Model):
@@ -93,6 +99,8 @@ class CitadelAuthorityPolicy(models.Model):
     @api.constrains("domain", "document_type")
     def _check_domain(self):
         for policy in self:
+            if policy.res_model not in self.env:
+                raise ValidationError(_("The module for %s is not installed.", policy.document_type))
             try:
                 domain = safe_eval(policy.domain or "[]")
                 self.env[policy.res_model].sudo().search_count(domain, limit=1)
@@ -108,6 +116,54 @@ class CitadelAuthorityPolicy(models.Model):
             roles = policy.step_ids.role_id | policy.escalation_role_id
             if any(role.company_id != policy.company_id for role in roles):
                 raise ValidationError(_("All policy roles must belong to the policy company."))
+
+    @api.model
+    def _citadel_committee_default(self, document_type, company):
+        """Return the company's committee policy for ``document_type``, creating it once.
+
+        Committee documents must always be approved by every selected member, even
+        when no administrator configured a policy yet. Administrators may edit the
+        created policy (for example to add a manager level after the committee).
+        """
+        company = company.sudo()
+        code = ("COMMITTEE_%s" % document_type).upper()
+        role_model = self.env["citadel.authority.role"].sudo().with_context(active_test=False)
+        role = role_model.search([("code", "=", code), ("company_id", "=", company.id)], limit=1)
+        if not role:
+            role = role_model.create({
+                "name": "لجنة المستند",
+                "code": code,
+                "company_id": company.id,
+                "resolver": "document",
+                "description": "أعضاء اللجنة المختارون على كل مستند، ويعتمدون بالتوازي.",
+            })
+        elif not role.active:
+            role.active = True
+        policy = self.sudo().with_context(active_test=False).search([
+            ("reference", "=", code), ("company_id", "=", company.id), ("document_type", "=", document_type),
+        ], limit=1)
+        if not policy:
+            label = dict(DOCUMENT_TYPES)[document_type]
+            policy = self.sudo().create({
+                "name": "%s - اعتماد اللجنة" % label,
+                "reference": code,
+                "company_id": company.id,
+                "document_type": document_type,
+                "apply_to_child_companies": False,
+                "domain": "[('citadel_committee_employee_ids', '!=', False)]",
+                "sequence": 1000,
+                "step_ids": [(0, 0, {"sequence": 10, "role_id": role.id, "approval_mode": "all"})],
+            })
+        elif not policy.active:
+            policy.active = True
+        return policy
+
+    def _citadel_has_committee_step(self):
+        self.ensure_one()
+        return any(
+            step.action == "approve" and step.role_id.resolver == "document" and step.approval_mode == "all"
+            for step in self.step_ids
+        )
 
     def _citadel_domain(self):
         self.ensure_one()

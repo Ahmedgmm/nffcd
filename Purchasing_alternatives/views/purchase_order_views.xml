@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_alternatives" model="ir.ui.view">
+        <field name="name">purchase.order.form.alternatives</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    name="action_open_alternative_generator"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-table"
+                    groups="purchase.group_purchase_user"
+                    invisible="state not in ('draft', 'sent')"
+                    help="Compare vendor offers without creating fake RFQs."
+                >
+                    <field name="alternative_comparison_count" widget="statinfo" string="Alternative Generator"/>
+                </button>
+            </xpath>
+            <xpath expr="//sheet//field[@name='partner_ref']" position="after">
+                <field name="alternative_source_comparison_id" invisible="not alternative_source_comparison_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

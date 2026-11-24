@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class CitadelAuthorityRole(models.Model):
@@ -19,6 +19,7 @@ class CitadelAuthorityRole(models.Model):
             ("users", "مستخدمون محددون"),
             ("group", "مجموعة صلاحيات"),
             ("manager", "المدير المباشر لمقدم الطلب"),
+            ("document", "اللجنة المحددة على المستند"),
         ],
         string="أسلوب تحديد المسؤول", required=True,
         default="users",
@@ -63,6 +64,19 @@ class CitadelAuthorityRole(models.Model):
 
     def _citadel_resolve_users(self, document):
         self.ensure_one()
+        if self.resolver == "document":
+            committee = document._citadel_authority_committee_users()
+            users = committee.filtered(
+                lambda user: user.active and not user.share and document.company_id in user.company_ids
+            )
+            if users != committee:
+                raise UserError(_(
+                    "Every committee member of %(document)s needs an active internal user with access to %(company)s: %(users)s",
+                    document=document.display_name,
+                    company=document.company_id.display_name,
+                    users=", ".join((committee - users).mapped("display_name")),
+                ))
+            return users
         if self.resolver == "manager":
             users = document._citadel_authority_manager_users()
         elif self.resolver == "group":

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <div t-name="Purchasing_alternatives.AlternativeTable" class="o_action o_purchase_alternative">
+        <ControlPanel>
+        </ControlPanel>
+        <div class="o-content overflow-auto o_alt_content">
+            <div t-if="this.state.loading" class="o_alt_loading">
+                <i class="fa fa-circle-o-notch fa-spin me-2"/> Loading alternatives
+            </div>
+            <div t-else="">
+                <div class="o_alt_hero">
+                    <div>
+                        <div class="o_alt_eyebrow">
+                            <i class="fa fa-random me-1"/> Vendor alternatives
+                        </div>
+                        <h2 t-esc="this.state.data.name"/>
+                        <div class="o_alt_meta">
+                            <span><i class="fa fa-file-text-o me-1"/> Original RFQ: <strong t-esc="this.state.data.order.name"/></span>
+                            <span><i class="fa fa-building-o me-1"/> Current Vendor: <strong t-esc="this.state.data.order.partner"/></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-light border" t-on-click="this.openOriginal" t-if="this.state.data.order">
+                        <i class="fa fa-external-link me-1"/> Open RFQ
+                    </button>
+                </div>
+
+                <div class="o_alt_committee alert mb-2" t-att-class="this.authority.approved ? 'alert-success' : (this.authority.state === 'pending' ? 'alert-warning' : 'alert-info')">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <i class="fa fa-gavel"/>
+                        <strong>لجنة البت والمفاضلة:</strong>
+                        <span t-esc="this.authority.committee or 'لم تُحدد اللجنة'"/>
+                        <span t-if="this.authority.decision" class="badge text-bg-light border">
+                            <t t-esc="this.authority.decision"/>
+                            <t t-if="this.authority.decision_vendor"> — <t t-esc="this.authority.decision_vendor"/></t>
+                        </span>
+                        <span t-if="this.authority.state === 'pending'">بانتظار: <t t-esc="this.authority.next"/></span>
+                        <span t-if="this.authority.approved">تم الاعتماد: <t t-esc="this.authority.approved_by"/> — اضغط زر القرار مرة أخرى لتطبيقه.</span>
+                        <span t-if="this.authority.state === 'rejected'">رفضت اللجنة القرار. عدّل العروض وأعد الإرسال.</span>
+                        <span class="ms-auto d-flex gap-1">
+                            <button t-if="this.authority.can_approve" class="btn btn-success btn-sm" t-on-click="this.approveDecision">
+                                <i class="fa fa-check me-1"/> اعتماد
+                            </button>
+                            <button t-if="this.authority.can_approve" class="btn btn-danger btn-sm" t-on-click="() => this.callAction('action_citadel_reject')">رفض</button>
+                            <button t-if="this.state.data.state === 'review'" class="btn btn-outline-secondary btn-sm" t-on-click="this.withdrawDecision">سحب القرار</button>
+                            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_print_committee_minutes')">
+                                <i class="fa fa-print me-1"/> المحضر
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_open_form')">
+                                <i class="fa fa-pencil me-1"/> اللجنة
+                            </button>
+                        </span>
+                    </div>
+                    <div class="small mt-1" t-if="!this.authority.state">
+                        اختر قرار اللجنة: «Main PO» للترسية على مورد واحد، أو «Create split RFQs» لتوزيع الكميات. يُرسل القرار لاعتماد جميع الأعضاء بالتوازي، ثم يُطبق بعد اكتمال الاعتماد.
+                    </div>
+                </div>
+
+                <div class="o_alt_toolbar">
+                    <div class="o_alt_hint">
+                        <i class="fa fa-info-circle"/>
+                        <span>Enter quantities across multiple vendors for the same product. Green marks the best priced positive offer; the allocation badge shows partial, complete, or over allocation.</span>
+                    </div>
+                    <div class="o_alt_toolbar_actions">
+                        <button class="btn btn-outline-primary btn-sm" t-on-click="this.addVendor" t-att-disabled="this.state.data.state !== 'draft' ? true : undefined">
+                            <i class="fa fa-plus me-1"/> Add Vendor Column
+                        </button>
+                        <button class="btn btn-primary btn-sm" t-on-click="this.createSplitPOs" t-att-disabled="this.state.data.state !== 'draft' and !this.isApprovedSplit()">
+                            <t t-if="this.isApprovedSplit()">تطبيق: إنشاء طلبات التوزيع</t>
+                            <t t-else="">Create split RFQs</t>
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" t-on-click="this.load" t-att-disabled="this.state.loading">
+                            <i class="fa fa-refresh me-1"/> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="o_alt_table_shell">
+                    <table class="table align-middle o_purchase_alternative_table">
+                        <thead>
+                        <tr>
+                            <th class="o_alt_product_col">Product</th>
+                            <th class="text-end o_alt_qty_col">Requested</th>
+                            <th t-foreach="this.state.data.vendors" t-as="vendor" t-key="vendor.id" class="o_alt_vendor_col">
+                                <div class="o_alt_vendor_card">
+                                    <div class="o_alt_vendor_top">
+                                        <span t-att-class="vendor.is_original ? 'o_alt_vendor_icon o_alt_vendor_original' : 'o_alt_vendor_icon'">
+                                            <i t-att-class="vendor.is_original ? 'fa fa-star' : 'fa fa-truck'"/>
+                                        </span>
+                                        <div>
+                                            <div class="o_alt_vendor_title" t-if="vendor.partner" t-esc="vendor.partner"/>
+                                            <div class="o_alt_vendor_title text-muted" t-else="">Select vendor</div>
+                                            <div class="o_alt_vendor_tag" t-if="vendor.is_original">Original RFQ vendor</div>
+                                        </div>
+                                    </div>
+                                    <select
+                                        class="form-select form-select-sm"
+                                        t-att-disabled="(vendor.is_original or this.state.data.state !== 'draft') ? true : undefined"
+                                        t-on-change="(ev) => this.updateVendor(vendor, 'partner_id', ev)"
+                                    >
+                                        <option value="">Select vendor</option>
+                                        <option
+                                            t-foreach="this.state.data.vendor_options"
+                                            t-as="option"
+                                            t-key="option.id"
+                                            t-att-value="option.id"
+                                            t-att-selected="option.id === vendor.partner_id ? true : undefined"
+                                        >
+                                            <t t-esc="option.name"/>
+                                        </option>
+                                    </select>
+                                    <input t-att-disabled="this.state.data.state !== 'draft' ? true : undefined"
+                                        class="form-control form-control-sm"
+                                        type="datetime-local"
+                                        t-att-value="vendor.date_planned ? vendor.date_planned.replace(' ', 'T') : ''"
+                                        t-on-change="(ev) => this.updateVendor(vendor, 'date_planned', ev)"
+                                    />
+                                </div>
+                            </th>
+                            <th class="text-end o_alt_qty_col">Allocated</th>
+                            <th class="text-end o_alt_qty_col">Remaining</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr t-foreach="this.state.data.rows" t-as="row" t-key="row.purchase_order_line_id" t-att-class="this.rowClass(row)">
+                            <th class="o_alt_product_cell">
+                                <div class="o_alt_product_name" t-esc="row.product"/>
+                                <div class="o_alt_allocation_badge">
+                                    <i t-att-class="'fa ' + this.allocationIcon(row)"/>
+                                    <span t-esc="this.allocationLabel(row)"/>
+                                    <span t-if="row.allocation_percent"> · <t t-esc="row.allocation_percent"/>%</span>
+                                </div>
+                            </th>
+                            <td class="text-end">
+                                <div class="o_alt_qty_value" t-esc="this.formatNumber(row.requested_qty)"/>
+                                <div class="o_alt_uom" t-esc="row.uom"/>
+                            </td>
+                            <td t-foreach="row.cells" t-as="cell" t-key="cell.id" t-att-class="this.cellClass(cell)">
+                                <div class="o_alt_cell_inputs">
+                                    <div>
+                                        <label><i class="fa fa-cubes me-1"/> Qty</label>
+                                        <input t-att-disabled="this.state.data.state !== 'draft' ? true : undefined" class="form-control form-control-sm text-end"
+                                           type="number"
+                                           step="0.01"
+                                           t-att-value="cell.offered_qty"
+                                           t-on-focus="this.selectInput"
+                                           t-on-click="this.selectInput"
+                                           t-on-change="(ev) => this.updateCell(cell, 'offered_qty', ev)"/>
+                                    </div>
+                                    <div>
+                                        <label><i class="fa fa-tag me-1"/> Price</label>
+                                        <input t-att-disabled="this.state.data.state !== 'draft' ? true : undefined" class="form-control form-control-sm text-end o_alt_price_input"
+                                           type="number"
+                                           step="0.01"
+                                           t-att-value="cell.price_unit"
+                                           t-on-focus="this.selectInput"
+                                           t-on-click="this.selectInput"
+                                           t-on-keydown="(ev) => this.onPriceKeydown(cell, ev)"
+                                           t-on-change="(ev) => this.updateCell(cell, 'price_unit', ev)"/>
+                                    </div>
+                                </div>
+                                <div class="o_alt_cell_total">
+                                    <span t-if="cell.is_lowest_price" class="o_alt_best_badge">
+                                        <i class="fa fa-check-circle me-1"/> Best price
+                                    </span>
+                                    <span t-esc="this.formatMoney(cell.subtotal)"/>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <div class="o_alt_qty_value" t-esc="this.formatNumber(row.allocated_qty)"/>
+                                <div class="o_alt_uom" t-esc="row.uom"/>
+                            </td>
+                            <td t-att-class="row.remaining_qty &lt; 0 ? 'text-end o_alt_remaining_over' : 'text-end'">
+                                <div class="o_alt_qty_value" t-esc="this.formatNumber(row.remaining_qty)"/>
+                                <div class="o_alt_uom" t-esc="row.uom"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="2">Vendor Total / Actions</th>
+                            <td t-foreach="this.state.data.vendors" t-as="vendor" t-key="vendor.id">
+                                <div class="o_alt_vendor_total" t-esc="this.formatMoney(vendor.amount_total)"/>
+                                <div class="o_alt_footer_actions">
+                                    <button t-att-class="this.isApprovedMain(vendor) ? 'btn btn-sm btn-success' : 'btn btn-sm btn-outline-primary'"
+                                            t-att-disabled="this.state.data.state !== 'draft' and !this.isApprovedMain(vendor)"
+                                            t-on-click="() => this.applyMain(vendor)">
+                                        <i class="fa fa-thumb-tack me-1"/>
+                                        <t t-if="this.isApprovedMain(vendor)">تطبيق القرار</t>
+                                        <t t-else="">Main PO</t>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" t-att-disabled="!this.authority.approved" t-on-click="() => this.createPO(vendor)">
+                                        <i class="fa fa-file-o me-1"/> Extra PO
+                                    </button>
+                                </div>
+                            </td>
+                            <td colspan="2"/>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</templates>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_citadel_committee" model="report.paperformat">
+        <field name="name">A4 - Committee Minutes</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">38</field>
+        <field name="margin_bottom">22</field>
+        <field name="margin_left">12</field>
+        <field name="margin_right">12</field>
+        <field name="header_spacing">32</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <!-- Shared styles and signature block -->
+    <template id="committee_report_style">
+        <style>
+            .o_citadel_minutes { direction: rtl; text-align: right; font-family: 'Noto Naskh Arabic', 'Tajawal', 'DejaVu Sans', sans-serif; font-size: 13px; line-height: 1.9; color: #111; }
+            .o_citadel_minutes h2 { text-align: center; font-weight: bold; font-size: 21px; margin: 4px 0 2px; }
+            .o_citadel_minutes .o_sub { text-align: center; font-size: 12px; color: #444; margin-bottom: 14px; }
+            .o_citadel_minutes .o_ref { width: 100%; margin-bottom: 10px; font-size: 12px; }
+            .o_citadel_minutes .o_ref td { padding: 2px 4px; }
+            .o_citadel_minutes table.o_text { width: 100%; margin: 6px 0; border: 0; }
+            .o_citadel_minutes table.o_text td { border: 0; padding: 0 10px 0 2px; text-align: right; vertical-align: top; }
+            .o_citadel_minutes table.o_grid { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+            .o_citadel_minutes table.o_grid th, .o_citadel_minutes table.o_grid td { border: 1px solid #333; padding: 5px 6px; vertical-align: middle; }
+            .o_citadel_minutes table.o_grid th { background: #eee; text-align: center; font-weight: bold; }
+            .o_citadel_minutes table.o_grid td.c { text-align: center; }
+            .o_citadel_minutes table.o_grid td.blank { height: 30px; }
+            .o_citadel_minutes table.o_sign td { height: 46px; }
+            .o_citadel_minutes .o_members li { margin-bottom: 2px; }
+            .o_citadel_minutes .o_approve { width: 100%; margin-top: 22px; }
+            .o_citadel_minutes .o_approve td { width: 50%; text-align: center; padding-top: 6px; }
+            .o_citadel_minutes .o_note { font-size: 11px; color: #555; }
+            .o_citadel_minutes strong, .o_citadel_minutes b { unicode-bidi: embed; }
+        </style>
+    </template>
+
+    <template id="committee_signature_block">
+        <!-- members: hr.employee ordered, chairman first -->
+        <table class="o_grid o_sign">
+            <thead>
+                <tr>
+                    <th style="width: 6%;">م</th>
+                    <th style="width: 30%;">الاسم</th>
+                    <th style="width: 24%;">الوظيفة</th>
+                    <th style="width: 14%;">الصفة</th>
+                    <th style="width: 26%;">التوقيع</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="members" t-as="member">
+                    <td class="c" t-out="member_index + 1"/>
+                    <td t-out="rtl(member.name)"/>
+                    <td t-out="rtl(member.job_title or member.job_id.name or '')"/>
+                    <td class="c" t-out="'رئيس اللجنة' if member_first else 'عضو'"/>
+                    <td/>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <!-- 1) Pricing committee minutes -->
+    <template id="report_pricing_committee_document">
+        <t t-set="company" t-value="doc.company_id"/>
+        <t t-set="order" t-value="doc.order_id"/>
+        <t t-call="web.external_layout">
+            <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
+            <t t-set="day_date" t-value="doc._citadel_day_and_date()"/>
+            <t t-set="members" t-value="doc._citadel_ordered_members()"/>
+            <div class="page o_citadel_minutes">
+                <t t-call="citadel_authority.committee_report_style"/>
+                <h2>محضر لجنة تسعير</h2>
+                <div class="o_sub">تقدير القيمة السوقية للأصناف المطلوب شراؤها</div>
+                <table class="o_ref">
+                    <tr>
+                        <td>رقم المحضر: <strong t-out="rtl(doc.name)"/></td>
+                        <td style="text-align: left;">أمر الشراء: <strong t-out="rtl(order.name)"/></td>
+                    </tr>
+                    <tr>
+                        <td>الجهة: <strong t-out="rtl(company.name)"/></td>
+                        <td style="text-align: left;">التاريخ: <strong t-out="day_date[1]"/></td>
+                    </tr>
+                </table>
+
+                <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0]"/> الموافق <t t-out="rtl(day_date[1])"/></td></tr><tr><td>وبناءً على التكليف الصادر من إدارة <t t-out="rtl(company.name)"/></td></tr><tr><td>اجتمعت اللجنة المشكلة من السادة</td></tr></table>
+                <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member, 'رئيساً' if member_first else 'عضواً'))"/></tr></table>
+                <table class="o_text"><tr><td>وذلك لـ<t t-out="rtl(doc.purpose or 'تقدير القيمة السوقية العادلة للأصناف الواردة بأمر الشراء')"/></td></tr><tr><td>وقد قامت اللجنة بمعاينة المواصفات المطلوبة واستطلاع الأسعار السائدة في السوق</td></tr><tr><td>وانتهت إلى تقدير الأسعار المدونة بخط اليد في الجدول التالي</td></tr></table>
+
+                <table class="o_grid">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">م</th>
+                            <th style="width: 31%;">الصنف / المواصفات</th>
+                            <th style="width: 9%;">الوحدة</th>
+                            <th style="width: 9%;">الكمية</th>
+                            <th style="width: 15%;">سعر الوحدة التقديري</th>
+                            <th style="width: 15%;">الإجمالي</th>
+                            <th style="width: 16%;">ملاحظات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc._citadel_report_lines()" t-as="line">
+                            <td class="c" t-out="line_index + 1"/>
+                            <td t-out="rtl(line.name or line.product_id.display_name)"/>
+                            <td class="c" t-out="rtl(line.uom_id.name)"/>
+                            <td class="c" t-out="line.product_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                            <td class="blank"/>
+                            <td class="blank"/>
+                            <td class="blank"/>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: left; font-weight: bold;">الإجمالي التقديري</td>
+                            <td class="blank"/>
+                            <td/>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="o_text"><tr><td>فقط وقدره: ............................................................ لا غير</td></tr></table>
+
+                <table class="o_text"><tr><td>وتقر اللجنة بأن الأسعار المدونة أعلاه أسعار عادلة تتناسب مع أسعار السوق في تاريخه</td></tr><tr><td>وأنه لا توجد لأي من أعضائها مصلحة مباشرة أو غير مباشرة مع أي من الموردين</td></tr><tr><td>وعلى ذلك تحرر هذا المحضر من نسخة واحدة</td></tr><tr><td>ووقّع عليه السادة أعضاء اللجنة</td></tr></table>
+
+                <t t-call="citadel_authority.committee_signature_block"/>
+
+                <table class="o_approve">
+                    <tr>
+                        <td>يعتمد،،<br/>مدير الجهة</td>
+                        <td>مدير المشتريات</td>
+                    </tr>
+                    <tr>
+                        <td>..............................</td>
+                        <td>..............................</td>
+                    </tr>
+                </table>
+                <table class="o_text o_note"><tr><td>ترفع نسخة ممسوحة من هذا المحضر بعد التوقيع على أمر الشراء قبل تقديمه للاعتماد</td></tr></table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_pricing_committee">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="citadel_authority.report_pricing_committee_document" t-lang="doc._citadel_report_lang()"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_pricing_committee" model="ir.actions.report">
+        <field name="name">محضر لجنة تسعير</field>
+        <field name="model">citadel.purchase.pricing.committee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">citadel_authority.report_pricing_committee</field>
+        <field name="print_report_name">'محضر لجنة تسعير - %s' % object.order_id.name</field>
+        <field name="paperformat_id" ref="paperformat_citadel_committee"/>
+        <field name="binding_model_id" ref="model_citadel_purchase_pricing_committee"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- 2) Receipt inspection minutes -->
+    <template id="report_receipt_committee_document">
+        <t t-set="company" t-value="doc.company_id"/>
+        <t t-call="web.external_layout">
+            <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
+            <t t-set="order" t-value="doc.sudo().move_ids.purchase_line_id.order_id[:1]"/>
+            <t t-set="day_date" t-value="doc._citadel_receipt_day_and_date()"/>
+            <t t-set="members" t-value="doc.citadel_committee_employee_ids.sorted('name')"/>
+            <div class="page o_citadel_minutes">
+                <t t-call="citadel_authority.committee_report_style"/>
+                <h2>محضر فحص واستلام</h2>
+                <div class="o_sub">فحص الأصناف الموردة ومطابقتها للمواصفات والكميات</div>
+                <table class="o_ref">
+                    <tr>
+                        <td>إذن الاستلام: <strong t-out="rtl(doc.name)"/></td>
+                        <td style="text-align: left;">أمر الشراء: <strong t-out="rtl(order.name or doc.origin or '-')"/></td>
+                    </tr>
+                    <tr>
+                        <td>المورد: <strong t-out="rtl(doc.partner_id.name or '-')"/></td>
+                        <td style="text-align: left;">المخزن: <strong t-out="rtl(doc.picking_type_id.warehouse_id.name or '-')"/></td>
+                    </tr>
+                </table>
+                <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0] or '............'"/> الموافق <t t-out="rtl(day_date[1] or '..../..../........')"/></td></tr><tr><td>اجتمعت لجنة الفحص والاستلام المشكلة من السادة</td></tr></table>
+                <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member))"/></tr></table>
+                <table class="o_text"><tr><td>وذلك بمقر مخزن <t t-out="rtl(doc.picking_type_id.warehouse_id.name or '')"/></td></tr><tr><td>لفحص ومعاينة الأصناف الموردة من <t t-out="rtl(doc.partner_id.name or '')"/></td></tr><tr><td>بموجب أمر الشراء المشار إليه</td></tr><tr><td>وقد أسفر الفحص عما يلي</td></tr></table>
+                <table class="o_grid">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">م</th>
+                            <th style="width: 33%;">الصنف</th>
+                            <th style="width: 9%;">الوحدة</th>
+                            <th style="width: 11%;">الكمية المطلوبة</th>
+                            <th style="width: 11%;">الكمية المستلمة</th>
+                            <th style="width: 13%;">مطابق / غير مطابق</th>
+                            <th style="width: 18%;">ملاحظات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.move_ids.filtered(lambda move: move.state != 'cancel')" t-as="move">
+                            <td class="c" t-out="move_index + 1"/>
+                            <td t-out="rtl(move.product_id.display_name)"/>
+                            <td class="c" t-out="rtl(move.uom_id.name)"/>
+                            <td class="c" t-out="move.product_uom_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                            <td class="c" t-out="move.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                            <td class="blank"/>
+                            <td class="blank"/>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="o_text"><tr><td>وتقر اللجنة بأنها قامت بفحص الأصناف المبينة أعلاه</td></tr><tr><td>وأنها مطابقة للمواصفات والكميات</td></tr><tr><td>إلا ما أُثبت خلاف ذلك في خانة الملاحظات</td></tr><tr><td>وأوصت بإضافتها إلى عهدة المخزن</td></tr></table>
+                <t t-call="citadel_authority.committee_signature_block"/>
+                <table class="o_approve">
+                    <tr>
+                        <td>أمين / مسؤول المخزن<br/><t t-out="rtl(doc.citadel_receipt_manager_id.name or '')"/></td>
+                        <td>يعتمد،،<br/>مدير الجهة</td>
+                    </tr>
+                    <tr>
+                        <td>..............................</td>
+                        <td>..............................</td>
+                    </tr>
+                </table>
+                <t t-if="doc.citadel_authority_request_id">
+                    <table class="o_text o_note"><tr><td>الاعتماد الإلكتروني: <t t-out="rtl(doc.citadel_authority_request_id.name)"/> — <t t-out="rtl(doc.citadel_authority_approved_by or 'لم يكتمل بعد')"/></td></tr></table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_receipt_committee">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="citadel_authority.report_receipt_committee_document" t-lang="doc._citadel_report_lang()"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_receipt_committee" model="ir.actions.report">
+        <field name="name">محضر فحص واستلام</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">citadel_authority.report_receipt_committee</field>
+        <field name="print_report_name">'محضر فحص واستلام - %s' % object.name</field>
+        <field name="paperformat_id" ref="paperformat_citadel_committee"/>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

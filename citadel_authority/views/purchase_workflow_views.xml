@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase order: cost type, pricing and receipt committees -->
+    <record id="view_purchase_order_form_citadel_workflow" model="ir.ui.view">
+        <field name="name">purchase.order.form.citadel.workflow</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_needs_receipt_committee" invisible="True"/>
+                <button name="action_open_pricing_committee" type="object" string="لجنة تسعير"
+                        class="btn-secondary" icon="fa-users"
+                        invisible="citadel_cost_type != 'unknown' or state not in ['draft', 'sent']"/>
+                <button name="action_open_receipt_committee" type="object" string="لجنة الفحص والاستلام"
+                        class="btn-secondary" icon="fa-truck"
+                        invisible="not citadel_needs_receipt_committee or state not in ['draft', 'sent']"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_view_pricing_committees" type="object" class="oe_stat_button" icon="fa-gavel"
+                        invisible="citadel_pricing_committee_count == 0">
+                    <field name="citadel_pricing_committee_count" widget="statinfo" string="لجان التسعير"/>
+                </button>
+            </xpath>
+            <xpath expr="//sheet//field[@name='partner_ref']" position="after">
+                <field name="citadel_cost_type" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_receipt_committee_employee_ids" widget="many2many_tags" readonly="1"
+                       invisible="not citadel_receipt_committee_employee_ids"/>
+                <field name="citadel_receipt_manager_id" invisible="not citadel_receipt_committee_employee_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_list_citadel_workflow" model="ir.ui.view">
+        <field name="name">purchase.order.list.citadel.workflow</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="citadel_cost_type" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Pricing committee -->
+    <record id="view_citadel_pricing_committee_form" model="ir.ui.view">
+        <field name="name">citadel.purchase.pricing.committee.form</field>
+        <field name="model">citadel.purchase.pricing.committee</field>
+        <field name="arch" type="xml">
+            <form string="لجنة تسعير">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="order_id" readonly="id"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="chairman_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"
+                           placeholder="اختر ثلاثة موظفين على الأقل من نفس الجهة"/>
+                    <group>
+                        <field name="purpose"/>
+                        <field name="signed_attachment_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_save_and_print" type="object" string="حفظ وطباعة المحضر" class="btn-primary" icon="fa-print"/>
+                    <button string="إغلاق" special="cancel" class="btn-secondary"/>
+                </footer>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_citadel_pricing_committee_list" model="ir.ui.view">
+        <field name="name">citadel.purchase.pricing.committee.list</field>
+        <field name="model">citadel.purchase.pricing.committee</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="order_id"/>
+                <field name="date"/>
+                <field name="employee_ids" widget="many2many_tags"/>
+                <field name="signed_attachment_ids" widget="many2many_tags" string="المحضر الموقّع"/>
+                <button name="action_print" type="object" string="طباعة" icon="fa-print"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Receipt committee wizard -->
+    <record id="view_citadel_receipt_committee_wizard_form" model="ir.ui.view">
+        <field name="name">citadel.purchase.receipt.committee.wizard.form</field>
+        <field name="model">citadel.purchase.receipt.committee.wizard</field>
+        <field name="arch" type="xml">
+            <form string="لجنة الفحص والاستلام">
+                <p class="text-muted">
+                    يختار المشتري ثلاثة موظفين على الأقل لفحص الأصناف عند وصولها. يعتمد الأعضاء الاستلام بالتوازي،
+                    وبعد اكتمال اعتمادهم يظهر زر التأكيد لمسؤول المخزن المستلم فقط.
+                </p>
+                <group>
+                    <field name="order_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="next_step" invisible="1"/>
+                    <field name="warehouse_id"/>
+                    <field name="manager_id"/>
+                </group>
+                <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"
+                       placeholder="اختر ثلاثة موظفين على الأقل لديهم حسابات مستخدمين"/>
+                <footer>
+                    <button name="action_apply" type="object" string="حفظ ومتابعة" class="btn-primary"/>
+                    <button string="إلغاء" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Receipts -->
+    <record id="view_picking_form_citadel_authority" model="ir.ui.view">
+        <field name="name">stock.picking.form.citadel.authority</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="citadel_authority_state" invisible="True"/>
+                <field name="citadel_authority_can_approve" invisible="True"/>
+                <field name="citadel_authority_requires_approval" invisible="True"/>
+                <field name="citadel_receipt_can_validate" invisible="True"/>
+                <button name="action_citadel_request_approval" type="object" string="طلب اعتماد اللجنة"
+                        class="oe_highlight"
+                        invisible="state in ['done', 'cancel'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_approve" type="object" string="اعتماد"
+                        class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_reject" type="object" string="رفض"
+                        class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
+                <button name="action_citadel_print_receipt_committee" type="object" string="محضر الفحص والاستلام"
+                        icon="fa-print" invisible="not citadel_committee_employee_ids"/>
+            </xpath>
+            <xpath expr="//header/button[@name='button_validate'][1]" position="attributes">
+                <attribute name="invisible" add="not citadel_receipt_can_validate" separator=" or "/>
+            </xpath>
+            <xpath expr="//header/button[@name='button_validate'][2]" position="attributes">
+                <attribute name="invisible" add="not citadel_receipt_can_validate" separator=" or "/>
+            </xpath>
+            <xpath expr="//sheet/*[1]" position="before">
+                <group invisible="not citadel_authority_request_id" col="1">
+                    <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="citadel_committee_employee_ids" widget="many2many_tags" readonly="1"
+                       invisible="not citadel_committee_employee_ids"/>
+                <field name="citadel_receipt_manager_id" invisible="not citadel_committee_employee_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_warehouse_form_citadel_authority" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.citadel.authority</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="citadel_receipt_manager_id" options="{'no_create': True}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

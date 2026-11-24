@@ -1,11 +1,11 @@
 {
     "name": "Authority",
-    "version": "20.0.1.4.0",
+    "version": "20.0.1.5.0",
     "category": "Productivity/Approvals",
     "summary": "Company-wide authority matrix, approval limits, delegation, and audit trail",
     "author": "NFFCD",
     "license": "LGPL-3",
-    "depends": ["account", "purchase", "sale_management", "mail"],
+    "depends": ["account", "purchase", "purchase_stock", "sale_management", "mail", "hr"],
     "data": [
         "security/security.xml",
         "security/ir.access.csv",
@@ -16,6 +16,8 @@
         "views/request_views.xml",
         "views/delegation_views.xml",
         "views/document_views.xml",
+        "views/purchase_workflow_views.xml",
+        "report/purchase_committee_reports.xml",
         "views/dashboard_views.xml",
         "views/menus.xml",
     ],

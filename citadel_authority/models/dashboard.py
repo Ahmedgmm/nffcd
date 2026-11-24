@@ -1,6 +1,6 @@
 from odoo import _, api, models
 
-from .policy import DOCUMENT_TYPES
+from .policy import DOCUMENT_MODELS, DOCUMENT_TYPES
 
 
 DASHBOARD_BLOCKS = {
@@ -12,6 +12,8 @@ DASHBOARD_BLOCKS = {
     "customer_credit_note": ("fa-reply-all", "amber"),
     "journal_entry": ("fa-book", "teal"),
     "payment": ("fa-credit-card", "purple"),
+    "stock_receipt": ("fa-truck", "teal"),
+    "purchase_alternative": ("fa-random", "amber"),
 }
 
 
@@ -36,6 +38,8 @@ class CitadelAuthorityDashboard(models.AbstractModel):
         waiting = requests.filtered(lambda request: request.state == "pending" and request.can_approve)
         blocks = []
         for document_type, label in DOCUMENT_TYPES:
+            if DOCUMENT_MODELS[document_type] not in self.env:
+                continue
             scoped_policies = policies.filtered(lambda policy: policy.document_type == document_type)
             scoped_requests = requests.filtered(lambda request: request.document_type == document_type)
             icon, color = DASHBOARD_BLOCKS[document_type]

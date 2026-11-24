@@ -1,0 +1,386 @@
+.o_purchase_alternative {
+    --alt-bg: #f6f9fc;
+    --alt-surface: #ffffff;
+    --alt-soft: #f8fafc;
+    --alt-border: #dbe4ee;
+    --alt-border-strong: #c5d3e2;
+    --alt-text: #1f2937;
+    --alt-muted: #64748b;
+    --alt-primary: #2563eb;
+    --alt-success: #16a34a;
+    --alt-success-soft: #eaf8ef;
+    --alt-warning: #d97706;
+    --alt-warning-soft: #fff7e6;
+    --alt-danger: #dc2626;
+    --alt-danger-soft: #fff1f2;
+
+    background: var(--alt-bg);
+
+    .o_alt_content {
+        padding: 18px;
+    }
+
+    .o_alt_loading {
+        align-items: center;
+        background: var(--alt-surface);
+        border: 1px solid var(--alt-border);
+        border-radius: 16px;
+        color: var(--alt-muted);
+        display: flex;
+        padding: 18px;
+    }
+
+    .o_alt_hero,
+    .o_alt_toolbar,
+    .o_alt_table_shell {
+        background: var(--alt-surface);
+        border: 1px solid var(--alt-border);
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .o_alt_hero {
+        align-items: center;
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        padding: 18px 20px;
+
+        h2 {
+            color: var(--alt-text);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 3px 0 7px;
+        }
+    }
+
+    .o_alt_eyebrow {
+        color: var(--alt-primary);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .o_alt_meta {
+        color: var(--alt-muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+    }
+
+    .o_alt_toolbar {
+        align-items: center;
+        display: flex;
+        gap: 14px;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        padding: 12px 14px;
+    }
+
+    .o_alt_hint {
+        align-items: center;
+        color: var(--alt-muted);
+        display: flex;
+        gap: 10px;
+        line-height: 1.35;
+
+        .fa {
+            color: var(--alt-primary);
+            font-size: 18px;
+        }
+    }
+
+    .o_alt_toolbar_actions {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 8px;
+    }
+
+    .o_alt_table_shell {
+        overflow: auto;
+    }
+
+    .o_purchase_alternative_table {
+        border-collapse: separate;
+        border-spacing: 0;
+        color: var(--alt-text);
+        margin: 0;
+        min-width: 1180px;
+
+        th,
+        td {
+            border-bottom: 1px solid var(--alt-border);
+            border-right: 1px solid var(--alt-border);
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        thead th {
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border-bottom: 1px solid var(--alt-border-strong);
+            color: #334155;
+            font-size: 12px;
+            font-weight: 700;
+            position: sticky;
+            text-transform: uppercase;
+            top: 0;
+            z-index: 3;
+        }
+
+        tbody tr {
+            background: var(--alt-surface);
+        }
+
+        tbody tr:hover {
+            background: #fbfdff;
+        }
+
+        tfoot th,
+        tfoot td {
+            background: #f8fbff;
+            border-top: 1px solid var(--alt-border-strong);
+            bottom: 0;
+            position: sticky;
+            z-index: 2;
+        }
+    }
+
+    .o_alt_product_col {
+        min-width: 260px;
+        position: sticky;
+        left: 0;
+        z-index: 4;
+    }
+
+    .o_alt_vendor_col {
+        min-width: 285px;
+    }
+
+    .o_alt_qty_col {
+        min-width: 118px;
+    }
+
+    .o_alt_vendor_card {
+        display: grid;
+        gap: 8px;
+        text-transform: none;
+    }
+
+    .o_alt_vendor_top {
+        align-items: center;
+        display: flex;
+        gap: 9px;
+        min-width: 0;
+    }
+
+    .o_alt_vendor_icon {
+        align-items: center;
+        background: #eef4ff;
+        border: 1px solid #d7e5ff;
+        border-radius: 12px;
+        color: var(--alt-primary);
+        display: inline-flex;
+        flex: 0 0 34px;
+        height: 34px;
+        justify-content: center;
+        width: 34px;
+    }
+
+    .o_alt_vendor_original {
+        background: #fff8e6;
+        border-color: #fde7aa;
+        color: #b7791f;
+    }
+
+    .o_alt_vendor_title {
+        font-size: 13px;
+        font-weight: 700;
+        max-width: 210px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .o_alt_vendor_tag {
+        color: var(--alt-muted);
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .o_alt_lowest_price {
+        background: var(--alt-success-soft);
+        box-shadow: inset 0 0 0 2px rgba(22, 163, 74, 0.22);
+
+        input {
+            border-color: rgba(22, 163, 74, 0.45);
+        }
+    }
+
+    .o_alt_offer_cell {
+        background: #ffffff;
+    }
+
+    .o_alt_has_qty:not(.o_alt_lowest_price) {
+        background: #f7fbff;
+    }
+
+    tbody th,
+    tfoot th {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+    }
+
+    tbody th {
+        background: #ffffff;
+    }
+
+    tfoot th {
+        background: #f8fbff;
+    }
+
+    .o_alt_product_cell {
+        border-left: 4px solid transparent;
+    }
+
+    .o_alt_row_partial .o_alt_product_cell {
+        border-left-color: var(--alt-warning);
+    }
+
+    .o_alt_row_complete .o_alt_product_cell {
+        border-left-color: var(--alt-success);
+    }
+
+    .o_alt_row_over .o_alt_product_cell {
+        border-left-color: var(--alt-danger);
+    }
+
+    .o_alt_product_name {
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 8px;
+    }
+
+    .o_alt_allocation_badge {
+        align-items: center;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        color: var(--alt-muted);
+        display: inline-flex;
+        font-size: 12px;
+        font-weight: 700;
+        gap: 6px;
+        padding: 4px 9px;
+    }
+
+    .o_alt_row_partial .o_alt_allocation_badge {
+        background: var(--alt-warning-soft);
+        border-color: #f8d98f;
+        color: var(--alt-warning);
+    }
+
+    .o_alt_row_complete .o_alt_allocation_badge {
+        background: var(--alt-success-soft);
+        border-color: #bfe8cc;
+        color: var(--alt-success);
+    }
+
+    .o_alt_row_over .o_alt_allocation_badge {
+        background: var(--alt-danger-soft);
+        border-color: #fecdd3;
+        color: var(--alt-danger);
+    }
+
+    .o_alt_cell_inputs {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+        label {
+            color: var(--alt-muted);
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .form-control {
+            border-color: var(--alt-border);
+            border-radius: 10px;
+            min-height: 34px;
+        }
+
+        .form-control:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 0.15rem rgba(37, 99, 235, 0.14);
+        }
+    }
+
+    .o_alt_cell_total {
+        align-items: center;
+        color: var(--alt-muted);
+        display: flex;
+        font-size: 12px;
+        font-weight: 700;
+        justify-content: space-between;
+        margin-top: 8px;
+        min-height: 22px;
+    }
+
+    .o_alt_best_badge {
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        border-radius: 999px;
+        color: var(--alt-success);
+        padding: 2px 7px;
+    }
+
+    .o_alt_qty_value {
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .o_alt_uom {
+        color: var(--alt-muted);
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .o_alt_remaining_over {
+        color: var(--alt-danger);
+        font-weight: 800;
+    }
+
+    .o_alt_vendor_total {
+        color: var(--alt-text);
+        font-size: 15px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        text-align: end;
+    }
+
+    .o_alt_footer_actions {
+        display: grid;
+        gap: 7px;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 900px) {
+        .o_alt_hero,
+        .o_alt_toolbar {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .o_alt_toolbar_actions {
+            justify-content: stretch;
+
+            .btn {
+                flex: 1 1 auto;
+            }
+        }
+    }
+}
