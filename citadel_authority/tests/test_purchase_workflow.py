@@ -206,3 +206,21 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
                      "رصيد المخزن", "لا يوجد", "لجنة إحضار عروض الأسعار", "لجنة البت والترسية",
                      "3364739", "3373118"):
             self.assertIn(text, html)
+
+    def test_letterhead_inherit_toggle(self):
+        root = self.env["res.company"].create({
+            "name": "Root LH", "citadel_letterhead_phone": "111", "citadel_letterhead_address": "عنوان الجهة الأم",
+        })
+        unit = self.env["res.company"].create({
+            "name": "Unit LH", "parent_id": root.id, "citadel_letterhead_phone": "222",
+        })
+        self.assertTrue(unit.citadel_letterhead_inherit)
+        lh = unit._citadel_letterhead()
+        self.assertEqual((lh["phone"], lh["address"], lh["unit"], lh["root"]), ("111", "عنوان الجهة الأم", "Unit LH", "Root LH"))
+        self.assertEqual(unit.citadel_letterhead_source_id, root)
+        self.assertIn("111", unit.citadel_letterhead_preview)
+        unit.citadel_letterhead_inherit = False
+        lh = unit._citadel_letterhead()
+        self.assertEqual((lh["phone"], lh["address"]), ("222", "عنوان الجهة الأم"))
+        self.assertFalse(unit.citadel_letterhead_source_id)
+        self.assertIn("222", unit.citadel_letterhead_preview)

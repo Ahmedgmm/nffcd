@@ -179,6 +179,13 @@
             <xpath expr="//notebook" position="inside">
                 <page string="ترويسة المستندات" name="citadel_letterhead">
                     <group>
+                        <group>
+                            <field name="citadel_letterhead_inherit" invisible="not parent_id" widget="boolean_toggle"/>
+                            <field name="citadel_letterhead_source_id" invisible="not parent_id or not citadel_letterhead_inherit" readonly="1"/>
+                            <field name="citadel_name_en"/>
+                        </group>
+                    </group>
+                    <group invisible="parent_id and citadel_letterhead_inherit">
                         <group string="عربي">
                             <field name="citadel_ministry_name"/>
                             <field name="citadel_letterhead_address"/>
@@ -186,7 +193,6 @@
                         </group>
                         <group string="English">
                             <field name="citadel_ministry_name_en"/>
-                            <field name="citadel_name_en"/>
                             <field name="citadel_letterhead_address_en"/>
                         </group>
                         <group>
@@ -194,7 +200,9 @@
                             <field name="citadel_letterhead_fax"/>
                         </group>
                     </group>
-                    <div class="text-muted">تستخدم الجهات التابعة بيانات الجهة الأم عند ترك الحقول فارغة.</div>
+                    <div class="text-muted mb-2" invisible="not parent_id or citadel_letterhead_inherit">الحقول الفارغة تُستكمل من الجهة الأم.</div>
+                    <separator string="معاينة الترويسة كما تُطبع"/>
+                    <field name="citadel_letterhead_preview" nolabel="1" readonly="1"/>
                 </page>
             </xpath>
         </field>
