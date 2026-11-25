@@ -58,9 +58,9 @@ class TestAlternativeCommittee(TransactionCase):
     def test_main_decision_needs_all_members(self):
         order = self._order()
         comparison, vendor = self._comparison(order)
-        with self.assertRaisesRegex(UserError, "committee must approve"):
+        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
             comparison.action_apply_main_vendor(vendor.id)
-        with self.assertRaisesRegex(UserError, "alternatives committee has not approved"):
+        with self.assertRaisesRegex(UserError, "لم تعتمد لجنة البت والمفاضلة"):
             order.with_user(self.buyer).button_confirm()
 
         comparison.action_submit_main_decision(vendor.id)
@@ -68,7 +68,7 @@ class TestAlternativeCommittee(TransactionCase):
         self.assertEqual(request.state, "pending")
         self.assertEqual(request.amount, 150.0)
         self.assertEqual(request.current_step_ids.eligible_user_ids, self.members)
-        with self.assertRaisesRegex(UserError, "under approval"):
+        with self.assertRaisesRegex(UserError, "قيد الاعتماد"):
             comparison.action_update_cell(comparison.line_ids[0].id, {"price_unit": 1.0})
         with self.assertRaises(UserError):
             comparison.with_user(self.buyer).action_citadel_approve()
@@ -76,15 +76,15 @@ class TestAlternativeCommittee(TransactionCase):
         comparison.with_user(self.members[1]).action_citadel_approve()
         comparison.with_user(self.members[2]).action_citadel_approve()
         self.assertEqual(request.state, "pending")
-        with self.assertRaisesRegex(UserError, "committee must approve"):
+        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
             comparison.action_apply_main_vendor(vendor.id)
         comparison.with_user(self.members[0]).action_citadel_approve()
         self.assertEqual(request.state, "approved")
 
         other = comparison.vendor_ids.filtered("is_original")
-        with self.assertRaisesRegex(UserError, "committee must approve"):
+        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
             comparison.action_apply_main_vendor(other.id)
-        with self.assertRaisesRegex(UserError, "Apply the approved committee decision"):
+        with self.assertRaisesRegex(UserError, "طبّق قرار اللجنة المعتمد"):
             order.with_user(self.buyer).button_confirm()
 
         html, _type = self.env["ir.actions.report"]._render_qweb_html(
@@ -93,7 +93,10 @@ class TestAlternativeCommittee(TransactionCase):
         self.assertIn("محضر لجنة البت", html.decode())
         self.assertIn("150.00", html.decode())
 
+        term = self.env["account.payment.term"].create({"name": "Alt 45 days"})
+        vendor.payment_term_id = term
         comparison.action_apply_main_vendor(vendor.id)
+        self.assertEqual(order.payment_term_id, term)
         self.assertEqual(comparison.state, "applied")
         self.assertEqual(request.state, "completed")
         self.assertEqual(order.partner_id, self.vendor_b)
@@ -150,9 +153,11 @@ class TestAlternativeCommittee(TransactionCase):
         self.assertEqual(comparison._citadel_ordered_members()[:1], chairman)
         self.assertEqual(comparison.get_table_data()["authority"]["chairman"], chairman.name)
         vendor = comparison.vendor_ids.browse(comparison.action_add_vendor(self.vendor_b.id))
-        data = comparison.action_update_vendor(vendor.id, {"payment_terms": " 30 يوم من التوريد "})
-        self.assertEqual(vendor.payment_terms, "30 يوم من التوريد")
-        self.assertIn("30 يوم من التوريد", [item["payment_terms"] for item in data["vendors"]])
+        term = self.env["account.payment.term"].create({"name": "دفع خلال 30 يوم من التوريد"})
+        data = comparison.action_update_vendor(vendor.id, {"payment_term_id": str(term.id)})
+        self.assertEqual(vendor.payment_term_id, term)
+        self.assertIn(term.id, [item["payment_term_id"] for item in data["vendors"]])
+        self.assertIn(term.id, [item["id"] for item in data["payment_term_options"]])
         data = comparison.action_update_technical_opinion("مطابق للمواصفات")
         self.assertEqual(data["technical_opinion"], "مطابق للمواصفات")
         with self.assertRaises(Exception):
@@ -160,6 +165,6 @@ class TestAlternativeCommittee(TransactionCase):
         html = self.env["ir.actions.report"]._render_qweb_html(
             "Purchasing_alternatives.action_report_alternative_offers_sheet", comparison.ids,
         )[0].decode()
-        for text in (order.name.lstrip("P0123456789") or "P", "يوم من التوريد", "مطابق للمواصفات", "رئيس اللجنة"):
+        for text in (order.name.lstrip("P0123456789") or "P", "دفع خلال", "مطابق للمواصفات", "رئيس اللجنة"):
             self.assertIn(text, html)
         self.assertNotIn("مدة سريان العرض", html)

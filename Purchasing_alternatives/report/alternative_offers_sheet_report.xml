@@ -127,7 +127,7 @@
                                     <t t-foreach="range(5)" t-as="slot">
                                         <t t-set="vendor" t-value="vendors[slot] if slot &lt; len(vendors) else False"/>
                                         <td colspan="3" class="n" style="font-size: 9px;">
-                                            <div t-if="vendor and term[0] == '1'" dir="rtl" style="direction: rtl; unicode-bidi: embed;" t-out="rtl(vendor.payment_terms or vendor.partner_id.with_company(company).property_supplier_payment_term_id.name or '')"/>
+                                            <div t-if="vendor and term[0] == '1'" dir="rtl" style="direction: rtl; unicode-bidi: embed;" t-out="rtl(vendor.payment_term_id.name or '')"/>
                                             <t t-if="vendor and term[0] == '2' and vendor.date_planned" t-out="rtl(vendor.date_planned.strftime('%d/%m/%Y'))"/>
                                         </td>
                                     </t>

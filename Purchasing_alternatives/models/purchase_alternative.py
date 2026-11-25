@@ -6,27 +6,28 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 
 class PurchaseAlternativeComparison(models.Model):
     _name = "purchase.alternative.comparison"
-    _description = "Purchase Alternative Comparison"
+    _description = "مقارنة العروض"
     _inherit = ["mail.thread", "mail.activity.mixin", "citadel.authority.mixin"]
     _order = "id desc"
     _check_company_auto = True
 
     _citadel_guard_fields = {"citadel_committee_employee_ids", "citadel_chairman_employee_id", "decision_type", "decision_vendor_id"}
 
-    name = fields.Char(required=True, copy=False, default=lambda self: _("New Alternative Comparison"))
+    name = fields.Char(string="الاسم", required=True, copy=False, default=lambda self: _("مقارنة عروض جديدة"))
     order_id = fields.Many2one(
         "purchase.order",
-        string="Original RFQ",
+        string="طلب الشراء الأصلي",
         required=True,
         ondelete="cascade",
         index=True,
         check_company=True,
         copy=False,
     )
-    company_id = fields.Many2one(related="order_id.company_id", store=True, readonly=True)
-    currency_id = fields.Many2one(related="order_id.currency_id", store=True, readonly=True)
+    company_id = fields.Many2one(string="الجهة", related="order_id.company_id", store=True, readonly=True)
+    currency_id = fields.Many2one(string="العملة", related="order_id.currency_id", store=True, readonly=True)
     state = fields.Selection(
-        [("draft", "Draft"), ("applied", "Applied"), ("locked", "Locked")],
+        [("draft", "مسودة"), ("applied", "مطبقة"), ("locked", "مقفلة")],
+        string="الحالة",
         default="draft",
         required=True,
         tracking=True,
@@ -35,13 +36,13 @@ class PurchaseAlternativeComparison(models.Model):
     vendor_ids = fields.One2many(
         "purchase.alternative.vendor",
         "comparison_id",
-        string="Vendors",
+        string="الموردون",
         copy=False,
     )
     line_ids = fields.One2many(
         "purchase.alternative.line",
         "comparison_id",
-        string="Offer Lines",
+        string="بنود العروض",
         copy=False,
     )
 
@@ -93,7 +94,7 @@ class PurchaseAlternativeComparison(models.Model):
     def create_from_order(self, order, employees=None, chairman=None):
         order.ensure_one()
         vals = {
-            "name": _("Alternative Generator - %s") % order.name,
+            "name": _("مقارنة العروض - %s") % order.name,
             "order_id": order.id,
         }
         if employees:
@@ -182,7 +183,7 @@ class PurchaseAlternativeComparison(models.Model):
     def _citadel_check_committee(self):
         self.ensure_one()
         if not self.citadel_committee_employee_ids:
-            raise UserError(_("Select the evaluation committee for %s first.", self.name))
+            raise UserError(_("حدد لجنة البت والمفاضلة لـ %s أولاً", self.name))
         self._citadel_check_committee_employees(
             self.citadel_committee_employee_ids, self.company_id,
             excluded_users=self._citadel_authority_requester(),
@@ -195,10 +196,10 @@ class PurchaseAlternativeComparison(models.Model):
         if decision_type == "split":
             self._check_split_allocations()
             if not self.line_ids.filtered(lambda line: line._is_positive_qty()):
-                raise UserError(_("Enter at least one positive quantity before submitting the decision."))
+                raise UserError(_("أدخل كمية واحدة على الأقل قبل إرسال القرار"))
             for item in self.vendor_ids:
                 if item.line_ids.filtered(lambda line: line._is_positive_qty()) and not item.partner_id:
-                    raise UserError(_("Select a vendor for every column with positive quantities."))
+                    raise UserError(_("اختر المورد لكل عمود به كميات"))
         self.with_context(citadel_skip_invalidation=True).write({
             "decision_type": decision_type,
             "decision_vendor_id": vendor.id if vendor else False,
@@ -227,13 +228,13 @@ class PurchaseAlternativeComparison(models.Model):
         """Withdraw the pending/approved decision so the table can be edited again."""
         for comparison in self:
             if comparison.state != "draft":
-                raise UserError(_("An applied comparison cannot be reopened."))
+                raise UserError(_("لا يمكن إعادة فتح مقارنة تم تطبيقها"))
             request = comparison.sudo().citadel_authority_request_id
             if request.state in ("pending", "approved"):
                 request.with_context(citadel_actor_id=self.env.uid)._citadel_cancel(
-                    "cancelled", _("The buyer withdrew the committee decision.")
+                    "cancelled", _("سحب المشتري قرار اللجنة")
                 )
-            comparison.message_post(body=_("Committee decision withdrawn."))
+            comparison.message_post(body=_("تم سحب قرار اللجنة"))
         return self.get_table_data() if len(self) == 1 else True
 
     def action_print_committee_minutes(self):
@@ -245,7 +246,7 @@ class PurchaseAlternativeComparison(models.Model):
         for comparison in self:
             chairman = comparison.citadel_chairman_employee_id
             if chairman and chairman not in comparison.citadel_committee_employee_ids:
-                raise ValidationError(_("The chairman must be one of the committee members."))
+                raise ValidationError(_("يجب أن يكون رئيس اللجنة أحد أعضائها"))
 
     def _citadel_ordered_members(self):
         """Committee members, chairman first, then by name."""
@@ -257,7 +258,7 @@ class PurchaseAlternativeComparison(models.Model):
     def action_update_technical_opinion(self, value):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("This comparison has already been applied or locked."))
+            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
         self.technical_opinion = (value or "").strip() or False
         return self.get_table_data()
 
@@ -336,7 +337,7 @@ class PurchaseAlternativeComparison(models.Model):
     def _ensure_original_vendor(self):
         self.ensure_one()
         if not self.order_id.partner_id:
-            raise UserError(_("Set the vendor on the original RFQ first."))
+            raise UserError(_("حدد المورد في طلب الشراء الأصلي أولاً"))
         original_vendor = self.vendor_ids.filtered("is_original")[:1]
         vals = {
             "partner_id": self.order_id.partner_id.id,
@@ -344,6 +345,10 @@ class PurchaseAlternativeComparison(models.Model):
             "is_original": True,
             "sequence": 1,
         }
+        if not original_vendor.payment_term_id:
+            vals["payment_term_id"] = self.order_id.payment_term_id.id or self.order_id.partner_id.with_company(
+                self.company_id
+            ).property_supplier_payment_term_id.id or False
         if original_vendor:
             original_vendor.write(vals)
         else:
@@ -396,20 +401,20 @@ class PurchaseAlternativeComparison(models.Model):
     def _check_editable(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("This comparison has already been applied or locked."))
+            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
         if self.order_id.state not in ("draft", "sent"):
-            raise UserError(_("Alternatives can only change draft RFQs."))
+            raise UserError(_("لا يمكن تعديل المقارنة إلا لطلبات الشراء في حالة المسودة"))
         if self.sudo().citadel_authority_request_id.state in ("pending", "approved"):
             raise UserError(_(
-                "The committee decision is under approval or approved. Withdraw it before editing offers."
+                "قرار اللجنة قيد الاعتماد أو معتمد. اسحب القرار قبل تعديل العروض"
             ))
 
     def _check_can_apply(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("This comparison has already been applied or locked."))
+            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
         if self.order_id.state not in ("draft", "sent"):
-            raise UserError(_("Alternatives can only change draft RFQs."))
+            raise UserError(_("لا يمكن تعديل المقارنة إلا لطلبات الشراء في حالة المسودة"))
 
     def get_table_data(self):
         self.ensure_one()
@@ -486,6 +491,12 @@ class PurchaseAlternativeComparison(models.Model):
             },
             "vendors": [vendor._table_values() for vendor in self.vendor_ids.sorted("sequence")],
             "vendor_options": self._get_vendor_options(),
+            "payment_term_options": [
+                {"id": term.id, "name": term.display_name}
+                for term in self.env["account.payment.term"].search(
+                    ["|", ("company_id", "=", False), ("company_id", "=", self.company_id.id)]
+                )
+            ],
             "rows": product_rows,
         }
 
@@ -527,7 +538,7 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_editable()
         line = self.env["purchase.alternative.line"].browse(line_id).exists()
         if not line or line.comparison_id != self:
-            raise UserError(_("Invalid alternative line."))
+            raise UserError(_("بند عرض غير صالح"))
         allowed = {}
         if "offered_qty" in values:
             allowed["offered_qty"] = float(values["offered_qty"] or 0.0)
@@ -542,18 +553,21 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_editable()
         vendor = self.env["purchase.alternative.vendor"].browse(vendor_id).exists()
         if not vendor or vendor.comparison_id != self:
-            raise UserError(_("Invalid vendor column."))
+            raise UserError(_("عمود مورد غير صالح"))
         allowed = {}
         if "partner_id" in values:
             partner_id = int(values["partner_id"] or 0)
             allowed["partner_id"] = partner_id or False
-            if partner_id and not vendor.payment_terms and "payment_terms" not in values:
+            if partner_id and not vendor.payment_term_id and "payment_term_id" not in values:
                 term = self.env["res.partner"].browse(partner_id).with_company(self.company_id).property_supplier_payment_term_id
-                allowed["payment_terms"] = term.name or False
+                allowed["payment_term_id"] = term.id or False
         if "date_planned" in values:
             allowed["date_planned"] = (values["date_planned"] or "").replace("T", " ") or False
-        if "payment_terms" in values:
-            allowed["payment_terms"] = (values["payment_terms"] or "").strip() or False
+        if "payment_term_id" in values:
+            term = self.env["account.payment.term"].browse(int(values["payment_term_id"] or 0)).exists()
+            if term and term.company_id and term.company_id != self.company_id:
+                raise UserError(_("شروط الدفع المختارة تخص جهة أخرى."))
+            allowed["payment_term_id"] = term.id or False
         if allowed:
             vendor.write(allowed)
         return self.get_table_data()
@@ -563,11 +577,11 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_can_apply()
         vendor = self._get_vendor_for_action(vendor_id)
         if not self._citadel_committee_approved("main", vendor):
-            raise UserError(_("The committee must approve awarding the order to %s first.", vendor.partner_id.display_name))
+            raise UserError(_("يجب أن تعتمد اللجنة الترسية على %s أولاً", vendor.partner_id.display_name))
         self._apply_vendor_to_order(vendor)
         self.state = "applied"
         self._citadel_authority_complete()
-        self.message_post(body=_("Applied vendor %(vendor)s to original RFQ %(rfq)s.", vendor=vendor.partner_id.display_name, rfq=self.order_id.name))
+        self.message_post(body=_("تم تطبيق المورد %(vendor)s على طلب الشراء %(rfq)s", vendor=vendor.partner_id.display_name, rfq=self.order_id.name))
         return self.get_table_data()
 
     def action_create_po_for_vendor(self, vendor_id):
@@ -575,11 +589,11 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_can_apply()
         vendor = self._get_vendor_for_action(vendor_id)
         if not self._citadel_committee_approved():
-            raise UserError(_("The committee must approve a decision before extra RFQs are created."))
+            raise UserError(_("يجب أن تعتمد اللجنة القرار قبل إنشاء طلبات شراء إضافية"))
         if self.decision_type == "main" and vendor != self.decision_vendor_id:
-            raise UserError(_("The committee awarded the order to %s only.", self.decision_vendor_id.partner_id.display_name))
+            raise UserError(_("رست اللجنة على المورد %s فقط", self.decision_vendor_id.partner_id.display_name))
         po = self._create_order_for_vendor(vendor)
-        self.message_post(body=_("Created RFQ %(rfq)s for vendor %(vendor)s.", rfq=po.name, vendor=vendor.partner_id.display_name))
+        self.message_post(body=_("تم إنشاء طلب الشراء %(rfq)s للمورد %(vendor)s", rfq=po.name, vendor=vendor.partner_id.display_name))
         return {
             "type": "ir.actions.act_window",
             "res_model": "purchase.order",
@@ -592,7 +606,7 @@ class PurchaseAlternativeComparison(models.Model):
         self.ensure_one()
         self._check_can_apply()
         if not self._citadel_committee_approved("split"):
-            raise UserError(_("The committee must approve the split decision first."))
+            raise UserError(_("يجب أن تعتمد اللجنة قرار التوزيع أولاً"))
         self._check_split_allocations()
         original_vendor = self.vendor_ids.filtered("is_original")[:1]
         has_positive_qty = bool(self.line_ids.filtered(lambda line: line._is_positive_qty()))
@@ -601,19 +615,19 @@ class PurchaseAlternativeComparison(models.Model):
             if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
                 continue
             if not vendor.partner_id:
-                raise UserError(_("Select a vendor for every column with positive quantities."))
+                raise UserError(_("اختر المورد لكل عمود به كميات"))
             created_orders |= self._create_order_for_vendor(vendor)
         if not has_positive_qty:
-            raise UserError(_("Enter at least one positive quantity before creating split RFQs."))
+            raise UserError(_("أدخل كمية واحدة على الأقل قبل إنشاء طلبات التوزيع"))
         if original_vendor:
             self._apply_vendor_to_order(original_vendor)
         self.state = "applied"
         self._citadel_authority_complete()
         self.message_post(
             body=_(
-                "Created split RFQs by vendor. Updated original RFQ: %(updated)s. New RFQs: %(created)s.",
-                updated=original_vendor.partner_id.display_name if original_vendor else _("None"),
-                created=", ".join(created_orders.mapped("name")) or _("None"),
+                "تم توزيع الكميات على الموردين. طلب الشراء الأصلي: %(updated)s. الطلبات الجديدة: %(created)s",
+                updated=original_vendor.partner_id.display_name if original_vendor else _("لا يوجد"),
+                created=", ".join(created_orders.mapped("name")) or _("لا يوجد"),
             )
         )
         if len(created_orders) == 1:
@@ -627,7 +641,7 @@ class PurchaseAlternativeComparison(models.Model):
         domain_ids = (created_orders | self.order_id).ids
         return {
             "type": "ir.actions.act_window",
-            "name": _("Split Vendor RFQs"),
+            "name": _("طلبات شراء التوزيع"),
             "res_model": "purchase.order",
             "view_mode": "list,form",
             "domain": [("id", "in", domain_ids)],
@@ -658,11 +672,11 @@ class PurchaseAlternativeComparison(models.Model):
     def _get_vendor_for_action(self, vendor_id):
         vendor = self.env["purchase.alternative.vendor"].browse(vendor_id).exists()
         if not vendor or vendor.comparison_id != self:
-            raise UserError(_("Invalid vendor."))
+            raise UserError(_("مورد غير صالح"))
         if not vendor.partner_id:
-            raise UserError(_("Select a vendor before generating a PO."))
+            raise UserError(_("اختر المورد قبل إنشاء أمر الشراء"))
         if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
-            raise UserError(_("Enter at least one positive quantity for this vendor."))
+            raise UserError(_("أدخل كمية واحدة على الأقل لهذا المورد"))
         return vendor
 
     def _apply_vendor_to_order(self, vendor):
@@ -670,6 +684,7 @@ class PurchaseAlternativeComparison(models.Model):
             {
                 "partner_id": vendor.partner_id.id,
                 "date_planned": vendor.date_planned or self.order_id.date_planned,
+                **({"payment_term_id": vendor.payment_term_id.id} if vendor.payment_term_id else {}),
             }
         )
         for line in vendor.line_ids:
@@ -741,42 +756,48 @@ class PurchaseAlternativeComparison(models.Model):
             if field_name in source_order._fields and source_order[field_name]:
                 value = source_order[field_name]
                 vals[field_name] = value.id if source_order._fields[field_name].type == "many2one" else value
+        if vendor.payment_term_id:
+            vals["payment_term_id"] = vendor.payment_term_id.id
         return {key: value for key, value in vals.items() if value is not False}
 
 
 
 class PurchaseAlternativeVendor(models.Model):
     _name = "purchase.alternative.vendor"
-    _description = "Purchase Alternative Vendor"
+    _description = "مورد مقارنة العروض"
     _order = "sequence, id"
     _check_company_auto = True
 
     comparison_id = fields.Many2one(
         "purchase.alternative.comparison",
+        string="المقارنة",
         required=True,
         ondelete="cascade",
         index=True,
         check_company=True,
     )
-    company_id = fields.Many2one(related="comparison_id.company_id", store=True, readonly=True)
-    currency_id = fields.Many2one(related="comparison_id.currency_id", store=True, readonly=True)
+    company_id = fields.Many2one(string="الجهة", related="comparison_id.company_id", store=True, readonly=True)
+    currency_id = fields.Many2one(string="العملة", related="comparison_id.currency_id", store=True, readonly=True)
     partner_id = fields.Many2one(
         "res.partner",
-        string="Vendor",
+        string="المورد",
         domain="[('supplier_rank', '>', 0), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         check_company=True,
     )
-    date_planned = fields.Datetime(string="Delivery Date")
-    payment_terms = fields.Char(string="شروط الدفع")
-    is_original = fields.Boolean(copy=False)
-    sequence = fields.Integer(default=10)
+    date_planned = fields.Datetime(string="ميعاد التسليم")
+    payment_term_id = fields.Many2one(
+        "account.payment.term", string="شروط الدفع", check_company=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+    )
+    is_original = fields.Boolean(string="المورد الأصلي", copy=False)
+    sequence = fields.Integer(string="التسلسل", default=10)
     line_ids = fields.One2many(
         "purchase.alternative.line",
         "vendor_id",
-        string="Offer Lines",
+        string="بنود العروض",
         copy=False,
     )
-    amount_total = fields.Monetary(compute="_compute_amount_total", currency_field="currency_id")
+    amount_total = fields.Monetary(string="إجمالي العرض", compute="_compute_amount_total", currency_field="currency_id")
 
     @api.depends("line_ids.price_subtotal")
     def _compute_amount_total(self):
@@ -790,7 +811,8 @@ class PurchaseAlternativeVendor(models.Model):
             "partner_id": self.partner_id.id,
             "partner": self.partner_id.display_name or "",
             "date_planned": fields.Datetime.to_string(self.date_planned) if self.date_planned else "",
-            "payment_terms": self.payment_terms or "",
+            "payment_term_id": self.payment_term_id.id,
+            "payment_term": self.payment_term_id.display_name or "",
             "is_original": self.is_original,
             "amount_total": self.amount_total,
         }
@@ -798,12 +820,13 @@ class PurchaseAlternativeVendor(models.Model):
 
 class PurchaseAlternativeLine(models.Model):
     _name = "purchase.alternative.line"
-    _description = "Purchase Alternative Line"
+    _description = "بند مقارنة العروض"
     _order = "purchase_order_line_id, vendor_id"
     _check_company_auto = True
 
     comparison_id = fields.Many2one(
         "purchase.alternative.comparison",
+        string="المقارنة",
         required=True,
         ondelete="cascade",
         index=True,
@@ -811,27 +834,28 @@ class PurchaseAlternativeLine(models.Model):
     )
     vendor_id = fields.Many2one(
         "purchase.alternative.vendor",
+        string="المورد",
         required=True,
         ondelete="cascade",
         index=True,
         check_company=True,
     )
-    company_id = fields.Many2one(related="comparison_id.company_id", store=True, readonly=True)
-    currency_id = fields.Many2one(related="comparison_id.currency_id", store=True, readonly=True)
+    company_id = fields.Many2one(string="الجهة", related="comparison_id.company_id", store=True, readonly=True)
+    currency_id = fields.Many2one(string="العملة", related="comparison_id.currency_id", store=True, readonly=True)
     purchase_order_line_id = fields.Many2one(
         "purchase.order.line",
-        string="Original RFQ Line",
+        string="بند طلب الشراء الأصلي",
         required=True,
         ondelete="cascade",
         index=True,
         check_company=True,
     )
-    product_id = fields.Many2one(related="purchase_order_line_id.product_id", store=True, readonly=True)
-    requested_qty = fields.Float(related="purchase_order_line_id.product_qty", readonly=True)
-    product_uom_id = fields.Many2one(related="purchase_order_line_id.uom_id", readonly=True)
-    offered_qty = fields.Float(string="Qty", digits="Product Unit", default=0.0)
-    price_unit = fields.Float(string="Unit Price", digits="Product Price", default=0.0)
-    price_subtotal = fields.Monetary(compute="_compute_price_subtotal", currency_field="currency_id", store=True)
+    product_id = fields.Many2one(string="الصنف", related="purchase_order_line_id.product_id", store=True, readonly=True)
+    requested_qty = fields.Float(string="الكمية المطلوبة", related="purchase_order_line_id.product_qty", readonly=True)
+    product_uom_id = fields.Many2one(string="الوحدة", related="purchase_order_line_id.uom_id", readonly=True)
+    offered_qty = fields.Float(string="الكمية المعروضة", digits="Product Unit", default=0.0)
+    price_unit = fields.Float(string="سعر الوحدة", digits="Product Price", default=0.0)
+    price_subtotal = fields.Monetary(string="الإجمالي", compute="_compute_price_subtotal", currency_field="currency_id", store=True)
 
     _vendor_order_line_unique = models.Constraint(
         "unique(vendor_id, purchase_order_line_id)",
@@ -842,9 +866,9 @@ class PurchaseAlternativeLine(models.Model):
     def _check_offer(self):
         for line in self:
             if any(not math.isfinite(value) or value < 0 for value in (line.offered_qty, line.price_unit)):
-                raise ValidationError(_("Offer quantity and price must be finite and non-negative."))
+                raise ValidationError(_("يجب أن تكون الكمية والسعر أرقاماً موجبة"))
             if line.vendor_id.comparison_id != line.comparison_id or line.purchase_order_line_id.order_id != line.comparison_id.order_id:
-                raise ValidationError(_("Offer vendor and RFQ line must belong to this comparison."))
+                raise ValidationError(_("يجب أن يتبع المورد وبند الطلب هذه المقارنة"))
 
     @api.depends("offered_qty", "price_unit")
     def _compute_price_subtotal(self):

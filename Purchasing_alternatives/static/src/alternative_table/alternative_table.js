@@ -61,10 +61,10 @@ export class PurchaseAlternativeTable extends Component {
 
     allocationLabel(row) {
         const labels = {
-            empty: _t("No split"),
-            partial: _t("Partial split"),
-            complete: _t("Complete"),
-            over: _t("Over allocated"),
+            empty: _t("غير موزع"),
+            partial: _t("توزيع جزئي"),
+            complete: _t("مكتمل"),
+            over: _t("كمية زائدة"),
         };
         return labels[row.allocation_state] || labels.empty;
     }
@@ -173,7 +173,7 @@ export class PurchaseAlternativeTable extends Component {
                 "action_submit_main_decision",
                 [[this.comparisonId], vendor.id]
             );
-            this.notification.add(_t("Decision sent to the committee for approval."), { type: "info" });
+            this.notification.add(_t("أُرسل القرار إلى اللجنة للاعتماد"), { type: "info" });
             return;
         }
         this.state.data = await this.orm.call(
@@ -181,13 +181,13 @@ export class PurchaseAlternativeTable extends Component {
             "action_apply_main_vendor",
             [[this.comparisonId], vendor.id]
         );
-        this.notification.add(_t("Original RFQ updated."), { type: "success" });
+        this.notification.add(_t("تم تحديث طلب الشراء الأصلي"), { type: "success" });
     }
 
     async approveDecision() {
         await this.orm.call("purchase.alternative.comparison", "action_citadel_approve", [[this.comparisonId]]);
         await this.load();
-        this.notification.add(_t("Your approval was recorded."), { type: "success" });
+        this.notification.add(_t("تم تسجيل اعتمادك"), { type: "success" });
     }
 
     async withdrawDecision() {
@@ -219,7 +219,7 @@ export class PurchaseAlternativeTable extends Component {
                 "action_submit_split_decision",
                 [[this.comparisonId]]
             );
-            this.notification.add(_t("Split decision sent to the committee for approval."), { type: "info" });
+            this.notification.add(_t("أُرسل قرار التوزيع إلى اللجنة للاعتماد"), { type: "info" });
             return;
         }
         const action = await this.orm.call(
@@ -227,7 +227,7 @@ export class PurchaseAlternativeTable extends Component {
             "action_create_split_pos",
             [[this.comparisonId]]
         );
-        this.notification.add(_t("Split RFQs created by vendor."), { type: "success" });
+        this.notification.add(_t("تم إنشاء طلبات الشراء لكل مورد"), { type: "success" });
         await this.action.doAction(action);
     }
 

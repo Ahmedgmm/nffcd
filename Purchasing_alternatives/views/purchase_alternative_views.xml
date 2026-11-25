@@ -4,7 +4,7 @@
         <field name="name">purchase.alternative.comparison.form</field>
         <field name="model">purchase.alternative.comparison</field>
         <field name="arch" type="xml">
-            <form string="Purchase Alternative Comparison">
+            <form string="مقارنة العروض">
                 <header>
                     <field name="citadel_authority_state" invisible="True"/>
                     <field name="citadel_authority_can_approve" invisible="True"/>
@@ -46,20 +46,20 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Vendors" name="vendors">
+                        <page string="الموردون" name="vendors">
                             <field name="vendor_ids" readonly="not is_editable">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="partner_id"/>
                                     <field name="date_planned"/>
-                                    <field name="payment_terms"/>
+                                    <field name="payment_term_id" options="{'no_create': True}"/>
                                     <field name="amount_total" widget="monetary"/>
                                     <field name="currency_id" column_invisible="True"/>
                                     <field name="is_original"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Offer Lines" name="lines">
+                        <page string="بنود العروض" name="lines">
                             <field name="line_ids" readonly="not is_editable">
                                 <list editable="bottom">
                                     <field name="vendor_id"/>
@@ -120,7 +120,7 @@
     </record>
 
     <record id="action_purchase_alternative_comparisons" model="ir.actions.act_window">
-        <field name="name">Purchase Alternatives</field>
+        <field name="name">مقارنات العروض</field>
         <field name="res_model">purchase.alternative.comparison</field>
         <field name="view_mode">list,form</field>
     </record>

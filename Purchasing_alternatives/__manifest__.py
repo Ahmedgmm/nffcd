@@ -1,7 +1,7 @@
 {
     "name": "Purchasing Alternatives",
     "summary": "Simple vendor quote comparison without fake RFQs",
-    "version": "20.0.1.10.0",
+    "version": "20.0.1.11.0",
     "category": "Purchase",
     "author": "NFFCD",
     "license": "LGPL-3",

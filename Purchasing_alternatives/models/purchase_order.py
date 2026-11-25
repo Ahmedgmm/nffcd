@@ -8,11 +8,11 @@ class PurchaseOrder(models.Model):
     alternative_comparison_ids = fields.One2many(
         "purchase.alternative.comparison",
         "order_id",
-        string="Alternative Comparisons",
+        string="مقارنات العروض",
         copy=False,
     )
     alternative_comparison_count = fields.Integer(
-        string="Alternative Generator",
+        string="مقارنة العروض",
         compute="_compute_alternative_comparison_count",
     )
     alternative_source_comparison_id = fields.Many2one(
@@ -41,7 +41,7 @@ class PurchaseOrder(models.Model):
         return {
             "type": "ir.actions.client",
             "tag": "purchase_alternative_table",
-            "name": _("Alternative Generator"),
+            "name": _("مقارنة العروض"),
             "params": {
                 "comparison_id": comparison.id,
             },
@@ -52,7 +52,7 @@ class PurchaseOrder(models.Model):
         comparison = self.alternative_comparison_ids[:1]
         if not comparison:
             if self.state not in ("draft", "sent"):
-                raise UserError(_("Alternatives can only be created for draft RFQs."))
+                raise UserError(_("لا يمكن إنشاء مقارنة العروض إلا لطلبات الشراء في حالة المسودة"))
             return {
                 "type": "ir.actions.act_window",
                 "name": _("لجنة البت والمفاضلة"),
@@ -73,23 +73,22 @@ class PurchaseOrder(models.Model):
                     continue
                 if not comparison._citadel_committee_approved():
                     raise UserError(_(
-                        "%(order)s cannot be submitted or confirmed: the alternatives committee has not "
-                        "approved %(comparison)s.",
+                        "لا يمكن إرسال أو تأكيد %(order)s: لم تعتمد لجنة البت والمفاضلة %(comparison)s",
                         order=order.name, comparison=comparison.name,
                     ))
                 if comparison.order_id == order and comparison.state == "draft" and comparison.decision_type == "main":
                     raise UserError(_(
-                        "Apply the approved committee decision in %s before confirming the order.", comparison.name,
+                        "طبّق قرار اللجنة المعتمد في %s قبل تأكيد الأمر", comparison.name,
                     ))
                 if comparison.order_id == order and comparison.state == "draft" and comparison.decision_type == "split":
                     raise UserError(_(
-                        "Create the approved split RFQs in %s before confirming the order.", comparison.name,
+                        "أنشئ طلبات التوزيع المعتمدة في %s قبل تأكيد الأمر", comparison.name,
                     ))
 
 
 class PurchaseAlternativeCommitteeWizard(models.TransientModel):
     _name = "purchase.alternative.committee.wizard"
-    _description = "Select Alternatives Committee"
+    _description = "اختيار لجنة البت والمفاضلة"
 
     order_id = fields.Many2one("purchase.order", required=True, readonly=True)
     company_id = fields.Many2one(related="order_id.company_id")
