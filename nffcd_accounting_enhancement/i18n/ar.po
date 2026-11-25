@@ -862,3 +862,13 @@ msgstr "التوزيع مكتمل"
 #: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split_balanced
 msgid "Cash Destination Split Balanced"
 msgstr "توزيع الوجهة مكتمل"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.ui.menu,name:account.menu_finance_receivables
+msgid "Revenues"
+msgstr "الإيرادات"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.ui.menu,name:account.menu_finance_payables
+msgid "Expenses"
+msgstr "المصروفات"

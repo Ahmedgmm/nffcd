@@ -137,3 +137,29 @@ class TestAlternativeCommittee(TransactionCase):
         self.env["purchase.alternative.comparison"].create_from_order(order)
         order.with_user(self.buyer).button_confirm()
         self.assertEqual(order.state, "purchase")
+
+    def test_offers_sheet_fields_and_print(self):
+        order = self._order()
+        chairman = self.employees.sorted("name")[-1]
+        wizard = self.env["purchase.alternative.committee.wizard"].with_user(self.buyer).create({
+            "order_id": order.id, "employee_ids": [Command.set(self.employees.ids)], "chairman_id": chairman.id,
+        })
+        comparison = self.env["purchase.alternative.comparison"].browse(
+            wizard.action_create()["params"]["comparison_id"]
+        ).with_user(self.buyer)
+        self.assertEqual(comparison._citadel_ordered_members()[:1], chairman)
+        self.assertEqual(comparison.get_table_data()["authority"]["chairman"], chairman.name)
+        vendor = comparison.vendor_ids.browse(comparison.action_add_vendor(self.vendor_b.id))
+        data = comparison.action_update_vendor(vendor.id, {"payment_terms": " 30 يوم من التوريد "})
+        self.assertEqual(vendor.payment_terms, "30 يوم من التوريد")
+        self.assertIn("30 يوم من التوريد", [item["payment_terms"] for item in data["vendors"]])
+        data = comparison.action_update_technical_opinion("مطابق للمواصفات")
+        self.assertEqual(data["technical_opinion"], "مطابق للمواصفات")
+        with self.assertRaises(Exception):
+            comparison.citadel_chairman_employee_id = self.env["hr.employee"].create({"name": "Outsider"})
+        html = self.env["ir.actions.report"]._render_qweb_html(
+            "Purchasing_alternatives.action_report_alternative_offers_sheet", comparison.ids,
+        )[0].decode()
+        for text in (order.name.lstrip("P0123456789") or "P", "يوم من التوريد", "مطابق للمواصفات", "رئيس اللجنة"):
+            self.assertIn(text, html)
+        self.assertNotIn("مدة سريان العرض", html)

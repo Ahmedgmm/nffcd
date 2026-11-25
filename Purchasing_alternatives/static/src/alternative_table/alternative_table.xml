@@ -29,6 +29,7 @@
                         <i class="fa fa-gavel"/>
                         <strong>لجنة البت والمفاضلة:</strong>
                         <span t-esc="this.authority.committee or 'لم تُحدد اللجنة'"/>
+                        <span t-if="this.authority.chairman" class="text-muted">(الرئيس: <t t-esc="this.authority.chairman"/>)</span>
                         <span t-if="this.authority.decision" class="badge text-bg-light border">
                             <t t-esc="this.authority.decision"/>
                             <t t-if="this.authority.decision_vendor"> — <t t-esc="this.authority.decision_vendor"/></t>
@@ -44,6 +45,9 @@
                             <button t-if="this.state.data.state === 'review'" class="btn btn-outline-secondary btn-sm" t-on-click="this.withdrawDecision">سحب القرار</button>
                             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_print_committee_minutes')">
                                 <i class="fa fa-print me-1"/> المحضر
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_print_offers_sheet')">
+                                <i class="fa fa-print me-1"/> كشف التفريغ
                             </button>
                             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_open_form')">
                                 <i class="fa fa-pencil me-1"/> اللجنة
@@ -91,6 +95,16 @@
                                             <div class="o_alt_vendor_title text-muted" t-else="">Select vendor</div>
                                             <div class="o_alt_vendor_tag" t-if="vendor.is_original">Original RFQ vendor</div>
                                         </div>
+                                    </div>
+                                    <div class="o_alt_payment_terms" dir="rtl">
+                                        <label class="o_alt_vendor_tag mb-0"><i class="fa fa-money me-1"/> شروط الدفع</label>
+                                        <input t-att-disabled="this.state.data.state !== 'draft' ? true : undefined"
+                                            class="form-control form-control-sm"
+                                            type="text"
+                                            placeholder="مثال: نقداً عند التوريد"
+                                            t-att-value="vendor.payment_terms"
+                                            t-on-change="(ev) => this.updateVendor(vendor, 'payment_terms', ev)"
+                                        />
                                     </div>
                                     <select
                                         class="form-select form-select-sm"
@@ -197,6 +211,15 @@
                         </tr>
                         </tfoot>
                     </table>
+                </div>
+
+                <div class="o_alt_opinion d-flex align-items-center gap-2 mt-2" dir="rtl">
+                    <label class="fw-bold text-nowrap mb-0" for="o_alt_technical_opinion">الرأي الفني</label>
+                    <input id="o_alt_technical_opinion" class="form-control form-control-sm" type="text"
+                        placeholder="اكتب الرأي الفني في سطر واحد"
+                        t-att-disabled="this.state.data.state === 'applied' or this.state.data.state === 'locked' ? true : undefined"
+                        t-att-value="this.state.data.technical_opinion"
+                        t-on-change="this.updateTechnicalOpinion"/>
                 </div>
             </div>
         </div>

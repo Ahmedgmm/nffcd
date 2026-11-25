@@ -41,12 +41,11 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         # No PO policy: keep the purchase-order level out of these committee tests.
         cls.env["citadel.authority.policy"].search([("document_type", "=", "purchase_order")]).active = False
 
-    def _order(self, price=50.0, cost_type="known"):
+    def _order(self, price=50.0):
         return self.env["purchase.order"].with_user(self.buyer).create({
             "partner_id": self.vendor.id,
             "company_id": self.company.id,
             "user_id": self.buyer.id,
-            "citadel_cost_type": cost_type,
             "picking_type_id": self.warehouse.in_type_id.id,
             "order_line": [Command.create({
                 "product_id": self.product.id, "product_qty": 4.0, "price_unit": price,
@@ -60,10 +59,10 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         })
         return wizard.action_apply()
 
-    def test_unknown_cost_requires_signed_pricing_committee(self):
-        order = self._order(price=0.0, cost_type="unknown")
-        with self.assertRaisesRegex(UserError, "pricing committee"):
-            order.with_user(self.buyer).button_confirm()
+    def test_pricing_committee_requires_signed_scan_and_prices(self):
+        order = self._order(price=0.0)
+        action = order.with_user(self.buyer).action_view_pricing_committees()
+        self.assertEqual((action["view_mode"], action["target"]), ("form", "new"))
         with self.assertRaisesRegex(UserError, "at least 3"):
             self.env["citadel.purchase.pricing.committee"].create({
                 "order_id": order.id, "employee_ids": [Command.set(self.plain_employees[:2].ids)],
@@ -73,6 +72,7 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
             "chairman_id": self.plain_employees[1].id,
         })
         self.assertEqual(committee._citadel_ordered_members()[0], self.plain_employees[1])
+        self.assertEqual(order.with_user(self.buyer).action_view_pricing_committees()["view_mode"], "list,form")
         pdf, _type = self.env["ir.actions.report"]._render_qweb_html(
             "citadel_authority.action_report_pricing_committee", committee.ids,
         )
@@ -96,8 +96,6 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         self.assertEqual(action["res_model"], "citadel.purchase.receipt.committee.wizard")
         with self.assertRaisesRegex(UserError, "at least 3"):
             self._set_committee(order, self.employees[:2])
-        with self.assertRaisesRegex(UserError, "no user account"):
-            self._set_committee(order, self.plain_employees)
         self._set_committee(order)
         self.assertEqual(order.state, "purchase")
         picking = order.picking_ids
@@ -188,16 +186,17 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
 
     def test_purchase_request_printout(self):
         department = self.env["hr.department"].create({"name": "إدارة المخازن", "company_id": self.company.id})
-        requester = self.employees[0]
-        requester.department_id = department
+        requester = self.env["hr.employee"].create({
+            "name": "سامح عادل", "user_id": self.buyer.id, "company_id": self.company.id,
+            "department_id": department.id,
+        })
         order = self._order()
-        order.citadel_requester_employee_id = requester
         self.assertEqual(order.citadel_request_department_id, department)
         order.write({
             "citadel_purchase_purpose": "توفير آلات حاسبة",
             "citadel_purchase_method": "practice",
-            "citadel_estimated_amount": 168000,
         })
+        self.assertNotIn("citadel_estimated_amount", order._fields)
         self.company.write({"citadel_letterhead_phone": "3364739", "citadel_letterhead_fax": "3373118"})
         html, _type = self.env["ir.actions.report"]._render_qweb_html(
             "citadel_authority.action_report_purchase_request", order.ids,

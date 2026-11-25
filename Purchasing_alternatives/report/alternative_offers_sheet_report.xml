@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_alternative_offers_sheet" model="report.paperformat">
+        <field name="name">A4 Landscape - Offers Sheet</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <!-- كشف التفريغ والبت في عروض أسعار الممارسة (paper form, five quotations per sheet) -->
+    <template id="report_alternative_offers_sheet_document">
+        <t t-set="company" t-value="doc.company_id"/>
+        <t t-set="order" t-value="doc.order_id"/>
+        <t t-call="web.basic_layout">
+            <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
+            <t t-set="pp" t-value="doc._citadel_pound_piaster"/>
+            <t t-set="members" t-value="doc._citadel_ordered_members()"/>
+            <t t-set="votes" t-value="doc._citadel_report_votes()"/>
+            <t t-set="order_lines" t-value="order.order_line.filtered(lambda line: not line.display_type and line.product_id)"/>
+            <t t-set="opinion" t-value="doc._citadel_sheet_opinion()"/>
+            <t t-foreach="doc._citadel_sheet_vendor_pages()" t-as="vendors">
+                <div class="page o_citadel_minutes o_offers_sheet" t-att-style="'page-break-before: always;' if not vendors_first else None">
+                    <t t-call="citadel_authority.committee_report_style"/>
+                    <style>
+                        .o_offers_sheet { font-size: 11px; line-height: 1.5; }
+                        .o_offers_sheet h2 { font-size: 17px; margin: 2px 0 6px; }
+                        .o_offers_sheet table.o_head { font-size: 10px; line-height: 1.4; margin-bottom: 4px; }
+                        .o_offers_sheet table.o_head img { max-height: 60px; }
+                        .o_offers_sheet table.o_grid { margin: 4px 0 6px; table-layout: fixed; }
+                        .o_offers_sheet table.o_grid th, .o_offers_sheet table.o_grid td { padding: 2px 3px; font-size: 10px; }
+                        .o_offers_sheet table.o_grid th.v { font-size: 9px; }
+                        .o_offers_sheet table.o_grid td.n { text-align: center; white-space: nowrap; }
+                        .o_offers_sheet table.o_grid td.lb { font-weight: bold; background: #f6f6f6; }
+                        .o_offers_sheet table.o_grid tr.sec td { text-align: center; font-weight: bold; background: #eee; }
+                        .o_offers_sheet table.o_foot { width: 100%; margin-top: 4px; }
+                        .o_offers_sheet table.o_foot > tbody > tr > td { vertical-align: top; padding: 0 6px; }
+                        .o_offers_sheet .dots { border-bottom: 1px dotted #777; height: 18px; }
+                        .o_offers_sheet table.o_sig td { text-align: center; padding-top: 14px; width: 33%; }
+                    </style>
+                    <t t-call="citadel_authority.committee_letterhead"/>
+                    <h2>كشف التفريغ والبت في عروض أسعار الممارسة رقم ( <span t-out="rtl(order.name)"/> ) لسنة <span dir="ltr" style="unicode-bidi: embed;" t-out="doc._citadel_sheet_fiscal_year()"/></h2>
+                    <table class="o_ref">
+                        <tr>
+                            <td class="lbl">طلب الشراء</td><td><strong t-out="rtl(order.name)"/></td>
+                            <td class="lbl">الجهة</td><td><strong t-out="rtl(company.name)"/></td>
+                            <td class="lbl">المرجع</td><td><strong t-out="rtl(doc.citadel_authority_request_id.name or doc.name)"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="o_grid">
+                        <colgroup>
+                            <col style="width: 2.5%;"/>
+                            <col style="width: 13%;"/>
+                            <col style="width: 4.5%;"/>
+                            <col style="width: 4.5%;"/>
+                            <col style="width: 2.5%;"/>
+                            <col style="width: 6%;"/>
+                            <t t-foreach="range(5)" t-as="slot">
+                                <col style="width: 2.5%;"/>
+                                <col style="width: 5%;"/>
+                                <col style="width: 5.8%;"/>
+                            </t>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">م</th>
+                                <th rowspan="2">اسم الصنف</th>
+                                <th rowspan="2">الوحدة</th>
+                                <th rowspan="2">الكمية</th>
+                                <th colspan="2">القيمة الإجمالية</th>
+                                <t t-foreach="range(5)" t-as="slot">
+                                    <t t-set="vendor" t-value="vendors[slot] if slot &lt; len(vendors) else False"/>
+                                    <th colspan="3" class="v">
+                                        <div>سعر الوحدة للشركة</div>
+                                        <div t-out="rtl(vendor.partner_id.name) if vendor else '..............'"/>
+                                    </th>
+                                </t>
+                            </tr>
+                            <tr>
+                                <th>قرش</th><th>جنيه</th>
+                                <t t-foreach="range(5)" t-as="slot">
+                                    <th>قرش</th><th>جنيه</th><th class="v">مواصفات أخرى</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="order_lines" t-as="order_line">
+                                <t t-set="total" t-value="pp(order_line.price_subtotal)"/>
+                                <td class="n" t-out="order_line_index + 1"/>
+                                <td t-out="rtl(order_line.product_id.display_name)"/>
+                                <td class="n" t-out="rtl(order_line.uom_id.name)"/>
+                                <td class="n" t-out="order_line.product_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <td class="n" t-out="total[1]"/>
+                                <td class="n" t-out="total[0]"/>
+                                <t t-foreach="range(5)" t-as="slot">
+                                    <t t-set="vendor" t-value="vendors[slot] if slot &lt; len(vendors) else False"/>
+                                    <t t-set="offer" t-value="vendor and vendor.line_ids.filtered(lambda line: line.purchase_order_line_id == order_line)[:1]"/>
+                                    <t t-set="price" t-value="pp(offer.price_unit) if offer and offer.offered_qty else ('', '')"/>
+                                    <td class="n" t-out="price[1]"/>
+                                    <td class="n" t-out="price[0]"/>
+                                    <td/>
+                                </t>
+                            </tr>
+                            <tr>
+                                <t t-set="total" t-value="pp(order.amount_total)"/>
+                                <td colspan="4" class="lb">الإجمالي</td>
+                                <td class="n lb" t-out="total[1]"/>
+                                <td class="n lb" t-out="total[0]"/>
+                                <t t-foreach="range(5)" t-as="slot">
+                                    <t t-set="vendor" t-value="vendors[slot] if slot &lt; len(vendors) else False"/>
+                                    <t t-set="vtotal" t-value="pp(vendor.amount_total) if vendor else ('', '')"/>
+                                    <td class="n lb" t-out="vtotal[1]"/>
+                                    <td class="n lb" t-out="vtotal[0]"/>
+                                    <td class="lb"/>
+                                </t>
+                            </tr>
+                            <tr class="sec"><td colspan="21">شروط عامة</td></tr>
+                            <t t-foreach="[('1', 'شروط الدفع'), ('2', 'ميعاد التسليم')]" t-as="term">
+                                <tr>
+                                    <td class="n" t-out="term[0]"/>
+                                    <td colspan="5" class="lb" t-out="term[1]"/>
+                                    <t t-foreach="range(5)" t-as="slot">
+                                        <t t-set="vendor" t-value="vendors[slot] if slot &lt; len(vendors) else False"/>
+                                        <td colspan="3" class="n" style="font-size: 9px;">
+                                            <div t-if="vendor and term[0] == '1'" dir="rtl" style="direction: rtl; unicode-bidi: embed;" t-out="rtl(vendor.payment_terms or vendor.partner_id.with_company(company).property_supplier_payment_term_id.name or '')"/>
+                                            <t t-if="vendor and term[0] == '2' and vendor.date_planned" t-out="rtl(vendor.date_planned.strftime('%d/%m/%Y'))"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <table class="o_foot">
+                        <tr>
+                            <td style="width: 36%;">
+                                <strong>رأي اللجنة</strong>
+                                <div class="dots" dir="rtl" style="direction: rtl; unicode-bidi: embed;" t-out="rtl(opinion)"/>
+                                <div class="dots"/>
+                                <strong>الرأي الفني</strong>
+                                <div class="dots" dir="rtl" style="direction: rtl; unicode-bidi: embed;" t-out="rtl(doc.technical_opinion or '')"/>
+                                <div class="dots"/>
+                            </td>
+                            <td style="width: 34%;">
+                                <table class="o_text" style="margin: 0;">
+                                    <tr t-foreach="members" t-as="member">
+                                        <t t-set="voted" t-value="votes.get(member.sudo().user_id.id)"/>
+                                        <td style="width: 22px;" t-out="'%s-' % (member_index + 1)"/>
+                                        <td style="white-space: nowrap;" t-out="'رئيس اللجنة' if member_first else 'عضو اللجنة'"/>
+                                        <td t-out="rtl(member.name)"/>
+                                        <td style="white-space: nowrap;">التوقيع ..........</td>
+                                        <td style="font-size: 9px; color: #555;"><t t-if="voted">اعتمد إلكترونياً <span dir="ltr" style="unicode-bidi: embed;" t-out="voted" t-options="{'widget': 'datetime'}"/></t></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 30%;">
+                                <strong>الشئون المالية</strong>
+                                <div class="dots"/>
+                                <div class="dots"/>
+                                <div class="dots"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="o_sig" style="width: 100%;">
+                        <tr><td>مدير الحسابات</td><td>مراجع</td><td>مدير الشئون المالية</td></tr>
+                        <tr><td>..............................</td><td>..............................</td><td>..............................</td></tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_alternative_offers_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="Purchasing_alternatives.report_alternative_offers_sheet_document" t-lang="doc._citadel_report_lang()"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_alternative_offers_sheet" model="ir.actions.report">
+        <field name="name">كشف التفريغ والبت في العروض</field>
+        <field name="model">purchase.alternative.comparison</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">Purchasing_alternatives.report_alternative_offers_sheet</field>
+        <field name="print_report_name">'كشف التفريغ - %s' % object.order_id.name</field>
+        <field name="paperformat_id" ref="paperformat_alternative_offers_sheet"/>
+        <field name="binding_model_id" ref="model_purchase_alternative_comparison"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

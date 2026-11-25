@@ -1,6 +1,6 @@
 {
     'name': 'NFFCD Accounting Enhancement',
-    'version': '20.0.1.1.0',
+    'version': '20.0.1.2.0',
     'summary': 'Safe classifications, split allocations, fund statements and internal transfers',
     'category': 'Accounting/Accounting',
     'author': 'NFFCD',
@@ -12,6 +12,7 @@
         'views/fund_views.xml',
         'views/payment_views.xml',
         'views/account_views.xml',
+        'views/menu_views.xml',
         'wizard/wizard_views.xml',
         'report/statement.xml',
     ],

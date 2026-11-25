@@ -21,6 +21,7 @@ class StockPicking(models.Model):
     citadel_committee_employee_ids = fields.Many2many(
         "hr.employee", "citadel_picking_committee_employee_rel", "picking_id", "employee_id",
         string="لجنة الفحص والاستلام", copy=True,
+        domain="[('company_id', '=', company_id)]",
     )
     citadel_receipt_manager_id = fields.Many2one(
         "res.users", string="مسؤول المخزن", compute="_compute_citadel_receipt_manager",

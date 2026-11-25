@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Accounting header menus: Customers -> Revenues, Vendors -> Expenses -->
+    <record id="account.menu_finance_receivables" model="ir.ui.menu">
+        <field name="name">Revenues</field>
+    </record>
+    <record id="account.menu_finance_payables" model="ir.ui.menu">
+        <field name="name">Expenses</field>
+    </record>
+    <function model="ir.ui.menu" name="write" context="{'lang': 'ar_001'}">
+        <value eval="[ref('account.menu_finance_receivables')]"/>
+        <value eval="{'name': 'الإيرادات'}"/>
+    </function>
+    <function model="ir.ui.menu" name="write" context="{'lang': 'ar_001'}">
+        <value eval="[ref('account.menu_finance_payables')]"/>
+        <value eval="{'name': 'المصروفات'}"/>
+    </function>
+</odoo>

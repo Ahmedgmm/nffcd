@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Purchase order: cost type, pricing and receipt committees -->
+    <!-- Purchase order: minimal additions; committees open as pop-ups when due -->
     <record id="view_purchase_order_form_citadel_workflow" model="ir.ui.view">
         <field name="name">purchase.order.form.citadel.workflow</field>
         <field name="model">purchase.order</field>
@@ -8,21 +8,18 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <field name="citadel_needs_receipt_committee" invisible="True"/>
-                <button name="action_open_pricing_committee" type="object" string="لجنة تسعير"
-                        class="btn-secondary" icon="fa-users"
-                        invisible="citadel_cost_type != 'unknown' or state not in ['draft', 'sent']"/>
-                <button name="action_citadel_print_purchase_request" type="object" string="طلب شراء"
-                        class="btn-secondary" icon="fa-print"/>
                 <button name="action_open_receipt_committee" type="object" string="لجنة الفحص والاستلام"
                         class="btn-secondary" icon="fa-truck"
                         invisible="not citadel_needs_receipt_committee or state not in ['draft', 'sent']"/>
             </xpath>
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                 <button name="action_view_pricing_committees" type="object" class="oe_stat_button" icon="fa-gavel"
-                        invisible="citadel_pricing_committee_count == 0">
-                    <field name="citadel_pricing_committee_count" widget="statinfo" string="لجان التسعير"/>
+                        invisible="not citadel_pricing_committee_count and state not in ['draft', 'sent']">
+                    <field name="citadel_pricing_committee_count" widget="statinfo" string="لجنة التسعير"/>
                 </button>
             </xpath>
+
+            <!-- Fields not used in this workflow -->
             <xpath expr="//field[@name='currency_id'][@groups='base.group_multi_currency']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
@@ -35,16 +32,12 @@
             <xpath expr="//div[@name='reminder']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+
             <xpath expr="//sheet//field[@name='partner_ref']" position="after">
-                <field name="citadel_cost_type" readonly="state not in ['draft', 'sent']"/>
-                <field name="citadel_requester_employee_id" options="{'no_create': True}" readonly="state not in ['draft', 'sent']"/>
-                <field name="citadel_request_department_id" options="{'no_create': True}" readonly="state not in ['draft', 'sent']"/>
-                <field name="citadel_purchase_method" readonly="state not in ['draft', 'sent']"/>
+                <field name="citadel_request_department_id" options="{'no_create': True, 'no_open': True}"
+                       readonly="state not in ['draft', 'sent']"/>
                 <field name="citadel_purchase_purpose" readonly="state not in ['draft', 'sent']"/>
-                <field name="citadel_estimated_amount" readonly="state not in ['draft', 'sent']"/>
-                <field name="citadel_receipt_committee_employee_ids" widget="many2many_tags" readonly="1"
-                       invisible="not citadel_receipt_committee_employee_ids"/>
-                <field name="citadel_receipt_manager_id" invisible="not citadel_receipt_committee_employee_ids"/>
+                <field name="citadel_purchase_method" readonly="state not in ['draft', 'sent']"/>
             </xpath>
         </field>
     </record>
@@ -55,7 +48,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_tree"/>
         <field name="arch" type="xml">
             <field name="state" position="before">
-                <field name="citadel_cost_type" optional="show"/>
+                <field name="citadel_request_department_id" optional="hide"/>
             </field>
         </field>
     </record>

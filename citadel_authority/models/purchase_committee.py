@@ -109,7 +109,7 @@ class CitadelPurchaseReceiptCommitteeWizard(models.TransientModel):
     )
     employee_ids = fields.Many2many(
         "hr.employee", string="أعضاء لجنة الفحص والاستلام",
-        domain="[('company_id', '=', company_id), ('user_id', '!=', False)]",
+        domain="[('company_id', '=', company_id)]",
     )
     warehouse_id = fields.Many2one(related="order_id.picking_type_id.warehouse_id", string="المخزن المستلم")
     manager_id = fields.Many2one(related="order_id.citadel_receipt_manager_id", string="مسؤول المخزن (يؤكد الاستلام)")

@@ -144,6 +144,14 @@ export class PurchaseAlternativeTable extends Component {
         );
     }
 
+    async updateTechnicalOpinion(ev) {
+        this.state.data = await this.orm.call(
+            "purchase.alternative.comparison",
+            "action_update_technical_opinion",
+            [[this.comparisonId], ev.target.value]
+        );
+    }
+
     get authority() {
         return this.state.data.authority || {};
     }

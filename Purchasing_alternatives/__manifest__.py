@@ -1,7 +1,7 @@
 {
     "name": "Purchasing Alternatives",
     "summary": "Simple vendor quote comparison without fake RFQs",
-    "version": "20.0.1.3.0",
+    "version": "20.0.1.10.0",
     "category": "Purchase",
     "author": "NFFCD",
     "license": "LGPL-3",
@@ -17,6 +17,7 @@
         "views/purchase_alternative_views.xml",
         "views/purchase_order_views.xml",
         "report/alternative_committee_report.xml",
+        "report/alternative_offers_sheet_report.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -9,22 +9,15 @@ class PurchaseOrder(models.Model):
     _citadel_guard_fields = {
         "company_id", "partner_id", "currency_id", "date_order", "order_line",
         "payment_term_id", "fiscal_position_id", "user_id",
-        "citadel_cost_type", "citadel_receipt_committee_employee_ids", "picking_type_id",
+        "citadel_receipt_committee_employee_ids", "picking_type_id",
     }
 
-    citadel_cost_type = fields.Selection(
-        [("known", "تكلفة معروفة"), ("unknown", "تكلفة غير معروفة (لجنة تسعير)")],
-        string="نوع التكلفة", required=True, default="known", tracking=True, copy=True,
-    )
-    citadel_requester_employee_id = fields.Many2one(
-        "hr.employee", string="طالب الشراء", tracking=True, check_company=True,
-        default=lambda self: self.env.user.employee_ids.filtered(lambda employee: employee.company_id == self.env.company)[:1],
-        domain="[('company_id', '=', company_id)]",
-    )
     citadel_request_department_id = fields.Many2one(
         "hr.department", string="القسم الطالب للشراء", tracking=True, check_company=True,
-        compute="_compute_citadel_request_department", store=True, readonly=False, precompute=True,
-        help="يُملأ تلقائياً من قسم طالب الشراء، ويمكن تعديله. يُطبع في خانة «القسم الطالب للشراء».",
+        default=lambda self: self.env.user.employee_ids.filtered(
+            lambda employee: employee.company_id == self.env.company
+        )[:1].department_id,
+        help="يُملأ تلقائياً من قسم المستخدم. يُطبع في خانة «القسم الطالب للشراء».",
     )
     citadel_purchase_purpose = fields.Char(string="الغرض من الشراء", tracking=True)
     citadel_purchase_method = fields.Selection(
@@ -36,10 +29,6 @@ class PurchaseOrder(models.Model):
         ],
         string="طريقة الشراء", tracking=True,
     )
-    citadel_estimated_amount = fields.Monetary(
-        string="القيمة التقديرية", currency_field="currency_id", tracking=True,
-        help="تظهر في طلب الشراء. إن تُركت صفراً تُستخدم قيمة الأمر قبل الضرائب عند توفرها.",
-    )
     citadel_pricing_committee_ids = fields.One2many(
         "citadel.purchase.pricing.committee", "order_id", string="لجان التسعير", copy=False,
     )
@@ -47,18 +36,12 @@ class PurchaseOrder(models.Model):
     citadel_receipt_committee_employee_ids = fields.Many2many(
         "hr.employee", "citadel_po_receipt_committee_employee_rel", "order_id", "employee_id",
         string="لجنة الفحص والاستلام", copy=False, tracking=True,
+        domain="[('company_id', '=', company_id)]",
     )
     citadel_receipt_manager_id = fields.Many2one(
         "res.users", string="مسؤول المخزن", compute="_compute_citadel_receipt_manager",
     )
     citadel_needs_receipt_committee = fields.Boolean(compute="_compute_citadel_needs_receipt_committee")
-
-    @api.depends("citadel_requester_employee_id")
-    def _compute_citadel_request_department(self):
-        for order in self:
-            department = order.citadel_requester_employee_id.sudo().department_id
-            if department:
-                order.citadel_request_department_id = department
 
     @api.depends("citadel_pricing_committee_ids")
     def _compute_citadel_pricing_committee_count(self):
@@ -84,11 +67,9 @@ class PurchaseOrder(models.Model):
     def _citadel_purchase_prerequisites(self):
         """Raise when the order is not ready to be submitted or confirmed."""
         for order in self:
-            if order.citadel_cost_type != "unknown":
-                continue
             committee = order.citadel_pricing_committee_ids.sorted("id", reverse=True)[:1]
             if not committee:
-                raise UserError(_("%s has an unknown cost: form a pricing committee first.", order.name))
+                continue
             if not committee.signed_attachment_ids:
                 raise UserError(_(
                     "Attach the signed pricing committee minutes %(committee)s to %(order)s first.",
@@ -157,17 +138,21 @@ class PurchaseOrder(models.Model):
         self.ensure_one()
         if self.state not in ("draft", "sent"):
             raise UserError(_("Pricing committees can only be formed for draft orders."))
+        committee = self.citadel_pricing_committee_ids.sorted("id", reverse=True)[:1]
         return {
             "type": "ir.actions.act_window",
             "name": _("لجنة تسعير"),
             "res_model": "citadel.purchase.pricing.committee",
             "view_mode": "form",
+            "res_id": committee.id or False,
             "target": "new",
             "context": {"default_order_id": self.id},
         }
 
     def action_view_pricing_committees(self):
         self.ensure_one()
+        if not self.citadel_pricing_committee_ids:
+            return self.action_open_pricing_committee()
         return {
             "type": "ir.actions.act_window",
             "name": _("لجان التسعير"),
@@ -234,7 +219,7 @@ class PurchaseOrder(models.Model):
 
     def _citadel_estimated_value(self):
         self.ensure_one()
-        return self.citadel_estimated_amount or self.amount_untaxed
+        return self.amount_total
 
     def _citadel_request_date(self):
         self.ensure_one()
@@ -245,9 +230,7 @@ class PurchaseOrder(models.Model):
         """Purchase-request header shared by the request and committee minutes."""
         self.ensure_one()
         requester = self._citadel_authority_requester()
-        employee = self.citadel_requester_employee_id.sudo() or requester.sudo().employee_ids.filtered(
-            lambda item: item.company_id == self.company_id
-        )[:1]
+        employee = requester.sudo().employee_ids.filtered(lambda item: item.company_id == self.company_id)[:1]
         department = self.citadel_request_department_id or employee.department_id
         return {
             "department": department.name or "",
@@ -266,7 +249,11 @@ class PurchaseOrder(models.Model):
         evaluation_members = self.env["hr.employee"]
         if "alternative_comparison_ids" in self._fields:
             comparison = (self.alternative_comparison_ids | self.alternative_source_comparison_id)[:1]
-            evaluation_members = comparison.sudo().citadel_committee_employee_ids.sorted("name")
+            comparison = comparison.sudo()
+            evaluation_members = (
+                comparison._citadel_ordered_members() if comparison and hasattr(comparison, "_citadel_ordered_members")
+                else comparison.citadel_committee_employee_ids.sorted("name")
+            )
         return pricing_members, evaluation_members
 
     def action_citadel_print_purchase_request(self):
@@ -299,7 +286,6 @@ class PurchaseOrder(models.Model):
             "partner_id": self.partner_id.id,
             "currency_id": self.currency_id.id,
             "date_order": fields.Datetime.to_string(self.date_order) if self.date_order else False,
-            "cost_type": self.citadel_cost_type,
             "receipt_committee": sorted(self.citadel_receipt_committee_employee_ids.ids),
             "picking_type_id": self.picking_type_id.id,
             "lines": [

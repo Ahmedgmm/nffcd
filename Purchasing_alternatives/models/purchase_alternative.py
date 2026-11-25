@@ -11,7 +11,7 @@ class PurchaseAlternativeComparison(models.Model):
     _order = "id desc"
     _check_company_auto = True
 
-    _citadel_guard_fields = {"citadel_committee_employee_ids", "decision_type", "decision_vendor_id"}
+    _citadel_guard_fields = {"citadel_committee_employee_ids", "citadel_chairman_employee_id", "decision_type", "decision_vendor_id"}
 
     name = fields.Char(required=True, copy=False, default=lambda self: _("New Alternative Comparison"))
     order_id = fields.Many2one(
@@ -48,8 +48,14 @@ class PurchaseAlternativeComparison(models.Model):
     citadel_committee_employee_ids = fields.Many2many(
         "hr.employee", "purchase_alternative_committee_employee_rel", "comparison_id", "employee_id",
         string="لجنة البت والمفاضلة", copy=False, tracking=True,
-        domain="[('company_id', '=', company_id), ('user_id', '!=', False)]",
+        domain="[('company_id', '=', company_id)]",
     )
+    citadel_chairman_employee_id = fields.Many2one(
+        "hr.employee", string="رئيس اللجنة", copy=False, tracking=True,
+        domain="[('id', 'in', citadel_committee_employee_ids)]",
+        help="يظهر أولاً في المحاضر والكشوف. إن تُرك فارغاً يُعتبر أول عضو أبجدياً رئيساً.",
+    )
+    technical_opinion = fields.Char(string="الرأي الفني", copy=False, tracking=True)
     decision_type = fields.Selection(
         [("main", "ترسية على مورد واحد"), ("split", "توزيع الكميات على عدة موردين")],
         string="قرار اللجنة", readonly=True, copy=False, tracking=True,
@@ -84,7 +90,7 @@ class PurchaseAlternativeComparison(models.Model):
             )
 
     @api.model
-    def create_from_order(self, order, employees=None):
+    def create_from_order(self, order, employees=None, chairman=None):
         order.ensure_one()
         vals = {
             "name": _("Alternative Generator - %s") % order.name,
@@ -92,6 +98,8 @@ class PurchaseAlternativeComparison(models.Model):
         }
         if employees:
             vals["citadel_committee_employee_ids"] = [fields.Command.set(employees.ids)]
+        if chairman:
+            vals["citadel_chairman_employee_id"] = chairman.id
         comparison = self.create(vals)
         comparison.sync_from_order()
         return comparison
@@ -231,6 +239,66 @@ class PurchaseAlternativeComparison(models.Model):
     def action_print_committee_minutes(self):
         self.ensure_one()
         return self.env.ref("Purchasing_alternatives.action_report_alternative_committee").report_action(self)
+
+    @api.constrains("citadel_chairman_employee_id", "citadel_committee_employee_ids")
+    def _check_chairman_is_member(self):
+        for comparison in self:
+            chairman = comparison.citadel_chairman_employee_id
+            if chairman and chairman not in comparison.citadel_committee_employee_ids:
+                raise ValidationError(_("The chairman must be one of the committee members."))
+
+    def _citadel_ordered_members(self):
+        """Committee members, chairman first, then by name."""
+        self.ensure_one()
+        members = self.citadel_committee_employee_ids
+        chairman = self.citadel_chairman_employee_id & members or members.sorted("name")[:1]
+        return chairman | (members - chairman).sorted("name")
+
+    def action_update_technical_opinion(self, value):
+        self.ensure_one()
+        if self.state != "draft":
+            raise UserError(_("This comparison has already been applied or locked."))
+        self.technical_opinion = (value or "").strip() or False
+        return self.get_table_data()
+
+    def action_print_offers_sheet(self):
+        self.ensure_one()
+        return self.env.ref("Purchasing_alternatives.action_report_alternative_offers_sheet").report_action(self)
+
+    def _citadel_sheet_vendor_pages(self, size=5):
+        """Vendors in groups of ``size`` (the paper sheet holds five quotations)."""
+        self.ensure_one()
+        vendors = self.vendor_ids.sorted("sequence")
+        return [vendors[index:index + size] for index in range(0, len(vendors), size)] or [vendors]
+
+    @api.model
+    def _citadel_pound_piaster(self, amount):
+        """Split an amount into (pounds, piasters) as printed on Egyptian forms."""
+        if not amount:
+            return "", ""
+        piasters_total = int(round(abs(amount) * 100))
+        pounds, piasters = divmod(piasters_total, 100)
+        return "{:,}".format(pounds), "%02d" % piasters
+
+    def _citadel_sheet_fiscal_year(self):
+        """Egyptian fiscal year (July–June) of the purchase request."""
+        self.ensure_one()
+        value = self.order_id.date_order or fields.Datetime.now()
+        start = value.year if value.month >= 7 else value.year - 1
+        return "%s/%s" % (start, start + 1)
+
+    def _citadel_sheet_opinion(self):
+        """One-line committee opinion derived from the decision."""
+        self.ensure_one()
+        if self.decision_type == "main" and self.decision_vendor_id:
+            return "الترسية على المورد %s بإجمالي %s" % (
+                self.decision_vendor_id.partner_id.name,
+                "{:,.2f}".format(self.decision_amount),
+            )
+        if self.decision_type == "split":
+            names = self._citadel_decision_lines().vendor_id.sorted("sequence").partner_id.mapped("name")
+            return "توزيع الكميات على الموردين %s" % " و ".join(names)
+        return ""
 
     def action_open_form(self):
         self.ensure_one()
@@ -397,7 +465,8 @@ class PurchaseAlternativeComparison(models.Model):
             "can_approve": bool(request.can_approve) if request else False,
             "next": request.next_approval_display or "",
             "approved_by": request.approved_by_display or "",
-            "committee": ", ".join(self.citadel_committee_employee_ids.mapped("name")),
+            "committee": ", ".join(self._citadel_ordered_members().mapped("name")),
+            "chairman": self._citadel_ordered_members()[:1].name or "",
             "decision": dict(self._fields["decision_type"].selection).get(self.decision_type, ""),
             "decision_vendor_id": self.decision_vendor_id.id,
             "decision_vendor": self.decision_vendor_id.partner_id.display_name or "",
@@ -407,6 +476,7 @@ class PurchaseAlternativeComparison(models.Model):
             "name": self.name,
             "state": self.state if self.is_editable or self.state != "draft" else "review",
             "authority": authority,
+            "technical_opinion": self.technical_opinion or "",
             "order": {
                 "id": self.order_id.id,
                 "name": self.order_id.name,
@@ -477,8 +547,13 @@ class PurchaseAlternativeComparison(models.Model):
         if "partner_id" in values:
             partner_id = int(values["partner_id"] or 0)
             allowed["partner_id"] = partner_id or False
+            if partner_id and not vendor.payment_terms and "payment_terms" not in values:
+                term = self.env["res.partner"].browse(partner_id).with_company(self.company_id).property_supplier_payment_term_id
+                allowed["payment_terms"] = term.name or False
         if "date_planned" in values:
             allowed["date_planned"] = (values["date_planned"] or "").replace("T", " ") or False
+        if "payment_terms" in values:
+            allowed["payment_terms"] = (values["payment_terms"] or "").strip() or False
         if allowed:
             vendor.write(allowed)
         return self.get_table_data()
@@ -651,7 +726,6 @@ class PurchaseAlternativeComparison(models.Model):
             "date_planned": vendor.date_planned or source_order.date_planned,
             "is_fuel_po": source_order.is_fuel_po if "is_fuel_po" in source_order._fields else False,
             "alternative_source_comparison_id": self.id,
-            "citadel_cost_type": source_order.citadel_cost_type,
         }
         optional_fields = [
             "requisition_agreement_id",
@@ -693,6 +767,7 @@ class PurchaseAlternativeVendor(models.Model):
         check_company=True,
     )
     date_planned = fields.Datetime(string="Delivery Date")
+    payment_terms = fields.Char(string="شروط الدفع")
     is_original = fields.Boolean(copy=False)
     sequence = fields.Integer(default=10)
     line_ids = fields.One2many(
@@ -715,6 +790,7 @@ class PurchaseAlternativeVendor(models.Model):
             "partner_id": self.partner_id.id,
             "partner": self.partner_id.display_name or "",
             "date_planned": fields.Datetime.to_string(self.date_planned) if self.date_planned else "",
+            "payment_terms": self.payment_terms or "",
             "is_original": self.is_original,
             "amount_total": self.amount_total,
         }

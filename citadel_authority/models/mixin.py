@@ -168,23 +168,12 @@ class CitadelAuthorityMixin(models.AbstractModel):
                 "Committee members must work in %(company)s: %(names)s",
                 company=company.display_name, names=", ".join(wrong_company.mapped("name")),
             ))
+        # User-account checks are disabled until HR data is loaded.
         if not need_users:
             return self.env["res.users"]
         users = employees.sudo().user_id
-        missing = employees.filtered(lambda employee: not employee.sudo().user_id)
-        if missing:
-            raise UserError(_(
-                "These committee members have no user account, so they cannot approve: %s",
-                ", ".join(missing.mapped("name")),
-            ))
-        if len(users) != len(employees):
+        if len(users) != len(employees.filtered(lambda employee: employee.sudo().user_id)):
             raise UserError(_("Two committee members are linked to the same user."))
-        no_access = users.filtered(lambda user: not user.active or user.share or company not in user.company_ids)
-        if no_access:
-            raise UserError(_(
-                "These users cannot access %(company)s: %(names)s",
-                company=company.display_name, names=", ".join(no_access.mapped("name")),
-            ))
         conflict = users & (excluded_users or self.env["res.users"])
         if conflict:
             raise UserError(_(

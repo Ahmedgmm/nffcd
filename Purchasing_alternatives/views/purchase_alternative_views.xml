@@ -18,6 +18,7 @@
                             confirm="سيُلغى طلب اعتماد اللجنة الحالي. متابعة؟"/>
                     <button name="action_print_committee_minutes" type="object" string="طباعة محضر اللجنة" icon="fa-print"
                             invisible="not citadel_committee_employee_ids"/>
+                    <button name="action_print_offers_sheet" type="object" string="طباعة كشف التفريغ" icon="fa-print"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,applied,locked"/>
                 </header>
                 <sheet>
@@ -36,6 +37,8 @@
                         <group>
                             <field name="citadel_committee_employee_ids" widget="many2many_tags"
                                    options="{'no_create': True}" readonly="not is_editable"/>
+                            <field name="citadel_chairman_employee_id" options="{'no_create': True}" readonly="not is_editable"/>
+                            <field name="technical_opinion" readonly="state != 'draft'"/>
                             <field name="decision_type"/>
                             <field name="decision_vendor_id" invisible="decision_type != 'main'"/>
                             <field name="decision_amount" widget="monetary"/>
@@ -49,6 +52,7 @@
                                     <field name="sequence" widget="handle"/>
                                     <field name="partner_id"/>
                                     <field name="date_planned"/>
+                                    <field name="payment_terms"/>
                                     <field name="amount_total" widget="monetary"/>
                                     <field name="currency_id" column_invisible="True"/>
                                     <field name="is_original"/>
@@ -101,8 +105,12 @@
                 </p>
                 <field name="order_id" invisible="1"/>
                 <field name="company_id" invisible="1"/>
-                <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"
-                       placeholder="أعضاء اللجنة"/>
+                <group>
+                    <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"
+                           placeholder="أعضاء اللجنة"/>
+                    <field name="chairman_id" options="{'no_create': True, 'no_open': True}"
+                           placeholder="أول عضو أبجدياً إن تُرك فارغاً"/>
+                </group>
                 <footer>
                     <button name="action_create" type="object" string="إنشاء المقارنة" class="btn-primary"/>
                     <button string="إلغاء" special="cancel" class="btn-secondary"/>

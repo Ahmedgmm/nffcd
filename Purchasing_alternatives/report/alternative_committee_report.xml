@@ -6,7 +6,7 @@
         <t t-call="web.basic_layout">
             <t t-set="rtl" t-value="env['citadel.authority.mixin']._citadel_rtl"/>
             <t t-set="day_date" t-value="doc._citadel_report_day_and_date()"/>
-            <t t-set="members" t-value="doc.citadel_committee_employee_ids.sorted('name')"/>
+            <t t-set="members" t-value="doc._citadel_ordered_members()"/>
             <t t-set="vendors" t-value="doc.vendor_ids.sorted('sequence')"/>
             <t t-set="votes" t-value="doc._citadel_report_votes()"/>
             <t t-set="order_lines" t-value="order.order_line.filtered(lambda line: not line.display_type and line.product_id)"/>

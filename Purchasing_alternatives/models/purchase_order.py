@@ -1,4 +1,4 @@
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -95,8 +95,17 @@ class PurchaseAlternativeCommitteeWizard(models.TransientModel):
     company_id = fields.Many2one(related="order_id.company_id")
     employee_ids = fields.Many2many(
         "hr.employee", string="أعضاء لجنة البت والمفاضلة",
-        domain="[('company_id', '=', company_id), ('user_id', '!=', False)]",
+        domain="[('company_id', '=', company_id)]",
     )
+    chairman_id = fields.Many2one(
+        "hr.employee", string="رئيس اللجنة",
+        domain="[('id', 'in', employee_ids)]",
+    )
+
+    @api.onchange("employee_ids")
+    def _onchange_employee_ids_chairman(self):
+        if self.chairman_id and self.chairman_id not in self.employee_ids:
+            self.chairman_id = False
 
     def action_create(self):
         self.ensure_one()
@@ -108,7 +117,10 @@ class PurchaseAlternativeCommitteeWizard(models.TransientModel):
         comparison = order.alternative_comparison_ids[:1]
         if comparison:
             comparison._check_editable()
-            comparison.citadel_committee_employee_ids = [fields.Command.set(self.employee_ids.ids)]
+            comparison.write({
+                "citadel_committee_employee_ids": [fields.Command.set(self.employee_ids.ids)],
+                "citadel_chairman_employee_id": self.chairman_id.id,
+            })
         else:
-            comparison = comparison_model.create_from_order(order, employees=self.employee_ids)
+            comparison = comparison_model.create_from_order(order, employees=self.employee_ids, chairman=self.chairman_id)
         return order._alternative_table_action(comparison)
