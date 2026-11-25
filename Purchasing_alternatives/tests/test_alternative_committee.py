@@ -168,3 +168,44 @@ class TestAlternativeCommittee(TransactionCase):
         for text in (order.name.lstrip("P0123456789") or "P", "دفع خلال", "مطابق للمواصفات", "رئيس اللجنة"):
             self.assertIn(text, html)
         self.assertNotIn("مدة سريان العرض", html)
+
+    def test_pricing_committee_reference_column(self):
+        order = self._order()
+        comparison, vendor = self._comparison(order)
+        reference = comparison.vendor_ids.browse(comparison.action_add_vendor())
+        data = comparison.action_update_vendor(reference.id, {"partner_id": "reference"})
+        self.assertTrue(reference.is_reference)
+        self.assertFalse(reference.partner_id)
+        # Quantity follows the request and cannot be edited; only the price is entered.
+        self.assertEqual(reference.line_ids.offered_qty, 10.0)
+        comparison.action_update_cell(reference.line_ids.id, {"offered_qty": 3.0, "price_unit": 5.0})
+        self.assertEqual(reference.line_ids.offered_qty, 10.0)
+        self.assertEqual(reference.amount_total, 50.0)
+        data = comparison.get_table_data()
+        row = data["rows"][0]
+        # Cheapest price (5) is the reference: it must not be marked best nor allocated.
+        self.assertEqual(row["allocated_qty"], 20.0)
+        ref_cell = next(cell for cell in row["cells"] if cell["is_reference"])
+        self.assertFalse(ref_cell["is_lowest_price"])
+        best = next(cell for cell in row["cells"] if cell["is_lowest_price"])
+        self.assertEqual(best["vendor_id"], vendor.id)
+        self.assertIn("لجنة تسعير", [item["partner"] for item in data["vendors"]])
+        with self.assertRaisesRegex(UserError, "استرشادي"):
+            comparison.action_submit_main_decision(reference.id)
+        with self.assertRaises(Exception):
+            comparison.vendor_ids.browse(comparison.action_add_vendor()).write({"is_reference": True})
+        html = self.env["ir.actions.report"]._render_qweb_html(
+            "Purchasing_alternatives.action_report_alternative_offers_sheet", comparison.ids,
+        )[0].decode()
+        self.assertIn("لجنة تسعير (استرشادي)", html)
+        # Split ignores the reference column (its quantity is not an allocation).
+        original = comparison.vendor_ids.filtered("is_original")
+        comparison.action_update_cell(original.line_ids.id, {"offered_qty": 4.0})
+        comparison.action_update_cell(vendor.line_ids.id, {"offered_qty": 6.0})
+        comparison.action_submit_split_decision()
+        self.assertEqual(comparison.decision_amount, 4 * 20.0 + 6 * 15.0)
+        for member in self.members:
+            comparison.with_user(member).action_citadel_approve()
+        comparison.action_create_split_pos()
+        self.assertEqual(comparison.split_order_ids.partner_id, self.vendor_b)
+        self.assertEqual(comparison.state, "applied")

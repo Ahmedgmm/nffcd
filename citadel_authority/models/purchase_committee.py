@@ -20,7 +20,7 @@ class CitadelPurchasePricingCommittee(models.Model):
 
     name = fields.Char(string="رقم المحضر", required=True, readonly=True, copy=False, default=lambda self: _("New"))
     order_id = fields.Many2one(
-        "purchase.order", string="أمر الشراء", required=True, ondelete="cascade", index=True, check_company=True,
+        "purchase.order", string="طلب الشراء", required=True, ondelete="cascade", index=True, check_company=True,
     )
     company_id = fields.Many2one(related="order_id.company_id", store=True, readonly=True, string="الشركة")
     date = fields.Date(string="تاريخ انعقاد اللجنة", required=True, default=fields.Date.context_today, tracking=True)
@@ -35,7 +35,7 @@ class CitadelPurchasePricingCommittee(models.Model):
         help="يظهر أولاً في المحضر. إن تُرك فارغاً يُعتبر أول عضو رئيساً.",
     )
     purpose = fields.Text(
-        string="الغرض", default="تقدير القيمة السوقية العادلة للأصناف الواردة بأمر الشراء",
+        string="الغرض", default="تقدير القيمة السوقية العادلة للأصناف الواردة بطلب الشراء",
     )
     signed_attachment_ids = fields.Many2many(
         "ir.attachment", "citadel_pricing_committee_attachment_rel", "committee_id", "attachment_id",

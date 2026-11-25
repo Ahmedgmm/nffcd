@@ -46,6 +46,9 @@ export class PurchaseAlternativeTable extends Component {
 
     cellClass(cell) {
         const classes = ["o_alt_offer_cell"];
+        if (cell.is_reference) {
+            classes.push("o_alt_reference_cell");
+        }
         if (cell.is_lowest_price) {
             classes.push("o_alt_lowest_price");
         }

@@ -132,8 +132,13 @@ class PurchaseAlternativeComparison(models.Model):
         if self.decision_type == "main":
             return self.decision_vendor_id.line_ids.filtered(lambda line: line._is_positive_qty())
         if self.decision_type == "split":
-            return self.line_ids.filtered(lambda line: line._is_positive_qty())
+            return self._citadel_competing_lines().filtered(lambda line: line._is_positive_qty())
         return self.env["purchase.alternative.line"]
+
+    def _citadel_competing_lines(self):
+        """Offer lines that take part in the comparison (the pricing-committee reference column does not)."""
+        self.ensure_one()
+        return self.line_ids.filtered(lambda line: not line.vendor_id.is_reference)
 
     def _citadel_decision_amount(self):
         self.ensure_one()
@@ -151,7 +156,7 @@ class PurchaseAlternativeComparison(models.Model):
             "decision_vendor": self.decision_vendor_id.id,
             "committee": sorted(self.citadel_committee_employee_ids.ids),
             "vendors": [
-                [vendor.id, vendor.partner_id.id, fields.Datetime.to_string(vendor.date_planned) if vendor.date_planned else False]
+                [vendor.id, vendor.partner_id.id, vendor.is_reference, fields.Datetime.to_string(vendor.date_planned) if vendor.date_planned else False]
                 for vendor in self.vendor_ids.sorted("id")
             ],
             "offers": [
@@ -195,9 +200,9 @@ class PurchaseAlternativeComparison(models.Model):
         self._citadel_check_committee()
         if decision_type == "split":
             self._check_split_allocations()
-            if not self.line_ids.filtered(lambda line: line._is_positive_qty()):
+            if not self._citadel_competing_lines().filtered(lambda line: line._is_positive_qty()):
                 raise UserError(_("أدخل كمية واحدة على الأقل قبل إرسال القرار"))
-            for item in self.vendor_ids:
+            for item in self.vendor_ids.filtered(lambda vendor: not vendor.is_reference):
                 if item.line_ids.filtered(lambda line: line._is_positive_qty()) and not item.partner_id:
                     raise UserError(_("اختر المورد لكل عمود به كميات"))
         self.with_context(citadel_skip_invalidation=True).write({
@@ -372,13 +377,15 @@ class PurchaseAlternativeComparison(models.Model):
                     and item.purchase_order_line_id == order_line
                 )[:1]
                 if line:
+                    if vendor.is_reference and line.offered_qty != order_line.product_qty:
+                        line.offered_qty = order_line.product_qty
                     continue
                 self.env["purchase.alternative.line"].create(
                     {
                         "comparison_id": self.id,
                         "vendor_id": vendor.id,
                         "purchase_order_line_id": order_line.id,
-                        "offered_qty": order_line.product_qty if vendor.is_original else 0.0,
+                        "offered_qty": order_line.product_qty if (vendor.is_original or vendor.is_reference) else 0.0,
                         "price_unit": order_line.price_unit if vendor.is_original else 0.0,
                     }
                 )
@@ -434,17 +441,19 @@ class PurchaseAlternativeComparison(models.Model):
                     and item.purchase_order_line_id == order_line
                 )[:1]
                 if line:
-                    allocated_qty += line.offered_qty
+                    if not vendor.is_reference:
+                        allocated_qty += line.offered_qty
                     cells.append(line._table_cell_values())
             positive_prices = [
                 cell["price_unit"]
                 for cell in cells
-                if cell["offered_qty"] > 0 and cell["price_unit"] > 0
+                if not cell["is_reference"] and cell["offered_qty"] > 0 and cell["price_unit"] > 0
             ]
             lowest_price = min(positive_prices) if positive_prices else 0.0
             for cell in cells:
                 cell["is_lowest_price"] = bool(
                     lowest_price
+                    and not cell["is_reference"]
                     and cell["offered_qty"] > 0
                     and cell["price_unit"] == lowest_price
                 )
@@ -540,7 +549,7 @@ class PurchaseAlternativeComparison(models.Model):
         if not line or line.comparison_id != self:
             raise UserError(_("بند عرض غير صالح"))
         allowed = {}
-        if "offered_qty" in values:
+        if "offered_qty" in values and not line.vendor_id.is_reference:
             allowed["offered_qty"] = float(values["offered_qty"] or 0.0)
         if "price_unit" in values:
             allowed["price_unit"] = float(values["price_unit"] or 0.0)
@@ -555,9 +564,15 @@ class PurchaseAlternativeComparison(models.Model):
         if not vendor or vendor.comparison_id != self:
             raise UserError(_("عمود مورد غير صالح"))
         allowed = {}
-        if "partner_id" in values:
+        if values.get("partner_id") == "reference":
+            if vendor.is_original:
+                raise UserError(_("لا يمكن تحويل مورد طلب الشراء الأصلي إلى لجنة تسعير"))
+            vendor.write({"is_reference": True, "partner_id": False, "payment_term_id": False})
+            values = {key: value for key, value in values.items() if key not in ("partner_id", "payment_term_id")}
+        elif "partner_id" in values:
             partner_id = int(values["partner_id"] or 0)
             allowed["partner_id"] = partner_id or False
+            allowed["is_reference"] = False
             if partner_id and not vendor.payment_term_id and "payment_term_id" not in values:
                 term = self.env["res.partner"].browse(partner_id).with_company(self.company_id).property_supplier_payment_term_id
                 allowed["payment_term_id"] = term.id or False
@@ -609,9 +624,9 @@ class PurchaseAlternativeComparison(models.Model):
             raise UserError(_("يجب أن تعتمد اللجنة قرار التوزيع أولاً"))
         self._check_split_allocations()
         original_vendor = self.vendor_ids.filtered("is_original")[:1]
-        has_positive_qty = bool(self.line_ids.filtered(lambda line: line._is_positive_qty()))
+        has_positive_qty = bool(self._citadel_competing_lines().filtered(lambda line: line._is_positive_qty()))
         created_orders = self.env["purchase.order"]
-        for vendor in self.vendor_ids.filtered(lambda item: not item.is_original).sorted("sequence"):
+        for vendor in self.vendor_ids.filtered(lambda item: not item.is_original and not item.is_reference).sorted("sequence"):
             if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
                 continue
             if not vendor.partner_id:
@@ -654,7 +669,7 @@ class PurchaseAlternativeComparison(models.Model):
             and not getattr(line, "is_downpayment", False)
         ):
             allocated_qty = sum(
-                self.line_ids.filtered(lambda line, order_line=order_line: line.purchase_order_line_id == order_line).mapped(
+                self._citadel_competing_lines().filtered(lambda line, order_line=order_line: line.purchase_order_line_id == order_line).mapped(
                     "offered_qty"
                 )
             )
@@ -673,6 +688,8 @@ class PurchaseAlternativeComparison(models.Model):
         vendor = self.env["purchase.alternative.vendor"].browse(vendor_id).exists()
         if not vendor or vendor.comparison_id != self:
             raise UserError(_("مورد غير صالح"))
+        if vendor.is_reference:
+            raise UserError(_("لجنة التسعير عمود استرشادي خارج المفاضلة ولا يمكن الترسية عليها"))
         if not vendor.partner_id:
             raise UserError(_("اختر المورد قبل إنشاء أمر الشراء"))
         if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
@@ -790,6 +807,10 @@ class PurchaseAlternativeVendor(models.Model):
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
     )
     is_original = fields.Boolean(string="المورد الأصلي", copy=False)
+    is_reference = fields.Boolean(
+        string="لجنة تسعير (استرشادي)", copy=False,
+        help="عمود أسعار لجنة التسعير الداخلية للاسترشاد فقط: لا يدخل في المفاضلة أو أفضل سعر أو التوزيع أو الترسية.",
+    )
     sequence = fields.Integer(string="التسلسل", default=10)
     line_ids = fields.One2many(
         "purchase.alternative.line",
@@ -798,6 +819,27 @@ class PurchaseAlternativeVendor(models.Model):
         copy=False,
     )
     amount_total = fields.Monetary(string="إجمالي العرض", compute="_compute_amount_total", currency_field="currency_id")
+
+    @api.constrains("is_reference", "is_original", "comparison_id")
+    def _check_reference(self):
+        for vendor in self.filtered("is_reference"):
+            if vendor.is_original:
+                raise ValidationError(_("لا يمكن أن يكون مورد طلب الشراء الأصلي لجنة تسعير"))
+            if len(vendor.comparison_id.vendor_ids.filtered("is_reference")) > 1:
+                raise ValidationError(_("يسمح بعمود واحد فقط للجنة التسعير في كل مقارنة"))
+
+    def write(self, vals):
+        changed = self.filtered(lambda vendor: "is_reference" in vals and vendor.is_reference != bool(vals["is_reference"]))
+        result = super().write(vals)
+        if changed:
+            for vendor in changed:
+                for line in vendor.line_ids:
+                    line.offered_qty = line.purchase_order_line_id.product_qty if vendor.is_reference else 0.0
+        return result
+
+    def _citadel_label(self):
+        self.ensure_one()
+        return "لجنة تسعير" if self.is_reference else (self.partner_id.name or "")
 
     @api.depends("line_ids.price_subtotal")
     def _compute_amount_total(self):
@@ -809,7 +851,8 @@ class PurchaseAlternativeVendor(models.Model):
         return {
             "id": self.id,
             "partner_id": self.partner_id.id,
-            "partner": self.partner_id.display_name or "",
+            "partner": "لجنة تسعير" if self.is_reference else (self.partner_id.display_name or ""),
+            "is_reference": self.is_reference,
             "date_planned": fields.Datetime.to_string(self.date_planned) if self.date_planned else "",
             "payment_term_id": self.payment_term_id.id,
             "payment_term": self.payment_term_id.display_name or "",
@@ -885,6 +928,7 @@ class PurchaseAlternativeLine(models.Model):
         return {
             "id": self.id,
             "vendor_id": self.vendor_id.id,
+            "is_reference": self.vendor_id.is_reference,
             "purchase_order_line_id": self.purchase_order_line_id.id,
             "offered_qty": self.offered_qty,
             "price_unit": self.price_unit,

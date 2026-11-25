@@ -36,7 +36,7 @@
                             <th rowspan="2">الصنف</th>
                             <th rowspan="2" style="width: 8%;">المطلوب</th>
                             <th t-foreach="vendors" t-as="vendor" colspan="2"
-                                t-out="rtl(vendor.partner_id.name or 'مورد غير محدد')"/>
+                                t-out="rtl(vendor._citadel_label() + ' (استرشادي)' if vendor.is_reference else (vendor.partner_id.name or 'مورد غير محدد'))"/>
                         </tr>
                         <tr>
                             <t t-foreach="vendors" t-as="vendor">

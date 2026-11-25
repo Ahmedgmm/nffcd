@@ -84,16 +84,17 @@
                         <tr>
                             <th class="o_alt_product_col">الصنف</th>
                             <th class="text-end o_alt_qty_col">المطلوب</th>
-                            <th t-foreach="this.state.data.vendors" t-as="vendor" t-key="vendor.id" class="o_alt_vendor_col">
+                            <th t-foreach="this.state.data.vendors" t-as="vendor" t-key="vendor.id" t-att-class="vendor.is_reference ? 'o_alt_vendor_col o_alt_reference_col' : 'o_alt_vendor_col'">
                                 <div class="o_alt_vendor_card">
                                     <div class="o_alt_vendor_top">
-                                        <span t-att-class="vendor.is_original ? 'o_alt_vendor_icon o_alt_vendor_original' : 'o_alt_vendor_icon'">
-                                            <i t-att-class="vendor.is_original ? 'fa fa-star' : 'fa fa-truck'"/>
+                                        <span t-att-class="vendor.is_original ? 'o_alt_vendor_icon o_alt_vendor_original' : (vendor.is_reference ? 'o_alt_vendor_icon o_alt_vendor_reference' : 'o_alt_vendor_icon')">
+                                            <i t-att-class="vendor.is_original ? 'fa fa-star' : (vendor.is_reference ? 'fa fa-balance-scale' : 'fa fa-truck')"/>
                                         </span>
                                         <div>
                                             <div class="o_alt_vendor_title" t-if="vendor.partner" t-esc="vendor.partner"/>
                                             <div class="o_alt_vendor_title text-muted" t-else="">اختر المورد</div>
                                             <div class="o_alt_vendor_tag" t-if="vendor.is_original">مورد طلب الشراء الأصلي</div>
+                                            <div class="o_alt_vendor_tag" t-if="vendor.is_reference">استرشادي — خارج المفاضلة</div>
                                         </div>
                                     </div>
                                     <select
@@ -102,6 +103,7 @@
                                         t-on-change="(ev) => this.updateVendor(vendor, 'partner_id', ev)"
                                     >
                                         <option value="">— اختر المورد —</option>
+                                        <option t-if="!vendor.is_original" value="reference" t-att-selected="vendor.is_reference ? true : undefined">لجنة تسعير (استرشادي)</option>
                                         <option
                                             t-foreach="this.state.data.vendor_options"
                                             t-as="option"
@@ -112,7 +114,7 @@
                                             <t t-esc="option.name"/>
                                         </option>
                                     </select>
-                                    <div class="o_alt_payment_terms">
+                                    <div class="o_alt_payment_terms" t-if="!vendor.is_reference">
                                         <label class="o_alt_vendor_tag mb-0"><i class="fa fa-money me-1"/> شروط الدفع</label>
                                         <select
                                             class="form-select form-select-sm"
@@ -160,7 +162,7 @@
                             </td>
                             <td t-foreach="row.cells" t-as="cell" t-key="cell.id" t-att-class="this.cellClass(cell)">
                                 <div class="o_alt_cell_inputs">
-                                    <div>
+                                    <div t-if="!cell.is_reference">
                                         <label><i class="fa fa-cubes me-1"/> الكمية</label>
                                         <input t-att-disabled="this.state.data.state !== 'draft' ? true : undefined" class="form-control form-control-sm text-end"
                                            type="number"
@@ -204,7 +206,8 @@
                             <th colspan="2">إجمالي المورد / الإجراءات</th>
                             <td t-foreach="this.state.data.vendors" t-as="vendor" t-key="vendor.id">
                                 <div class="o_alt_vendor_total" t-esc="this.formatMoney(vendor.amount_total)"/>
-                                <div class="o_alt_footer_actions">
+                                <div class="o_alt_vendor_tag" t-if="vendor.is_reference">للاسترشاد فقط</div>
+                                <div class="o_alt_footer_actions" t-if="!vendor.is_reference">
                                     <button t-att-class="this.isApprovedMain(vendor) ? 'btn btn-sm btn-success' : 'btn btn-sm btn-outline-primary'"
                                             t-att-disabled="this.state.data.state !== 'draft' and !this.isApprovedMain(vendor)"
                                             t-on-click="() => this.applyMain(vendor)">

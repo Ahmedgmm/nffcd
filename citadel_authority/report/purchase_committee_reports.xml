@@ -141,7 +141,7 @@
                 <table class="o_ref">
                     <tr>
                         <td class="lbl">رقم المحضر</td><td><strong t-out="rtl(doc.name)"/></td>
-                        <td class="lbl">أمر الشراء</td><td><strong t-out="rtl(order.name)"/></td>
+                        <td class="lbl">طلب الشراء</td><td><strong t-out="rtl(order.name)"/></td>
                     </tr>
                     <tr>
                         <td class="lbl">الجهة</td><td><strong t-out="rtl(company.name)"/></td>
@@ -152,7 +152,7 @@
 
                 <table class="o_text"><tr><td>إنه في يوم <t t-out="day_date[0]"/> الموافق <t t-out="rtl(day_date[1])"/></td></tr><tr><td>وبناءً على التكليف الصادر من إدارة <t t-out="rtl(company.name)"/></td></tr><tr><td>اجتمعت اللجنة المشكلة من السادة</td></tr></table>
                 <table class="o_text o_members"><tr t-foreach="members" t-as="member"><td style="width: 24px;" t-out="'%s.' % (member_index + 1)"/><td t-out="rtl(env['citadel.authority.mixin']._citadel_member_line(member, 'رئيساً' if member_first else 'عضواً'))"/></tr></table>
-                <table class="o_text"><tr><td>وذلك لـ<t t-out="rtl(doc.purpose or 'تقدير القيمة السوقية العادلة للأصناف الواردة بأمر الشراء')"/></td></tr><tr><td>وقد قامت اللجنة بمعاينة المواصفات المطلوبة واستطلاع الأسعار السائدة في السوق</td></tr><tr><td>وانتهت إلى تقدير الأسعار المدونة بخط اليد في الجدول التالي</td></tr></table>
+                <table class="o_text"><tr><td>وذلك لـ<t t-out="rtl(doc.purpose or 'تقدير القيمة السوقية العادلة للأصناف الواردة بطلب الشراء')"/></td></tr><tr><td>وقد قامت اللجنة بمعاينة المواصفات المطلوبة واستطلاع الأسعار السائدة في السوق</td></tr><tr><td>وانتهت إلى تقدير الأسعار المدونة بخط اليد في الجدول التالي</td></tr></table>
 
                 <table class="o_grid">
                     <thead>
@@ -199,7 +199,7 @@
                         <td>..............................</td>
                     </tr>
                 </table>
-                <table class="o_text o_note"><tr><td>ترفع نسخة ممسوحة من هذا المحضر بعد التوقيع على أمر الشراء قبل تقديمه للاعتماد</td></tr></table>
+                <table class="o_text o_note"><tr><td>ترفع نسخة ممسوحة من هذا المحضر بعد التوقيع على طلب الشراء قبل تقديمه للاعتماد</td></tr></table>
             </div>
         </t>
     </template>

@@ -195,6 +195,17 @@
         color: #b7791f;
     }
 
+    .o_alt_vendor_reference {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        color: #475569;
+    }
+
+    .o_alt_reference_col,
+    .o_alt_reference_cell {
+        background: repeating-linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0 8px, transparent 8px 16px);
+    }
+
     .o_alt_vendor_title {
         font-size: 13px;
         font-weight: 700;

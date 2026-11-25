@@ -56,6 +56,7 @@
                                     <field name="amount_total" widget="monetary"/>
                                     <field name="currency_id" column_invisible="True"/>
                                     <field name="is_original"/>
+                                    <field name="is_reference" readonly="1"/>
                                 </list>
                             </field>
                         </page>
