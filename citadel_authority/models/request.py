@@ -55,8 +55,12 @@ class CitadelAuthorityRequest(models.Model):
     approval_timeline = fields.Html(
         string="مسار الاعتماد", compute="_compute_approval_presentation", sanitize=True,
     )
-    can_approve = fields.Boolean(string="يمكنه الاعتماد", compute="_compute_permissions")
-    can_reject = fields.Boolean(string="يمكنه الرفض", compute="_compute_permissions")
+    can_approve = fields.Boolean(
+        string="يمكنه الاعتماد", compute="_compute_permissions", search="_search_waiting_for_me",
+    )
+    can_reject = fields.Boolean(
+        string="يمكنه الرفض", compute="_compute_permissions", search="_search_waiting_for_me",
+    )
     can_cancel = fields.Boolean(string="يمكنه السحب", compute="_compute_can_cancel")
     waiting_for_me = fields.Boolean(
         string="بانتظار اعتمادي", compute="_compute_permissions", search="_search_waiting_for_me",

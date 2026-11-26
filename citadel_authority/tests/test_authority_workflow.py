@@ -143,6 +143,22 @@ class TestCitadelAuthorityWorkflow(TransactionCase):
         self.assertEqual(bus_send.call_args.args[1], "simple_notification")
         self.assertIn(order.display_name, bus_send.call_args.args[2]["message"])
 
+    def test_permission_search_matches_current_approver(self):
+        request = self._purchase_order()._citadel_authority_start()
+        for user in (self.approver_1, self.approver_2, self.delegate):
+            Request = self.env["citadel.authority.request"].with_user(user)
+            for field in ("can_approve", "can_reject"):
+                for operator, value in (("=", True), ("=", False), ("!=", True),
+                                        ("in", [True]), ("not in", [True])):
+                    expected = Request.browse(request.id).filtered_domain([(field, operator, value)])
+                    found = Request.search([("id", "=", request.id), (field, operator, value)])
+                    self.assertEqual(found, expected)
+        request.with_user(self.approver_1).action_approve()
+        self.assertNotIn(request, request.with_user(self.approver_1).search([("can_approve", "=", True)]))
+        self.assertIn(request, request.with_user(self.approver_2).search([("can_approve", "=", True)]))
+        request.with_user(self.approver_2).action_approve()
+        self.assertNotIn(request, request.with_user(self.approver_2).search([("can_approve", "=", True)]))
+
     def test_only_requester_or_manager_can_withdraw(self):
         order = self._purchase_order()
         request = order._citadel_authority_start()
