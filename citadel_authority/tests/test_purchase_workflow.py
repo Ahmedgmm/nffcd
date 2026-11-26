@@ -63,7 +63,7 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         order = self._order(price=0.0)
         action = order.with_user(self.buyer).action_view_pricing_committees()
         self.assertEqual((action["view_mode"], action["target"]), ("form", "new"))
-        with self.assertRaisesRegex(UserError, "at least 3"):
+        with self.assertRaisesRegex(UserError, "الحد الأدنى"):
             self.env["citadel.purchase.pricing.committee"].create({
                 "order_id": order.id, "employee_ids": [Command.set(self.plain_employees[:2].ids)],
             })
@@ -77,14 +77,14 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
             "citadel_authority.action_report_pricing_committee", committee.ids,
         )
         self.assertIn("محضر لجنة تسعير", pdf.decode())
-        with self.assertRaisesRegex(UserError, "signed"):
+        with self.assertRaisesRegex(UserError, "موقعاً"):
             order.with_user(self.buyer).button_confirm()
         attachment = self.env["ir.attachment"].with_user(self.buyer).create({
             "name": "signed.pdf", "raw": b"%PDF-1.4 signed",
             "res_model": committee._name, "res_id": committee.id,
         })
         committee.signed_attachment_ids = [Command.set(attachment.ids)]
-        with self.assertRaisesRegex(UserError, "committee prices"):
+        with self.assertRaisesRegex(UserError, "أسعار لجنة التسعير"):
             order.with_user(self.buyer).button_confirm()
         order.order_line.price_unit = 75.0
         action = order.with_user(self.buyer).button_confirm()
@@ -94,36 +94,47 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         order = self._order()
         action = order.with_user(self.buyer).button_confirm()
         self.assertEqual(action["res_model"], "citadel.purchase.receipt.committee.wizard")
-        with self.assertRaisesRegex(UserError, "at least 3"):
+        with self.assertRaisesRegex(UserError, "الحد الأدنى"):
             self._set_committee(order, self.employees[:2])
         self._set_committee(order)
         self.assertEqual(order.state, "purchase")
         picking = order.picking_ids
         self.assertEqual(picking.citadel_committee_employee_ids, self.employees)
+        # The approval does not start at PO approval: the warehouse manager initiates it.
+        self.assertFalse(picking.citadel_authority_request_id)
+        self.assertTrue(picking.with_user(self.wh_admin).citadel_receipt_can_request)
+        self.assertFalse(picking.with_user(self.members[0]).citadel_receipt_can_request)
+        with self.assertRaisesRegex(UserError, "لمسؤول المخزن"):
+            picking.with_user(self.members[0]).action_citadel_request_receipt_approval()
+        picking.move_ids.quantity = 0.0
+        with self.assertRaisesRegex(UserError, "لم تُدخل أي كمية مستلمة"):
+            picking.with_user(self.wh_admin).action_citadel_request_receipt_approval()
+        with self.assertRaisesRegex(UserError, "طلب اعتماد الاستلام"):
+            picking.with_user(self.wh_admin).button_validate()
+
+        picking.move_ids.quantity = 4.0
+        picking.with_user(self.wh_admin).action_citadel_request_receipt_approval()
         request = picking.citadel_authority_request_id
         self.assertEqual(request.state, "pending")
-        self.assertEqual(request.requested_by_id, self.buyer)
-        self.assertEqual(len(request.current_step_ids), 1)
+        self.assertEqual(request.requested_by_id, self.wh_admin)
         self.assertEqual(request.current_step_ids.eligible_user_ids, self.members)
-        self.assertFalse(picking.with_user(self.wh_admin).citadel_receipt_can_validate)
+        with self.assertRaisesRegex(UserError, "يُرحّل الاستلام تلقائياً"):
+            picking.with_user(self.wh_admin).button_validate()
+        with self.assertRaisesRegex(UserError, "لمسؤول المخزن"):
+            picking.with_user(self.members[0]).button_validate()
 
-        # Not validated before all members approve (parallel: any order).
-        picking.with_user(self.wh_admin).button_validate()
-        self.assertNotEqual(picking.state, "done")
         for member in self.members[::-1][:2]:
             picking.with_user(member).action_citadel_approve()
-        self.assertEqual(request.state, "pending")
-        picking.with_user(self.members[0]).action_citadel_approve()
-        self.assertEqual(request.state, "approved")
-
-        picking.invalidate_recordset()
-        self.assertTrue(picking.with_user(self.wh_admin).citadel_receipt_can_validate)
-        self.assertFalse(picking.with_user(self.members[0]).citadel_receipt_can_validate)
-        with self.assertRaisesRegex(UserError, "Only the warehouse receipt manager"):
-            picking.with_user(self.members[0]).button_validate()
-        picking.with_user(self.wh_admin).button_validate()
+        self.assertEqual(picking.state, "assigned")
+        # The last approver has no stock rights at all: the posting runs with the manager's rights.
+        stock_groups = self.env.ref("stock.group_stock_user") | self.env.ref("purchase.group_purchase_user")
+        self.members[0].group_ids = [Command.unlink(group.id) for group in stock_groups]
+        self.assertFalse(self.members[0].has_group("stock.group_stock_user"))
+        request.with_user(self.members[0]).action_approve()
         self.assertEqual(picking.state, "done")
         self.assertEqual(request.state, "completed")
+        self.assertEqual(picking.move_ids.write_uid, self.wh_admin)
+        self.assertIn("تم ترحيل الاستلام تلقائياً", picking.message_ids[:3].mapped("body")[0] + "".join(picking.message_ids[:3].mapped("body")))
         html, _type = self.env["ir.actions.report"]._render_qweb_html(
             "citadel_authority.action_report_receipt_committee", picking.ids,
         )
@@ -133,37 +144,39 @@ class TestCitadelPurchaseWorkflow(TransactionCase):
         order = self._order()
         self._set_committee(order)
         picking = order.picking_ids
-        for member in self.members:
-            picking.with_user(member).action_citadel_approve()
+        picking.move_ids.quantity = 4.0
+        picking.with_user(self.wh_admin).action_citadel_request_receipt_approval()
         first_request = picking.citadel_authority_request_id
-        self.assertEqual(first_request.state, "approved")
+        for member in self.members[:2]:
+            picking.with_user(member).action_citadel_approve()
+        # Quantity changed while the committee is still deciding: no automatic posting.
         picking.move_ids.quantity = 3.0
         picking.invalidate_recordset()
-        self.assertTrue(picking.citadel_authority_requires_approval)
-        picking.with_user(self.wh_admin).button_validate()
+        self.assertTrue(picking.with_user(self.wh_admin).citadel_receipt_can_request)
+        picking.with_user(self.members[2]).action_citadel_approve()
         self.assertNotEqual(picking.state, "done")
+        self.assertTrue(picking.activity_ids.filtered(lambda activity: activity.user_id == self.wh_admin))
+
+        picking.with_user(self.wh_admin).action_citadel_request_receipt_approval()
         second_request = picking.citadel_authority_request_id
         self.assertNotEqual(second_request, first_request)
-        self.assertEqual(first_request.state, "invalidated")
         for member in self.members:
             picking.with_user(member).action_citadel_approve()
-        result = picking.with_user(self.wh_admin).button_validate()
-        if isinstance(result, dict) and result.get("res_model") == "stock.backorder.confirmation":
-            self.env["stock.backorder.confirmation"].with_user(self.wh_admin).with_context(
-                **result["context"]
-            ).create({}).process()
         self.assertEqual(picking.state, "done")
+        self.assertEqual(second_request.state, "completed")
         backorder = order.picking_ids - picking
         self.assertEqual(len(backorder), 1)
+        self.assertEqual(backorder.move_ids.product_uom_qty, 1.0)
         self.assertEqual(backorder.citadel_committee_employee_ids, self.employees)
-        self.assertEqual(backorder.citadel_authority_request_id.state, "pending")
+        # The backorder waits for the manager to enter quantities and request approval.
+        self.assertFalse(backorder.citadel_authority_request_id)
 
     def test_requester_and_manager_cannot_be_members(self):
         order = self._order()
         buyer_employee = self.env["hr.employee"].create({
             "name": "Buyer Employee", "user_id": self.buyer.id, "company_id": self.company.id,
         })
-        with self.assertRaisesRegex(UserError, "cannot be a committee member"):
+        with self.assertRaisesRegex(UserError, "لا يجوز أن يكون"):
             self._set_committee(order, self.employees[:2] | buyer_employee)
 
     def test_manual_receipt_without_committee_is_unchanged(self):

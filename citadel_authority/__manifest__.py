@@ -1,6 +1,6 @@
 {
     "name": "Authority",
-    "version": "20.0.1.15.0",
+    "version": "20.0.1.19.0",
     "category": "Productivity/Approvals",
     "summary": "Company-wide authority matrix, approval limits, delegation, and audit trail",
     "author": "NFFCD",

@@ -24,7 +24,7 @@
                     </button>
                 </div>
 
-                <div class="o_alt_committee alert mb-2" t-att-class="this.authority.approved ? 'alert-success' : (this.authority.state === 'pending' ? 'alert-warning' : 'alert-info')">
+                <div class="o_alt_committee alert mb-2" t-att-class="this.authority.paper ? (this.authority.signed ? 'alert-success' : 'alert-warning') : (this.authority.approved ? 'alert-success' : (this.authority.state === 'pending' ? 'alert-warning' : 'alert-info'))">
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <i class="fa fa-gavel"/>
                         <strong>لجنة البت والمفاضلة:</strong>
@@ -34,15 +34,21 @@
                             <t t-esc="this.authority.decision"/>
                             <t t-if="this.authority.decision_vendor"> — <t t-esc="this.authority.decision_vendor"/></t>
                         </span>
+                        <t t-if="this.authority.paper">
+                            <span t-if="this.authority.signed"><i class="fa fa-paperclip me-1"/>المحضر الموقع مرفق</span>
+                            <span t-else=""><i class="fa fa-exclamation-triangle me-1"/>لم يُرفق المحضر الموقع بعد</span>
+                        </t>
+                        <t t-else="">
                         <span t-if="this.authority.state === 'pending'">بانتظار: <t t-esc="this.authority.next"/></span>
                         <span t-if="this.authority.approved">تم الاعتماد: <t t-esc="this.authority.approved_by"/> — اضغط زر القرار مرة أخرى لتطبيقه.</span>
                         <span t-if="this.authority.state === 'rejected'">رفضت اللجنة القرار. عدّل العروض وأعد الإرسال.</span>
+                        </t>
                         <span class="ms-auto d-flex gap-1">
-                            <button t-if="this.authority.can_approve" class="btn btn-success btn-sm" t-on-click="this.approveDecision">
+                            <button t-if="!this.authority.paper and this.authority.can_approve" class="btn btn-success btn-sm" t-on-click="this.approveDecision">
                                 <i class="fa fa-check me-1"/> اعتماد
                             </button>
-                            <button t-if="this.authority.can_approve" class="btn btn-danger btn-sm" t-on-click="() => this.callAction('action_citadel_reject')">رفض</button>
-                            <button t-if="this.state.data.state === 'review'" class="btn btn-outline-secondary btn-sm" t-on-click="this.withdrawDecision">سحب القرار</button>
+                            <button t-if="!this.authority.paper and this.authority.can_approve" class="btn btn-danger btn-sm" t-on-click="() => this.callAction('action_citadel_reject')">رفض</button>
+                            <button t-if="!this.authority.paper and this.state.data.state === 'review'" class="btn btn-outline-secondary btn-sm" t-on-click="this.withdrawDecision">سحب القرار</button>
                             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_print_committee_minutes')">
                                 <i class="fa fa-print me-1"/> المحضر
                             </button>
@@ -50,11 +56,14 @@
                                 <i class="fa fa-print me-1"/> كشف التفريغ
                             </button>
                             <button class="btn btn-outline-secondary btn-sm" t-on-click="() => this.callAction('action_open_form')">
-                                <i class="fa fa-pencil me-1"/> اللجنة
+                                <i class="fa fa-pencil me-1"/> <t t-if="this.authority.paper">اللجنة والمحضر الموقع</t><t t-else="">اللجنة</t>
                             </button>
                         </span>
                     </div>
-                    <div class="small mt-1" t-if="!this.authority.state">
+                    <div class="small mt-1" t-if="this.authority.paper and this.state.data.state === 'draft'">
+                        اطبع المحضر ووقّعه من الأعضاء، ثم أرفقه من زر «اللجنة والمحضر الموقع». بعدها اختر «ترسية» للترسية على مورد واحد، أو «توزيع الكميات»، ويُطبق القرار مباشرة.
+                    </div>
+                    <div class="small mt-1" t-if="!this.authority.paper and !this.authority.state">
                         اختر قرار اللجنة: «ترسية» للترسية على مورد واحد، أو «توزيع الكميات» لتوزيع الكميات على عدة موردين. يُرسل القرار لاعتماد جميع الأعضاء بالتوازي، ثم يُطبق بعد اكتمال الاعتماد.
                     </div>
                 </div>
@@ -215,7 +224,7 @@
                                         <t t-if="this.isApprovedMain(vendor)">تطبيق القرار</t>
                                         <t t-else="">ترسية</t>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-secondary" t-att-disabled="!this.authority.approved" t-on-click="() => this.createPO(vendor)">
+                                    <button t-if="!this.authority.paper" class="btn btn-sm btn-outline-secondary" t-att-disabled="!this.authority.approved" t-on-click="() => this.createPO(vendor)">
                                         <i class="fa fa-file-o me-1"/> أمر شراء إضافي
                                     </button>
                                 </div>

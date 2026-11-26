@@ -95,13 +95,31 @@ class TestCitadelAuthorityWorkflow(TransactionCase):
         self.assertEqual(request.state, "pending")
         self.assertEqual(request.current_step_ids.role_id, self.role_2)
 
+        # The last approval confirms the order automatically, as its requester.
         request.with_user(self.approver_2).action_approve()
+        self.assertIn(order.state, ("purchase", "done", "to approve"))
+        self.assertEqual(request.state, "completed")
+        self.assertTrue(any("تم تأكيد طلب الشراء تلقائياً" in body for body in order.message_ids.mapped("body")))
+        self.assertEqual(request.log_ids.filtered(lambda log: log.event == "step_approved").mapped("actor_id"),
+                         self.approver_1 | self.approver_2)
+
+    def test_auto_confirm_failure_keeps_approval_and_notifies_requester(self):
+        order = self._purchase_order()
+        request = order._citadel_authority_start()
+        request.with_user(self.approver_1).action_approve()
+        order_model = type(self.env["purchase.order"])
+        with patch.object(order_model, "_citadel_purchase_prerequisites", autospec=True,
+                          side_effect=UserError("سبب تجريبي")):
+            request.with_user(self.approver_2).action_approve()
+        self.assertEqual(order.state, "draft")
         self.assertEqual(request.state, "approved")
+        activity = order.activity_ids.filtered(lambda item: item.user_id == order._citadel_authority_requester())
+        self.assertTrue(activity)
+        self.assertIn("سبب تجريبي", activity.note)
+        # The requester fixes the cause and confirms once.
         order.button_confirm()
         self.assertIn(order.state, ("purchase", "done", "to approve"))
         self.assertEqual(request.state, "completed")
-        self.assertEqual(request.log_ids.filtered(lambda log: log.event == "step_approved").mapped("actor_id"),
-                         self.approver_1 | self.approver_2)
 
     def test_waiting_for_me_lists_only_current_approver(self):
         order = self._purchase_order()
@@ -287,3 +305,37 @@ class TestCitadelAuthorityWorkflow(TransactionCase):
         self.assertEqual(order.state, "sale")
         self.assertEqual(request.state, "completed")
 
+
+    def test_registered_payment_settles_bill_after_approval(self):
+        self.env["citadel.authority.policy"].create({
+            "name": "Payments",
+            "company_id": self.company.id,
+            "document_type": "payment",
+            "step_ids": [Command.create({"sequence": 10, "role_id": self.role_1.id})],
+        })
+        expense = self.env["account.account"].search([
+            ("account_type", "=", "expense"), ("company_ids", "parent_of", self.company.id),
+        ], limit=1)
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.vendor.id,
+            "invoice_date": fields.Date.today(),
+            "invoice_line_ids": [Command.create({"name": "Wood", "quantity": 1, "price_unit": 500.0, "account_id": expense.id})],
+        })
+        bill.action_post()
+        journal = self.env["account.journal"].search([
+            ("type", "=", "bank"), ("company_id", "parent_of", self.company.id),
+        ], limit=1)
+        self.env["account.payment.register"].with_context(
+            active_model="account.move", active_ids=bill.ids,
+        ).create({"journal_id": journal.id}).action_create_payments()
+        payment = bill.matched_payment_ids
+        self.assertEqual(payment.state, "draft", "A blocked payment must not show as paid.")
+        self.assertEqual(payment.citadel_authority_request_id.state, "pending")
+        self.assertEqual(bill.payment_state, "not_paid")
+        payment.citadel_authority_request_id.with_user(self.approver_1).action_approve()
+        payment.action_post()
+        self.assertEqual(payment.citadel_authority_request_id.state, "completed")
+        self.assertTrue(payment.move_id and payment.move_id.state == "posted")
+        self.assertIn(bill.payment_state, ("paid", "in_payment"))
+        self.assertTrue(bill.currency_id.is_zero(bill.amount_residual))

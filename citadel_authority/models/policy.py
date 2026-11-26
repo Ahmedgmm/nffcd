@@ -82,7 +82,7 @@ class CitadelAuthorityPolicy(models.Model):
 
     _amounts_nonnegative = models.Constraint(
         "CHECK(min_amount >= 0 AND max_amount >= 0 AND change_threshold_percent >= 0 AND change_threshold_amount >= 0 AND sla_hours >= 0)",
-        "Policy amounts, thresholds, and SLA hours cannot be negative.",
+        "لا يمكن أن تكون المبالغ أو الحدود أو ساعات المهلة في السياسة بالسالب. الحل: أدخل قيماً صفرية أو موجبة.",
     )
 
     @api.depends("document_type")
@@ -94,28 +94,28 @@ class CitadelAuthorityPolicy(models.Model):
     def _check_amount_range(self):
         for policy in self:
             if policy.max_amount and policy.max_amount < policy.min_amount:
-                raise ValidationError(_("Maximum amount must be zero or at least the minimum amount."))
+                raise ValidationError(_("الحد الأقصى للمبلغ أقل من الحد الأدنى.\n\nالحل: اجعل الحد الأقصى صفراً (بلا حد) أو أكبر من الحد الأدنى أو مساوياً له."))
 
     @api.constrains("domain", "document_type")
     def _check_domain(self):
         for policy in self:
             if policy.res_model not in self.env:
-                raise ValidationError(_("The module for %s is not installed.", policy.document_type))
+                raise ValidationError(_("التطبيق الخاص بنوع المستند %s غير مثبت.\n\nالحل: ثبّت التطبيق المطلوب أولاً، أو اختر نوع مستند آخر للسياسة.", policy.document_type))
             try:
                 domain = safe_eval(policy.domain or "[]")
                 self.env[policy.res_model].sudo().search_count(domain, limit=1)
             except Exception as error:
-                raise ValidationError(_("Invalid policy domain: %s", error)) from error
+                raise ValidationError(_("شرط السياسة غير صحيح: %s\n\nالحل: صحّح خانة «الشرط» في السياسة أو اتركها فارغة.", error)) from error
 
     @api.constrains("step_ids", "company_id", "escalation_role_id")
     def _check_steps(self):
         for policy in self:
             approval_steps = policy.step_ids.filtered(lambda step: step.action == "approve")
             if not approval_steps:
-                raise ValidationError(_("Policy %s needs at least one approval step.", policy.display_name))
+                raise ValidationError(_("السياسة %s لا تحتوي على أي مرحلة اعتماد.\n\nالحل: أضف مرحلة اعتماد واحدة على الأقل في جدول المراحل.", policy.display_name))
             roles = policy.step_ids.role_id | policy.escalation_role_id
             if any(role.company_id != policy.company_id for role in roles):
-                raise ValidationError(_("All policy roles must belong to the policy company."))
+                raise ValidationError(_("بعض أدوار السياسة تخص جهة أخرى غير جهة السياسة.\n\nالحل: اختر أدواراً من جهة السياسة نفسها، أو أنشئ الدور في هذه الجهة."))
 
     @api.model
     def _citadel_committee_default(self, document_type, company):
@@ -238,5 +238,5 @@ class CitadelAuthorityPolicyStep(models.Model):
     def _check_quorum(self):
         for step in self:
             if step.action == "approve" and step.approval_mode != "quorum" and step.required_approvals != 1:
-                raise ValidationError(_("Only quorum steps may require more than one approval."))
+                raise ValidationError(_("عدد الاعتمادات المطلوب أكبر من 1 مسموح فقط لمرحلة «نصاب».\n\nالحل: غيّر طريقة الاعتماد للمرحلة إلى «نصاب»، أو اجعل عدد الاعتمادات المطلوب 1."))
 

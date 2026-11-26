@@ -68,18 +68,37 @@ class PurchaseAlternativeComparison(models.Model):
         string="قيمة القرار", currency_field="currency_id", compute="_compute_decision_amount",
     )
     is_editable = fields.Boolean(compute="_compute_is_editable")
+    citadel_paper_mode = fields.Boolean(
+        string="اعتماد ورقي", compute="_compute_citadel_paper_mode",
+        help="الاعتماد الإلكتروني للجنة غير مفعل لهذه الجهة: يوقّع الأعضاء على المحضر ويُرفق موقعاً.",
+    )
+    signed_attachment_ids = fields.Many2many(
+        "ir.attachment", "purchase_alternative_signed_attachment_rel", "comparison_id", "attachment_id",
+        string="المحضر الموقع", copy=False,
+        help="صورة محضر لجنة البت والمفاضلة بعد توقيع الأعضاء.",
+    )
     split_order_ids = fields.One2many(
         "purchase.order", "alternative_source_comparison_id", string="أوامر الشراء الناتجة",
     )
 
     _order_unique = models.Constraint(
-        "unique(order_id)", "Only one alternative comparison is allowed per RFQ."
+        "unique(order_id)", "يوجد بالفعل مقارنة عروض لطلب الشراء هذا. الحل: افتح المقارنة القائمة من زر «مقارنة العروض»."
     )
 
     @api.depends("decision_type", "decision_vendor_id", "line_ids.price_subtotal", "line_ids.offered_qty")
     def _compute_decision_amount(self):
         for comparison in self:
             comparison.decision_amount = comparison._citadel_decision_amount()
+
+    @api.depends("company_id.alternative_committee_approval")
+    def _compute_citadel_paper_mode(self):
+        for comparison in self:
+            comparison.citadel_paper_mode = comparison._citadel_paper_mode()
+
+    def _citadel_paper_mode(self):
+        """Electronic committee approval is disabled for the company: members sign the printed minutes."""
+        self.ensure_one()
+        return not self.sudo().company_id.alternative_committee_approval
 
     @api.depends("state", "order_id.state", "citadel_authority_request_id.state")
     def _compute_is_editable(self):
@@ -166,8 +185,14 @@ class PurchaseAlternativeComparison(models.Model):
         }
 
     def _citadel_is_used(self):
-        """A comparison only governs the RFQ once alternative vendors were added."""
+        """A comparison governs the RFQ once alternative vendors were added.
+
+        In paper mode it also governs as soon as its committee was formed: the buyer must finish it
+        (decision applied + signed minutes) or delete it.
+        """
         self.ensure_one()
+        if self._citadel_paper_mode() and self.citadel_committee_employee_ids:
+            return True
         return len(self.vendor_ids) > 1 or bool(self.split_order_ids)
 
     def _citadel_committee_approved(self, decision_type=None, vendor=None):
@@ -175,6 +200,8 @@ class PurchaseAlternativeComparison(models.Model):
         request = self.sudo().citadel_authority_request_id
         if request.state == "completed":
             approved = True
+        elif self._citadel_paper_mode():
+            approved = bool(self.decision_type and self.signed_attachment_ids)
         else:
             approved = request.state == "approved" and request.fingerprint == self._citadel_authority_fingerprint()
         if not approved:
@@ -188,23 +215,41 @@ class PurchaseAlternativeComparison(models.Model):
     def _citadel_check_committee(self):
         self.ensure_one()
         if not self.citadel_committee_employee_ids:
-            raise UserError(_("حدد لجنة البت والمفاضلة لـ %s أولاً", self.name))
+            raise UserError(_("لم تُحدد لجنة البت والمفاضلة لـ %s.""\n\nالحل: اضغط «اللجنة» واختر 3 أعضاء على الأقل ورئيساً للجنة، ثم أعد المحاولة.", self.name))
         self._citadel_check_committee_employees(
             self.citadel_committee_employee_ids, self.company_id,
             excluded_users=self._citadel_authority_requester(),
         )
 
-    def _citadel_submit_decision(self, decision_type, vendor=None):
-        self.ensure_one()
-        self._check_editable()
-        self._citadel_check_committee()
+    def _citadel_check_decision(self, decision_type):
         if decision_type == "split":
             self._check_split_allocations()
             if not self._citadel_competing_lines().filtered(lambda line: line._is_positive_qty()):
-                raise UserError(_("أدخل كمية واحدة على الأقل قبل إرسال القرار"))
+                raise UserError(_("لا توجد أي كمية معروضة في المقارنة.""\n\nالحل: أدخل الكمية والسعر لصنف واحد على الأقل في عمود المورد، ثم أعد إرسال القرار."))
             for item in self.vendor_ids.filtered(lambda vendor: not vendor.is_reference):
                 if item.line_ids.filtered(lambda line: line._is_positive_qty()) and not item.partner_id:
-                    raise UserError(_("اختر المورد لكل عمود به كميات"))
+                    raise UserError(_("يوجد عمود به كميات لكن لم يُحدد مورده.""\n\nالحل: اختر المورد أعلى كل عمود به كميات، أو امسح كميات العمود."))
+
+    def _citadel_paper_record_decision(self, decision_type, vendor=None):
+        """Paper mode: record the committee decision; the signed minutes replace the electronic approval."""
+        self.ensure_one()
+        self._check_editable()
+        self._citadel_check_committee()
+        self._citadel_check_decision(decision_type)
+        if not self.signed_attachment_ids:
+            raise UserError(_("لم يُرفق محضر لجنة البت والمفاضلة الموقع.""\n\nالحل: اضغط «المحضر» واطبعه، ووقّعه من جميع الأعضاء، ثم اضغط «اللجنة والمحضر الموقع» وأرفق الصورة في خانة «المحضر الموقع»، ثم أعد الضغط على «ترسية» أو «توزيع الكميات»."))
+        self.with_context(citadel_skip_invalidation=True).write({
+            "decision_type": decision_type,
+            "decision_vendor_id": vendor.id if vendor else False,
+        })
+
+    def _citadel_submit_decision(self, decision_type, vendor=None):
+        self.ensure_one()
+        if self._citadel_paper_mode():
+            raise UserError(_("الاعتماد الإلكتروني للجنة البت غير مفعل لهذه الجهة، فلا يُرسل القرار للاعتماد.""\n\nالحل: أرفق المحضر الموقع من «اللجنة والمحضر الموقع»، ثم اضغط «ترسية» أو «توزيع الكميات» ليُطبق القرار مباشرة."))
+        self._check_editable()
+        self._citadel_check_committee()
+        self._citadel_check_decision(decision_type)
         self.with_context(citadel_skip_invalidation=True).write({
             "decision_type": decision_type,
             "decision_vendor_id": vendor.id if vendor else False,
@@ -233,7 +278,7 @@ class PurchaseAlternativeComparison(models.Model):
         """Withdraw the pending/approved decision so the table can be edited again."""
         for comparison in self:
             if comparison.state != "draft":
-                raise UserError(_("لا يمكن إعادة فتح مقارنة تم تطبيقها"))
+                raise UserError(_("لا يمكن سحب القرار بعد تطبيقه على طلب الشراء.""\n\nالحل: لتغيير القرار أنشئ طلب شراء جديداً ومقارنة جديدة."))
             request = comparison.sudo().citadel_authority_request_id
             if request.state in ("pending", "approved"):
                 request.with_context(citadel_actor_id=self.env.uid)._citadel_cancel(
@@ -241,6 +286,29 @@ class PurchaseAlternativeComparison(models.Model):
                 )
             comparison.message_post(body=_("تم سحب قرار اللجنة"))
         return self.get_table_data() if len(self) == 1 else True
+
+    def action_delete_comparison(self):
+        """Drop an unfinished comparison (the committee is optional until a decision is applied)."""
+        orders = self.order_id
+        for comparison in self:
+            if comparison.state != "draft" or comparison.split_order_ids:
+                raise UserError(_("لا يمكن حذف مقارنة تم تطبيق قرارها على طلب الشراء.""\n\nالحل: لا يلزم إجراء؛ المقارنة مكتملة وتبقى للمراجعة."))
+            if comparison.sudo().citadel_authority_request_id.state in ("pending", "approved"):
+                raise UserError(_("لا يمكن حذف المقارنة وقرار اللجنة قيد الاعتماد أو معتمد.""\n\nالحل: اضغط «سحب القرار للتعديل» أولاً، ثم احذف المقارنة."))
+            comparison.order_id.message_post(body=_("تم حذف %s", comparison.name))
+        # Buyers have no generic unlink right: deletion only through this guarded action.
+        self.check_access("write")
+        self.sudo().citadel_authority_request_id.filtered(lambda request: request.state not in ("completed", "cancelled"))._citadel_cancel()
+        self.sudo().unlink()
+        if len(orders) == 1:
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "purchase.order",
+                "res_id": orders.id,
+                "view_mode": "form",
+                "views": [(False, "form")],
+            }
+        return True
 
     def action_print_committee_minutes(self):
         self.ensure_one()
@@ -251,7 +319,7 @@ class PurchaseAlternativeComparison(models.Model):
         for comparison in self:
             chairman = comparison.citadel_chairman_employee_id
             if chairman and chairman not in comparison.citadel_committee_employee_ids:
-                raise ValidationError(_("يجب أن يكون رئيس اللجنة أحد أعضائها"))
+                raise ValidationError(_("رئيس اللجنة ليس من أعضائها.""\n\nالحل: اختر رئيس اللجنة من الأعضاء المحددين، أو أضفه أولاً إلى قائمة الأعضاء."))
 
     def _citadel_ordered_members(self):
         """Committee members, chairman first, then by name."""
@@ -263,7 +331,7 @@ class PurchaseAlternativeComparison(models.Model):
     def action_update_technical_opinion(self, value):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
+            raise UserError(_("تم تطبيق قرار هذه المقارنة أو إقفالها، ولا يمكن تعديلها.""\n\nالحل: لا يلزم إجراء على المقارنة. لأي تعديل جديد أنشئ طلب شراء جديداً."))
         self.technical_opinion = (value or "").strip() or False
         return self.get_table_data()
 
@@ -342,7 +410,7 @@ class PurchaseAlternativeComparison(models.Model):
     def _ensure_original_vendor(self):
         self.ensure_one()
         if not self.order_id.partner_id:
-            raise UserError(_("حدد المورد في طلب الشراء الأصلي أولاً"))
+            raise UserError(_("لم يُحدد المورد في طلب الشراء الأصلي.""\n\nالحل: افتح طلب الشراء واختر المورد، ثم افتح مقارنة العروض."))
         original_vendor = self.vendor_ids.filtered("is_original")[:1]
         vals = {
             "partner_id": self.order_id.partner_id.id,
@@ -408,20 +476,20 @@ class PurchaseAlternativeComparison(models.Model):
     def _check_editable(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
+            raise UserError(_("تم تطبيق قرار هذه المقارنة أو إقفالها، ولا يمكن تعديلها.""\n\nالحل: لا يلزم إجراء على المقارنة. لأي تعديل جديد أنشئ طلب شراء جديداً."))
         if self.order_id.state not in ("draft", "sent"):
-            raise UserError(_("لا يمكن تعديل المقارنة إلا لطلبات الشراء في حالة المسودة"))
+            raise UserError(_("لا يمكن تعديل المقارنة لأن طلب الشراء لم يعد مسودة.""\n\nالحل: ألغِ طلب الشراء وأعده إلى مسودة إن لزم التعديل."))
         if self.sudo().citadel_authority_request_id.state in ("pending", "approved"):
             raise UserError(_(
-                "قرار اللجنة قيد الاعتماد أو معتمد. اسحب القرار قبل تعديل العروض"
+                "لا يمكن تعديل العروض لأن قرار اللجنة قيد الاعتماد أو معتمد.""\n\nالحل: اضغط «سحب القرار» لإلغاء طلب الاعتماد، ثم عدّل العروض وأعد إرسال القرار."
             ))
 
     def _check_can_apply(self):
         self.ensure_one()
         if self.state != "draft":
-            raise UserError(_("تم تطبيق هذه المقارنة أو إقفالها بالفعل"))
+            raise UserError(_("تم تطبيق قرار هذه المقارنة أو إقفالها، ولا يمكن تعديلها.""\n\nالحل: لا يلزم إجراء على المقارنة. لأي تعديل جديد أنشئ طلب شراء جديداً."))
         if self.order_id.state not in ("draft", "sent"):
-            raise UserError(_("لا يمكن تعديل المقارنة إلا لطلبات الشراء في حالة المسودة"))
+            raise UserError(_("لا يمكن تعديل المقارنة لأن طلب الشراء لم يعد مسودة.""\n\nالحل: ألغِ طلب الشراء وأعده إلى مسودة إن لزم التعديل."))
 
     def get_table_data(self):
         self.ensure_one()
@@ -484,6 +552,8 @@ class PurchaseAlternativeComparison(models.Model):
             "decision": dict(self._fields["decision_type"].selection).get(self.decision_type, ""),
             "decision_vendor_id": self.decision_vendor_id.id,
             "decision_vendor": self.decision_vendor_id.partner_id.display_name or "",
+            "paper": self._citadel_paper_mode(),
+            "signed": bool(self.signed_attachment_ids),
         }
         return {
             "id": self.id,
@@ -547,7 +617,7 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_editable()
         line = self.env["purchase.alternative.line"].browse(line_id).exists()
         if not line or line.comparison_id != self:
-            raise UserError(_("بند عرض غير صالح"))
+            raise UserError(_("بند العرض غير موجود أو لا يتبع هذه المقارنة.""\n\nالحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد الإدخال."))
         allowed = {}
         if "offered_qty" in values and not line.vendor_id.is_reference:
             allowed["offered_qty"] = float(values["offered_qty"] or 0.0)
@@ -562,11 +632,11 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_editable()
         vendor = self.env["purchase.alternative.vendor"].browse(vendor_id).exists()
         if not vendor or vendor.comparison_id != self:
-            raise UserError(_("عمود مورد غير صالح"))
+            raise UserError(_("عمود المورد غير موجود أو لا يتبع هذه المقارنة.""\n\nالحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد المحاولة."))
         allowed = {}
         if values.get("partner_id") == "reference":
             if vendor.is_original:
-                raise UserError(_("لا يمكن تحويل مورد طلب الشراء الأصلي إلى لجنة تسعير"))
+                raise UserError(_("لا يمكن تحويل مورد طلب الشراء الأصلي إلى عمود لجنة تسعير.""\n\nالحل: أضف عموداً جديداً من «إضافة مورد» واختر فيه «لجنة تسعير (استرشادي)»."))
             vendor.write({"is_reference": True, "partner_id": False, "payment_term_id": False})
             values = {key: value for key, value in values.items() if key not in ("partner_id", "payment_term_id")}
         elif "partner_id" in values:
@@ -581,7 +651,7 @@ class PurchaseAlternativeComparison(models.Model):
         if "payment_term_id" in values:
             term = self.env["account.payment.term"].browse(int(values["payment_term_id"] or 0)).exists()
             if term and term.company_id and term.company_id != self.company_id:
-                raise UserError(_("شروط الدفع المختارة تخص جهة أخرى."))
+                raise UserError(_("شروط الدفع المختارة تخص جهة أخرى.""\n\nالحل: اختر شرط دفع عاماً أو تابعاً لجهة طلب الشراء."))
             allowed["payment_term_id"] = term.id or False
         if allowed:
             vendor.write(allowed)
@@ -591,8 +661,10 @@ class PurchaseAlternativeComparison(models.Model):
         self.ensure_one()
         self._check_can_apply()
         vendor = self._get_vendor_for_action(vendor_id)
+        if self._citadel_paper_mode():
+            self._citadel_paper_record_decision("main", vendor)
         if not self._citadel_committee_approved("main", vendor):
-            raise UserError(_("يجب أن تعتمد اللجنة الترسية على %s أولاً", vendor.partner_id.display_name))
+            raise UserError(_("لم تعتمد لجنة البت والمفاضلة الترسية على %s بعد.""\n\nالحل: اضغط «ترسية» تحت المورد ليُرسل القرار للأعضاء، وانتظر اعتماد جميع الأعضاء (خانة «بانتظار»)، ثم اضغط «تطبيق القرار».", vendor.partner_id.display_name))
         self._apply_vendor_to_order(vendor)
         self.state = "applied"
         self._citadel_authority_complete()
@@ -604,9 +676,9 @@ class PurchaseAlternativeComparison(models.Model):
         self._check_can_apply()
         vendor = self._get_vendor_for_action(vendor_id)
         if not self._citadel_committee_approved():
-            raise UserError(_("يجب أن تعتمد اللجنة القرار قبل إنشاء طلبات شراء إضافية"))
+            raise UserError(_("لا يمكن إنشاء طلب شراء إضافي قبل اعتماد قرار اللجنة.""\n\nالحل: أرسل القرار للاعتماد وانتظر اعتماد جميع الأعضاء، ثم أعد المحاولة."))
         if self.decision_type == "main" and vendor != self.decision_vendor_id:
-            raise UserError(_("رست اللجنة على المورد %s فقط", self.decision_vendor_id.partner_id.display_name))
+            raise UserError(_("قرار اللجنة المعتمد هو الترسية على المورد %s فقط.""\n\nالحل: أنشئ الطلب لهذا المورد، أو اسحب القرار وعدّله ثم اطلب الاعتماد من جديد.", self.decision_vendor_id.partner_id.display_name))
         po = self._create_order_for_vendor(vendor)
         self.message_post(body=_("تم إنشاء طلب الشراء %(rfq)s للمورد %(vendor)s", rfq=po.name, vendor=vendor.partner_id.display_name))
         return {
@@ -620,8 +692,10 @@ class PurchaseAlternativeComparison(models.Model):
     def action_create_split_pos(self):
         self.ensure_one()
         self._check_can_apply()
+        if self._citadel_paper_mode():
+            self._citadel_paper_record_decision("split")
         if not self._citadel_committee_approved("split"):
-            raise UserError(_("يجب أن تعتمد اللجنة قرار التوزيع أولاً"))
+            raise UserError(_("لم تعتمد لجنة البت والمفاضلة قرار توزيع الكميات بعد.""\n\nالحل: اضغط «توزيع الكميات» ليُرسل القرار للأعضاء، وبعد اعتماد جميع الأعضاء اضغط «تطبيق: إنشاء طلبات التوزيع»."))
         self._check_split_allocations()
         original_vendor = self.vendor_ids.filtered("is_original")[:1]
         has_positive_qty = bool(self._citadel_competing_lines().filtered(lambda line: line._is_positive_qty()))
@@ -630,10 +704,10 @@ class PurchaseAlternativeComparison(models.Model):
             if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
                 continue
             if not vendor.partner_id:
-                raise UserError(_("اختر المورد لكل عمود به كميات"))
+                raise UserError(_("يوجد عمود به كميات لكن لم يُحدد مورده.""\n\nالحل: اختر المورد أعلى كل عمود به كميات، أو امسح كميات العمود."))
             created_orders |= self._create_order_for_vendor(vendor)
         if not has_positive_qty:
-            raise UserError(_("أدخل كمية واحدة على الأقل قبل إنشاء طلبات التوزيع"))
+            raise UserError(_("لا توجد أي كمية موزعة على الموردين.""\n\nالحل: أدخل الكميات الموزعة في أعمدة الموردين، ثم اضغط «توزيع الكميات» مرة أخرى."))
         if original_vendor:
             self._apply_vendor_to_order(original_vendor)
         self.state = "applied"
@@ -677,7 +751,7 @@ class PurchaseAlternativeComparison(models.Model):
             if float_compare(allocated_qty, order_line.product_qty, precision_digits=self.env["decimal.precision"].precision_get("Product Unit")) > 0:
                 raise UserError(
                     _(
-                        "%(product)s is over allocated. Requested %(requested)s, allocated %(allocated)s.",
+                        "الكمية الموزعة للصنف %(product)s أكبر من المطلوبة: المطلوب %(requested)s والموزع %(allocated)s.""\n\nالحل: قلّل الكميات في أعمدة الموردين حتى لا يزيد مجموعها على الكمية المطلوبة.",
                         product=order_line.product_id.display_name,
                         requested=order_line.product_qty,
                         allocated=allocated_qty,
@@ -687,13 +761,13 @@ class PurchaseAlternativeComparison(models.Model):
     def _get_vendor_for_action(self, vendor_id):
         vendor = self.env["purchase.alternative.vendor"].browse(vendor_id).exists()
         if not vendor or vendor.comparison_id != self:
-            raise UserError(_("مورد غير صالح"))
+            raise UserError(_("المورد غير موجود أو لا يتبع هذه المقارنة.""\n\nالحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد المحاولة."))
         if vendor.is_reference:
-            raise UserError(_("لجنة التسعير عمود استرشادي خارج المفاضلة ولا يمكن الترسية عليها"))
+            raise UserError(_("عمود «لجنة تسعير (استرشادي)» للمقارنة فقط ولا يمكن الترسية عليه.""\n\nالحل: اختر «ترسية» تحت أحد الموردين الفعليين."))
         if not vendor.partner_id:
-            raise UserError(_("اختر المورد قبل إنشاء أمر الشراء"))
+            raise UserError(_("لم يُحدد المورد في هذا العمود.""\n\nالحل: اختر المورد من القائمة أعلى العمود، ثم أعد المحاولة."))
         if not vendor.line_ids.filtered(lambda line: line._is_positive_qty()):
-            raise UserError(_("أدخل كمية واحدة على الأقل لهذا المورد"))
+            raise UserError(_("لا توجد كمية معروضة لدى هذا المورد.""\n\nالحل: أدخل الكمية والسعر لصنف واحد على الأقل في عمود المورد، أو اختر مورداً آخر للترسية."))
         return vendor
 
     def _apply_vendor_to_order(self, vendor):
@@ -824,9 +898,9 @@ class PurchaseAlternativeVendor(models.Model):
     def _check_reference(self):
         for vendor in self.filtered("is_reference"):
             if vendor.is_original:
-                raise ValidationError(_("لا يمكن أن يكون مورد طلب الشراء الأصلي لجنة تسعير"))
+                raise ValidationError(_("لا يمكن جعل عمود مورد طلب الشراء الأصلي عموداً للجنة التسعير.""\n\nالحل: أضف عموداً جديداً من «إضافة مورد» واختر فيه «لجنة تسعير (استرشادي)»."))
             if len(vendor.comparison_id.vendor_ids.filtered("is_reference")) > 1:
-                raise ValidationError(_("يسمح بعمود واحد فقط للجنة التسعير في كل مقارنة"))
+                raise ValidationError(_("يوجد أكثر من عمود «لجنة تسعير (استرشادي)» في المقارنة.""\n\nالحل: اترك عموداً واحداً فقط للجنة التسعير، وغيّر الآخر إلى مورد."))
 
     def write(self, vals):
         changed = self.filtered(lambda vendor: "is_reference" in vals and vendor.is_reference != bool(vals["is_reference"]))
@@ -909,9 +983,9 @@ class PurchaseAlternativeLine(models.Model):
     def _check_offer(self):
         for line in self:
             if any(not math.isfinite(value) or value < 0 for value in (line.offered_qty, line.price_unit)):
-                raise ValidationError(_("يجب أن تكون الكمية والسعر أرقاماً موجبة"))
+                raise ValidationError(_("الكمية أو السعر بالسالب.""\n\nالحل: أدخل صفراً أو رقماً موجباً."))
             if line.vendor_id.comparison_id != line.comparison_id or line.purchase_order_line_id.order_id != line.comparison_id.order_id:
-                raise ValidationError(_("يجب أن يتبع المورد وبند الطلب هذه المقارنة"))
+                raise ValidationError(_("المورد أو بند الطلب لا يتبع هذه المقارنة.""\n\nالحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد الإدخال."))
 
     @api.depends("offered_qty", "price_unit")
     def _compute_price_subtotal(self):

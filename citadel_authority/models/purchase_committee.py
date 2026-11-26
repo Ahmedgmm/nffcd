@@ -49,19 +49,19 @@ class CitadelPurchasePricingCommittee(models.Model):
                 committee.employee_ids, committee.company_id, need_users=False,
             )
             if committee.chairman_id and committee.chairman_id not in committee.employee_ids:
-                raise ValidationError(_("The chairman must be one of the committee members."))
+                raise ValidationError(_("رئيس اللجنة ليس من أعضائها.\n\nالحل: اختر رئيس اللجنة من الأعضاء المحددين، أو أضفه أولاً إلى قائمة الأعضاء."))
 
     @api.model_create_multi
     def create(self, vals_list):
         committees = super().create(vals_list)
         for committee in committees:
             if committee.order_id.state not in ("draft", "sent"):
-                raise UserError(_("Pricing committees can only be formed for draft orders."))
+                raise UserError(_("لا يمكن تشكيل لجنة التسعير إلا لطلب شراء في حالة «طلب عرض سعر» (مسودة) أو «تم الإرسال».\n\nالحل: شكّل اللجنة قبل تأكيد الطلب. إن كان الطلب مؤكداً فألغِه ثم أعده إلى مسودة وشكّل اللجنة."))
             if committee.name == _("New"):
                 count = len(committee.order_id.citadel_pricing_committee_ids)
                 committee.name = "%s-PC%s" % (committee.order_id.name, count)
             committee.order_id.message_post(body=_(
-                "Pricing committee %(name)s formed on %(date)s: %(members)s",
+                "تم تشكيل لجنة التسعير %(name)s بتاريخ %(date)s: %(members)s",
                 name=committee.name, date=committee.date,
                 members=", ".join(committee._citadel_ordered_members().mapped("name")),
             ))
@@ -71,7 +71,7 @@ class CitadelPurchasePricingCommittee(models.Model):
         if self.filtered(lambda committee: committee.order_id.state not in ("draft", "sent")) and set(vals) - {
             "signed_attachment_ids", "message_main_attachment_id",
         }:
-            raise UserError(_("The pricing committee of a confirmed order cannot be changed."))
+            raise UserError(_("لا يمكن تعديل لجنة التسعير بعد تأكيد طلب الشراء؛ يُسمح فقط بإرفاق المحضر الموقع.\n\nالحل: لتعديل اللجنة ألغِ طلب الشراء، ثم أعده إلى مسودة، وعدّل اللجنة."))
         return super().write(vals)
 
     def _citadel_ordered_members(self):
@@ -118,10 +118,10 @@ class CitadelPurchaseReceiptCommitteeWizard(models.TransientModel):
         self.ensure_one()
         order = self.order_id
         if order.state not in ("draft", "sent"):
-            raise UserError(_("The receipt committee can only be changed on draft orders."))
+            raise UserError(_("لا يمكن تعديل لجنة الفحص والاستلام بعد تأكيد طلب الشراء.\n\nالحل: عدّل اللجنة قبل تأكيد الطلب، أو ألغِ الطلب ثم أعده إلى مسودة وعدّلها."))
         if not order.citadel_receipt_manager_id:
             raise UserError(_(
-                "Set the receipt manager on warehouse %s first.", order.picking_type_id.warehouse_id.display_name or "-",
+                "لم يُحدد مسؤول المخزن (اعتماد الاستلام) للمخزن %s.""\n\nالحل: المخزون ← الإعدادات ← المخازن: افتح المخزن وحدد «مسؤول المخزن (اعتماد الاستلام)»، ثم أعد المحاولة.", order.picking_type_id.warehouse_id.display_name or "-",
             ))
         self.env["citadel.authority.mixin"]._citadel_check_committee_employees(
             self.employee_ids, order.company_id, excluded_users=order._citadel_receipt_excluded_users(),

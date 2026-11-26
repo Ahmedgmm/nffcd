@@ -9,6 +9,7 @@
             <t t-set="members" t-value="doc._citadel_ordered_members()"/>
             <t t-set="vendors" t-value="doc.vendor_ids.sorted('sequence')"/>
             <t t-set="votes" t-value="doc._citadel_report_votes()"/>
+            <t t-set="paper" t-value="doc._citadel_paper_mode()"/>
             <t t-set="order_lines" t-value="order.order_line.filtered(lambda line: not line.display_type and line.product_id)"/>
             <div class="page o_citadel_minutes">
                 <t t-call="citadel_authority.committee_report_style"/>
@@ -98,10 +99,10 @@
                     <thead>
                         <tr>
                             <th style="width: 6%;">م</th>
-                            <th style="width: 30%;">الاسم</th>
-                            <th style="width: 22%;">الوظيفة</th>
-                            <th style="width: 20%;">الاعتماد الإلكتروني</th>
-                            <th style="width: 22%;">التوقيع</th>
+                            <th t-att-style="'width: %s;' % ('36%' if paper else '30%')">الاسم</th>
+                            <th t-att-style="'width: %s;' % ('26%' if paper else '22%')">الوظيفة</th>
+                            <th t-if="not paper" style="width: 20%;">الاعتماد الإلكتروني</th>
+                            <th t-att-style="'width: %s;' % ('32%' if paper else '22%')">التوقيع</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,7 +110,7 @@
                             <td class="c" t-out="member_index + 1"/>
                             <td t-out="rtl(member.name)"/>
                             <td t-out="rtl(member.job_title or member.job_id.name or '')"/>
-                            <td class="c">
+                            <td class="c" t-if="not paper">
                                 <t t-set="voted" t-value="votes.get(member.sudo().user_id.id)"/>
                                 <t t-if="voted" t-out="voted" t-options="{'widget': 'datetime'}"/>
                                 <t t-else="">—</t>

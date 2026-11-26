@@ -142,9 +142,12 @@
                 <field name="citadel_authority_can_approve" invisible="True"/>
                 <field name="citadel_authority_requires_approval" invisible="True"/>
                 <field name="citadel_receipt_can_validate" invisible="True"/>
+                <field name="citadel_receipt_can_request" invisible="True"/>
                 <button name="action_citadel_request_approval" type="object" string="طلب اعتماد اللجنة"
                         class="oe_highlight"
-                        invisible="state in ['done', 'cancel'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                        invisible="citadel_committee_employee_ids or state in ['done', 'cancel'] or not citadel_authority_requires_approval or citadel_authority_state == 'pending'"/>
+                <button name="action_citadel_request_receipt_approval" type="object" string="طلب اعتماد الاستلام"
+                        class="oe_highlight" invisible="not citadel_receipt_can_request"/>
                 <button name="action_citadel_approve" type="object" string="اعتماد"
                         class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
                 <button name="action_citadel_reject" type="object" string="رفض"
@@ -159,6 +162,16 @@
                 <attribute name="invisible" add="not citadel_receipt_can_validate" separator=" or "/>
             </xpath>
             <xpath expr="//sheet/*[1]" position="before">
+                <div class="alert alert-info" role="status"
+                     invisible="not citadel_committee_employee_ids or state in ['done', 'cancel'] or citadel_authority_state == 'pending'">
+                    استلام خاضع للجنة الفحص والاستلام: يُدخل مسؤول المخزن الكميات المستلمة ثم يضغط «طلب اعتماد الاستلام».
+                    يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو، دون الحاجة للضغط على «تأكيد».
+                </div>
+                <div class="alert alert-warning" role="status"
+                     invisible="not citadel_committee_employee_ids or state in ['done', 'cancel'] or citadel_authority_state != 'pending'">
+                    بانتظار اعتماد لجنة الفحص والاستلام: <field name="citadel_authority_next_approval" readonly="1" nolabel="1" class="d-inline"/>.
+                    يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو.
+                </div>
                 <group invisible="not citadel_authority_request_id" col="1">
                     <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
                 </group>

@@ -9,23 +9,30 @@
                     <field name="citadel_authority_state" invisible="True"/>
                     <field name="citadel_authority_can_approve" invisible="True"/>
                     <field name="is_editable" invisible="True"/>
+                    <field name="citadel_paper_mode" invisible="True"/>
                     <button name="action_citadel_approve" type="object" string="اعتماد قرار اللجنة"
                             class="btn-success" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
                     <button name="action_citadel_reject" type="object" string="رفض"
                             class="btn-danger" invisible="not citadel_authority_can_approve or citadel_authority_state != 'pending'"/>
                     <button name="action_reset_committee_decision" type="object" string="سحب القرار للتعديل"
-                            invisible="state != 'draft' or citadel_authority_state not in ['pending', 'approved']"
+                            invisible="citadel_paper_mode or state != 'draft' or citadel_authority_state not in ['pending', 'approved']"
                             confirm="سيُلغى طلب اعتماد اللجنة الحالي. متابعة؟"/>
                     <button name="action_print_committee_minutes" type="object" string="طباعة محضر اللجنة" icon="fa-print"
                             invisible="not citadel_committee_employee_ids"/>
                     <button name="action_print_offers_sheet" type="object" string="طباعة كشف التفريغ" icon="fa-print"/>
+                    <button name="action_delete_comparison" type="object" string="حذف المقارنة" icon="fa-trash"
+                            invisible="state != 'draft' or citadel_authority_state in ['pending', 'approved']"
+                            confirm="ستُحذف المقارنة ولجنة البت والمفاضلة الخاصة بها. متابعة؟"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,applied,locked"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
                     </div>
-                    <group invisible="not citadel_authority_request_id" col="1">
+                    <div class="alert alert-warning" role="status" invisible="not citadel_paper_mode or state != 'draft' or signed_attachment_ids">
+                        اطبع محضر اللجنة، ووقّعه من الأعضاء، ثم أرفقه في «المحضر الموقع» قبل تطبيق القرار.
+                    </div>
+                    <group invisible="citadel_paper_mode or not citadel_authority_request_id" col="1">
                         <field name="citadel_authority_approval_timeline" widget="html" nolabel="1" readonly="1"/>
                     </group>
                     <group>
@@ -42,7 +49,9 @@
                             <field name="decision_type"/>
                             <field name="decision_vendor_id" invisible="decision_type != 'main'"/>
                             <field name="decision_amount" widget="monetary"/>
-                            <field name="citadel_authority_request_id" readonly="1"/>
+                            <field name="signed_attachment_ids" widget="many2many_binary"
+                                   invisible="not citadel_paper_mode" readonly="state != 'draft'"/>
+                            <field name="citadel_authority_request_id" readonly="1" invisible="citadel_paper_mode"/>
                         </group>
                     </group>
                     <notebook>
@@ -124,5 +133,19 @@
         <field name="name">مقارنات العروض</field>
         <field name="res_model">purchase.alternative.comparison</field>
         <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="res_config_settings_view_form_alternative_committee" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.alternative.committee</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='purchase_setting_container']" position="inside">
+                <setting id="alternative_committee_approval" company_dependent="1"
+                         help="عند الإيقاف يوقّع أعضاء لجنة البت والمفاضلة على المحضر ورقياً ويُرفق المحضر الموقع بالمقارنة">
+                    <field name="alternative_committee_approval"/>
+                </setting>
+            </xpath>
+        </field>
     </record>
 </odoo>

@@ -53,14 +53,14 @@ class CitadelAuthorityRole(models.Model):
     def _check_resolver(self):
         for role in self:
             if role.resolver == "users" and not role.user_ids:
-                raise ValidationError(_("Named-user role %s needs at least one holder.", role.display_name))
+                raise ValidationError(_("الدور %s من نوع «مستخدمون محددون» ولا يضم أي مستخدم.\n\nالحل: افتح الدور من «الصلاحيات ← الإعدادات ← الأدوار» وأضف مستخدماً واحداً على الأقل.", role.display_name))
             if role.resolver == "group" and not role.group_id:
-                raise ValidationError(_("Group role %s needs a security group.", role.display_name))
+                raise ValidationError(_("الدور %s من نوع «مجموعة صلاحيات» ولم تُحدد له مجموعة.\n\nالحل: افتح الدور واختر مجموعة الصلاحيات التي يعتمد أعضاؤها.", role.display_name))
             users = role.user_ids if role.resolver == "users" else self.env["res.users"]
             if any(user.share for user in users):
-                raise ValidationError(_("Authority roles can only contain internal users."))
+                raise ValidationError(_("الأدوار لا تقبل إلا المستخدمين الداخليين (لا مستخدمي البوابة).\n\nالحل: احذف مستخدمي البوابة من الدور، أو حوّلهم إلى مستخدمين داخليين."))
             if any(role.company_id not in user.company_ids for user in users):
-                raise ValidationError(_("Every role holder must have access to the role company."))
+                raise ValidationError(_("بعض أعضاء الدور ليس لهم صلاحية الدخول على جهة الدور.\n\nالحل: من «الإعدادات ← المستخدمون» أضف جهة الدور إلى «الجهات المسموحة» لكل عضو، أو احذفه من الدور."))
 
     def _citadel_resolve_users(self, document):
         self.ensure_one()
@@ -71,7 +71,8 @@ class CitadelAuthorityRole(models.Model):
             )
             if users != committee:
                 raise UserError(_(
-                    "Every committee member of %(document)s needs an active internal user with access to %(company)s: %(users)s",
+                    "بعض أعضاء لجنة %(document)s ليس لهم مستخدم نشط له صلاحية على %(company)s: %(users)s."
+                    "\n\nالحل: الموظفون: افتح كل موظف واربطه بمستخدم نشط في الجهة، أو استبدله بعضو آخر في اللجنة.",
                     document=document.display_name,
                     company=document.company_id.display_name,
                     users=", ".join((committee - users).mapped("display_name")),

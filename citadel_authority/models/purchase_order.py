@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 
 class PurchaseOrder(models.Model):
@@ -72,7 +72,8 @@ class PurchaseOrder(models.Model):
                 continue
             if not committee.signed_attachment_ids:
                 raise UserError(_(
-                    "Attach the signed pricing committee minutes %(committee)s to %(order)s first.",
+                    "لم يُرفق محضر لجنة التسعير %(committee)s موقعاً على طلب الشراء %(order)s."
+                    "\n\nالحل: اضغط «لجنة التسعير»، اطبع المحضر ووقّعه من الأعضاء، ثم أرفق الصورة الموقعة في خانة المحضر الموقع.",
                     committee=committee.name, order=order.name,
                 ))
             unpriced = order.order_line.filtered(
@@ -80,7 +81,8 @@ class PurchaseOrder(models.Model):
             )
             if unpriced:
                 raise UserError(_(
-                    "Enter the committee prices on %(order)s for: %(products)s",
+                    "لم تُدخل أسعار لجنة التسعير في طلب الشراء %(order)s للأصناف: %(products)s."
+                    "\n\nالحل: اكتب سعر الوحدة لكل صنف في بنود الطلب (السعر الذي قدّرته اللجنة)، ثم أعد المحاولة.",
                     order=order.name, products=", ".join(unpriced.product_id.mapped("display_name")),
                 ))
 
@@ -97,7 +99,8 @@ class PurchaseOrder(models.Model):
         for order in self.filtered("citadel_receipt_committee_employee_ids"):
             if not order.citadel_receipt_manager_id:
                 raise UserError(_(
-                    "Set the receipt manager on warehouse %s first.",
+                    "لم يُحدد مسؤول المخزن (اعتماد الاستلام) للمخزن %s."
+                    "\n\nالحل: المخزون ← الإعدادات ← المخازن: افتح المخزن وحدد «مسؤول المخزن (اعتماد الاستلام)»، ثم أعد المحاولة.",
                     order.picking_type_id.warehouse_id.display_name or "-",
                 ))
             self._citadel_check_committee_employees(
@@ -129,7 +132,8 @@ class PurchaseOrder(models.Model):
             if len(self) == 1:
                 return self._citadel_receipt_committee_action(next_step)
             raise UserError(_(
-                "Select the receipt committee on each order first: %s", ", ".join(missing.mapped("name")),
+                "لم تُحدد لجنة الفحص والاستلام لطلبات الشراء: %s."
+                "\n\nالحل: افتح طلب الشراء واضغط «لجنة الفحص والاستلام»، واختر 3 أعضاء على الأقل، ثم أعد المحاولة.", ", ".join(missing.mapped("name")),
             ))
         candidates._citadel_check_receipt_committee()
         return False
@@ -137,7 +141,7 @@ class PurchaseOrder(models.Model):
     def action_open_pricing_committee(self):
         self.ensure_one()
         if self.state not in ("draft", "sent"):
-            raise UserError(_("Pricing committees can only be formed for draft orders."))
+            raise UserError(_("لا يمكن تشكيل لجنة التسعير إلا لطلب شراء في حالة «طلب عرض سعر» (مسودة) أو «تم الإرسال».\n\nالحل: شكّل اللجنة قبل تأكيد الطلب. إن كان الطلب مؤكداً فألغِه ثم أعده إلى مسودة وشكّل اللجنة."))
         committee = self.citadel_pricing_committee_ids.sorted("id", reverse=True)[:1]
         return {
             "type": "ir.actions.act_window",
@@ -184,7 +188,7 @@ class PurchaseOrder(models.Model):
             pickings.with_context(citadel_skip_invalidation=True).write({
                 "citadel_committee_employee_ids": [(6, 0, order.citadel_receipt_committee_employee_ids.ids)],
             })
-            pickings.with_user(self.env.user)._citadel_start_receipt_approval()
+            # The warehouse manager starts the committee approval after entering the received quantities.
 
     def button_approve(self, force=False):
         result = super().button_approve(force=force)
@@ -307,6 +311,43 @@ class PurchaseOrder(models.Model):
         result = super(PurchaseOrder, actionable).button_confirm() if actionable else True
         allowed.filtered(lambda order: order.state in ("purchase", "done", "to approve"))._citadel_authority_complete()
         return result
+
+    _citadel_auto_execute = True
+
+    def _citadel_authority_on_final_approval(self):
+        """Confirm the order automatically after its last approval, as the requester."""
+        for order in self.sudo():
+            if order.state not in ("draft", "sent"):
+                continue
+            requester = order._citadel_authority_requester()
+            as_requester = self.browse(order.id).with_user(requester).with_company(order.company_id)
+            reason = False
+            try:
+                with self.env.cr.savepoint():
+                    result = as_requester.button_confirm()
+                    if order.state not in ("purchase", "done", "to approve"):
+                        if isinstance(result, dict) and result.get("res_model") == "citadel.purchase.receipt.committee.wizard":
+                            raise UserError(_("لم تُحدد لجنة الفحص والاستلام."))
+                        raise UserError(_("يحتاج الطلب إلى خطوة إضافية قبل التأكيد."))
+            except (UserError, ValidationError, AccessError) as error:
+                reason = error.args[0] if error.args else str(error)
+            if reason:
+                note = _(
+                    "اكتملت جميع اعتمادات %(order)s لكن تعذّر تأكيده تلقائياً: %(reason)s"
+                    "\n\nالحل: يفتح مقدّم الطلب %(requester)s الطلب ويعالج السبب أعلاه، ثم يضغط «تأكيد الطلب».",
+                    order=order.name, reason=reason, requester=requester.display_name,
+                )
+                order.message_post(body=note)
+                order.activity_schedule(
+                    "mail.mail_activity_data_todo", user_id=requester.id,
+                    summary=_("أكمل تأكيد طلب الشراء %s", order.name), note=note,
+                )
+                continue
+            order.message_post(body=_(
+                "تم تأكيد طلب الشراء تلقائياً بعد اكتمال جميع الاعتمادات، باسم مقدّم الطلب %s.",
+                requester.display_name,
+            ))
+        return True
 
     def button_cancel(self):
         result = super().button_cancel()

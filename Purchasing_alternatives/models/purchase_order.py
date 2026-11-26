@@ -52,7 +52,7 @@ class PurchaseOrder(models.Model):
         comparison = self.alternative_comparison_ids[:1]
         if not comparison:
             if self.state not in ("draft", "sent"):
-                raise UserError(_("لا يمكن إنشاء مقارنة العروض إلا لطلبات الشراء في حالة المسودة"))
+                raise UserError(_("لا يمكن إنشاء مقارنة العروض إلا لطلب شراء في حالة «طلب عرض سعر» (مسودة) أو «تم الإرسال».""\n\nالحل: أنشئ المقارنة قبل تأكيد الطلب، أو ألغِ الطلب وأعده إلى مسودة."))
             return {
                 "type": "ir.actions.act_window",
                 "name": _("لجنة البت والمفاضلة"),
@@ -71,18 +71,23 @@ class PurchaseOrder(models.Model):
             for comparison in comparisons.sudo():
                 if not comparison._citadel_is_used():
                     continue
+                if comparison._citadel_paper_mode() and not comparison._citadel_committee_approved():
+                    raise UserError(_(
+                        "لا يمكن إرسال أو تأكيد %(order)s لأن مقارنة العروض %(comparison)s لم تكتمل.""\n\nالحل: افتح «مقارنة العروض»، وأرفق المحضر الموقع من «اللجنة والمحضر الموقع»، ثم اضغط «ترسية» أو «توزيع الكميات». إن لم تعد المقارنة مطلوبة فافتحها واضغط «حذف المقارنة».",
+                        order=order.name, comparison=comparison.name,
+                    ))
                 if not comparison._citadel_committee_approved():
                     raise UserError(_(
-                        "لا يمكن إرسال أو تأكيد %(order)s: لم تعتمد لجنة البت والمفاضلة %(comparison)s",
+                        "لا يمكن إرسال أو تأكيد %(order)s لأن لجنة البت والمفاضلة لم تعتمد قرار %(comparison)s.""\n\nالحل: افتح «مقارنة العروض» واختر القرار («ترسية» أو «توزيع الكميات») ليُرسل للأعضاء، وبعد اعتماد جميع الأعضاء طبّق القرار ثم أكّد الطلب.",
                         order=order.name, comparison=comparison.name,
                     ))
                 if comparison.order_id == order and comparison.state == "draft" and comparison.decision_type == "main":
                     raise UserError(_(
-                        "طبّق قرار اللجنة المعتمد في %s قبل تأكيد الأمر", comparison.name,
+                        "اعتُمد قرار الترسية في %s لكن لم يُطبق على طلب الشراء بعد.""\n\nالحل: افتح مقارنة العروض واضغط «تطبيق القرار» تحت المورد المعتمد، ثم أكّد الطلب.", comparison.name,
                     ))
                 if comparison.order_id == order and comparison.state == "draft" and comparison.decision_type == "split":
                     raise UserError(_(
-                        "أنشئ طلبات التوزيع المعتمدة في %s قبل تأكيد الأمر", comparison.name,
+                        "اعتُمد قرار توزيع الكميات في %s لكن لم تُنشأ طلبات التوزيع بعد.""\n\nالحل: افتح مقارنة العروض واضغط «تطبيق: إنشاء طلبات التوزيع»، ثم أكّد الطلب.", comparison.name,
                     ))
 
 

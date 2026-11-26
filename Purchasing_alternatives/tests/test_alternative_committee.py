@@ -32,6 +32,8 @@ class TestAlternativeCommittee(TransactionCase):
         cls.vendor_b = cls.env["res.partner"].create({"name": "Alt Vendor B", "supplier_rank": 1})
         cls.product = cls.env["product.product"].create({"name": "Alt Service", "type": "service"})
         cls.env["citadel.authority.policy"].search([("document_type", "=", "purchase_order")]).active = False
+        # Electronic committee approval is opt-in; the historical tests cover the electronic flow.
+        cls.company.alternative_committee_approval = True
 
     def _order(self):
         return self.env["purchase.order"].with_user(self.buyer).create({
@@ -58,9 +60,9 @@ class TestAlternativeCommittee(TransactionCase):
     def test_main_decision_needs_all_members(self):
         order = self._order()
         comparison, vendor = self._comparison(order)
-        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
+        with self.assertRaisesRegex(UserError, "لم تعتمد لجنة البت والمفاضلة الترسية"):
             comparison.action_apply_main_vendor(vendor.id)
-        with self.assertRaisesRegex(UserError, "لم تعتمد لجنة البت والمفاضلة"):
+        with self.assertRaisesRegex(UserError, "لجنة البت والمفاضلة لم تعتمد قرار"):
             order.with_user(self.buyer).button_confirm()
 
         comparison.action_submit_main_decision(vendor.id)
@@ -76,15 +78,15 @@ class TestAlternativeCommittee(TransactionCase):
         comparison.with_user(self.members[1]).action_citadel_approve()
         comparison.with_user(self.members[2]).action_citadel_approve()
         self.assertEqual(request.state, "pending")
-        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
+        with self.assertRaisesRegex(UserError, "لم تعتمد لجنة البت والمفاضلة الترسية"):
             comparison.action_apply_main_vendor(vendor.id)
         comparison.with_user(self.members[0]).action_citadel_approve()
         self.assertEqual(request.state, "approved")
 
         other = comparison.vendor_ids.filtered("is_original")
-        with self.assertRaisesRegex(UserError, "يجب أن تعتمد اللجنة"):
+        with self.assertRaisesRegex(UserError, "لم تعتمد لجنة البت والمفاضلة الترسية"):
             comparison.action_apply_main_vendor(other.id)
-        with self.assertRaisesRegex(UserError, "طبّق قرار اللجنة المعتمد"):
+        with self.assertRaisesRegex(UserError, "لم يُطبق على طلب الشراء"):
             order.with_user(self.buyer).button_confirm()
 
         html, _type = self.env["ir.actions.report"]._render_qweb_html(
@@ -209,3 +211,80 @@ class TestAlternativeCommittee(TransactionCase):
         comparison.action_create_split_pos()
         self.assertEqual(comparison.split_order_ids.partner_id, self.vendor_b)
         self.assertEqual(comparison.state, "applied")
+
+
+    # ------------------------------------------------------------------
+    # Paper mode (default): members sign the printed minutes
+    # ------------------------------------------------------------------
+    def _paper(self):
+        self.company.alternative_committee_approval = False
+
+    def _attach_signed(self, comparison):
+        attachment = self.env["ir.attachment"].create({
+            "name": "signed.pdf", "raw": b"%PDF-1.4 signed", "res_model": comparison._name, "res_id": comparison.id,
+        })
+        comparison.signed_attachment_ids = [Command.link(attachment.id)]
+
+    def test_paper_setting_default_off(self):
+        company = self.env["res.company"].create({"name": "Alt Paper Co"})
+        self.assertFalse(company.alternative_committee_approval)
+
+    def test_paper_main_needs_signed_minutes(self):
+        self._paper()
+        order = self._order()
+        comparison, vendor = self._comparison(order)
+        self.assertTrue(comparison.citadel_paper_mode)
+        self.assertTrue(comparison.get_table_data()["authority"]["paper"])
+        with self.assertRaisesRegex(UserError, "غير مفعل"):
+            comparison.action_submit_main_decision(vendor.id)
+        with self.assertRaisesRegex(UserError, "لم يُرفق محضر لجنة البت"):
+            comparison.action_apply_main_vendor(vendor.id)
+        with self.assertRaisesRegex(UserError, "المحضر الموقع"):
+            order.with_user(self.buyer).button_confirm()
+        html = self.env["ir.actions.report"]._render_qweb_html(
+            "Purchasing_alternatives.action_report_alternative_committee", comparison.ids,
+        )[0].decode()
+        self.assertNotIn("الاعتماد الإلكتروني", html)
+        self._attach_signed(comparison)
+        comparison.action_apply_main_vendor(vendor.id)
+        self.assertFalse(comparison.citadel_authority_request_id)
+        self.assertEqual((comparison.state, comparison.decision_type), ("applied", "main"))
+        self.assertEqual(order.partner_id, self.vendor_b)
+        order.with_user(self.buyer).button_confirm()
+        self.assertEqual(order.state, "purchase")
+
+    def test_paper_committee_formed_must_finish_or_delete(self):
+        self._paper()
+        order = self._order()
+        wizard = self.env["purchase.alternative.committee.wizard"].with_user(self.buyer).create({
+            "order_id": order.id, "employee_ids": [Command.set(self.employees.ids)],
+        })
+        wizard.action_create()
+        comparison = order.alternative_comparison_ids.with_user(self.buyer)
+        self.assertEqual(len(comparison.vendor_ids), 1)
+        with self.assertRaisesRegex(UserError, "حذف المقارنة"):
+            order.with_user(self.buyer).button_confirm()
+        action = comparison.action_delete_comparison()
+        self.assertEqual(action["res_id"], order.id)
+        self.assertFalse(order.alternative_comparison_ids)
+        order.with_user(self.buyer).button_confirm()
+        self.assertEqual(order.state, "purchase")
+
+    def test_paper_split(self):
+        self._paper()
+        order = self._order()
+        comparison, vendor = self._comparison(order)
+        original = comparison.vendor_ids.filtered("is_original")
+        comparison.action_update_cell(original.line_ids.id, {"offered_qty": 4.0})
+        comparison.action_update_cell(vendor.line_ids.id, {"offered_qty": 6.0})
+        with self.assertRaisesRegex(UserError, "لم يُرفق محضر لجنة البت"):
+            comparison.action_create_split_pos()
+        self._attach_signed(comparison)
+        comparison.action_create_split_pos()
+        new_order = comparison.split_order_ids
+        self.assertEqual((comparison.state, comparison.decision_type), ("applied", "split"))
+        new_order.with_user(self.buyer).button_confirm()
+        order.with_user(self.buyer).button_confirm()
+        self.assertEqual((order | new_order).mapped("state"), ["purchase", "purchase"])
+        with self.assertRaisesRegex(UserError, "تم تطبيق"):
+            comparison.action_delete_comparison()

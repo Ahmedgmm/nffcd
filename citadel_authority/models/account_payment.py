@@ -41,12 +41,38 @@ class AccountPayment(models.Model):
     def action_post(self):
         candidates = self.filtered(lambda payment: payment.state in (False, "draft", "paid"))
         allowed = candidates.filtered(lambda payment: payment._citadel_authority_gate())
-        (candidates - allowed)._citadel_authority_notify_blocked()
+        blocked = candidates - allowed
+        # «تسجيل الدفع» creates the payment already marked paid; keep blocked ones in draft until approved.
+        blocked.filtered(lambda payment: payment.state == "paid").with_context(citadel_business_action=True).write(
+            {"state": "draft"}
+        )
+        blocked._citadel_authority_notify_blocked()
         untouched = self - candidates
         actionable = (allowed | untouched).with_context(citadel_business_action=True)
         result = super(AccountPayment, actionable).action_post() if actionable else True
-        allowed.filtered(lambda payment: payment.state not in (False, "draft"))._citadel_authority_complete()
+        posted = allowed.filtered(lambda payment: payment.state not in (False, "draft"))
+        posted._citadel_reconcile_matched_invoices()
+        posted._citadel_authority_complete()
         return result
+
+    def _citadel_reconcile_matched_invoices(self):
+        """Settle the bills/invoices a payment was registered for once it is posted after approval.
+
+        The register-payment wizard reconciles only payments it could post itself; an approved
+        payment is posted later, so its open payable/receivable lines are matched here.
+        """
+        account_types = self._get_valid_payment_account_types()
+        for payment in self.filtered(lambda pay: pay.move_id.state == "posted" and pay.invoice_ids):
+            lines = payment.move_id.line_ids | payment.invoice_ids.filtered(
+                lambda move: move.state == "posted"
+            ).line_ids
+            open_lines = lines.filtered(
+                lambda line: line.account_id.account_type in account_types and not line.reconciled
+            )
+            for account in payment.move_id.line_ids.filtered(lambda line: line in open_lines).account_id:
+                to_match = open_lines.filtered(lambda line: line.account_id == account)
+                if to_match.filtered("debit") and to_match.filtered("credit"):
+                    to_match.reconcile()
 
     def action_cancel(self):
         result = super().action_cancel()

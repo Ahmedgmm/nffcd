@@ -179,11 +179,11 @@ class CitadelAuthorityRequest(models.Model):
             "decided_on", "rejection_reason",
         }
         if protected.intersection(vals) and not self.env.context.get("citadel_engine_write"):
-            raise AccessError(_("Approval evidence can only be changed by the Authority engine."))
+            raise AccessError(_("لا يمكن تعديل طلب الاعتماد يدوياً؛ يحدّثه نظام الصلاحيات تلقائياً.\n\nالحل: استخدم أزرار «اعتماد» أو «رفض» أو «سحب القرار» من المستند نفسه."))
         return super().write(vals)
 
     def unlink(self):
-        raise UserError(_("Approval requests are audit evidence and cannot be deleted."))
+        raise UserError(_("لا يمكن حذف طلب الاعتماد لأنه سجل رقابي.\n\nالحل: إن لم يعد الطلب مطلوباً فاضغط «إلغاء» على طلب الاعتماد، أو اسحب القرار من المستند."))
 
     def _citadel_engine_write(self, vals):
         return self.sudo().with_context(citadel_engine_write=True).write(vals)
@@ -207,7 +207,7 @@ class CitadelAuthorityRequest(models.Model):
         self.ensure_one()
         document = self._citadel_document()
         if not document:
-            raise UserError(_("The governed document no longer exists."))
+            raise UserError(_("المستند المرتبط بطلب الاعتماد لم يعد موجوداً (ربما حُذف).\n\nالحل: ألغِ طلب الاعتماد هذا، وأنشئ المستند من جديد إن لزم."))
         return {
             "type": "ir.actions.act_window",
             "res_model": self.res_model,
@@ -241,8 +241,8 @@ class CitadelAuthorityRequest(models.Model):
                 request.sudo().activity_schedule(
                     "citadel_authority.mail_activity_citadel_approval",
                     user_id=user.id,
-                    summary=_("Approve %s", request.document_name),
-                    note=_("Policy: %s", request.policy_id.display_name),
+                    summary=_("مطلوب منك اعتماد %s", request.document_name),
+                    note=_("السياسة: %s. افتح المستند واضغط «اعتماد» أو «رفض».", request.policy_id.display_name),
                     date_deadline=fields.Date.context_today(request),
                 )
 
@@ -263,14 +263,14 @@ class CitadelAuthorityRequest(models.Model):
                 "state": "current", "due_on": due_on,
             })
             self._citadel_schedule_current()
-            self._citadel_log("advanced", note=_("Advanced to approval level %s.", next_sequence))
+            self._citadel_log("advanced", note=_("انتقل الطلب إلى مرحلة الاعتماد %s.", next_sequence))
             return
         self._citadel_close_activities()
         self._citadel_engine_write({"state": "approved", "decided_on": fields.Datetime.now()})
-        self._citadel_log("approved", note=_("Final approval completed."))
+        self._citadel_log("approved", note=_("اكتمل الاعتماد النهائي."))
         document = self._citadel_document()
         if document:
-            document.sudo().message_post(body=_("Authority request %s was approved.", self.name))
+            document.sudo().message_post(body=_("تم اعتماد طلب الاعتماد %s من جميع المراحل.", self.name))
         inform_users = self.env["res.users"]
         for policy_step in self.policy_id.step_ids.filtered(lambda step: step.action == "inform"):
             if document:
@@ -278,9 +278,12 @@ class CitadelAuthorityRequest(models.Model):
         if inform_users:
             self.sudo().message_notify(
                 partner_ids=inform_users.partner_id.ids,
-                subject=_("Approved: %s", self.document_name),
-                body=_("You are informed under policy %s.", self.policy_id.display_name),
+                subject=_("تم اعتماد: %s", self.document_name),
+                body=_("للعلم وفق السياسة %s.", self.policy_id.display_name),
             )
+        if document:
+            # Documents may run their governed action automatically (e.g. post a committee receipt).
+            document.sudo()._citadel_authority_on_final_approval()
 
     def action_approve(self):
         for original in self:
@@ -292,20 +295,20 @@ class CitadelAuthorityRequest(models.Model):
             request.invalidate_recordset()
             request.step_ids.invalidate_recordset()
             if request.state != "pending":
-                raise UserError(_("This request is no longer pending."))
+                raise UserError(_("طلب الاعتماد لم يعد بانتظار الاعتماد (تم اعتماده أو رفضه أو إلغاؤه).\n\nالحل: حدّث الصفحة لمعرفة حالته الحالية. إن تغيّر المستند بعد ذلك فاضغط «طلب اعتماد» من جديد."))
             actionable = request.current_step_ids.filtered(
                 lambda step: bool(step._citadel_principal_for(self.env.user))
             )
             if not actionable:
-                raise UserError(_("You are not authorized for the current approval level."))
+                raise UserError(_("لست من المعتمدين في المرحلة الحالية لهذا الطلب.\n\nالحل: راجع خانة «بانتظار» في المستند لمعرفة من يعتمد الآن. إن كان يجب أن تعتمد، اطلب من مدير الصلاحيات إضافتك للدور في «الصلاحيات ← الإعدادات ← الأدوار» أو تفويضك من «تفويضاتي»."))
             step = actionable.sorted(lambda item: item.id)[0]
             principal = step._citadel_principal_for(self.env.user)
             if request.requested_by_id == self.env.user and not request.policy_id.allow_self_approval:
-                raise UserError(_("The requester may not approve this request."))
+                raise UserError(_("لا يجوز لمقدّم الطلب اعتماد طلبه بنفسه.\n\nالحل: يعتمده أحد المعتمدين الآخرين في المرحلة الحالية. لتغيير ذلك يفعّل مدير الصلاحيات «السماح لمقدم الطلب بالاعتماد» في مصفوفة الصلاحيات."))
             if not request.policy_id.allow_same_user_multiple_steps and request.step_ids.vote_ids.filtered(
                 lambda vote: vote.acted_by_id == self.env.user
             ):
-                raise UserError(_("The same person may not approve more than one step."))
+                raise UserError(_("سبق أن اعتمدت مرحلة أخرى من هذا الطلب، ولا تسمح السياسة للشخص نفسه باعتماد أكثر من مرحلة.\n\nالحل: يعتمد هذه المرحلة معتمد آخر، أو يفعّل مدير الصلاحيات «السماح للشخص نفسه باعتماد عدة خطوات» في مصفوفة الصلاحيات."))
             step._citadel_add_vote(principal, self.env.user)
             request._citadel_close_activities(users=self.env.user)
             request._citadel_log("step_approved", step=step, principal=principal)
@@ -317,7 +320,7 @@ class CitadelAuthorityRequest(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "name": _("Reject Approval"),
+            "name": _("رفض الاعتماد"),
             "res_model": "citadel.authority.reject.wizard",
             "view_mode": "form",
             "target": "new",
@@ -334,14 +337,14 @@ class CitadelAuthorityRequest(models.Model):
             request.invalidate_recordset()
             request.step_ids.invalidate_recordset()
             if request.state != "pending":
-                raise UserError(_("This request is no longer pending."))
+                raise UserError(_("طلب الاعتماد لم يعد بانتظار الاعتماد (تم اعتماده أو رفضه أو إلغاؤه).\n\nالحل: حدّث الصفحة لمعرفة حالته الحالية. إن تغيّر المستند بعد ذلك فاضغط «طلب اعتماد» من جديد."))
             step = request.current_step_ids.filtered(
                 lambda item: bool(item._citadel_principal_for(self.env.user))
             )[:1]
             if not step:
-                raise UserError(_("You are not authorized to reject this request."))
+                raise UserError(_("لست من المعتمدين في المرحلة الحالية، لذلك لا يمكنك الرفض.\n\nالحل: راجع خانة «بانتظار» في المستند لمعرفة من يعتمد الآن، واطلب منه الرفض إن لزم."))
             if request.policy_id.require_rejection_reason and not (reason or "").strip():
-                raise UserError(_("A rejection reason is required."))
+                raise UserError(_("سبب الرفض مطلوب.\n\nالحل: اكتب سبب الرفض في الخانة المخصصة ثم اضغط «رفض»."))
             request.step_ids.filtered(lambda item: item.state in ("waiting", "current")).sudo().with_context(
                 citadel_engine_write=True
             ).write({"state": "cancelled"})
@@ -352,7 +355,7 @@ class CitadelAuthorityRequest(models.Model):
             request._citadel_log("rejected", note=reason, step=step)
             document = request._citadel_document()
             if document:
-                document.sudo().message_post(body=_("Authority request rejected: %s", reason))
+                document.sudo().message_post(body=_("رُفض طلب الاعتماد. السبب: %s\nالحل: عدّل المستند حسب سبب الرفض، ثم اضغط «طلب اعتماد» من جديد.", reason))
         return True
 
     def _citadel_cancel(self, state="cancelled", note=None):
@@ -369,7 +372,7 @@ class CitadelAuthorityRequest(models.Model):
             if request.requested_by_id != self.env.user and not self.env.user.has_group(
                 "citadel_authority.group_citadel_authority_manager"
             ):
-                raise UserError(_("Only the requester or an Authority Manager may cancel this request."))
+                raise UserError(_("لا يمكنك إلغاء طلب الاعتماد؛ الإلغاء لمقدّم الطلب أو لمدير الصلاحيات فقط.\n\nالحل: اطلب من مقدّم الطلب أو من مدير الصلاحيات إلغاءه."))
         self._citadel_cancel()
         return True
 
@@ -387,7 +390,7 @@ class CitadelAuthorityRequest(models.Model):
                     step.sudo().with_context(citadel_engine_write=True).write({
                         "escalation_user_ids": [(4, user.id) for user in new_users],
                     })
-                    request._citadel_log("escalated", note=_("Escalated to %s.", role.display_name), step=step)
+                    request._citadel_log("escalated", note=_("تم تصعيد الطلب إلى %s لتأخر الاعتماد.", role.display_name), step=step)
                     request._citadel_schedule_current()
 
 
@@ -434,7 +437,7 @@ class CitadelAuthorityRequestStep(models.Model):
             "eligible_user_ids", "escalation_user_ids", "state", "due_on",
         }
         if protected.intersection(vals) and not self.env.context.get("citadel_engine_write"):
-            raise AccessError(_("Approval steps can only be changed by the Authority engine."))
+            raise AccessError(_("لا يمكن تعديل مراحل الاعتماد يدوياً؛ يحدّثها نظام الصلاحيات تلقائياً.\n\nالحل: استخدم «اعتماد» أو «رفض» من المستند. لتغيير المراحل عدّل السياسة في «مصفوفة الصلاحيات» ثم اطلب الاعتماد من جديد."))
         return super().write(vals)
 
     def _citadel_principal_for(self, actor):
@@ -449,7 +452,7 @@ class CitadelAuthorityRequestStep(models.Model):
     def _citadel_add_vote(self, principal, actor):
         self.ensure_one()
         if self.vote_ids.filtered(lambda vote: vote.principal_id == principal):
-            raise UserError(_("This authority holder has already approved the step."))
+            raise UserError(_("سبق تسجيل اعتمادك لهذه المرحلة.\n\nالحل: لا حاجة لإجراء آخر؛ الطلب بانتظار بقية المعتمدين."))
         return self.env["citadel.authority.vote"].sudo().with_context(citadel_vote_create=True).create({
             "step_id": self.id,
             "principal_id": principal.id,
@@ -480,14 +483,14 @@ class CitadelAuthorityVote(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         if not self.env.context.get("citadel_vote_create"):
-            raise AccessError(_("Votes can only be created by the Authority engine."))
+            raise AccessError(_("لا يمكن إنشاء اعتماد يدوياً.\n\nالحل: اضغط «اعتماد» من المستند أو من «بانتظار اعتمادي»."))
         return super().create(vals_list)
 
     def write(self, vals):
-        raise AccessError(_("Approval votes are immutable."))
+        raise AccessError(_("لا يمكن تعديل أو حذف اعتماد مسجل لأنه سجل رقابي.\n\nالحل: إن كان الاعتماد خاطئاً فاسحب القرار من المستند واطلب الاعتماد من جديد."))
 
     def unlink(self):
-        raise AccessError(_("Approval votes are immutable."))
+        raise AccessError(_("لا يمكن تعديل أو حذف اعتماد مسجل لأنه سجل رقابي.\n\nالحل: إن كان الاعتماد خاطئاً فاسحب القرار من المستند واطلب الاعتماد من جديد."))
 
 
 class CitadelAuthorityLog(models.Model):
@@ -514,14 +517,14 @@ class CitadelAuthorityLog(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         if not self.env.context.get("citadel_log_create"):
-            raise AccessError(_("Audit events can only be created by the Authority engine."))
+            raise AccessError(_("لا يمكن إضافة سجل اعتماد يدوياً؛ يسجله النظام تلقائياً.\n\nالحل: نفّذ الإجراء المطلوب من المستند وسيُسجَّل تلقائياً."))
         return super().create(vals_list)
 
     def write(self, vals):
-        raise AccessError(_("Authority audit events are immutable."))
+        raise AccessError(_("لا يمكن تعديل أو حذف سجل الاعتمادات لأنه سجل رقابي.\n\nالحل: لا يلزم أي إجراء؛ السجل للمراجعة فقط."))
 
     def unlink(self):
-        raise AccessError(_("Authority audit events are immutable."))
+        raise AccessError(_("لا يمكن تعديل أو حذف سجل الاعتمادات لأنه سجل رقابي.\n\nالحل: لا يلزم أي إجراء؛ السجل للمراجعة فقط."))
 
 
 class CitadelAuthorityRejectWizard(models.TransientModel):

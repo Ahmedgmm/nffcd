@@ -170,7 +170,7 @@ export class PurchaseAlternativeTable extends Component {
     }
 
     async applyMain(vendor) {
-        if (!this.isApprovedMain(vendor)) {
+        if (!this.authority.paper && !this.isApprovedMain(vendor)) {
             this.state.data = await this.orm.call(
                 "purchase.alternative.comparison",
                 "action_submit_main_decision",
@@ -216,7 +216,7 @@ export class PurchaseAlternativeTable extends Component {
     }
 
     async createSplitPOs() {
-        if (!this.isApprovedSplit()) {
+        if (!this.authority.paper && !this.isApprovedSplit()) {
             this.state.data = await this.orm.call(
                 "purchase.alternative.comparison",
                 "action_submit_split_decision",

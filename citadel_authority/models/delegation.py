@@ -34,7 +34,7 @@ class CitadelAuthorityDelegation(models.Model):
         if not self._citadel_is_manager() and any(
             vals.get("delegator_id", self.env.uid) != self.env.uid for vals in vals_list
         ):
-            raise AccessError(_("You can only create your own delegations."))
+            raise AccessError(_("لا يمكنك إنشاء تفويض نيابة عن مستخدم آخر.\n\nالحل: أنشئ التفويض باسمك من «تفويضاتي»، أو اطلب من مدير الصلاحيات إنشاءه."))
         return super().create(vals_list)
 
     def write(self, vals):
@@ -42,25 +42,25 @@ class CitadelAuthorityDelegation(models.Model):
             any(record.delegator_id != self.env.user for record in self)
             or ("delegator_id" in vals and vals["delegator_id"] != self.env.uid)
         ):
-            raise AccessError(_("You can only change your own delegations."))
+            raise AccessError(_("لا يمكنك تعديل تفويض يخص مستخدماً آخر.\n\nالحل: يعدّله صاحب التفويض أو مدير الصلاحيات."))
         return super().write(vals)
 
     def unlink(self):
         if not self._citadel_is_manager() and any(record.delegator_id != self.env.user for record in self):
-            raise AccessError(_("You can only remove your own delegations."))
+            raise AccessError(_("لا يمكنك حذف تفويض يخص مستخدماً آخر.\n\nالحل: يحذفه صاحب التفويض أو مدير الصلاحيات."))
         return super().unlink()
 
     @api.constrains("delegator_id", "delegate_id", "scope", "company_id", "date_start", "date_end", "active")
     def _check_delegation(self):
         for record in self:
             if record.delegator_id == record.delegate_id:
-                raise ValidationError(_("You cannot delegate authority to yourself."))
+                raise ValidationError(_("لا يمكن تفويض الصلاحية لنفسك.\n\nالحل: اختر مستخدماً آخر في خانة «المفوَّض إليه»."))
             if record.delegator_id.share or record.delegate_id.share:
-                raise ValidationError(_("Authority may only be delegated between internal users."))
+                raise ValidationError(_("التفويض مسموح فقط بين المستخدمين الداخليين.\n\nالحل: اختر مستخدماً داخلياً (ليس من مستخدمي البوابة)."))
             if record.date_end < record.date_start:
-                raise ValidationError(_("The end date must be on or after the start date."))
+                raise ValidationError(_("تاريخ نهاية التفويض قبل تاريخ بدايته.\n\nالحل: اجعل تاريخ النهاية مساوياً لتاريخ البداية أو بعده."))
             if record.company_id not in record.delegator_id.company_ids or record.company_id not in record.delegate_id.company_ids:
-                raise ValidationError(_("Both users must have access to the delegation company."))
+                raise ValidationError(_("أحد طرفي التفويض ليس له صلاحية على جهة التفويض.\n\nالحل: أضف الجهة إلى «الجهات المسموحة» للمستخدمين، أو اختر جهة مشتركة بينهما."))
             overlap = self.sudo().search_count([
                 ("id", "!=", record.id),
                 ("active", "=", True),
@@ -71,7 +71,7 @@ class CitadelAuthorityDelegation(models.Model):
                 ("date_end", ">=", record.date_start),
             ])
             if record.active and overlap:
-                raise ValidationError(_("This user already has an overlapping delegation for that scope."))
+                raise ValidationError(_("يوجد تفويض آخر لهذا المستخدم لنفس النطاق في فترة متداخلة.\n\nالحل: عدّل تواريخ التفويض القائم أو أوقفه، ثم أنشئ التفويض الجديد."))
             reverse = self.sudo().search_count([
                 ("active", "=", True),
                 ("delegator_id", "=", record.delegate_id.id),
@@ -81,7 +81,7 @@ class CitadelAuthorityDelegation(models.Model):
                 ("date_end", ">=", record.date_start),
             ])
             if record.active and reverse:
-                raise ValidationError(_("Circular authority delegations are not allowed."))
+                raise ValidationError(_("لا يُسمح بالتفويض المتبادل (المفوَّض إليه فوّضك بالفعل لنفس النطاق).\n\nالحل: أوقف التفويض العكسي أولاً، ثم أنشئ هذا التفويض."))
 
     @api.model
     def _citadel_active_domain(self, document_type, company):

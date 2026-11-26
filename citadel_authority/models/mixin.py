@@ -148,8 +148,9 @@ class CitadelAuthorityMixin(models.AbstractModel):
             return policy, amount
         if policy and not policy._citadel_has_committee_step():
             raise UserError(_(
-                "Policy %(policy)s governs %(document)s, which has an approval committee, but it has no "
-                "step for the document committee role with approval mode 'all'.",
+                "السياسة %(policy)s تحكم %(document)s الذي له لجنة، لكنها لا تحتوي على مرحلة لدور «لجنة المستند» "
+                "بطريقة اعتماد «الكل»."
+                "\n\nالحل: اطلب من مدير الصلاحيات إضافة هذه المرحلة إلى السياسة في «مصفوفة الصلاحيات».",
                 policy=policy.display_name, document=self.display_name,
             ))
         if not policy and create:
@@ -161,11 +162,12 @@ class CitadelAuthorityMixin(models.AbstractModel):
     def _citadel_check_committee_employees(self, employees, company, excluded_users=None, minimum=3, need_users=True):
         """Validate committee employees and return their users."""
         if len(employees) < minimum:
-            raise UserError(_("Select at least %s committee members.", minimum))
+            raise UserError(_("عدد أعضاء اللجنة أقل من الحد الأدنى (%s أعضاء).\n\nالحل: أضف أعضاء حتى يصل العدد إلى الحد الأدنى على الأقل، ثم احفظ.", minimum))
         wrong_company = employees.filtered(lambda employee: employee.company_id != company)
         if wrong_company:
             raise UserError(_(
-                "Committee members must work in %(company)s: %(names)s",
+                "بعض أعضاء اللجنة لا يتبعون %(company)s: %(names)s."
+                "\n\nالحل: اختر أعضاء من موظفي الجهة نفسها، أو صحّح جهة الموظف في ملفه.",
                 company=company.display_name, names=", ".join(wrong_company.mapped("name")),
             ))
         # User-account checks are disabled until HR data is loaded.
@@ -173,11 +175,12 @@ class CitadelAuthorityMixin(models.AbstractModel):
             return self.env["res.users"]
         users = employees.sudo().user_id
         if len(users) != len(employees.filtered(lambda employee: employee.sudo().user_id)):
-            raise UserError(_("Two committee members are linked to the same user."))
+            raise UserError(_("عضوان في اللجنة مرتبطان بالمستخدم نفسه.\n\nالحل: الموظفون ← صحّح المستخدم المرتبط بأحد الموظفين، أو احذف أحدهما من اللجنة."))
         conflict = users & (excluded_users or self.env["res.users"])
         if conflict:
             raise UserError(_(
-                "%s cannot be a committee member of this document (requester or warehouse manager).",
+                "لا يجوز أن يكون %s عضواً في لجنة هذا المستند (مقدّم الطلب أو مسؤول المخزن)."
+                "\n\nالحل: احذفه من الأعضاء واختر موظفاً آخر.",
                 ", ".join(conflict.mapped("name")),
             ))
         return users
@@ -190,11 +193,11 @@ class CitadelAuthorityMixin(models.AbstractModel):
         if current.state == "pending" and current.fingerprint == fingerprint:
             return current
         if current.state in ("pending", "approved"):
-            current._citadel_cancel("invalidated", _("A replacement approval request was submitted."))
+            current._citadel_cancel("invalidated", _("أُرسل طلب اعتماد جديد بدلاً من هذا الطلب."))
         policy, amount = self._citadel_authority_matching_policy()
         if not policy:
             if require_policy:
-                raise UserError(_("No Authority policy matches %s.", self.display_name))
+                raise UserError(_("لا توجد سياسة اعتماد تنطبق على %s (حسب نوع المستند والجهة والمبلغ).\n\nالحل: اطلب من مدير الصلاحيات إنشاء سياسة لهذا النوع في جهتك من «الصلاحيات ← الإعدادات ← مصفوفة الصلاحيات»، أو تعديل حدود المبلغ في سياسة قائمة.", self.display_name))
             return self.env["citadel.authority.request"]
         policy_steps = policy.step_ids.filtered(lambda step: step.action == "approve").sorted(
             lambda step: (step.sequence, step.id)
@@ -204,14 +207,16 @@ class CitadelAuthorityMixin(models.AbstractModel):
             users = policy_step.role_id._citadel_resolve_users(self)
             if not users:
                 raise UserError(_(
-                    "No eligible approver holds role %(role)s for %(document)s.",
+                    "لا يوجد معتمد متاح في الدور %(role)s للمستند %(document)s."
+                    "\n\nالحل: اطلب من مدير الصلاحيات إضافة مستخدم نشط للدور في «الصلاحيات ← الإعدادات ← الأدوار» (بصلاحية على الجهة)، ثم اضغط «طلب اعتماد» من جديد.",
                     role=policy_step.role_id.display_name,
                     document=self.display_name,
                 ))
             required = len(users) if policy_step.approval_mode == "all" else policy_step.required_approvals
             if required > len(users):
                 raise UserError(_(
-                    "Step %(role)s requires %(required)s approvals but only %(available)s users are eligible.",
+                    "مرحلة %(role)s تحتاج %(required)s اعتمادات، والمتاح %(available)s مستخدمين فقط."
+                    "\n\nالحل: أضف مستخدمين للدور، أو قلّل عدد الاعتمادات المطلوب في السياسة، ثم اضغط «طلب اعتماد» من جديد.",
                     role=policy_step.role_id.display_name,
                     required=required,
                     available=len(users),
@@ -274,10 +279,10 @@ class CitadelAuthorityMixin(models.AbstractModel):
         self.sudo().with_context(citadel_skip_invalidation=True).write({
             "citadel_authority_request_id": request.id,
         })
-        request._citadel_log("submitted", note=_("Submitted under policy %s.", policy.display_name))
+        request._citadel_log("submitted", note=_("أُرسل للاعتماد وفق السياسة %s.", policy.display_name))
         request._citadel_schedule_current()
         self.sudo().message_post(body=_(
-            "Authority request %(request)s submitted under %(policy)s.",
+            "أُرسل طلب الاعتماد %(request)s وفق السياسة %(policy)s. تابع خانة «بانتظار» لمعرفة المعتمد الحالي.",
             request=request.name,
             policy=policy.display_name,
         ))
@@ -311,22 +316,42 @@ class CitadelAuthorityMixin(models.AbstractModel):
         if request.state == "approved" and request.policy_id == policy and request.fingerprint == fingerprint:
             return True
         if request.state == "approved":
-            request._citadel_cancel("invalidated", _("The document changed after approval."))
+            request._citadel_cancel("invalidated", _("تغيّر المستند بعد اعتماده، فأُلغي الاعتماد السابق."))
         if not request or request.state != "pending" or request.fingerprint != fingerprint:
             self._citadel_authority_start(require_policy=True)
+        return False
+
+    # Documents that run their governed action automatically after the last approval.
+    _citadel_auto_execute = False
+
+    def _citadel_authority_on_final_approval(self):
+        """Hook run right after the last approval; override to execute the governed action automatically."""
+        self.sudo().message_post(body=_(
+            "اكتملت جميع الاعتمادات. الخطوة التالية: يضغط مقدّم الطلب زر الإجراء نفسه مرة أخرى لتنفيذه."
+        ))
         return False
 
     def _citadel_authority_notify_blocked(self):
         """Tell the user why the business action did not run for these documents."""
         if not self:
             return
+        names = ", ".join(self.mapped("display_name"))
+        if self._citadel_auto_execute:
+            message = _(
+                "أُرسل %s للاعتماد ولم يُنفَّذ الإجراء بعد."
+                "\n\nالخطوة التالية: تابع خانة «بانتظار» في المستند أو «الصلاحيات ← بانتظار اعتمادي». يُنفَّذ الإجراء تلقائياً بعد آخر اعتماد، دون الحاجة للضغط مرة أخرى.",
+                names,
+            )
+        else:
+            message = _(
+                "أُرسل %s للاعتماد ولم يُنفَّذ الإجراء بعد."
+                "\n\nالخطوة التالية: تابع خانة «بانتظار» في المستند أو «الصلاحيات ← بانتظار اعتمادي». بعد اكتمال جميع الاعتمادات اضغط الزر نفسه مرة أخرى لتنفيذ الإجراء.",
+                names,
+            )
         self.env.user._bus_send("simple_notification", {
             "type": "warning",
-            "title": _("Approval required"),
-            "message": _(
-                "%s was sent for approval and will proceed once every approval level has approved it.",
-                ", ".join(self.mapped("display_name")),
-            ),
+            "title": _("مطلوب اعتماد"),
+            "message": message,
         })
 
     def _citadel_authority_complete(self):
@@ -334,7 +359,7 @@ class CitadelAuthorityMixin(models.AbstractModel):
             request = record.sudo().citadel_authority_request_id
             if request.state == "approved":
                 request._citadel_engine_write({"state": "completed", "decided_on": fields.Datetime.now()})
-                request._citadel_log("completed", note=_("The governed business action completed."))
+                request._citadel_log("completed", note=_("تم تنفيذ الإجراء بعد الاعتماد."))
 
     def _citadel_authority_cancel_open(self):
         self.mapped("citadel_authority_request_id")._citadel_cancel()
@@ -365,6 +390,6 @@ class CitadelAuthorityMixin(models.AbstractModel):
             if policy.change_threshold_percent and percent <= policy.change_threshold_percent:
                 exempt = exempt or only_amount
             if not exempt:
-                request._citadel_cancel("invalidated", _("Protected document values changed."))
+                request._citadel_cancel("invalidated", _("تغيّرت بيانات محمية في المستند بعد طلب الاعتماد، فأُلغي الطلب. اضغط «طلب اعتماد» من جديد."))
         return result
 
