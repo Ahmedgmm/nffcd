@@ -1,0 +1,1709 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Purchasing_alternatives
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-26 00:41+0000\n"
+"PO-Revision-Date: 2026-11-26 00:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Purchasing_alternatives
+#: model:ir.module.module,description:base.module_Purchasing_alternatives
+msgid ""
+"# Purchasing Alternatives — Odoo 20 Community\n"
+"\n"
+"Open a draft/sent RFQ, then **Alternative Generator**. Add vendor columns,\n"
+"enter quantities and unit prices in the RFQ currency, and compare untaxed totals.\n"
+"The lowest positive offered price is highlighted. Set the original column quantity\n"
+"to its remaining share before using **Create split RFQs**; allocation above the\n"
+"requested quantity is rejected. Partial allocation is allowed.\n"
+"\n"
+"**Main PO** applies a column to the existing RFQ. **Extra PO** creates a separate\n"
+"draft RFQ for that column. **Create split RFQs** creates draft RFQs for alternative\n"
+"vendors and updates the original quantities. No order is confirmed automatically.\n"
+"Applying a main vendor or split finalizes the comparison and prevents repeat apply.\n"
+"Generated extra RFQs are intentional independent documents; clicking Extra PO again\n"
+"creates another RFQ. Quantities and prices must be finite and non-negative.\n"
+"\n"
+"Requires only mail, web and purchase_stock. Standard requisition fields are\n"
+"retained when available. Standard alternative RFQ grouping is used only when\n"
+"purchase_alternative is installed.\n"
+"\n"
+"Purchase users can manage comparisons within their allowed companies. Offer cells\n"
+"must reference a vendor and RFQ line belonging to the same comparison.\n"
+"\n"
+"Validation: `scripts/verify_purchasing_alternatives.py` runs rollback-only on nffcd-03\n"
+"using the Community launcher shell. Results: `docs/testing/purchasing_alternatives/`.\n"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.actions.report,print_report_name:Purchasing_alternatives.action_report_alternative_offers_sheet
+msgid "'كشف التفريغ - %s' % object.order_id.name"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.actions.report,print_report_name:Purchasing_alternatives.action_report_alternative_committee
+msgid "'محضر لجنة البت - %s' % object.order_id.name"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "(الرئيس:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid ") لسنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "<strong>الرأي الفني</strong>"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "<strong>الشئون المالية</strong>"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "<strong>رأي اللجنة</strong>"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "<strong>قرار اللجنة</strong>"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_ids
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "زخرفة استثناء النشاط"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_plans_ids
+msgid "Activity Plans"
+msgstr "خطط النشاط"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "أيقونة نوع النشاط"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_res_company
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_res_config_settings
+msgid "Config Settings"
+msgstr "تهيئة الإعدادات"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__create_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__create_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__create_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__create_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__create_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__create_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_company__display_name
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.constraint,message:Purchasing_alternatives.constraint_purchase_alternative_line_vendor_order_line_unique
+msgid "Each vendor can have only one offer cell per original RFQ line."
+msgstr "لكل مورد عرض واحد فقط لكل بند في طلب الشراء الأصلي."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (جهات الاتصال)"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__has_message
+msgid "Has Message"
+msgstr "يحتوي على رسالة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_order__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_company__id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_config_settings__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_exception_icon
+msgid "Icon"
+msgstr "الأيقونة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "الأيقونة للإشارة إلى نشاط استثنائي."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا كان محدداً، فهناك رسائل جديدة تتطلب انتباهك."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_error
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا كان محدداً، فقد حدث خطأ في تسليم بعض الرسائل."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__is_editable
+msgid "Is Editable"
+msgstr "قابل للتعديل"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__write_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__write_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__write_uid
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__write_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__write_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__write_date
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr "أيقونة من مكتبة الرموز، مثال: قائمة مهام"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسائل"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نشاطي النهائي"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراء"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__order_id
+msgid "Order"
+msgstr "طلب الشراء"
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: Purchasing_alternatives
+#: model:ir.module.module,shortdesc:base.module_Purchasing_alternatives
+msgid "Purchasing Alternatives"
+msgstr "بدائل الشراء"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_order__alternative_source_comparison_id
+msgid ""
+"RFQ created from an alternatives comparison; it needs that committee "
+"decision approved."
+msgstr "طلب عرض سعر أُنشئ من مقارنة العروض؛ ويحتاج اعتماد قرار اللجنة."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل النصية"
+
+#. module: Purchasing_alternatives
+#: model:ir.module.module,summary:base.module_Purchasing_alternatives
+msgid "Simple vendor quote comparison without fake RFQs"
+msgstr "مقارنة بسيطة لعروض أسعار الموردين دون طلبات عروض أسعار وهمية"
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة بناءً على الأنشطة\n"
+"متأخر: تاريخ الاستحقاق قد مضى\n"
+"اليوم: تاريخ النشاط هو اليوم\n"
+"مخطط: أنشطة مستقبلية."
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي في السجل."
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "id"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid ""
+"أدخل الكميات والأسعار لكل مورد. اللون الأخضر يميز أفضل سعر، وشارة التوزيع "
+"توضح هل الكمية موزعة جزئياً أو بالكامل أو بالزيادة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid "أعضاء اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__employee_ids
+msgid "أعضاء لجنة البت والمفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "أفضل سعر"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "أمر شراء إضافي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__split_order_ids
+msgid "أوامر الشراء الناتجة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid "أول عضو أبجدياً إن تُرك فارغاً"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "أُرسل القرار إلى اللجنة للاعتماد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "أُرسل قرار التوزيع إلى اللجنة للاعتماد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "أُرسل قرار اللجنة للاعتماد (%(request)s): %(decision)s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__amount_total
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "إجمالي العرض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "إجمالي المورد / الإجراءات"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "إضافة مورد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid "إلغاء"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid "إنشاء المقارنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "إنه في يوم"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "اجتمعت لجنة البت والمفاضلة المشكلة من السادة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "اختر المورد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid ""
+"اختر ثلاثة موظفين على الأقل من نفس الجهة لديهم حسابات مستخدمين. يعتمد جميع الأعضاء قرار المفاضلة بالتوازي،\n"
+"                    ولا يطبق القرار على أمر الشراء ولا يمكن تأكيده قبل اكتمال اعتمادهم جميعاً."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid ""
+"اختر قرار اللجنة: «ترسية» للترسية على مورد واحد، أو «توزيع الكميات» لتوزيع "
+"الكميات على عدة موردين. يُرسل القرار لاعتماد جميع الأعضاء بالتوازي، ثم يُطبق"
+" بعد اكتمال الاعتماد."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_purchase_alternative_committee_wizard
+msgid "اختيار لجنة البت والمفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "استرشادي — خارج المفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "اسم الصنف"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid ""
+"اطبع المحضر ووقّعه من الأعضاء، ثم أرفقه من زر «اللجنة والمحضر الموقع». بعدها"
+" اختر «ترسية» للترسية على مورد واحد، أو «توزيع الكميات»، ويُطبق القرار "
+"مباشرة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid ""
+"اطبع محضر اللجنة، ووقّعه من الأعضاء، ثم أرفقه في «المحضر الموقع» قبل تطبيق "
+"القرار."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "اعتماد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_list
+msgid "اعتماد اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "اعتماد قرار اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_company__alternative_committee_approval
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_res_config_settings__alternative_committee_approval
+msgid "اعتماد لجنة البت إلكترونياً"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_paper_mode
+msgid "اعتماد ورقي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "اعتمد إلكترونياً"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_approved_by
+msgid "اعتمد بواسطة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+msgid ""
+"اعتُمد قرار الترسية في %s لكن لم يُطبق على طلب الشراء بعد.\n"
+"\n"
+"الحل: افتح مقارنة العروض واضغط «تطبيق القرار» تحت المورد المعتمد، ثم أكّد الطلب."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+msgid ""
+"اعتُمد قرار توزيع الكميات في %s لكن لم تُنشأ طلبات التوزيع بعد.\n"
+"\n"
+"الحل: افتح مقارنة العروض واضغط «تطبيق: إنشاء طلبات التوزيع»، ثم أكّد الطلب."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "اكتب الرأي الفني في سطر واحد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__price_subtotal
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "الإجمالي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__name
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "الاسم"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "الاعتماد الإلكتروني"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"الاعتماد الإلكتروني للجنة البت غير مفعل لهذه الجهة، فلا يُرسل القرار للاعتماد.\n"
+"\n"
+"الحل: أرفق المحضر الموقع من «اللجنة والمحضر الموقع»، ثم اضغط «ترسية» أو «توزيع الكميات» ليُطبق القرار مباشرة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_paper_mode
+msgid ""
+"الاعتماد الإلكتروني للجنة غير مفعل لهذه الجهة: يوقّع الأعضاء على المحضر "
+"ويُرفق موقعاً."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_next_approval
+msgid "الاعتماد التالي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "التاريخ"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__sequence
+msgid "التسلسل"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "التوقيع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "التوقيع .........."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__company_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__company_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__company_id
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "الجهة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__state
+msgid "الحالة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__technical_opinion
+msgid "الرأي الفني"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "السعر"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__product_id
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "الصنف"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__currency_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__currency_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__currency_id
+msgid "العملة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "القيمة الإجمالية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "الكمية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"الكمية أو السعر بالسالب.\n"
+"\n"
+"الحل: أدخل صفراً أو رقماً موجباً."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__requested_qty
+msgid "الكمية المطلوبة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__offered_qty
+msgid "الكمية المعروضة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"الكمية الموزعة للصنف %(product)s أكبر من المطلوبة: المطلوب %(requested)s والموزع %(allocated)s.\n"
+"\n"
+"الحل: قلّل الكميات في أعمدة الموردين حتى لا يزيد مجموعها على الكمية المطلوبة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "اللجنة والمحضر الموقع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "المتبقي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "المحضر"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__signed_attachment_ids
+msgid "المحضر الموقع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "المحضر الموقع مرفق"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "المرجع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "المطلوب"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__comparison_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__comparison_id
+msgid "المقارنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "الموافق"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__vendor_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__partner_id
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "المورد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"المورد أو بند الطلب لا يتبع هذه المقارنة.\n"
+"\n"
+"الحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد الإدخال."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__is_original
+msgid "المورد الأصلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "المورد الحالي:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__decision_vendor_id
+msgid "المورد المختار"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"المورد غير موجود أو لا يتبع هذه المقارنة.\n"
+"\n"
+"الحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد المحاولة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__vendor_ids
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "الموردون"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "الموزع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__product_uom_id
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "الوحدة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "الوظيفة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "بإجمالي قدره"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "بانتظار:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "بطلب الشراء رقم"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "بعد الدراسة والمفاضلة قررت اللجنة الترسية على المورد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "بعد الدراسة والمفاضلة قررت اللجنة توزيع الكميات على الموردين كما يلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"بند العرض غير موجود أو لا يتبع هذه المقارنة.\n"
+"\n"
+"الحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد الإدخال."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__purchase_order_line_id
+msgid "بند طلب الشراء الأصلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_purchase_alternative_line
+msgid "بند مقارنة العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__line_ids
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__line_ids
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "بنود العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "تحديث"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "ترسية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields.selection,name:Purchasing_alternatives.selection__purchase_alternative_comparison__decision_type__main
+msgid "ترسية على مورد واحد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "تطبيق القرار"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "تطبيق: إنشاء طلبات التوزيع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "تم إنشاء طلب الشراء %(rfq)s للمورد %(vendor)s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "تم إنشاء طلبات الشراء لكل مورد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "تم الاعتماد:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "تم تحديث طلب الشراء الأصلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "تم تسجيل اعتمادك"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "تم تطبيق المورد %(vendor)s على طلب الشراء %(rfq)s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"تم تطبيق قرار هذه المقارنة أو إقفالها، ولا يمكن تعديلها.\n"
+"\n"
+"الحل: لا يلزم إجراء على المقارنة. لأي تعديل جديد أنشئ طلب شراء جديداً."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"تم توزيع الكميات على الموردين. طلب الشراء الأصلي: %(updated)s. الطلبات "
+"الجديدة: %(created)s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "تم حذف %s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "تم سحب قرار اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "توزيع الكميات"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields.selection,name:Purchasing_alternatives.selection__purchase_alternative_comparison__decision_type__split
+msgid "توزيع الكميات على عدة موردين"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "توزيع جزئي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "جارٍ تحميل العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "جنيه"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_state
+msgid "حالة الصلاحية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "حذف المقارنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_committee_wizard__chairman_id
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_chairman_employee_id
+msgid "رئيس اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"رئيس اللجنة ليس من أعضائها.\n"
+"\n"
+"الحل: اختر رئيس اللجنة من الأعضاء المحددين، أو أضفه أولاً إلى قائمة الأعضاء."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "رفض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "رفضت اللجنة القرار. عدّل العروض وأعد الإرسال."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "ستُحذف المقارنة ولجنة البت والمفاضلة الخاصة بها. متابعة؟"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "سحب القرار"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "سحب القرار للتعديل"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "سحب المشتري قرار اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_line__price_unit
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "سعر الوحدة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "سعر الوحدة للشركة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "سيُلغى طلب اعتماد اللجنة الحالي. متابعة؟"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__payment_term_id
+msgid "شروط الدفع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"شروط الدفع المختارة تخص جهة أخرى.\n"
+"\n"
+"الحل: اختر شرط دفع عاماً أو تابعاً لجهة طلب الشراء."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "شروط عامة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__signed_attachment_ids
+msgid "صورة محضر لجنة البت والمفاضلة بعد توقيع الأعضاء."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "طباعة كشف التفريغ"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "طباعة محضر اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "طلب الشراء"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__order_id
+msgid "طلب الشراء الأصلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "طلب الشراء الأصلي:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_request_id
+msgid "طلب الصلاحية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "طلبات شراء التوزيع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "علماً بأن الأسعار المبينة بعملة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"عمود «لجنة تسعير (استرشادي)» للمقارنة فقط ولا يمكن الترسية عليه.\n"
+"\n"
+"الحل: اختر «ترسية» تحت أحد الموردين الفعليين."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_vendor__is_reference
+msgid ""
+"عمود أسعار لجنة التسعير الداخلية للاسترشاد فقط: لا يدخل في المفاضلة أو أفضل "
+"سعر أو التوزيع أو الترسية."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"عمود المورد غير موجود أو لا يتبع هذه المقارنة.\n"
+"\n"
+"الحل: اضغط «تحديث» لإعادة تحميل المقارنة، ثم أعد المحاولة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.res_config_settings_view_form_alternative_committee
+msgid ""
+"عند الإيقاف يوقّع أعضاء لجنة البت والمفاضلة على المحضر ورقياً ويُرفق المحضر "
+"الموقع بالمقارنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_res_company__alternative_committee_approval
+#: model:ir.model.fields,help:Purchasing_alternatives.field_res_config_settings__alternative_committee_approval
+msgid ""
+"عند التفعيل يُرسل قرار لجنة البت والمفاضلة لاعتماد الأعضاء إلكترونياً. عند "
+"الإيقاف يوقّع الأعضاء على المحضر ورقياً ويُرفق المحضر الموقع."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "غير موزع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "فتح طلب الشراء"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "فحص العروض المقدمة واختيار أفضلها سعراً ومطابقةً"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "قبل الضرائب"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__decision_type
+msgid "قرار اللجنة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"قرار اللجنة المعتمد هو الترسية على المورد %s فقط.\n"
+"\n"
+"الحل: أنشئ الطلب لهذا المورد، أو اسحب القرار وعدّله ثم اطلب الاعتماد من جديد."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "قرش"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__decision_amount
+msgid "قيمة القرار"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "كشف التفريغ"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.actions.report,name:Purchasing_alternatives.action_report_alternative_offers_sheet
+msgid "كشف التفريغ والبت في العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "كشف التفريغ والبت في عروض أسعار الممارسة رقم ("
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "كمية زائدة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا توجد أي كمية معروضة في المقارنة.\n"
+"\n"
+"الحل: أدخل الكمية والسعر لصنف واحد على الأقل في عمود المورد، ثم أعد إرسال القرار."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا توجد أي كمية موزعة على الموردين.\n"
+"\n"
+"الحل: أدخل الكميات الموزعة في أعمدة الموردين، ثم اضغط «توزيع الكميات» مرة أخرى."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا توجد كمية معروضة لدى هذا المورد.\n"
+"\n"
+"الحل: أدخل الكمية والسعر لصنف واحد على الأقل في عمود المورد، أو اختر مورداً آخر للترسية."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+msgid ""
+"لا يمكن إرسال أو تأكيد %(order)s لأن لجنة البت والمفاضلة لم تعتمد قرار %(comparison)s.\n"
+"\n"
+"الحل: افتح «مقارنة العروض» واختر القرار («ترسية» أو «توزيع الكميات») ليُرسل للأعضاء، وبعد اعتماد جميع الأعضاء طبّق القرار ثم أكّد الطلب."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+msgid ""
+"لا يمكن إرسال أو تأكيد %(order)s لأن مقارنة العروض %(comparison)s لم تكتمل.\n"
+"\n"
+"الحل: افتح «مقارنة العروض»، وأرفق المحضر الموقع من «اللجنة والمحضر الموقع»، ثم اضغط «ترسية» أو «توزيع الكميات». إن لم تعد المقارنة مطلوبة فافتحها واضغط «حذف المقارنة»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن إنشاء طلب شراء إضافي قبل اعتماد قرار اللجنة.\n"
+"\n"
+"الحل: أرسل القرار للاعتماد وانتظر اعتماد جميع الأعضاء، ثم أعد المحاولة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+msgid ""
+"لا يمكن إنشاء مقارنة العروض إلا لطلب شراء في حالة «طلب عرض سعر» (مسودة) أو «تم الإرسال».\n"
+"\n"
+"الحل: أنشئ المقارنة قبل تأكيد الطلب، أو ألغِ الطلب وأعده إلى مسودة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن تحويل مورد طلب الشراء الأصلي إلى عمود لجنة تسعير.\n"
+"\n"
+"الحل: أضف عموداً جديداً من «إضافة مورد» واختر فيه «لجنة تسعير (استرشادي)»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن تعديل العروض لأن قرار اللجنة قيد الاعتماد أو معتمد.\n"
+"\n"
+"الحل: اضغط «سحب القرار» لإلغاء طلب الاعتماد، ثم عدّل العروض وأعد إرسال القرار."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن تعديل المقارنة لأن طلب الشراء لم يعد مسودة.\n"
+"\n"
+"الحل: ألغِ طلب الشراء وأعده إلى مسودة إن لزم التعديل."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن جعل عمود مورد طلب الشراء الأصلي عموداً للجنة التسعير.\n"
+"\n"
+"الحل: أضف عموداً جديداً من «إضافة مورد» واختر فيه «لجنة تسعير (استرشادي)»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن حذف المقارنة وقرار اللجنة قيد الاعتماد أو معتمد.\n"
+"\n"
+"الحل: اضغط «سحب القرار للتعديل» أولاً، ثم احذف المقارنة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن حذف مقارنة تم تطبيق قرارها على طلب الشراء.\n"
+"\n"
+"الحل: لا يلزم إجراء؛ المقارنة مكتملة وتبقى للمراجعة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لا يمكن سحب القرار بعد تطبيقه على طلب الشراء.\n"
+"\n"
+"الحل: لتغيير القرار أنشئ طلب شراء جديداً ومقارنة جديدة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "لا يوجد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_committee_employee_ids
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_committee_wizard_form
+msgid "لجنة البت والمفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "لجنة البت والمفاضلة:"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__is_reference
+msgid "لجنة تسعير (استرشادي)"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "للاسترشاد فقط"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم تعتمد لجنة البت والمفاضلة الترسية على %s بعد.\n"
+"\n"
+"الحل: اضغط «ترسية» تحت المورد ليُرسل القرار للأعضاء، وانتظر اعتماد جميع الأعضاء (خانة «بانتظار»)، ثم اضغط «تطبيق القرار»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم تعتمد لجنة البت والمفاضلة قرار توزيع الكميات بعد.\n"
+"\n"
+"الحل: اضغط «توزيع الكميات» ليُرسل القرار للأعضاء، وبعد اعتماد جميع الأعضاء اضغط «تطبيق: إنشاء طلبات التوزيع»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم تُحدد لجنة البت والمفاضلة لـ %s.\n"
+"\n"
+"الحل: اضغط «اللجنة» واختر 3 أعضاء على الأقل ورئيساً للجنة، ثم أعد المحاولة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم يُحدد المورد في طلب الشراء الأصلي.\n"
+"\n"
+"الحل: افتح طلب الشراء واختر المورد، ثم افتح مقارنة العروض."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم يُحدد المورد في هذا العمود.\n"
+"\n"
+"الحل: اختر المورد من القائمة أعلى العمود، ثم أعد المحاولة."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "لم يُرفق المحضر الموقع بعد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"لم يُرفق محضر لجنة البت والمفاضلة الموقع.\n"
+"\n"
+"الحل: اضغط «المحضر» واطبعه، ووقّعه من جميع الأعضاء، ثم اضغط «اللجنة والمحضر الموقع» وأرفق الصورة في خانة «المحضر الموقع»، ثم أعد الضغط على «ترسية» أو «توزيع الكميات»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "م"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.actions.report,name:Purchasing_alternatives.action_report_alternative_committee
+msgid "محضر لجنة البت والمفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "محضر لجنة البت والمفاضلة بين العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "مدير الحسابات"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "مدير الشئون المالية"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "مدير المشتريات"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "مراجع"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_approval_timeline
+msgid "مسار الاعتماد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields.selection,name:Purchasing_alternatives.selection__purchase_alternative_comparison__state__draft
+msgid "مسودة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields.selection,name:Purchasing_alternatives.selection__purchase_alternative_comparison__state__applied
+msgid "مطبقة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.actions.act_window,name:Purchasing_alternatives.action_purchase_alternative_comparisons
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_order__alternative_comparison_ids
+msgid "مقارنات العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_order.py:0
+#: model:ir.model,name:Purchasing_alternatives.model_purchase_alternative_comparison
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_order__alternative_comparison_count
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.purchase_order_form_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.view_purchase_alternative_comparison_form
+msgid "مقارنة العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "مقارنة العروض - %s"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_order__alternative_source_comparison_id
+msgid "مقارنة العروض المصدر"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "مقارنة عروض الموردين"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.purchase_order_form_alternatives
+msgid "مقارنة عروض الموردين واعتمادها من لجنة البت والمفاضلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid "مقارنة عروض جديدة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields.selection,name:Purchasing_alternatives.selection__purchase_alternative_comparison__state__locked
+msgid "مقفلة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.js:0
+msgid "مكتمل"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "من الموردين عن الأصناف المطلوبة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_offers_sheet_document
+msgid "مواصفات أخرى"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "مورد طلب الشراء الأصلي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model,name:Purchasing_alternatives.model_purchase_alternative_vendor
+msgid "مورد مقارنة العروض"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_vendor__date_planned
+msgid "ميعاد التسليم"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وأنه لا توجد لأي من أعضائها مصلحة مع أي من الموردين"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وتقر اللجنة بأن القرار المتخذ يحقق صالح الجهة من حيث السعر والمواصفات"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وذلك لفحص العروض المقدمة من عدد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وعلى ذلك تحرر هذا المحضر ووقّع عليه السادة الأعضاء"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وفقاً للكميات والأسعار الواردة بعرضه أعلاه"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وقبل الضرائب"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "وقد جاءت العروض على النحو التالي"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_requires_approval
+msgid "يتطلب اعتماداً"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,help:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_chairman_employee_id
+msgid ""
+"يظهر أولاً في المحاضر والكشوف. إن تُرك فارغاً يُعتبر أول عضو أبجدياً رئيساً."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model_terms:ir.ui.view,arch_db:Purchasing_alternatives.report_alternative_committee_document
+msgid "يعتمد،،<br/>مدير الجهة"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.fields,field_description:Purchasing_alternatives.field_purchase_alternative_comparison__citadel_authority_can_approve
+msgid "يمكنه الاعتماد"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"يوجد أكثر من عمود «لجنة تسعير (استرشادي)» في المقارنة.\n"
+"\n"
+"الحل: اترك عموداً واحداً فقط للجنة التسعير، وغيّر الآخر إلى مورد."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#: model:ir.model.constraint,message:Purchasing_alternatives.constraint_purchase_alternative_comparison_order_unique
+msgid ""
+"يوجد بالفعل مقارنة عروض لطلب الشراء هذا. الحل: افتح المقارنة القائمة من زر "
+"«مقارنة العروض»."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-python
+#: code:addons/Purchasing_alternatives/models/purchase_alternative.py:0
+msgid ""
+"يوجد عمود به كميات لكن لم يُحدد مورده.\n"
+"\n"
+"الحل: اختر المورد أعلى كل عمود به كميات، أو امسح كميات العمود."
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "— اختر المورد —"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "— اختر شروط الدفع —"
+msgstr ""
+
+#. module: Purchasing_alternatives
+#. odoo-javascript
+#: code:addons/Purchasing_alternatives/static/src/alternative_table/alternative_table.xml:0
+msgid "— اضغط زر القرار مرة أخرى لتطبيقه."
+msgstr ""

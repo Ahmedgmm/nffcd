@@ -122,7 +122,7 @@ class StockPicking(models.Model):
                 ))
             if manager != self.env.user:
                 raise UserError(_(
-                    "لا يمكنك اعتماد (Validate) الاستلام %(picking)s؛ هذا الإجراء لمسؤول المخزن %(manager)s فقط."
+                    "لا يمكنك تصديق الاستلام %(picking)s؛ هذا الإجراء لمسؤول المخزن %(manager)s فقط."
                     "\n\nالحل: يسجل %(manager)s الدخول ويعتمد الاستلام بعد اكتمال اعتماد لجنة الفحص والاستلام.",
                     manager=manager.display_name, picking=picking.display_name,
                 ))
@@ -138,7 +138,7 @@ class StockPicking(models.Model):
             if picking.state == "draft":
                 raise UserError(_(
                     "الاستلام %s ما زال مسودة."
-                    "\n\nالحل: اضغط «تحديد كجاهز» (Mark as To Do) أولاً، ثم أدخل الكميات المستلمة.", picking.display_name,
+                    "\n\nالحل: اضغط «تحديد كجاهز» أولاً، ثم أدخل الكميات المستلمة.", picking.display_name,
                 ))
             moves = picking.move_ids.filtered(lambda move: move.state not in ("done", "cancel"))
             if not any(move.quantity > 0 for move in moves):
@@ -207,7 +207,7 @@ class StockPicking(models.Model):
         if not manager:
             return picking._citadel_receipt_execute_failed(_(
                 "لم يُحدد مسؤول المخزن للمخزن %s."
-                "\n\nالحل: المخزون ← الإعدادات ← المخازن: حدد «مسؤول المخزن (اعتماد الاستلام)»، ثم يضغط «تأكيد» (Validate) على الاستلام.",
+                "\n\nالحل: المخزون ← الإعدادات ← المخازن: حدد «مسؤول المخزن (اعتماد الاستلام)»، ثم يضغط «تصديق» على الاستلام.",
                 picking.picking_type_id.warehouse_id.display_name,
             ))
         if request.state != "approved" or request.fingerprint != picking._citadel_authority_fingerprint():
@@ -226,7 +226,7 @@ class StockPicking(models.Model):
         except (UserError, ValidationError, AccessError) as error:
             return picking._citadel_receipt_execute_failed(_(
                 "اعتمدت اللجنة الاستلام لكن تعذّر ترحيله تلقائياً: %s"
-                "\n\nالحل: يفتح مسؤول المخزن الاستلام ويعالج السبب أعلاه، ثم يضغط «تأكيد» (Validate) لترحيله بالكميات المعتمدة.",
+                "\n\nالحل: يفتح مسؤول المخزن الاستلام ويعالج السبب أعلاه، ثم يضغط «تصديق» لترحيله بالكميات المعتمدة.",
                 error.args[0] if error.args else error,
             ))
         picking._citadel_authority_complete()

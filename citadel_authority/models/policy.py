@@ -34,7 +34,7 @@ COMMITTEE_DOCUMENT_TYPES = {"stock_receipt", "purchase_alternative"}
 
 class CitadelAuthorityPolicy(models.Model):
     _name = "citadel.authority.policy"
-    _description = "Authority Policy"
+    _description = "سياسة الصلاحيات"
     _order = "company_id, document_type, sequence, id"
 
     name = fields.Char(string="اسم السياسة", required=True, translate=True)
@@ -208,7 +208,7 @@ class CitadelAuthorityPolicy(models.Model):
 
 class CitadelAuthorityPolicyStep(models.Model):
     _name = "citadel.authority.policy.step"
-    _description = "Authority Policy Step"
+    _description = "خطوة سياسة الصلاحيات"
     _order = "policy_id, sequence, id"
 
     policy_id = fields.Many2one(

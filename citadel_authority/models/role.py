@@ -4,7 +4,7 @@ from odoo.exceptions import UserError, ValidationError
 
 class CitadelAuthorityRole(models.Model):
     _name = "citadel.authority.role"
-    _description = "Authority Role"
+    _description = "دور الصلاحيات"
     _order = "company_id, sequence, name"
 
     name = fields.Char(string="اسم الدور", required=True, translate=True)

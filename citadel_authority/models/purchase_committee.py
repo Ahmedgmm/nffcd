@@ -13,7 +13,7 @@ def arabic_day_and_date(value):
 
 class CitadelPurchasePricingCommittee(models.Model):
     _name = "citadel.purchase.pricing.committee"
-    _description = "Purchase Pricing Committee"
+    _description = "لجنة تسعير الشراء"
     _inherit = ["mail.thread"]
     _order = "id desc"
     _check_company_auto = True
@@ -100,7 +100,7 @@ class CitadelPurchasePricingCommittee(models.Model):
 
 class CitadelPurchaseReceiptCommitteeWizard(models.TransientModel):
     _name = "citadel.purchase.receipt.committee.wizard"
-    _description = "Select Receipt Committee"
+    _description = "اختيار لجنة الفحص والاستلام"
 
     order_id = fields.Many2one("purchase.order", required=True, readonly=True)
     company_id = fields.Many2one(related="order_id.company_id")

@@ -9,7 +9,7 @@ from .policy import DOCUMENT_TYPES
 
 class CitadelAuthorityRequest(models.Model):
     _name = "citadel.authority.request"
-    _description = "Authority Request"
+    _description = "طلب اعتماد"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "create_date desc, id desc"
 
@@ -396,7 +396,7 @@ class CitadelAuthorityRequest(models.Model):
 
 class CitadelAuthorityRequestStep(models.Model):
     _name = "citadel.authority.request.step"
-    _description = "Authority Request Step"
+    _description = "خطوة طلب الاعتماد"
     _order = "request_id, sequence, id"
 
     request_id = fields.Many2one(
@@ -468,7 +468,7 @@ class CitadelAuthorityRequestStep(models.Model):
 
 class CitadelAuthorityVote(models.Model):
     _name = "citadel.authority.vote"
-    _description = "Authority Vote"
+    _description = "قرار الاعتماد"
     _order = "acted_on, id"
 
     step_id = fields.Many2one("citadel.authority.request.step", required=True, ondelete="cascade", index=True)
@@ -495,7 +495,7 @@ class CitadelAuthorityVote(models.Model):
 
 class CitadelAuthorityLog(models.Model):
     _name = "citadel.authority.log"
-    _description = "Authority Audit Log"
+    _description = "سجل تدقيق الصلاحيات"
     _order = "occurred_on desc, id desc"
 
     request_id = fields.Many2one("citadel.authority.request", required=True, ondelete="restrict", index=True)
@@ -529,7 +529,7 @@ class CitadelAuthorityLog(models.Model):
 
 class CitadelAuthorityRejectWizard(models.TransientModel):
     _name = "citadel.authority.reject.wizard"
-    _description = "Reject Authority Request"
+    _description = "رفض طلب الاعتماد"
 
     request_id = fields.Many2one("citadel.authority.request", required=True, readonly=True)
     reason_required = fields.Boolean(related="request_id.policy_id.require_rejection_reason")

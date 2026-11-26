@@ -6,7 +6,7 @@ from .policy import DOCUMENT_TYPES
 
 class CitadelAuthorityDelegation(models.Model):
     _name = "citadel.authority.delegation"
-    _description = "Authority Delegation"
+    _description = "تفويض الصلاحيات"
     _order = "date_start desc, id desc"
 
     delegator_id = fields.Many2one(

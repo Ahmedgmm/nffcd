@@ -23,7 +23,7 @@ def _initials(name):
 
 class CitadelAuthorityDashboard(models.AbstractModel):
     _name = "citadel.authority.dashboard"
-    _description = "Authority Dashboard"
+    _description = "لوحة الصلاحيات"
 
     @api.model
     def get_dashboard_data(self):

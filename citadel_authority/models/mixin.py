@@ -11,7 +11,7 @@ from odoo.exceptions import UserError
 
 class CitadelAuthorityMixin(models.AbstractModel):
     _name = "citadel.authority.mixin"
-    _description = "Authority Document Integration"
+    _description = "ربط المستندات بالصلاحيات"
 
     _citadel_guard_fields = set()
     _citadel_amount_fields = set()

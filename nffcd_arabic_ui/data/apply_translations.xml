@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Runs on every install/upgrade of this module. -->
+    <function model="nffcd.arabic.ui" name="_apply"/>
+</odoo>

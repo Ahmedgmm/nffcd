@@ -1,18 +1,3167 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# \t* citadel_authority
+# 	* citadel_authority
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 20.0\n"
+"Project-Id-Version: Odoo Server 20.0-20261017\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-26 00:41+0000\n"
+"PO-Revision-Date: 2026-11-26 00:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: ar_001\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: citadel_authority
-msgid "Approve"
-msgstr "موافقة"
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+" الكمية المتبقية في الاستلام الجديد %s، ويبدأ اعتماده عندما يُدخل مسؤول "
+"المخزن الكميات ويضغط «طلب اعتماد الاستلام»."
+msgstr ""
 
 #. module: citadel_authority
-msgid "Reject"
-msgstr "رفض"
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "%(minimum)s – %(maximum)s %(currency)s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "%(mode)s (المطلوب: %(count)s)"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "%(principal)s (بواسطة %(actor)s)"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "%(role)s — %(users)s"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,print_report_name:citadel_authority.action_report_purchase_request
+msgid "'طلب شراء - %s' % object.name"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,print_report_name:citadel_authority.action_report_receipt_committee
+msgid "'محضر فحص واستلام - %s' % object.name"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,print_report_name:citadel_authority.action_report_pricing_committee
+msgid "'محضر لجنة تسعير - %s' % object.order_id.name"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid ""
+".\n"
+"                    يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "............................................................ لا غير"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__acted_by_id
+msgid "Acted By"
+msgstr "نُفّذ بواسطة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__acted_on
+msgid "Acted On"
+msgstr "تاريخ التنفيذ"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_needaction
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_ids
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "زخرفة استثناء النشاط"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_plans_ids
+msgid "Activity Plans"
+msgstr "خطط النشاط"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "أيقونة نوع النشاط"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__actor_id
+msgid "Actor"
+msgstr "المنفّذ"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__advanced
+msgid "Advanced"
+msgstr "انتقل للخطوة التالية"
+
+#. module: citadel_authority
+#: model:mail.activity.type,summary:citadel_authority.mail_activity_citadel_approval
+msgid "Approve document"
+msgstr "اعتماد المستند"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__approved
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_attachment_count
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: citadel_authority
+#: model:ir.module.category,name:citadel_authority.module_category_citadel_authority
+#: model:ir.module.module,shortdesc:base.module_citadel_authority
+#: model:res.groups.privilege,name:citadel_authority.privilege_citadel_authority
+msgid "Authority"
+msgstr "الصلاحيات"
+
+#. module: citadel_authority
+#: model:res.groups,name:citadel_authority.group_citadel_authority_manager
+msgid "Authority Manager"
+msgstr "مدير الصلاحيات"
+
+#. module: citadel_authority
+#: model:res.groups,name:citadel_authority.group_citadel_authority_user
+msgid "Authority User"
+msgstr "مستخدم الصلاحيات"
+
+#. module: citadel_authority
+#: model:ir.actions.server,name:citadel_authority.ir_cron_citadel_authority_escalation_ir_actions_server
+msgid "Authority: Escalate overdue approvals"
+msgstr "الصلاحيات: تصعيد الاعتمادات المتأخرة"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__cancelled
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: citadel_authority
+#: model:mail.activity.type,name:citadel_authority.mail_activity_citadel_approval
+msgid "Citadel Approval"
+msgstr "اعتماد"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_needs_receipt_committee
+msgid "Citadel Needs Receipt Committee"
+msgstr "يحتاج لجنة فحص واستلام"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_pricing_committee_count
+msgid "Citadel Pricing Committee Count"
+msgstr "عدد لجان التسعير"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_receipt_can_request
+msgid "Citadel Receipt Can Request"
+msgstr "يمكن طلب اعتماد الاستلام"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_receipt_can_validate
+msgid "Citadel Receipt Can Validate"
+msgstr "يمكن تصديق الاستلام"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_res_company
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: citadel_authority
+#: model:ir.module.module,summary:base.module_citadel_authority
+msgid ""
+"Company-wide authority matrix, approval limits, delegation, and audit trail"
+msgstr ""
+"مصفوفة الصلاحيات وحدود الاعتماد والتفويض وسجل التدقيق على مستوى الشركة"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__completed
+msgid "Completed"
+msgstr "مكتمل"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_purchase_receipt_committee_wizard__next_step__confirm
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__create_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__create_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_dashboard__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_warehouse__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_company_form_citadel_letterhead
+msgid "English"
+msgstr "الإنجليزية"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__escalated
+msgid "Escalated"
+msgstr "تم التصعيد"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__event
+msgid "Event"
+msgstr "الحدث"
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_letterhead
+msgid "Fax:"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_follower_ids
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_partner_ids
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (جهات الاتصال)"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__has_message
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__has_message
+msgid "Has Message"
+msgstr "يحتوي على رسالة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__id
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move_line__id
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_dashboard__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__id
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__id
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__id
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__id
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order_line__id
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__id
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_warehouse__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_exception_icon
+msgid "Icon"
+msgstr "الأيقونة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "الأيقونة للإشارة إلى نشاط استثنائي."
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__message_needaction
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا كان محدداً، فهناك رسائل جديدة تتطلب انتباهك."
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__message_has_error
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__message_has_sms_error
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__message_has_error
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا كان محدداً، فقد حدث خطأ في تسليم بعض الرسائل."
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__invalidated
+msgid "Invalidated"
+msgstr "أُبطل"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_is_follower
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_account_move
+msgid "Journal Entry"
+msgstr "إدخال اليومية"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_account_move_line
+msgid "Journal Item"
+msgstr "عنصر اليومية"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__write_uid
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__write_date
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_letterhead
+msgid "Logo"
+msgstr "الشعار"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr "أيقونة من مكتبة الرموز، مثال: قائمة مهام"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_has_error
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسائل"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_ids
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نشاطي النهائي"
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+#: code:addons/citadel_authority/models/request.py:0
+msgid "New"
+msgstr "جديد"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__next_step
+msgid "Next Step"
+msgstr "الخطوة التالية"
+
+#. module: citadel_authority
+#: model:res.groups.privilege,placeholder:citadel_authority.privilege_citadel_authority
+msgid "No"
+msgstr "لا"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__note
+msgid "Note"
+msgstr "ملاحظة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_needaction_counter
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_has_error_counter
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__message_needaction_counter
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراء"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__message_has_error_counter
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__occurred_on
+msgid "Occurred On"
+msgstr "تاريخ الحدث"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__order_id
+msgid "Order"
+msgstr "طلب الشراء"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_account_payment
+msgid "Payment"
+msgstr "الدفع"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__policy_id
+msgid "Policy"
+msgstr "السياسة"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__principal_id
+msgid "Principal"
+msgstr "صاحب الصلاحية"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "بند طلب الشراء"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__rejected
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__request_id
+msgid "Request"
+msgstr "الطلب"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_purchase_receipt_committee_wizard__next_step__request
+msgid "Request approval"
+msgstr "طلب اعتماد"
+
+#. module: citadel_authority
+#: model:ir.model.constraint,message:citadel_authority.constraint_citadel_authority_policy_step_required_positive
+msgid "Required approvals must be greater than zero."
+msgstr "يجب أن يكون عدد الموافقات المطلوبة أكبر من صفر."
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__message_has_sms_error
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل النصية"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_sale_order
+msgid "Sales Order"
+msgstr "أمر البيع"
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "بند أمر المبيعات"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_purchase_receipt_committee_wizard__next_step__none
+msgid "Save only"
+msgstr "حفظ فقط"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة بناءً على الأنشطة\n"
+"متأخر: تاريخ الاستحقاق قد مضى\n"
+"اليوم: تاريخ النشاط هو اليوم\n"
+"مخطط: أنشطة مستقبلية."
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__step_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_vote__step_id
+msgid "Step"
+msgstr "الخطوة"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__step_approved
+msgid "Step Approved"
+msgstr "اعتُمدت الخطوة"
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_log__event__submitted
+msgid "Submitted"
+msgstr "مُقدَّم"
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_letterhead
+msgid "Tel:"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.constraint,message:citadel_authority.constraint_citadel_authority_role_code_company_unique
+msgid "The role code must be unique per company."
+msgstr "يجب ألا يتكرر رمز الدور داخل الشركة نفسها."
+
+#. module: citadel_authority
+#: model:ir.model.constraint,message:citadel_authority.constraint_citadel_authority_vote_principal_step_unique
+msgid "This authority holder has already voted on the step."
+msgstr "صاحب الصلاحية هذا اتخذ قراره بالفعل في هذه الخطوة."
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_stock_picking
+msgid "Transfer"
+msgstr "تحويل"
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_request__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي في السجل."
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_stock_warehouse
+msgid "Warehouse"
+msgstr "المستودع"
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid "order_id"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"أحد طرفي التفويض ليس له صلاحية على جهة التفويض.\n"
+"\n"
+"الحل: أضف الجهة إلى «الجهات المسموحة» للمستخدمين، أو اختر جهة مشتركة بينهما."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_role
+msgid "أدوار الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"أرسل مسؤول المخزن %(manager)s الكميات المستلمة لاعتماد لجنة الفحص والاستلام "
+"(%(request)s). يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__approval_mode
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__approval_mode
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "أسلوب الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__resolver
+msgid "أسلوب تحديد المسؤول"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__user_ids
+msgid "أصحاب الدور"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__employee_ids
+msgid "أعضاء اللجنة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__employee_ids
+msgid "أعضاء لجنة الفحص والاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid "أكمل تأكيد طلب الشراء %s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid "أكمل ترحيل الاستلام %s"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "أمر الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__sale_order
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__sale_order
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__sale_order
+msgid "أمر بيع"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__purchase_order
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__purchase_order
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__purchase_order
+msgid "أمر شراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "أمين / مسؤول المخزن<br/>"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy_step__approval_mode__any
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__approval_mode__any
+msgid "أي شخص"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "أي مبلغ"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"أُرسل %s للاعتماد ولم يُنفَّذ الإجراء بعد.\n"
+"\n"
+"الخطوة التالية: تابع خانة «بانتظار» في المستند أو «الصلاحيات ← بانتظار اعتمادي». بعد اكتمال جميع الاعتمادات اضغط الزر نفسه مرة أخرى لتنفيذ الإجراء."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"أُرسل %s للاعتماد ولم يُنفَّذ الإجراء بعد.\n"
+"\n"
+"الخطوة التالية: تابع خانة «بانتظار» في المستند أو «الصلاحيات ← بانتظار اعتمادي». يُنفَّذ الإجراء تلقائياً بعد آخر اعتماد، دون الحاجة للضغط مرة أخرى."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid "أُرسل طلب اعتماد جديد بدلاً من هذا الطلب."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"أُرسل طلب الاعتماد %(request)s وفق السياسة %(policy)s. تابع خانة «بانتظار» "
+"لمعرفة المعتمد الحالي."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid "أُرسل للاعتماد وفق السياسة %s."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__invalidated
+msgid "أُلغي الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "إذن الاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "إرسال المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__customer_credit_note
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__customer_credit_note
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__customer_credit_note
+msgid "إشعار دائن / استرداد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "إعادة الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_form
+msgid "إغلاق"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "إلا ما أُثبت خلاف ذلك في خانة الملاحظات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__require_rejection_reason
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_reject_wizard__reason_required
+msgid "إلزام إدخال سبب الرفض"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_reject_wizard_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_receipt_committee_wizard_form
+msgid "إلغاء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "إنه في يوم"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "اجتمعت اللجنة المشكلة من السادة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "اجتمعت لجنة الفحص والاستلام المشكلة من السادة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_receipt_committee_wizard_form
+msgid "اختر ثلاثة موظفين على الأقل لديهم حسابات مستخدمين"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_form
+msgid "اختر ثلاثة موظفين على الأقل من نفس الجهة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_purchase_receipt_committee_wizard
+msgid "اختيار لجنة الفحص والاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_inherit
+msgid "استخدام ترويسة الجهة الأم"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__apply_to_child_companies
+msgid ""
+"استخدم هذه السياسة كخيار احتياطي للشركات التابعة التي ليس لها سياسة أكثر "
+"تحديداً."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid ""
+"استلام خاضع للجنة الفحص والاستلام: يُدخل مسؤول المخزن الكميات المستلمة ثم يضغط «طلب اعتماد الاستلام».\n"
+"                    يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو، دون الحاجة للضغط على «تأكيد»."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__stock_receipt
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__stock_receipt
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__stock_receipt
+msgid "استلام مخزني"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_name_en
+msgid "اسم الجهة (إنجليزي)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__name
+msgid "اسم الدور"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__name
+msgid "اسم السياسة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__document_name
+msgid "اسم المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "اسم طالب الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_reject_wizard_form
+msgid "اشرح سبب رفض المستند..."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy_step__action__approve
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_move_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_payment_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_sale_order_form_citadel_authority
+msgid "اعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__approved_by_display
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_approved_by
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_approved_by
+msgid "اعتمد بواسطة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "اعتمد بواسطة: %s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"اعتمدت اللجنة الاستلام لكن تعذّر ترحيله تلقائياً: %s\n"
+"\n"
+"الحل: يفتح مسؤول المخزن الاستلام ويعالج السبب أعلاه، ثم يضغط «تصديق» لترحيله بالكميات المعتمدة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "اكتمل الاعتماد النهائي."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"اكتملت جميع اعتمادات %(order)s لكن تعذّر تأكيده تلقائياً: %(reason)s\n"
+"\n"
+"الحل: يفتح مقدّم الطلب %(requester)s الطلب ويعالج السبب أعلاه، ثم يضغط «تأكيد الطلب»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"اكتملت جميع الاعتمادات. الخطوة التالية: يضغط مقدّم الطلب زر الإجراء نفسه مرة"
+" أخرى لتنفيذه."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_roles
+msgid "الأدوار"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/role.py:0
+msgid ""
+"الأدوار لا تقبل إلا المستخدمين الداخليين (لا مستخدمي البوابة).\n"
+"\n"
+"الحل: احذف مستخدمي البوابة من الدور، أو حوّلهم إلى مستخدمين داخليين."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "الأصناف المطلوبة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__purchase_order__citadel_purchase_method__direct
+msgid "الأمر المباشر"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__action
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الإجراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "الإجمالي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "الإجمالي التقديري"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_configuration
+msgid "الإعدادات"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"الاستلام %(picking)s بانتظار اعتماد لجنة الفحص والاستلام (%(next)s).\n"
+"\n"
+"الحل: لا حاجة للضغط على «تأكيد»؛ يُرحّل الاستلام تلقائياً بعد اعتماد آخر عضو."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"الاستلام %s ما زال مسودة.\n"
+"\n"
+"الحل: اضغط «تحديد كجاهز» أولاً، ثم أدخل الكميات المستلمة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"الاستلام %s مُرحّل أو ملغى بالفعل.\n"
+"\n"
+"الحل: لا يلزم إجراء على هذا الاستلام."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_signature_block
+msgid "الاسم"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_move_list_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_payment_list_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_list_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_sale_order_list_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_sale_quotation_list_citadel_authority
+msgid "الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الاعتماد الإلكتروني"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__next_approval_display
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_next_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_next_approval
+msgid "الاعتماد التالي"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__required_approvals
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__required_approvals
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الاعتمادات المطلوبة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "البداية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "التاريخ"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__sequence
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__sequence
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__sequence
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__sequence
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "التسلسل"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"التطبيق الخاص بنوع المستند %s غير مثبت.\n"
+"\n"
+"الحل: ثبّت التطبيق المطلوب أولاً، أو اختر نوع مستند آخر للسياسة."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__change_threshold_amount
+msgid "التغييرات التي لا تتجاوز هذا المبلغ لا تبطل الاعتماد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"التفويض مسموح فقط بين المستخدمين الداخليين.\n"
+"\n"
+"الحل: اختر مستخدماً داخلياً (ليس من مستخدمي البوابة)."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_phone
+msgid "التليفون"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_signature_block
+msgid "التوقيع"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy_step__approval_mode__all
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__approval_mode__all
+msgid "الجميع"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "الجهة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_ministry_name_en
+msgid "الجهة التابعة لها (إنجليزي)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_ministry_name
+msgid "الجهة التابعة لها (عربي)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__state
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__state
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "الحالة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__min_amount
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الحد الأدنى"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__max_amount
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الحد الأقصى"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"الحد الأقصى للمبلغ أقل من الحد الأدنى.\n"
+"\n"
+"الحل: اجعل الحد الأقصى صفراً (بلا حد) أو أكبر من الحد الأدنى أو مساوياً له."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_company_form_citadel_letterhead
+msgid "الحقول الفارغة تُستكمل من الجهة الأم."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__role_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__role_id
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الدور"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/role.py:0
+msgid ""
+"الدور %s من نوع «مجموعة صلاحيات» ولم تُحدد له مجموعة.\n"
+"\n"
+"الحل: افتح الدور واختر مجموعة الصلاحيات التي يعتمد أعضاؤها."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/role.py:0
+msgid ""
+"الدور %s من نوع «مستخدمون محددون» ولا يضم أي مستخدم.\n"
+"\n"
+"الحل: افتح الدور من «الصلاحيات ← الإعدادات ← الأدوار» وأضف مستخدماً واحداً على الأقل."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__code
+msgid "الرمز"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__allow_same_user_multiple_steps
+msgid "السماح للشخص نفسه باعتماد عدة خطوات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__allow_self_approval
+msgid "السماح لمقدم الطلب بالاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"السياسة %(policy)s تحكم %(document)s الذي له لجنة، لكنها لا تحتوي على مرحلة لدور «لجنة المستند» بطريقة اعتماد «الكل».\n"
+"\n"
+"الحل: اطلب من مدير الصلاحيات إضافة هذه المرحلة إلى السياسة في «مصفوفة الصلاحيات»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"السياسة %s لا تحتوي على أي مرحلة اعتماد.\n"
+"\n"
+"الحل: أضف مرحلة اعتماد واحدة على الأقل في جدول المراحل."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "السياسة: %s. افتح المستند واضغط «اعتماد» أو «رفض»."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__company_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__company_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__company_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__company_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__company_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__company_id
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_search
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "الشركة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "الشطب"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_signature_block
+msgid "الصفة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__max_amount
+msgid "الصفر يعني عدم وجود حد أقصى."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.client,name:citadel_authority.action_citadel_authority_dashboard
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_root
+msgid "الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الصنف"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "الصنف / المواصفات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "الضوابط"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "الطلبات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__currency_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__currency_id
+msgid "العملة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__purpose
+msgid "الغرض"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_purchase_purpose
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "الغرض من الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_fax
+msgid "الفاكس"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_request_department_id
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "القسم الطالب للشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "القيمة التقديرية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "الكمية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الكمية المستلمة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الكمية المطلوبة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_role__resolver__document
+msgid "اللجنة المحددة على المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__amount
+msgid "المبلغ"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_list
+msgid "المحضر الموقّع"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__signed_attachment_ids
+msgid "المحضر الموقّع (نسخة ممسوحة)"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "المخازن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "المخزن"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__warehouse_id
+msgid "المخزن المستلم"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_role__resolver__manager
+msgid "المدير المباشر لمقدم الطلب"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__reference
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__name
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "المرجع"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_role_form
+msgid "المسؤوليات والملاحظات..."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_stock_warehouse__citadel_receipt_manager_id
+msgid ""
+"المستخدم الوحيد الذي يمكنه تأكيد الاستلامات الخاضعة للجنة الفحص والاستلام "
+"بعد اعتماد أعضائها."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__eligible_user_ids
+msgid "المستخدمون المؤهلون"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__res_id
+msgid "المستند"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"المستند المرتبط بطلب الاعتماد لم يعد موجوداً (ربما حُذف).\n"
+"\n"
+"الحل: ألغِ طلب الاعتماد هذا، وأنشئ المستند من جديد إن لزم."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "المشتروات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__delegate_id
+msgid "المفوَّض إليه"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__delegator_id
+msgid "المفوِّض"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "المواصفات / الملاحظات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الموافق"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "المورد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "النهاية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "الوحدة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__description
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_role_form
+msgid "الوصف"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_signature_block
+msgid "الوظيفة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "انتقل الطلب إلى مرحلة الاعتماد %s."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "انتهت الأصناف - لا يضاف بعد هذا السطر"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid "بانتظار اعتماد لجنة الفحص والاستلام:"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_waiting
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__waiting_for_me
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_waiting
+msgid "بانتظار اعتمادي"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__state__current
+msgid "بانتظار الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__state__waiting
+msgid "بانتظار الدور"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "بانتظار: %(users)s · %(count)s/%(required)s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "بانتظارك"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__snapshot_hash
+msgid "بصمة اللقطة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__fingerprint
+msgid "بصمة المستند"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"بعض أدوار السياسة تخص جهة أخرى غير جهة السياسة.\n"
+"\n"
+"الحل: اختر أدواراً من جهة السياسة نفسها، أو أنشئ الدور في هذه الجهة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/role.py:0
+msgid ""
+"بعض أعضاء الدور ليس لهم صلاحية الدخول على جهة الدور.\n"
+"\n"
+"الحل: من «الإعدادات ← المستخدمون» أضف جهة الدور إلى «الجهات المسموحة» لكل عضو، أو احذفه من الدور."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"بعض أعضاء اللجنة لا يتبعون %(company)s: %(names)s.\n"
+"\n"
+"الحل: اختر أعضاء من موظفي الجهة نفسها، أو صحّح جهة الموظف في ملفه."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/role.py:0
+msgid ""
+"بعض أعضاء لجنة %(document)s ليس لهم مستخدم نشط له صلاحية على %(company)s: %(users)s.\n"
+"\n"
+"الحل: الموظفون: افتح كل موظف واربطه بمستخدم نشط في الجهة، أو استبدله بعضو آخر في اللجنة."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "بلا حد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "بموجب أمر الشراء المشار إليه"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__submitted_on
+msgid "تاريخ الإرسال"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__date_start
+msgid "تاريخ البداية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+msgid "تاريخ الطلب"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__decided_on
+msgid "تاريخ القرار"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__date_end
+msgid "تاريخ النهاية"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__date
+msgid "تاريخ انعقاد اللجنة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"تاريخ نهاية التفويض قبل تاريخ بدايته.\n"
+"\n"
+"الحل: اجعل تاريخ النهاية مساوياً لتاريخ البداية أو بعده."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid ""
+"ترفع نسخة ممسوحة من هذا المحضر بعد التوقيع على طلب الشراء قبل تقديمه "
+"للاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_company_form_citadel_letterhead
+msgid "ترويسة المستندات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "تشكل لجنة من السادة الآتي أسماؤهم وهم"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__apply_to_child_companies
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "تطبيق على الشركات التابعة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "تعديل السياسة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid "تغيّر المستند بعد اعتماده، فأُلغي الاعتماد السابق."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"تغيّرت الكميات أو بيانات الاستلام بعد إرساله للجنة، فلم يُرحّل.\n"
+"\n"
+"الحل: راجع الكميات ثم اضغط «طلب اعتماد الاستلام» من جديد لتعتمدها اللجنة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"تغيّرت بيانات محمية في المستند بعد طلب الاعتماد، فأُلغي الطلب. اضغط «طلب "
+"اعتماد» من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_delegation
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_delegation_form
+msgid "تفويض الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_delegation
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_delegations
+msgid "تفويضاتي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "تقدير القيمة السوقية للأصناف المطلوب شراؤها"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_letterhead
+msgid "تليفون"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "تم اعتماد طلب الاعتماد %s من جميع المراحل."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "تم اعتماد: %s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__approved
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__state__approved
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "تم الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"تم تأكيد طلب الشراء تلقائياً بعد اكتمال جميع الاعتمادات، باسم مقدّم الطلب "
+"%s."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"تم ترحيل الاستلام تلقائياً بعد اعتماد لجنة الفحص والاستلام، بصلاحية مسؤول "
+"المخزن %(manager)s.%(backorder)s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+msgid "تم تشكيل لجنة التسعير %(name)s بتاريخ %(date)s: %(members)s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "تم تصعيد الطلب إلى %s لتأخر الاعتماد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid "تم تنفيذ الإجراء بعد الاعتماد."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__sequence
+msgid "تُطبق أول سياسة مطابقة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "جارٍ تحميل مصفوفة الصلاحيات…"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_request
+msgid "جميع الاعتمادات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_delegation_manage
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_all_delegations
+msgid "جميع التفويضات"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__all
+msgid "جميع المستندات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_state
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_state
+msgid "حالة الصلاحية"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "حتى %(maximum)s %(currency)s"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_form
+msgid "حفظ وطباعة المحضر"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_receipt_committee_wizard_form
+msgid "حفظ ومتابعة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__step_ids
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__step_ids
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "خطوات الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__current_step_ids
+msgid "خطوات الاعتماد الحالية"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_policy_step
+msgid "خطوة سياسة الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_request_step
+msgid "خطوة طلب الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__payment
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__payment
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__payment
+msgid "دفعة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__escalation_role_id
+msgid "دور التصعيد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_role
+msgid "دور الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_role_form
+msgid "دور الصلاحية"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__chairman_id
+msgid "رئيس اللجنة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+msgid ""
+"رئيس اللجنة ليس من أعضائها.\n"
+"\n"
+"الحل: اختر رئيس اللجنة من الأعضاء المحددين، أو أضفه أولاً إلى قائمة الأعضاء."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_mixin
+msgid "ربط المستندات بالصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "رصيد المخزن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_move_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_payment_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_reject_wizard_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_sale_order_form_citadel_authority
+msgid "رفض"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_reject_wizard_form
+msgid "رفض الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_reject_wizard
+msgid "رفض طلب الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "رقم أمر الشراء بالنظام"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__name
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "رقم المحضر"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "رقم الوارد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"رُفض طلب الاعتماد. السبب: %s\n"
+"الحل: عدّل المستند حسب سبب الرفض، ثم اضغط «طلب اعتماد» من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__rejection_reason
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_reject_wizard_form
+msgid "سبب الرفض"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"سبب الرفض مطلوب.\n"
+"\n"
+"الحل: اكتب سبب الرفض في الخانة المخصصة ثم اضغط «رفض»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"سبق أن اعتمدت مرحلة أخرى من هذا الطلب، ولا تسمح السياسة للشخص نفسه باعتماد أكثر من مرحلة.\n"
+"\n"
+"الحل: يعتمد هذه المرحلة معتمد آخر، أو يفعّل مدير الصلاحيات «السماح للشخص نفسه باعتماد عدة خطوات» في مصفوفة الصلاحيات."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"سبق تسجيل اعتمادك لهذه المرحلة.\n"
+"\n"
+"الحل: لا حاجة لإجراء آخر؛ الطلب بانتظار بقية المعتمدين."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_requests
+msgid "سجل الاعتمادات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__log_ids
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "سجل التدقيق"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_log
+msgid "سجل تدقيق الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "سحب"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "سعر الوحدة التقديري"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "سياسة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_policy
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__policy_id
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "سياسة الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "سياسة فعّالة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "شخص واحد لكل خطوة اعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"شرط السياسة غير صحيح: %s\n"
+"\n"
+"الحل: صحّح خانة «الشرط» في السياسة أو اتركها فارغة."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__required_group_id
+msgid "صلاحية التطبيق المطلوبة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_list
+msgid "طباعة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_purchase_method
+#: model_terms:ir.ui.view,arch_db:citadel_authority.purchase_request_info
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "طريقة الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_request
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_move_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_account_payment_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_form_citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_sale_order_form_citadel_authority
+msgid "طلب اعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid "طلب اعتماد الاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid "طلب اعتماد اللجنة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"طلب الاعتماد لم يعد بانتظار الاعتماد (تم اعتماده أو رفضه أو إلغاؤه).\n"
+"\n"
+"الحل: حدّث الصفحة لمعرفة حالته الحالية. إن تغيّر المستند بعد ذلك فاضغط «طلب اعتماد» من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_pricing_committee__order_id
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "طلب الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_request_id
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_request_id
+msgid "طلب الصلاحية"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,name:citadel_authority.action_report_purchase_request
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "طلب شراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "طلب صلاحية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "طلباتي"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"عدد أعضاء اللجنة أقل من الحد الأدنى (%s أعضاء).\n"
+"\n"
+"الحل: أضف أعضاء حتى يصل العدد إلى الحد الأدنى على الأقل، ثم احفظ."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__vote_count
+msgid "عدد الاعتمادات"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/policy.py:0
+msgid ""
+"عدد الاعتمادات المطلوب أكبر من 1 مسموح فقط لمرحلة «نصاب».\n"
+"\n"
+"الحل: غيّر طريقة الاعتماد للمرحلة إلى «نصاب»، أو اجعل عدد الاعتمادات المطلوب 1."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__sla_hours
+msgid "عدد الساعات المسموح بها قبل تأخر مستوى الاعتماد الحالي."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy_step__approval_mode__quorum
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__approval_mode__quorum
+msgid "عدد محدد من الموافقات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_company_form_citadel_letterhead
+msgid "عربي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "عرض على"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"عضوان في اللجنة مرتبطان بالمستخدم نفسه.\n"
+"\n"
+"الحل: الموظفون ← صحّح المستخدم المرتبط بأحد الموظفين، أو احذف أحدهما من اللجنة."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_res_company__citadel_letterhead_inherit
+msgid ""
+"عند التفعيل تُطبع بيانات الترويسة من الجهة الأم، ويظهر اسم هذه الجهة كوحدة "
+"تابعة."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_address_en
+msgid "عنوان الترويسة (إنجليزي)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_address
+msgid "عنوان الترويسة (عربي)"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_delegation_form
+msgid "غير نشط"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__customer_invoice
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__customer_invoice
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__customer_invoice
+msgid "فاتورة عميل"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__vendor_bill
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__vendor_bill
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__vendor_bill
+msgid "فاتورة مورد"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_letterhead
+msgid "فاكس"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "فتح المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "فحص الأصناف الموردة ومطابقتها للمواصفات والكميات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "فقط وقدره"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "في الانتظار · مطلوب %(required)s اعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_vote
+msgid "قرار الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__vote_ids
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "قرارات الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__pending
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "قيد الانتظار"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__journal_entry
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__journal_entry
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__journal_entry
+msgid "قيد يومية"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"لا توجد سياسة اعتماد تنطبق على %s (حسب نوع المستند والجهة والمبلغ).\n"
+"\n"
+"الحل: اطلب من مدير الصلاحيات إنشاء سياسة لهذا النوع في جهتك من «الصلاحيات ← الإعدادات ← مصفوفة الصلاحيات»، أو تعديل حدود المبلغ في سياسة قائمة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "لا توجد سياسة صلاحيات فعّالة مضبوطة لهذا النوع من المستندات."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"لا يجوز أن يكون %s عضواً في لجنة هذا المستند (مقدّم الطلب أو مسؤول المخزن).\n"
+"\n"
+"الحل: احذفه من الأعضاء واختر موظفاً آخر."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "لا يجوز لمقدم الطلب الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يجوز لمقدّم الطلب اعتماد طلبه بنفسه.\n"
+"\n"
+"الحل: يعتمده أحد المعتمدين الآخرين في المرحلة الحالية. لتغيير ذلك يفعّل مدير الصلاحيات «السماح لمقدم الطلب بالاعتماد» في مصفوفة الصلاحيات."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.constraint,message:citadel_authority.constraint_citadel_authority_policy_amounts_nonnegative
+msgid ""
+"لا يمكن أن تكون المبالغ أو الحدود أو ساعات المهلة في السياسة بالسالب. الحل: "
+"أدخل قيماً صفرية أو موجبة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن إضافة سجل اعتماد يدوياً؛ يسجله النظام تلقائياً.\n"
+"\n"
+"الحل: نفّذ الإجراء المطلوب من المستند وسيُسجَّل تلقائياً."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن إنشاء اعتماد يدوياً.\n"
+"\n"
+"الحل: اضغط «اعتماد» من المستند أو من «بانتظار اعتمادي»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"لا يمكن تشكيل لجنة التسعير إلا لطلب شراء في حالة «طلب عرض سعر» (مسودة) أو «تم الإرسال».\n"
+"\n"
+"الحل: شكّل اللجنة قبل تأكيد الطلب. إن كان الطلب مؤكداً فألغِه ثم أعده إلى مسودة وشكّل اللجنة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن تعديل أو حذف اعتماد مسجل لأنه سجل رقابي.\n"
+"\n"
+"الحل: إن كان الاعتماد خاطئاً فاسحب القرار من المستند واطلب الاعتماد من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن تعديل أو حذف سجل الاعتمادات لأنه سجل رقابي.\n"
+"\n"
+"الحل: لا يلزم أي إجراء؛ السجل للمراجعة فقط."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن تعديل طلب الاعتماد يدوياً؛ يحدّثه نظام الصلاحيات تلقائياً.\n"
+"\n"
+"الحل: استخدم أزرار «اعتماد» أو «رفض» أو «سحب القرار» من المستند نفسه."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+msgid ""
+"لا يمكن تعديل لجنة التسعير بعد تأكيد طلب الشراء؛ يُسمح فقط بإرفاق المحضر الموقع.\n"
+"\n"
+"الحل: لتعديل اللجنة ألغِ طلب الشراء، ثم أعده إلى مسودة، وعدّل اللجنة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+msgid ""
+"لا يمكن تعديل لجنة الفحص والاستلام بعد تأكيد طلب الشراء.\n"
+"\n"
+"الحل: عدّل اللجنة قبل تأكيد الطلب، أو ألغِ الطلب ثم أعده إلى مسودة وعدّلها."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن تعديل مراحل الاعتماد يدوياً؛ يحدّثها نظام الصلاحيات تلقائياً.\n"
+"\n"
+"الحل: استخدم «اعتماد» أو «رفض» من المستند. لتغيير المراحل عدّل السياسة في «مصفوفة الصلاحيات» ثم اطلب الاعتماد من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"لا يمكن تفويض الصلاحية لنفسك.\n"
+"\n"
+"الحل: اختر مستخدماً آخر في خانة «المفوَّض إليه»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكن حذف طلب الاعتماد لأنه سجل رقابي.\n"
+"\n"
+"الحل: إن لم يعد الطلب مطلوباً فاضغط «إلغاء» على طلب الاعتماد، أو اسحب القرار من المستند."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لا يمكنك إلغاء طلب الاعتماد؛ الإلغاء لمقدّم الطلب أو لمدير الصلاحيات فقط.\n"
+"\n"
+"الحل: اطلب من مقدّم الطلب أو من مدير الصلاحيات إلغاءه."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"لا يمكنك إنشاء تفويض نيابة عن مستخدم آخر.\n"
+"\n"
+"الحل: أنشئ التفويض باسمك من «تفويضاتي»، أو اطلب من مدير الصلاحيات إنشاءه."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لا يمكنك تصديق الاستلام %(picking)s؛ هذا الإجراء لمسؤول المخزن %(manager)s فقط.\n"
+"\n"
+"الحل: يسجل %(manager)s الدخول ويعتمد الاستلام بعد اكتمال اعتماد لجنة الفحص والاستلام."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"لا يمكنك تعديل تفويض يخص مستخدماً آخر.\n"
+"\n"
+"الحل: يعدّله صاحب التفويض أو مدير الصلاحيات."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"لا يمكنك حذف تفويض يخص مستخدماً آخر.\n"
+"\n"
+"الحل: يحذفه صاحب التفويض أو مدير الصلاحيات."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "لا يوجد صاحب صلاحية مؤهل"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "لا يوجد مستخدم مؤهل"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"لا يوجد معتمد متاح في الدور %(role)s للمستند %(document)s.\n"
+"\n"
+"الحل: اطلب من مدير الصلاحيات إضافة مستخدم نشط للدور في «الصلاحيات ← الإعدادات ← الأدوار» (بصلاحية على الجهة)، ثم اضغط «طلب اعتماد» من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لا يُرحّل الاستلام %s يدوياً لأنه خاضع للجنة الفحص والاستلام.\n"
+"\n"
+"الحل: أدخل الكميات المستلمة ثم اضغط «طلب اعتماد الاستلام»؛ يُرحّل تلقائياً بعد اعتماد آخر عضو."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"لا يُسمح بالتفويض المتبادل (المفوَّض إليه فوّضك بالفعل لنفس النطاق).\n"
+"\n"
+"الحل: أوقف التفويض العكسي أولاً، ثم أنشئ هذا التفويض."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_pricing_committee_ids
+msgid "لجان التسعير"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "لجنة إحضار عروض الأسعار"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "لجنة البت والترسية"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_form_citadel_workflow
+msgid "لجنة التسعير"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_receipt_committee_employee_ids
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_committee_employee_ids
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_receipt_committee_wizard_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_purchase_order_form_citadel_workflow
+msgid "لجنة الفحص والاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_pricing_committee_form
+msgid "لجنة تسعير"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_purchase_pricing_committee
+msgid "لجنة تسعير الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لست من المعتمدين في المرحلة الحالية لهذا الطلب.\n"
+"\n"
+"الحل: راجع خانة «بانتظار» في المستند لمعرفة من يعتمد الآن. إن كان يجب أن تعتمد، اطلب من مدير الصلاحيات إضافتك للدور في «الصلاحيات ← الإعدادات ← الأدوار» أو تفويضك من «تفويضاتي»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid ""
+"لست من المعتمدين في المرحلة الحالية، لذلك لا يمكنك الرفض.\n"
+"\n"
+"الحل: راجع خانة «بانتظار» في المستند لمعرفة من يعتمد الآن، واطلب منه الرفض إن لزم."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "لفحص ومعاينة الأصناف الموردة من"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__snapshot
+msgid "لقطة المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "للعرض على"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy_step__action__inform
+msgid "للعلم"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "للعلم وفق السياسة %s."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"لم تُحدد لجنة الفحص والاستلام لطلبات الشراء: %s.\n"
+"\n"
+"الحل: افتح طلب الشراء واضغط «لجنة الفحص والاستلام»، واختر 3 أعضاء على الأقل، ثم أعد المحاولة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid "لم تُحدد لجنة الفحص والاستلام."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لم تُدخل أرقام التشغيلات/السيريال للأصناف: %s.\n"
+"\n"
+"الحل: افتح تفاصيل الصنف (أيقونة القائمة بجوار الكمية) وأدخل رقم التشغيلة أو السيريال، ثم اضغط «طلب اعتماد الاستلام»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"لم تُدخل أسعار لجنة التسعير في طلب الشراء %(order)s للأصناف: %(products)s.\n"
+"\n"
+"الحل: اكتب سعر الوحدة لكل صنف في بنود الطلب (السعر الذي قدّرته اللجنة)، ثم أعد المحاولة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لم تُدخل أي كمية مستلمة في %s.\n"
+"\n"
+"الحل: اكتب الكمية المستلمة فعلاً في عمود «الكمية» لكل صنف، ثم اضغط «طلب اعتماد الاستلام»."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_committee.py:0
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"لم يُحدد مسؤول المخزن (اعتماد الاستلام) للمخزن %s.\n"
+"\n"
+"الحل: المخزون ← الإعدادات ← المخازن: افتح المخزن وحدد «مسؤول المخزن (اعتماد الاستلام)»، ثم أعد المحاولة."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لم يُحدد مسؤول المخزن (اعتماد الاستلام) للمخزن %s، لذلك لا يمكن اعتماد الاستلام.\n"
+"\n"
+"الحل: المخزون ← الإعدادات ← المخازن: افتح المخزن وحدد «مسؤول المخزن (اعتماد الاستلام)»، ثم يعتمد هو الاستلام."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid ""
+"لم يُحدد مسؤول المخزن للمخزن %s.\n"
+"\n"
+"الحل: المخزون ← الإعدادات ← المخازن: حدد «مسؤول المخزن (اعتماد الاستلام)»، ثم يضغط «تصديق» على الاستلام."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid ""
+"لم يُرفق محضر لجنة التسعير %(committee)s موقعاً على طلب الشراء %(order)s.\n"
+"\n"
+"الحل: اضغط «لجنة التسعير»، اطبع المحضر ووقّعه من الأعضاء، ثم أرفق الصورة الموقعة في خانة المحضر الموقع."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model,name:citadel_authority.model_citadel_authority_dashboard
+msgid "لوحة الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.committee_signature_block
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "م"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_search
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_role_form
+msgid "مؤرشف"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__change_threshold_amount
+msgid "مبلغ التغيير المسموح"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "مثال: فاتورة مورد من 100,000 إلى 500,000"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__group_id
+msgid "مجموعة الدور"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_role__resolver__group
+msgid "مجموعة صلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_picking_form_citadel_authority
+msgid "محضر الفحص والاستلام"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,name:citadel_authority.action_report_receipt_committee
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "محضر فحص واستلام"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.actions.report,name:citadel_authority.action_report_pricing_committee
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "محضر لجنة تسعير"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "مدير المخازن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "مدير المشتريات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__vendor_refund
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__vendor_refund
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__vendor_refund
+msgid "مرتجع مورد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid ""
+"مرحلة %(role)s تحتاج %(required)s اعتمادات، والمتاح %(available)s مستخدمين فقط.\n"
+"\n"
+"الحل: أضف مستخدمين للدور، أو قلّل عدد الاعتمادات المطلوب في السياسة، ثم اضغط «طلب اعتماد» من جديد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__rejected
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "مرفوض"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_receipt_manager_id
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_receipt_manager_id
+msgid "مسؤول المخزن"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_warehouse__citadel_receipt_manager_id
+msgid "مسؤول المخزن (اعتماد الاستلام)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_purchase_receipt_committee_wizard__manager_id
+msgid "مسؤول المخزن (يؤكد الاستلام)"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_approval_timeline
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_approval_timeline
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_form
+msgid "مسار الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+msgid "مسار الاعتماد من اليمين إلى اليسار"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__escalation_user_ids
+msgid "مستخدمو التصعيد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_role__resolver__users
+msgid "مستخدمون محددون"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_source_id
+msgid "مصدر الترويسة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-javascript
+#: code:addons/citadel_authority/static/src/dashboard/dashboard.xml:0
+#: model:ir.actions.act_window,name:citadel_authority.action_citadel_authority_policy
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_policies
+msgid "مصفوفة الصلاحيات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "مطابق / غير مطابق"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/mixin.py:0
+msgid "مطلوب اعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "مطلوب منك اعتماد %s"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_letterhead_preview
+msgid "معاينة الترويسة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_company_form_citadel_letterhead
+msgid "معاينة الترويسة كما تُطبع"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_delegation__scope__purchase_alternative
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_policy__document_type__purchase_alternative
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__document_type__purchase_alternative
+msgid "مقارنة عروض بديلة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__requested_by_id
+msgid "مقدم الطلب"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+msgid "مقدم الطلب: %s"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/request.py:0
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__completed
+msgid "مكتمل"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__note
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "ملاحظات"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__note
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy_step__note
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "ملاحظة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request__state__cancelled
+#: model:ir.model.fields.selection,name:citadel_authority.selection__citadel_authority_request_step__state__cancelled
+msgid "ملغى"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__purchase_order__citadel_purchase_method__practice
+msgid "ممارسة"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/dashboard.py:0
+msgid "من %(minimum)s %(currency)s"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__purchase_order__citadel_purchase_method__public_tender
+msgid "مناقصة عامة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields.selection,name:citadel_authority.selection__purchase_order__citadel_purchase_method__limited_tender
+msgid "مناقصة محدودة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__sla_hours
+msgid "مهلة الاعتماد بالساعات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "مهلة الاعتماد والتصعيد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request_step__due_on
+msgid "موعد الاستحقاق"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__change_threshold_percent
+msgid "نسبة التغيير لإعادة الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__active
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__active
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_role__active
+msgid "نشط"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__domain
+msgid "نطاق اختياري يُقيّم على المستند المستهدف."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__domain
+msgid "نطاق التطبيق"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_delegation__scope
+msgid "نطاق التفويض"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+msgid "نطاق المبلغ"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.ui.menu,name:citadel_authority.menu_citadel_authority_overview
+msgid "نظرة عامة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__res_model
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__res_model
+msgid "نموذج المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_policy__document_type
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__document_type
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_form
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_policy_search
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_authority_request_search
+msgid "نوع المستند"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_log__principal_id
+msgid "نيابةً عن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid ""
+"وأنه لا توجد لأي من أعضائها مصلحة مباشرة أو غير مباشرة مع أي من الموردين"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "وأنها مطابقة للمواصفات والكميات"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "وأوصت بإضافتها إلى عهدة المخزن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "وانتهت إلى تقدير الأسعار المدونة بخط اليد في الجدول التالي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "وبناءً على التكليف الصادر من إدارة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid ""
+"وتقر اللجنة بأن الأسعار المدونة أعلاه أسعار عادلة تتناسب مع أسعار السوق في "
+"تاريخه"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "وتقر اللجنة بأنها قامت بفحص الأصناف المبينة أعلاه"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "وذلك بمقر مخزن"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "وذلك لإنهاء إجراءات الشراء"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "وذلك لـ"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "وعلى ذلك تحرر هذا المحضر من نسخة واحدة"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "وقد أسفر الفحص عما يلي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid ""
+"وقد قامت اللجنة بمعاينة المواصفات المطلوبة واستطلاع الأسعار السائدة في السوق"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+msgid "ووقّع عليه السادة أعضاء اللجنة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__change_threshold_percent
+msgid ""
+"يبطل الاعتماد عند تغير المبلغ بأكثر من هذه النسبة. الصفر يعني أي تغيير."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_requires_approval
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_requires_approval
+msgid "يتطلب اعتماداً"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_role__required_group_id
+msgid "يجب أن ينتمي أصحاب الدور إلى هذه المجموعة ليتمكنوا من الاعتماد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/stock_picking.py:0
+msgid "يحتاج الاستلام إلى خطوة إضافية في شاشة التأكيد."
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/purchase_order.py:0
+msgid "يحتاج الطلب إلى خطوة إضافية قبل التأكيد."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.view_citadel_receipt_committee_wizard_form
+msgid ""
+"يختار المشتري ثلاثة موظفين على الأقل لفحص الأصناف عند وصولها. يعتمد الأعضاء الاستلام بالتوازي،\n"
+"                    وبعد اكتمال اعتمادهم يظهر زر التأكيد لمسؤول المخزن المستلم فقط."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_purchase_pricing_committee__chairman_id
+msgid "يظهر أولاً في المحضر. إن تُرك فارغاً يُعتبر أول عضو رئيساً."
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_purchase_request_document
+msgid "يعتمد،،<br/>المدير التنفيذي"
+msgstr ""
+
+#. module: citadel_authority
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_pricing_committee_document
+#: model_terms:ir.ui.view,arch_db:citadel_authority.report_receipt_committee_document
+msgid "يعتمد،،<br/>مدير الجهة"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_citadel_authority_policy__escalation_role_id
+msgid "يمكن لأعضاء هذا الدور اتخاذ الإجراء بعد تجاوز المهلة."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_account_bank_statement_line__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_account_move__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_account_payment__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_mixin__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_purchase_order__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_sale_order__citadel_authority_can_approve
+#: model:ir.model.fields,field_description:citadel_authority.field_stock_picking__citadel_authority_can_approve
+msgid "يمكنه الاعتماد"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__can_reject
+msgid "يمكنه الرفض"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_citadel_authority_request__can_cancel
+msgid "يمكنه السحب"
+msgstr ""
+
+#. module: citadel_authority
+#. odoo-python
+#: code:addons/citadel_authority/models/delegation.py:0
+msgid ""
+"يوجد تفويض آخر لهذا المستخدم لنفس النطاق في فترة متداخلة.\n"
+"\n"
+"الحل: عدّل تواريخ التفويض القائم أو أوقفه، ثم أنشئ التفويض الجديد."
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,field_description:citadel_authority.field_res_company__citadel_purchase_addressee
+msgid "يُعرض طلب الشراء على"
+msgstr ""
+
+#. module: citadel_authority
+#: model:ir.model.fields,help:citadel_authority.field_purchase_order__citadel_request_department_id
+msgid "يُملأ تلقائياً من قسم المستخدم. يُطبع في خانة «القسم الطالب للشراء»."
+msgstr ""

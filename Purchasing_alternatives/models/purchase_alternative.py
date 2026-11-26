@@ -256,7 +256,7 @@ class PurchaseAlternativeComparison(models.Model):
         })
         request = self._citadel_authority_start(require_policy=True)
         self.message_post(body=_(
-            "Committee decision submitted for approval (%(request)s): %(decision)s",
+            "أُرسل قرار اللجنة للاعتماد (%(request)s): %(decision)s",
             request=request.name,
             decision=dict(self._fields["decision_type"].selection)[decision_type]
             + (" — %s" % vendor.partner_id.display_name if vendor else ""),

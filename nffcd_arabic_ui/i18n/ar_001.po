@@ -1,0 +1,1134 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: purchase_stock
+#: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
+msgid "% On Time"
+msgstr "% في الموعد"
+
+#. module: account_edi_ubl_cii
+#: model:ir.actions.server,name:account_edi_ubl_cii.action_group_ungroup_lines_by_tax
+msgid "(Un)Group lines by tax"
+msgstr "تجميع أو فك تجميع البنود حسب الضريبة"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid ""
+"<span class=\"badge rounded-pill text-bg-success\" invisible=\"not "
+"cash_destination_split_balanced\">Fully allocated</span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\" invisible=\"not "
+"cash_destination_split_balanced\">موزع بالكامل</span>"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid ""
+"<span class=\"badge rounded-pill text-bg-success\" invisible=\"not "
+"cash_split_balanced\">Fully allocated</span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\" invisible=\"not "
+"cash_split_balanced\">موزع بالكامل</span>"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid ""
+"<span class=\"o_form_label\" invisible=\"state not in ('draft', 'sent')\">Request for Quotation</span>\n"
+"                        <span class=\"o_form_label\" invisible=\"state in ('draft', 'sent')\">Purchase Order</span>"
+msgstr ""
+"<span class=\"o_form_label\" invisible=\"state not in ('draft', 'sent')\">طلب عرض السعر</span>\n"
+"                        <span class=\"o_form_label\" invisible=\"state in ('draft', 'sent')\">أمر الشراء</span>"
+
+#. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.view_move_form
+msgid "<span class=\"o_stat_text\">Product Value</span>"
+msgstr "<span class=\"o_stat_text\">قيمة المنتج</span>"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid ""
+"<span class=\"text-muted fst-italic\" invisible=\"not "
+"cash_destination_split\">Split across classifications</span>"
+msgstr ""
+"<span class=\"text-muted fst-italic\" invisible=\"not "
+"cash_destination_split\">موزع على عدة تصنيفات</span>"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_register_cash_fund
+msgid ""
+"<span class=\"text-muted fst-italic\" invisible=\"not cash_split\">Split "
+"across classifications</span>"
+msgstr ""
+"<span class=\"text-muted fst-italic\" invisible=\"not cash_split\">موزع على "
+"عدة تصنيفات</span>"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "<span invisible=\"not receipt_reminder_email\">day(s) before</span>"
+msgstr "<span invisible=\"not receipt_reminder_email\">يوم/أيام قبل</span>"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_move_line_view_kanban
+msgid "<span> (CR)</span>"
+msgstr "<span> (دائن)</span>"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_move_line_view_kanban
+msgid "<span> (DR)</span>"
+msgstr "<span> (مدين)</span>"
+
+#. module: base
+#: model:ir.model,name:base.model_ir_actions_act_url
+#: model:ir.model.fields,field_description:base.field_ir_actions_act_url__url
+msgid "Action URL"
+msgstr "رابط الإجراء"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "Add note"
+msgstr "إضافة ملاحظة"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "Add product"
+msgstr "إضافة منتج"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "Add section"
+msgstr "إضافة قسم"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.action_add_move_lines
+msgid "Add: Move Lines"
+msgstr "إضافة: بنود الحركة"
+
+#. module: purchase_alternative
+#: model:ir.model.fields,field_description:purchase_alternative.field_purchase_alternative_warning__alternative_po_ids
+#: model:ir.model.fields,field_description:purchase_alternative.field_purchase_order__alternative_po_ids
+msgid "Alternative POs"
+msgstr "طلبات الشراء البديلة"
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid "Alternative Purchase Order"
+msgstr "طلب شراء بديل"
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid "Alternatives"
+msgstr "البدائل"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_assets
+msgid "Asset Measurement"
+msgstr "قياس الأصول"
+
+#. module: purchase
+#: model:ir.model.fields,help:purchase.field_account_bank_statement_line__purchase_vendor_bill_id
+#: model:ir.model.fields,help:purchase.field_account_move__purchase_vendor_bill_id
+msgid "Auto-complete from a previous bill, refund, or purchase order."
+msgstr "إكمال تلقائي من فاتورة أو إشعار دائن أو طلب شراء سابق."
+
+#. module: account, eh_account_base, om_account_accountant
+#: model:ir.actions.act_window,name:account.action_bank_statement_tree
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_bank_statements
+#: model:ir.ui.menu,name:om_account_accountant.menu_accounting_statement_bank
+msgid "Bank Statements"
+msgstr "كشوفات الحساب البنكية"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_config_banking
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_operations
+msgid "Banking"
+msgstr "الخدمات المصرفية"
+
+#. module: stock
+#: model:ir.actions.report,name:stock.action_report_picking_batch
+#: model:ir.model,name:stock.model_stock_picking_batch
+#: model:ir.model.fields,field_description:stock.field_stock_add_to_wave__wave_id
+#: model:ir.model.fields,field_description:stock.field_stock_move_line__batch_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking__batch_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking_batch__name
+#: model:ir.model.fields,field_description:stock.field_stock_picking_to_batch__batch_id
+#: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
+#: model_terms:ir.ui.view,arch_db:stock.stock_picking_batch_filter
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
+msgid "Batch Transfer"
+msgstr "تحويل مجمّع"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.stock_picking_batch_action
+#: model:ir.ui.menu,name:stock.stock_picking_batch_menu
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_type_form
+msgid "Batch Transfers"
+msgstr "التحويلات المجمّعة"
+
+#. module: eh_account_budget_pro
+#: model:ir.ui.menu,name:eh_account_budget_pro.menu_eh_budget_commitment
+#: model_terms:ir.ui.view,arch_db:eh_account_budget_pro.view_purchase_order_form_budget_commitments
+msgid "Budget Commitments"
+msgstr "ارتباطات الموازنة"
+
+#. module: eh_account_budget_pro
+#: model:ir.ui.menu,name:eh_account_budget_pro.menu_eh_budget_line_analytics
+msgid "Budget Lines (Planned)"
+msgstr "بنود الموازنة (المخطط)"
+
+#. module: account
+#: model:ir.actions.act_window,name:account.action_account_cashflow_analysis
+#: model:ir.ui.menu,name:account.menu_action_account_cashflow_analysis
+#: model_terms:ir.ui.view,arch_db:account.account_bank_statement_line_view_graph_cashflow
+#: model_terms:ir.ui.view,arch_db:account.account_bank_statement_line_view_pivot_cashflow
+#: model_terms:ir.ui.view,arch_db:account.account_bank_statement_line_view_search_cashflow
+msgid "Cashflow Analysis"
+msgstr "تحليل التدفق النقدي"
+
+#. module: account_check_printing
+#: model:account.payment.method,name:account_check_printing.account_payment_method_check
+msgid "Checks"
+msgstr "الشيكات"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_config_pdc
+msgid "Cheques (PDC)"
+msgstr "الشيكات المؤجلة"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_fund_balance
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Classification Balance"
+msgstr "رصيد التصنيف"
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid "Compare Product Lines"
+msgstr "مقارنة بنود المنتجات"
+
+#. module: purchase_stock
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order__effective_date
+msgid "Completion date of the last receipt order."
+msgstr "تاريخ إتمام آخر استلام."
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_alternative_create_form
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid "Create Alternative"
+msgstr "إنشاء بديل"
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid ""
+"Create a call for tender by adding alternative requests for quotation to "
+"different vendors.                                 Make your choice by "
+"selecting the best combination of lead time, OTD and/or total amount."
+"                                 By comparing product lines you can also "
+"decide to order some products from one vendor and others from another "
+"vendor."
+msgstr ""
+"أنشئ مناقصة بإضافة طلبات عروض أسعار بديلة لموردين مختلفين، ثم اختر أفضل مزيج"
+" من البنود حسب السعر وموعد التسليم."
+
+#. module: eh_account_base, eh_account_dynamic_reports_pro
+#: model:ir.actions.act_window,name:eh_account_dynamic_reports_pro.action_eh_report_builder
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_reports_advanced
+#: model:ir.ui.menu,name:eh_account_dynamic_reports_pro.menu_eh_pro_root
+#: model_terms:ir.ui.view,arch_db:eh_account_dynamic_reports_pro.view_eh_report_builder_tree
+msgid "Custom Reports"
+msgstr "التقارير المخصصة"
+
+#. module: account, base, om_account_followup, sale, stock
+#: model:ir.actions.act_window,name:account.res_partner_action_customer
+#: model:ir.actions.act_window,name:base.action_partner_customer_form
+#: model:ir.actions.act_window,name:base.action_partner_form
+#: model:ir.model.fields,field_description:om_account_followup.field_followup_followup__partner_count
+#: model:ir.model.fields,field_description:om_account_followup.field_followup_send__partner_ids
+#: model:ir.ui.menu,name:account.menu_account_customer
+#: model:ir.ui.menu,name:sale.menu_reporting_customer
+#: model:ir.ui.menu,name:sale.res_partner_menu
+#: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
+#: model_terms:ir.ui.view,arch_db:account.view_partner_bank_search_inherit
+#: model_terms:ir.ui.view,arch_db:om_account_followup.view_om_account_followup_followup_form
+#: model_terms:ir.ui.view,arch_db:stock.search_product_lot_filter
+#: model_terms:ir.ui.view,arch_db:stock.view_production_lot_form
+msgid "Customers"
+msgstr "العملاء"
+
+#. module: purchase_stock
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order__date_promised
+msgid ""
+"Date promised by the vendor for at least 1 or more products to be delivered "
+"by."
+msgstr "التاريخ الذي وعد المورد بتسليم منتج واحد أو أكثر فيه."
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__product_qty
+msgid "Demand in Product UoM"
+msgstr "الطلب بوحدة قياس المنتج"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_destination_split_remaining
+msgid "Destination Remaining to Allocate"
+msgstr "المتبقي للتوزيع في الوجهة"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.action_picking_detailed_moves
+#: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
+msgid "Detailed Moves"
+msgstr "الحركات التفصيلية"
+
+#. module: mrp
+#: model:ir.actions.act_window,name:mrp.action_detailed_operations
+msgid "Detailed Operations"
+msgstr "العمليات التفصيلية"
+
+#. module: web
+#: model:ir.actions.server,name:web.download_contact
+msgid "Download (vCard)"
+msgstr "تنزيل بطاقة جهة الاتصال"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_account_root
+msgid "ERP Heritage"
+msgstr "التقارير المتقدمة"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_people
+msgid "Employee Compensation"
+msgstr "مزايا الموظفين"
+
+#. module: partner_autocomplete
+#: model:ir.actions.server,name:partner_autocomplete.model_res_partner_enrich
+msgid "Enrich"
+msgstr "إثراء البيانات"
+
+#. module: purchase, stock
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "Enter a Description..."
+msgstr "أدخل وصفاً..."
+
+#. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order__date_planned
+msgid ""
+"Expected delivery date of goods by the vendor based on the latest "
+"information"
+msgstr "تاريخ التسليم المتوقع من المورد بناءً على أحدث المعلومات"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_financial
+msgid "Financial Instruments"
+msgstr "الأدوات المالية"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.ui.menu,name:eh_account_dynamic_reports.menu_financial_statements
+msgid "Financial Statements"
+msgstr "القوائم المالية"
+
+#. module: purchase
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__receipt_status__full
+msgid "Fully Received"
+msgstr "تم الاستلام بالكامل"
+
+#. module: account
+#: model:ir.model,name:account.model_report_account_report_hash_integrity
+msgid "Get hash integrity result as PDF."
+msgstr "احصل على نتيجة سلامة التشفيرات كملف للطباعة."
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_equity
+msgid "Group and Equity"
+msgstr "المجموعة وحقوق الملكية"
+
+#. module: account
+#: model:ir.actions.report,name:account.action_report_account_hash_integrity
+msgid "Hash integrity result PDF"
+msgstr "نتيجة سلامة التشفيرات"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_config_root
+msgid "Heritage"
+msgstr "إعدادات التقارير المتقدمة"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs
+msgid "IFRS Standards"
+msgstr "المعايير الدولية للتقارير المالية"
+
+#. module: mail
+#: model:mail.message.subtype,name:mail.mt_important_notification
+msgid "Important Notification"
+msgstr "إشعار مهم"
+
+#. module: account, purchase, sale
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__incoterm_location
+#: model:ir.model.fields,field_description:account.field_account_move__incoterm_location
+#: model:ir.model.fields,field_description:purchase.field_purchase_order__incoterm_location
+#: model:ir.model.fields,field_description:sale.field_res_partner__incoterm_location
+#: model:ir.model.fields,field_description:sale.field_res_users__incoterm_location
+#: model:ir.model.fields,field_description:sale.field_sale_order__incoterm_location
+#: model_terms:ir.ui.view,arch_db:purchase.view_partner_property_form
+msgid "Incoterm Location"
+msgstr "موقع شروط التجارة الدولية"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_payment_register__installments_switch_html
+msgid "Installments Switch Html"
+msgstr "مفتاح الأقساط"
+
+#. module: account
+#: model:ir.actions.report,name:account.account_invoices
+msgid "Invoice PDF"
+msgstr "الفاتورة"
+
+#. module: account_edi_ubl_cii
+#: model:ir.actions.report,name:account_edi_ubl_cii.action_report_account_invoices_generated_by_odoo
+msgid "Invoice report generated by Odoo"
+msgstr "تقرير الفاتورة المُنشأ من النظام"
+
+#. module: stock
+#: model:ir.ui.menu,name:stock.menu_stock_jobs
+msgid "Jobs"
+msgstr "المهام"
+
+#. module: uom
+#: model:uom.uom,name:uom.product_uom_kwh
+msgid "KWH"
+msgstr "ك.و.س"
+
+#. module: uom
+#: model:uom.uom,name:uom.product_uom_litre
+msgid "L"
+msgstr "لتر"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.ui.menu,name:eh_account_dynamic_reports.menu_ledgers
+msgid "Ledgers and Balances"
+msgstr "الدفاتر والأرصدة"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.res_config_settings_view_form_purchase
+msgid "Link RFQs together and compare them."
+msgstr "اربط طلبات عروض الأسعار ببعضها وقارن بينها."
+
+#. module: purchase_alternative
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+msgid "Link to Existing RfQ"
+msgstr "ربط بطلب عرض سعر موجود"
+
+#. module: mrp
+#: model:mail.message.subtype,name:mrp.mt_mo_state
+msgid "MO State"
+msgstr "حالة أمر التصنيع"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.ui.menu,name:eh_account_dynamic_reports.menu_management_reports
+msgid "Management and Controls"
+msgstr "الإدارة والرقابة"
+
+#. module: account
+#: model:account.payment.method,name:account.account_payment_method_manual_in
+#: model:account.payment.method,name:account.account_payment_method_manual_out
+msgid "Manual Payment"
+msgstr "الدفع اليدوي"
+
+#. module: account_check_printing
+#: model:ir.model.fields,help:account_check_printing.field_account_payment__payment_method_line_id
+msgid ""
+"Manual: Pay or Get paid by any method outside of Odoo.\n"
+"Payment Providers: Each payment provider has its own Payment Method. Request a transaction on/to a card thanks to a payment token saved by the partner when buying or subscribing online.\n"
+"Check: Pay bills by check and print it from Odoo.\n"
+"Batch Deposit: Collect several customer checks at once generating and submitting a batch deposit to your bank. Module account_batch_payment is necessary.\n"
+"SEPA Credit Transfer: Pay in the SEPA zone by submitting a SEPA Credit Transfer file to your bank. Module account_iso20022 is necessary.\n"
+"SEPA Direct Debit: Get paid in the SEPA zone thanks to a mandate your partner will have granted to you. Module account_iso20022 is necessary.\n"
+"U.S. ISO20022: Pay in the US by submitting an ISO20022 file to your bank. Module account_iso20022 is necessary.\n"
+msgstr ""
+"يدوي: ادفع أو حصّل بأي وسيلة خارج النظام.\n"
+"مزودو الدفع: لكل مزود دفع وسيلة دفع خاصة به.\n"
+"شيك: ادفع الفواتير بشيك واطبعه من النظام.\n"
+"إيداع مجمّع: اجمع عدة شيكات عملاء في إيداع واحد.\n"
+"تحويل أوروبي: ادفع بملف تحويل ترسله إلى البنك."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_payment_register__payment_method_line_id
+msgid ""
+"Manual: Pay or Get paid by any method outside of Odoo.\n"
+"Payment Providers: Each payment provider has its own Payment Method. Request a transaction on/to a card thanks to a payment token saved by the partner when buying or subscribing online.\n"
+"Check: Pay bills by check and print it from Odoo.\n"
+"Batch Deposit: Collect several customer checks at once generating and submitting a batch deposit to your bank. Module account_batch_payment is necessary.\n"
+"SEPA Credit Transfer: Pay in the SEPA zone by submitting a SEPA Credit Transfer file to your bank. Module account_sepa is necessary.\n"
+"SEPA Direct Debit: Get paid in the SEPA zone thanks to a mandate your partner will have granted to you. Module account_sepa is necessary.\n"
+msgstr ""
+"يدوي: ادفع أو حصّل بأي وسيلة خارج النظام.\n"
+"مزودو الدفع: لكل مزود دفع وسيلة دفع خاصة به.\n"
+"شيك: ادفع الفواتير بشيك واطبعه من النظام.\n"
+"إيداع مجمّع: اجمع عدة شيكات عملاء في إيداع واحد.\n"
+"تحويل أوروبي: ادفع بملف تحويل ترسله إلى البنك."
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "Mark as To Do"
+msgstr "تحديد كجاهز"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_move_line__matching_number
+msgid ""
+"Matching number for this line, 'P' if it is only partially reconcile, or the"
+" name of the full reconcile if it exists."
+msgstr ""
+"رقم المطابقة لهذا البند، أو اسم التسوية الكاملة إن وجدت (للتسوية الجزئية رمز"
+" خاص)."
+
+#. module: base, mrp, uom
+#: model:ir.model.fields.selection,name:base.selection__ir_cron__interval_type__minutes
+#: model:uom.uom,name:uom.product_uom_minute
+#: model_terms:ir.ui.view,arch_db:mrp.mrp_workcenter_view
+msgid "Minutes"
+msgstr "دقائق"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_payment__amount_signed
+msgid "Negative value of amount field if payment_type is outbound"
+msgstr "القيمة السالبة للمبلغ إذا كانت الدفعة صادرة"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment__withholding_net_amount
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_register__withholding_net_amount
+msgid "Net Amount"
+msgstr "صافي المبلغ"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.account_move_view_form_inherit_l10n_account_withholding_tax
+msgid "Net Due"
+msgstr "صافي المستحق"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_bank_statement_line__withholding_net_residual_amount_currency
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_move__withholding_net_residual_amount_currency
+msgid "Net Due Amount"
+msgstr "صافي المبلغ المستحق"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_payment_register__withholding_net_amount
+msgid "Net amount after deducting the withholding lines"
+msgstr "صافي المبلغ بعد خصم بنود الاستقطاع"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.model,name:eh_account_dynamic_reports.model_eh_noncash_transaction
+msgid "Non-Cash Transaction (IAS 7.43)"
+msgstr "معاملة غير نقدية"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.ui.menu,name:eh_account_dynamic_reports.menu_eh_noncash_transaction
+msgid "Non-Cash Transactions"
+msgstr "المعاملات غير النقدية"
+
+#. module: eh_account_dynamic_reports
+#: model:ir.actions.act_window,name:eh_account_dynamic_reports.action_eh_noncash_transaction
+msgid "Non-Cash Transactions (IAS 7.43)"
+msgstr "المعاملات غير النقدية"
+
+#. module: purchase
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__receipt_status__pending
+msgid "Not Received"
+msgstr "لم يتم الاستلام"
+
+#. module: mail
+#: model:mail.message.subtype,name:mail.mt_note
+msgid "Notes"
+msgstr "الملاحظات"
+
+#. module: purchase_alternative_stock
+#: model:ir.model.fields,field_description:purchase_alternative_stock.field_purchase_order__on_time_rate_perc
+#: model:ir.model.fields,field_description:purchase_alternative_stock.field_purchase_order_line__on_time_rate_perc
+msgid "OTD"
+msgstr "التسليم في الموعد"
+
+#. module: account_payment
+#: model:ir.ui.menu,name:account_payment.payment_provider_menu
+msgid "Online Payments"
+msgstr "المدفوعات الإلكترونية"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__statement_line_id
+#: model_terms:ir.ui.view,arch_db:account.view_move_line_form
+msgid "Originator Bank Transaction"
+msgstr "بند كشف الحساب المُنشئ"
+
+#. module: account, purchase, sale
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Other Info"
+msgstr "معلومات أخرى"
+
+#. module: purchase_alternative
+#: model:ir.model.fields,help:purchase_alternative.field_purchase_order__alternative_po_ids
+msgid "Other potential purchase orders for purchasing products"
+msgstr "طلبات شراء أخرى محتملة لشراء المنتجات"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_payment_search
+msgid "Outstanding"
+msgstr "غير مسوّاة"
+
+#. module: account, l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:account.field_account_payment__outstanding_account_id
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_register__withholding_outstanding_account_id
+msgid "Outstanding Account"
+msgstr "الحساب المعلّق"
+
+#. module: purchase_stock
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order__on_time_rate
+#: model:ir.model.fields,help:purchase_stock.field_res_partner__on_time_rate
+#: model:ir.model.fields,help:purchase_stock.field_res_users__on_time_rate
+msgid ""
+"Over the past x days; the number of products received on time divided by the"
+" number of ordered products.x is either the System Parameter "
+"purchase_stock.on_time_delivery_days or the default 365"
+msgstr ""
+"نسبة المنتجات المستلمة في موعدها إلى المنتجات المطلوبة خلال آخر ٣٦٥ يوماً "
+"(أو المدة المحددة في إعدادات النظام)."
+
+#. module: account
+#: model:ir.actions.report,name:account.account_invoices_without_payment
+msgid "PDF without Payment"
+msgstr "الفاتورة بدون الدفعات"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.view_move_form_inherit_purchase
+msgid "PO Matching"
+msgstr "مطابقة طلب الشراء"
+
+#. module: purchase
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__receipt_status__partial
+msgid "Partially Received"
+msgstr "تم الاستلام جزئياً"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment__withhold__payment
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment_register__withhold__payment
+msgid "Payment Only"
+msgstr "دفع فقط"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__qr_code_method
+#: model:ir.model.fields,field_description:account.field_account_move__qr_code_method
+#: model:ir.model.fields,field_description:account.field_res_partner__qr_code_method
+#: model:ir.model.fields,field_description:account.field_res_users__qr_code_method
+msgid "Payment QR-code"
+msgstr "رمز الاستجابة السريعة للدفع"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model,name:l10n_account_withholding_tax.model_account_payment_withholding_line
+msgid "Payment withholding line"
+msgstr "بند استقطاع الدفعة"
+
+#. module: account, eh_account_base, om_account_cash_forecast, payment, sale
+#: model:ir.actions.act_window,name:account.action_account_all_payments
+#: model:ir.model.fields,field_description:account.field_account_move__payment_ids
+#: model:ir.ui.menu,name:account.menu_action_account_payments_payable
+#: model:ir.ui.menu,name:account.menu_action_account_payments_receivable
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_bank_payments
+#: model:ir.ui.menu,name:sale.payment_provider_menu
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+#: model_terms:ir.ui.view,arch_db:account.view_account_payment_search
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+#: model_terms:ir.ui.view,arch_db:om_account_cash_forecast.view_cash_forecast_item_search
+#: model_terms:ir.ui.view,arch_db:payment.payment_token_form
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Payments"
+msgstr "الدفعات"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_config_payments
+msgid "Payments and SEPA"
+msgstr "المدفوعات والتحويلات الأوروبية"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_period_work
+msgid "Planning and Costing"
+msgstr "التخطيط والتكاليف"
+
+#. module: product
+#: model:ir.actions.report,name:product.report_product_template_label_zpl
+msgid "Product Label (ZPL)"
+msgstr "بطاقة المنتج (طابعة الملصقات)"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_product_value
+#: model:ir.model.fields,field_description:stock_account.field_account_bank_statement_line__product_value_id
+#: model:ir.model.fields,field_description:stock_account.field_account_move__product_value_id
+#: model:ir.model.fields,field_description:stock_account.field_stock_move__product_value_ids
+#: model:ir.model.fields.selection,name:stock_account.selection__stock_avco_report__res_model_name__product_value
+msgid "Product Value"
+msgstr "قيمة المنتج"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__deductible_percentage
+msgid "Professional Expense Deductibility Percentage"
+msgstr "نسبة خصم المصروفات المهنية"
+
+#. module: purchase_stock
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__date_promised
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__date_promised
+msgid "Promised Date"
+msgstr "التاريخ الموعود"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_events
+msgid "Provisions and Events"
+msgstr "المخصصات والأحداث"
+
+#. module: base, purchase
+#: model:ir.model.fields,field_description:purchase.field_res_config_settings__module_purchase_alternative
+#: model:ir.module.module,shortdesc:base.module_purchase_alternative
+msgid "Purchase Alternative"
+msgstr "بدائل الشراء"
+
+#. module: purchase, purchase_stock
+#: model:ir.actions.act_window,name:purchase.action_purchase_history
+#: model:ir.model,name:purchase.model_purchase_order_line
+#: model:ir.model.fields,field_description:purchase.field_account_move_line__purchase_line_id
+#: model:ir.model.fields,field_description:purchase.field_account_tax__purchase_order_line_ids
+#: model:ir.model.fields,field_description:purchase_stock.field_stock_move__purchase_line_id
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_line_form2
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_line_view_form_invoice
+msgid "Purchase Order Line"
+msgstr "بند طلب الشراء"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_payment__qr_code
+#: model:ir.model.fields,field_description:account.field_account_payment_register__qr_code
+msgid "QR Code URL"
+msgstr "رابط رمز الاستجابة السريعة"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order__receipt_status
+msgid "Receipt Status"
+msgstr "حالة الاستلام"
+
+#. module: eh_account_dynamic_reports, om_spreadsheet_account
+#: model:ir.ui.menu,name:eh_account_dynamic_reports.menu_partner_reports
+#: model:spreadsheet.dashboard,name:om_spreadsheet_account.dashboard_receivables_payables
+msgid "Receivables and Payables"
+msgstr "الذمم المدينة والدائنة"
+
+#. module: purchase, purchase_stock
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_view_tree
+#: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
+msgid "Receive"
+msgstr "استلام"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_payment_register__partner_bank_id
+msgid "Recipient Account"
+msgstr "حساب المستفيد"
+
+#. module: purchase, purchase_alternative
+#: model:ir.model.fields,field_description:purchase.field_purchase_bill_line_match__reference
+#: model:ir.model.fields,field_description:purchase.field_purchase_bill_union__name
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_kpis_tree
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_tree
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_view_tree
+#: model_terms:ir.ui.view,arch_db:purchase.view_purchase_bill_union_filter
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_alternative_warning_form
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:purchase_alternative.purchase_order_line_view_compare_list
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.view_move_search
+msgid "Remaining"
+msgstr "المتبقي"
+
+#. module: stock_account
+#: model:ir.model.fields,field_description:stock_account.field_stock_move__remaining_qty
+msgid "Remaining Quantity"
+msgstr "الكمية المتبقية"
+
+#. module: nffcd_accounting_enhancement
+#: model:ir.model.fields,field_description:nffcd_accounting_enhancement.field_account_payment__cash_split_remaining
+msgid "Remaining to Allocate"
+msgstr "المتبقي للتوزيع"
+
+#. module: nffcd_accounting_enhancement
+#: model_terms:ir.ui.view,arch_db:nffcd_accounting_enhancement.view_payment_cash_funds
+msgid "Remaining to allocate:"
+msgstr "المتبقي للتوزيع:"
+
+#. module: eh_account_base
+#: model:ir.actions.act_window,name:eh_account_base.action_eh_account_report_execution
+msgid "Report Audit Log"
+msgstr "سجل تدقيق التقارير"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid ""
+"Reset to today's date to recompute expected arrival based on available lead "
+"time                                     and previous information from the "
+"RFQ."
+msgstr ""
+"إعادة التعيين إلى تاريخ اليوم لإعادة حساب موعد الوصول المتوقع بناءً على مهلة"
+" التوريد والمعلومات السابقة من طلب عرض السعر."
+
+#. module: sale_stock
+#: model:ir.actions.report,name:sale_stock.action_report_return_label
+msgid "Return Label"
+msgstr "ملصق الإرجاع"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_return_reason
+#: model:ir.model.fields,field_description:sale_stock.field_stock_picking__return_reason_id
+msgid "Return Reason"
+msgstr "سبب الإرجاع"
+
+#. module: eh_account_base
+#: model:ir.ui.menu,name:eh_account_base.menu_eh_ifrs_revenue_tax
+msgid "Revenue, Tax and Grants"
+msgstr "الإيرادات والضرائب والمنح"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Reversal Entries"
+msgstr "قيود العكس"
+
+#. module: account
+#: model:ir.actions.act_window,name:account.rounding_list_action
+#: model:ir.ui.menu,name:account.menu_action_rounding_form_view
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid "Rounding Methods"
+msgstr "طرق التقريب"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_move_form
+msgid "Scrapped Lots"
+msgstr "الدفعات المُهدرة"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Search a product"
+msgstr "ابحث عن منتج"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "Select a Product"
+msgstr "اختر منتجاً"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "Select a Product..."
+msgstr "اختر منتجاً..."
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.view_move_form_inherit_purchase
+msgid "Select a purchase document"
+msgstr "اختر مستند شراء"
+
+#. module: account, l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sequence_number
+#: model:ir.model.fields,field_description:account.field_account_move__sequence_number
+#: model:ir.model.fields,field_description:account.field_sequence_mixin__sequence_number
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_register_withholding_line__name
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_withholding_line__name
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_withholding_line__name
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_form
+msgid "Sequence Number"
+msgstr "رقم التسلسل"
+
+#. module: stock
+#: model:mail.message.subtype,description:stock.mt_batch_state
+#: model:mail.message.subtype,name:stock.mt_batch_state
+msgid "Stage Changed"
+msgstr "تغيّرت المرحلة"
+
+#. module: purchase_stock
+#: model:ir.model,name:purchase_stock.model_stock_allocation_report
+msgid "Stock Allocation Report"
+msgstr "تقرير تخصيص المخزون"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.stock_move_action_outgoing
+msgid "Stock Moves (deliveries)"
+msgstr "حركات المخزون (التسليمات)"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.stock_move_action_incoming
+msgid "Stock Moves (receipts)"
+msgstr "حركات المخزون (الاستلامات)"
+
+#. module: stock
+#: model:ir.actions.act_window,name:stock.stock_quant_action
+#: model:ir.ui.menu,name:stock.menu_valuation
+msgid "Stock by Location"
+msgstr "المخزون حسب الموقع"
+
+#. module: purchase, sale
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Subsection Name"
+msgstr "اسم القسم الفرعي"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_register_withholding_line__tax_id
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_withholding_line__tax_id
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_withholding_line__tax_id
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_form
+msgid "Tax"
+msgstr "الضريبة"
+
+#. module: account, purchase, sale
+#: model:ir.model.fields.selection,name:account.selection__account_move__document_tax_mode__tax_excluded
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__document_tax_mode__tax_excluded
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__document_tax_mode__tax_excluded
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Tax Excl."
+msgstr "غير شامل الضريبة"
+
+#. module: account, purchase, sale
+#: model:ir.model.fields.selection,name:account.selection__account_move__document_tax_mode__tax_included
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__document_tax_mode__tax_included
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__document_tax_mode__tax_included
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Tax Incl."
+msgstr "شامل الضريبة"
+
+#. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order_line__price_unit_product_uom
+msgid "The Price of one unit of the product's Unit of Measure"
+msgstr "سعر وحدة واحدة من وحدة قياس المنتج"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_move_form
+msgid "The actual date when the transfer was processed."
+msgstr "التاريخ الفعلي لتنفيذ التحويل."
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_payment__withholding_net_amount
+msgid ""
+"The amount that will actually be paid after deducting withholding taxes."
+msgstr "المبلغ الذي سيُدفع فعلياً بعد خصم ضرائب الاستقطاع."
+
+#. module: stock_account
+#: model:ir.model.fields,help:stock_account.field_product_value__current_value
+#: model:ir.model.fields,help:stock_account.field_stock_move__value
+msgid "The current value of the move. It's zero if the move is not valued."
+msgstr "القيمة الحالية للحركة، وتكون صفراً إذا لم تُقيَّم الحركة."
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_bank_statement_line__withholding_net_residual_amount_currency
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_move__withholding_net_residual_amount_currency
+msgid "The net amount due after deducting the remaining withholding amount."
+msgstr "صافي المبلغ المستحق بعد خصم مبلغ الاستقطاع المتبقي."
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_bank_statement_line__withholding_residual_amount_currency
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_move__withholding_residual_amount_currency
+msgid "The remaining withholding amount to be deducted."
+msgstr "مبلغ الاستقطاع المتبقي المطلوب خصمه."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_move_line__deductible_percentage
+msgid ""
+"The share of this expense used for business purposes. VAT is only deductible"
+" on this portion; the rest is treated as a private expense. Use this for "
+"mixed-use costs (e.g. a home office, a car used partly for personal trips)."
+msgstr ""
+"نسبة هذا المصروف المستخدمة لأغراض العمل؛ تُخصم ضريبة القيمة المضافة عن هذه "
+"النسبة فقط ويُعامل الباقي كمصروف شخصي."
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,help:l10n_account_withholding_tax.field_account_move__amount_residual
+msgid ""
+"The total amount due, including the amount to be paid and the withholding "
+"due."
+msgstr "إجمالي المبلغ المستحق شاملاً المبلغ المطلوب دفعه والاستقطاع المستحق."
+
+#. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.stock_move_view_list
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: stock_account
+#: model_terms:ir.ui.view,arch_db:stock_account.stock_move_view_list_valuation
+msgid "Total Remaining Qty"
+msgstr "إجمالي الكمية المتبقية"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_form
+msgid "Total Withheld Amount"
+msgstr "إجمالي المبلغ المستقطع"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_register_form
+msgid "Total withheld:"
+msgstr "إجمالي المستقطع:"
+
+#. module: stock
+#: model:mail.message.subtype,name:stock.mt_picking_state
+msgid "Transfer Status"
+msgstr "حالة التحويل"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__picking_code
+#: model:ir.model.fields,field_description:stock.field_stock_move_line__picking_code
+#: model:ir.model.fields,field_description:stock.field_stock_picking__picking_type_code
+#: model:ir.model.fields,field_description:stock.field_stock_picking_batch__picking_type_code
+#: model:ir.model.fields,field_description:stock.field_stock_picking_type__code
+msgid "Type of Operation"
+msgstr "نوع العملية"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__qr_code_method
+#: model:ir.model.fields,help:account.field_account_move__qr_code_method
+msgid ""
+"Type of QR-code to be generated for the payment of this invoice, when "
+"printing it. If left blank, the first available and usable method will be "
+"used."
+msgstr ""
+"نوع رمز الاستجابة السريعة الذي يُنشأ لسداد هذه الفاتورة عند طباعتها؛ إذا "
+"تُرك فارغاً يُستخدم أول نوع متاح."
+
+#. module: product
+#: model:ir.model,name:product.model_product_base_unit
+msgid "Unit of Measure for price per unit on products."
+msgstr "وحدة القياس لسعر الوحدة في المنتجات."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__open_on
+msgid "Unreconciled On"
+msgstr "غير مسوّى في"
+
+#. module: stock_account
+#: model:ir.actions.act_window,name:stock_account.product_value_list_action
+#: model:ir.ui.menu,name:stock_account.valuation_adjustments_menu
+msgid "Valuation Adjustments"
+msgstr "تسويات التقييم"
+
+#. module: account, base, product, purchase, purchase_stock
+#: model:ir.actions.act_window,name:account.res_partner_action_supplier
+#: model:ir.actions.act_window,name:base.action_partner_supplier_form
+#: model:ir.model.fields,field_description:product.field_product_product__seller_ids
+#: model:ir.model.fields,field_description:product.field_product_template__seller_ids
+#: model:ir.model.fields,field_description:purchase_stock.field_stock_warehouse_orderpoint__vendor_ids
+#: model:ir.ui.menu,name:account.menu_account_supplier
+#: model:ir.ui.menu,name:purchase.menu_procurement_management_supplier_name
+#: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
+#: model_terms:ir.ui.view,arch_db:account.view_partner_bank_search_inherit
+#: model_terms:ir.ui.view,arch_db:purchase_stock.view_stock_replenishment_info_stock_purchase_inherit
+msgid "Vendors"
+msgstr "الموردون"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_form
+msgid "Withheld Amount"
+msgstr "المبلغ المستقطع"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment__withhold
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment_register__withhold
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_tax__is_withholding_tax
+msgid "Withhold"
+msgstr "الاستقطاع"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.account_move_view_form_inherit_l10n_account_withholding_tax
+msgid "Withhold Due"
+msgstr "الاستقطاع المستحق"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment__withhold__withhold
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment_register__withhold__withhold
+msgid "Withhold Only"
+msgstr "استقطاع فقط"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment__withhold__withhold_pay
+#: model:ir.model.fields.selection,name:l10n_account_withholding_tax.selection__account_payment_register__withhold__withhold_pay
+msgid "Withhold and Pay"
+msgstr "استقطاع ودفع"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_form
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_tax_search_inherit_l10n_account_withholding_tax
+msgid "Withholding"
+msgstr "الاستقطاع"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_payment__withholding_amount
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_tree
+msgid "Withholding Amount"
+msgstr "مبلغ الاستقطاع"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_bank_statement_line__withholding_residual_amount_currency
+#: model:ir.model.fields,field_description:l10n_account_withholding_tax.field_account_move__withholding_residual_amount_currency
+msgid "Withholding Residual Amount Currency"
+msgstr "عملة المبلغ المتبقي للاستقطاع"
+
+#. module: l10n_account_withholding_tax
+#: model_terms:ir.ui.view,arch_db:l10n_account_withholding_tax.view_account_payment_register_form
+msgid "Withholdings"
+msgstr "الاستقطاعات"
+
+#. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order__partner_id
+#: model:ir.model.fields,help:purchase.field_purchase_order_line__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr ""
+"يمكنك إيجاد المورد بالاسم أو الرقم الضريبي أو البريد الإلكتروني أو المرجع "
+"الداخلي."
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "billing"
+msgstr "الفوترة"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "e.g. Lumber Inc"
+msgstr "مثال: شركة الأخشاب"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
+msgid "e.g. PO0032"
+msgstr "مثال: طلب الشراء ٣٢"
+
+#. module: uom
+#: model:uom.uom,name:uom.product_uom_gram
+msgid "g"
+msgstr "جم"
+
+#. module: uom
+#: model:uom.uom,name:uom.product_uom_meter
+msgid "m"
+msgstr "م"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "purchase"
+msgstr "الشراء"
+
+#. module: uom
+#: model:uom.uom,name:uom.product_uom_ton
+msgid "t"
+msgstr "طن"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "tracking"
+msgstr "التتبع"
+
+#. module: l10n_account_withholding_tax
+#: model:ir.model,name:l10n_account_withholding_tax.model_account_withholding_line
+msgid "withholding line"
+msgstr "بند استقطاع"
